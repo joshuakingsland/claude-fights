@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fight Ledger — Model Card Read</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0B0E14;--surface:#141926;--line:#232B40;--text:#E8EAF0;--muted:#7A8299;
+        --faint:#4A5268;--market:#8B93A7;--gold:#E8B54D;--gold-dim:#8A6F35;--warn:#C9705B}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ink);color:var(--text);font-family:'Inter',system-ui,sans-serif;
+       font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 96px}
+  header{padding:56px 0 8px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;
+           color:var(--gold);text-transform:uppercase}
+  h1{font-family:'Anton',sans-serif;font-size:clamp(44px,8vw,76px);line-height:.98;
+     text-transform:uppercase;margin:10px 0 6px}
+  .sub{color:var(--muted);max-width:56ch}
+  .sub b{color:var(--text);font-weight:600}
+  .record{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 8px;
+          font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+  .chip{border:1px solid var(--line);border-radius:4px;padding:7px 11px;color:var(--muted)}
+  .chip b{color:var(--text);font-weight:600}
+  .chip.gold b{color:var(--gold)}
+  .legend{display:flex;gap:22px;align-items:center;margin:30px 0 10px;
+          font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
+  .key{display:flex;gap:8px;align-items:center}
+  .tick{width:2px;height:14px;background:var(--market);display:inline-block}
+  .tick.model{background:var(--gold)}
+  .band{width:22px;height:8px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));
+        opacity:.55;border-radius:2px}
+  .sect{margin-top:34px}
+  .sect-head{display:flex;justify-content:space-between;align-items:baseline;
+             border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:4px}
+  .sect-head h2{font-family:'Anton',sans-serif;font-size:20px;letter-spacing:.06em;
+                text-transform:uppercase;font-weight:400}
+  .sect-head span{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
+  .fight{display:grid;grid-template-columns:minmax(190px,1.1fr) 2fr auto;gap:18px;
+         align-items:center;padding:20px 14px;border-bottom:1px solid var(--line)}
+  .fight.bet{background:linear-gradient(90deg,rgba(232,181,77,.05),transparent 55%);
+             border-left:2px solid var(--gold);padding-left:16px}
+  .who .name{font-weight:600;font-size:15px}
+  .who .name.pick{color:var(--gold)}
+  .who .vs{color:var(--faint);font-size:12px;margin:1px 0}
+  .who .meta{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:6px}
+  .gauge{position:relative;height:46px}
+  .rail{position:absolute;top:22px;left:0;right:0;height:2px;background:var(--line)}
+  .mid{position:absolute;top:16px;left:50%;width:1px;height:14px;background:var(--faint);opacity:.6}
+  .edgeband{position:absolute;top:19px;height:8px;border-radius:2px;
+            background:linear-gradient(90deg,var(--gold-dim),var(--gold));opacity:.5}
+  .mark{position:absolute;top:12px;width:2px;height:22px;background:var(--market)}
+  .mark.model{background:var(--gold)}
+  .glabel{position:absolute;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);
+          transform:translateX(-50%);white-space:nowrap}
+  .glabel.top{top:-4px}.glabel.bot{top:36px}
+  .glabel .v{color:var(--text)}.glabel.gold .v{color:var(--gold)}
+  .verdict{text-align:right;min-width:118px}
+  .verdict .edge{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:600}
+  .bet .verdict .edge{color:var(--gold)}
+  .verdict .tag{display:inline-block;margin-top:5px;font-family:'IBM Plex Mono',monospace;
+                font-size:10.5px;letter-spacing:.12em;padding:3px 8px;border-radius:3px}
+  .tag.yes{background:var(--gold);color:#141310;font-weight:600}
+  .tag.no{border:1px solid var(--line);color:var(--faint)}
+  table.ledger{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+  .ledger th{color:var(--faint);font-weight:500;text-align:left;padding:10px 8px;
+             border-bottom:1px solid var(--line);letter-spacing:.08em;font-size:11px}
+  .ledger td{padding:9px 8px;border-bottom:1px solid var(--line);color:var(--muted)}
+  .ledger td.pick{color:var(--text)}
+  .ledger .w{color:var(--gold)} .ledger .l{color:var(--warn)}
+  .ledger tr.wasbet td:first-child{border-left:2px solid var(--gold)}
+  .method{margin-top:52px;border-top:1px solid var(--line);padding-top:26px;
+          color:var(--muted);font-size:13.5px}
+  .method p{margin-bottom:10px;max-width:72ch}
+  .disclaimer{margin-top:18px;padding:14px 16px;border:1px solid var(--line);border-radius:6px;
+              font-size:13px;color:var(--muted)}
+  .disclaimer b{color:var(--text)}
+  @media(max-width:640px){.fight{grid-template-columns:1fr;gap:12px}.verdict{text-align:left}}
+  @media(prefers-reduced-motion:no-preference){
+    .mark.model{transition:left .9s cubic-bezier(.2,.8,.2,1)}
+    .edgeband{transition:all .9s cubic-bezier(.2,.8,.2,1)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Fight Ledger · walk-forward model v3 · updated Jul 09, 2026 07:28 UTC</div>
+  <h1>Model<br>Card Read</h1>
+  <p class="sub">Every upcoming fight, priced by a model trained on <b>8,600+ UFC fights</b> and
+  benchmarked against closing lines since 2019. A fight qualifies as a bet when the model beats
+  the book's implied price by <b>more than 4 points</b> — the same rule as every backtest.</p>
+  <div class="record" id="chips"></div>
+  <div class="legend">
+    <div class="key"><span class="tick"></span> market (de-vig)</div>
+    <div class="key"><span class="tick model"></span> model</div>
+    <div class="key"><span class="band"></span> the edge</div>
+  </div>
+</header>
+
+<section class="sect">
+  <div class="sect-head"><h2>Qualified bets</h2><span id="nbets"></span></div>
+  <div id="bets"></div>
+</section>
+<section class="sect">
+  <div class="sect-head"><h2>No bet</h2><span>model within 4 pts of the market</span></div>
+  <div id="passes"></div>
+</section>
+<section class="sect">
+  <div class="sect-head"><h2>Recent results</h2><span id="recsum"></span></div>
+  <table class="ledger"><thead><tr>
+    <th>DATE</th><th>MODEL PICK</th><th>MODEL %</th><th>EDGE</th><th>RESULT</th>
+  </tr></thead><tbody id="recent"></tbody></table>
+</section>
+
+<div class="method">
+  <p>The model sees public stats only: Elo, age, layoffs, striking and grappling rates,
+  accumulated damage, recent knockouts. It cannot see injuries, camp changes, weight cuts,
+  or tape. Debutants and fighters returning from very long layoffs are outside its
+  reliable range. Gold-bordered rows in Recent results were qualified bets.</p>
+  <div class="disclaimer"><b>This is a statistical model, not a tip sheet.</b>
+  Its verified edge averages +7% per bet with a confidence interval that nearly touches zero,
+  and it went flat for a full year inside the backtest. Any single card is noise. If you bet:
+  flat stakes or quarter-Kelly (1–2% of bankroll), only money you can afford to lose.
+  If gambling stops being fun, call or text 1-800-GAMBLER.</div>
+</div>
+</div>
+
+<script>
+const upcoming = [{"ladder": {}, "pick": "Cody Durden", "opp": "Alessandro Costa", "price": "+200", "market": 31.5, "model": 36.3, "edge": 3.0, "se": 1.9, "net": 1.1, "bet": false, "stake": 0, "meta": "Flyweight Bout \u00b7 2026-07-11", "props": {"pick_DEC": 424, "pick_KO": 856, "pick_SUB": 1370, "opp_DEC": 211, "opp_KO": 404, "opp_SUB": 760}}, {"ladder": {}, "pick": "Zach Reese", "opp": "Ryan Gandra", "price": "+110", "market": 44.9, "model": 45.4, "edge": -2.2, "se": 2.6, "net": -4.8, "bet": false, "stake": 0, "meta": "Middleweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 351, "opp_KO": 610, "opp_SUB": 444, "pick_DEC": 616, "pick_KO": 432, "pick_SUB": 693}}, {"ladder": {}, "pick": "John Garza", "opp": "Farid Basharat", "price": "+430", "market": 17.8, "model": 15.9, "edge": -2.9, "se": 0.8, "net": -3.8, "bet": false, "stake": 0, "meta": "Bantamweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 204, "opp_KO": 351, "opp_SUB": 245, "pick_DEC": 1972, "pick_KO": 1435, "pick_SUB": 2074}}, {"ladder": {"1u": -166}, "pick": "Damian Pinas", "opp": "Cesar Almeida", "price": "-225", "market": 65.3, "model": 74.2, "edge": 5.0, "se": 1.8, "net": 3.3, "bet": false, "stake": 0, "meta": "Middleweight Bout \u00b7 2026-07-11", "props": {"pick_DEC": 185, "pick_KO": 297, "pick_SUB": 618, "opp_DEC": 635, "opp_KO": 1335, "opp_SUB": 1829}}, {"ladder": {}, "pick": "Tracy Cortez", "opp": "Wang Cong", "price": "-108", "market": 49.0, "model": 49.2, "edge": -2.7, "se": 0.5, "net": -3.2, "bet": false, "stake": 0, "meta": "Women's Flyweight Bout \u00b7 2026-07-11", "props": {"pick_DEC": 203, "pick_KO": 1175, "pick_SUB": 1089, "opp_DEC": 192, "opp_KO": 1174, "opp_SUB": 1049}}, {"ladder": {}, "pick": "Kai Kamaka", "opp": "Luke Riley", "price": "+230", "market": 28.6, "model": 31.0, "edge": 0.7, "se": 1.4, "net": -0.7, "bet": false, "stake": 0, "meta": "Featherweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 206, "opp_KO": 353, "opp_SUB": 605, "pick_DEC": 556, "pick_KO": 983, "pick_SUB": 1433}}, {"ladder": {}, "pick": "Cody Garbrandt", "opp": "Adrian Yanez", "price": "+310", "market": 23.0, "model": 23.6, "edge": -0.8, "se": 1.1, "net": -2.0, "bet": false, "stake": 0, "meta": "Bantamweight Bout \u00b7 2026-07-11", "props": {"pick_DEC": 702, "pick_KO": 1358, "pick_SUB": 2253, "opp_DEC": 152, "opp_KO": 332, "opp_SUB": 634}}, {"ladder": {}, "pick": "Elisha Ellison", "opp": "Gable Steveson", "price": "+1100", "market": 7.9, "model": 6.0, "edge": -2.3, "se": 0.5, "net": -2.8, "bet": false, "stake": 0, "meta": "Heavyweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 221, "opp_KO": 118, "opp_SUB": 493, "pick_DEC": 4718, "pick_KO": 3429, "pick_SUB": 8876}}, {"ladder": {}, "pick": "Nikita Krylov", "opp": "Robert Whittaker", "price": "+114", "market": 43.9, "model": 48.2, "edge": 1.5, "se": 0.9, "net": 0.6, "bet": false, "stake": 0, "meta": "Light Heavyweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 387, "opp_KO": 323, "opp_SUB": 1208, "pick_DEC": 431, "pick_KO": 348, "pick_SUB": 1321}}, {"ladder": {"1u": -207}, "pick": "Terrance McKinney", "opp": "King Green", "price": "-162", "market": 58.3, "model": 68.0, "edge": 6.2, "se": 1.6, "net": 4.6, "bet": true, "stake": 1, "meta": "Lightweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 460, "opp_KO": 1049, "opp_SUB": 1734, "pick_DEC": 180, "pick_KO": 374, "pick_SUB": 797}}, {"ladder": {"2u": -136, "1u": -369}, "pick": "Lone'er Kavanagh", "opp": "Brandon Royval", "price": "-230", "market": 65.8, "model": 77.5, "edge": 7.8, "se": 1.5, "net": 6.2, "bet": true, "stake": 1, "meta": "Flyweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 775, "opp_KO": 1434, "opp_SUB": 2081, "pick_DEC": 169, "pick_KO": 300, "pick_SUB": 557}}, {"ladder": {}, "pick": "Cory Sandhagen", "opp": "Mario Bautista", "price": "-156", "market": 57.5, "model": 58.4, "edge": -2.5, "se": 0.7, "net": -3.2, "bet": false, "stake": 0, "meta": "Bantamweight Bout \u00b7 2026-07-11", "props": {"pick_DEC": 226, "pick_KO": 481, "pick_SUB": 846, "opp_DEC": 362, "opp_KO": 701, "opp_SUB": 1237}}, {"ladder": {}, "pick": "Benoit Saint Denis", "opp": "Paddy Pimblett", "price": "-146", "market": 55.9, "model": 60.8, "edge": 1.5, "se": 1.1, "net": 0.4, "bet": false, "stake": 0, "meta": "Lightweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 410, "opp_KO": 745, "opp_SUB": 1196, "pick_DEC": 231, "pick_KO": 436, "pick_SUB": 738}}, {"ladder": {}, "pick": "Max Holloway", "opp": "Conor McGregor", "price": "-230", "market": 65.8, "model": 70.3, "edge": 0.6, "se": 1.3, "net": -0.7, "bet": false, "stake": 0, "meta": "Welterweight Bout \u00b7 2026-07-11", "props": {"opp_DEC": 649, "opp_KO": 750, "opp_SUB": 2099, "pick_DEC": 227, "pick_KO": 242, "pick_SUB": 851}}, {"ladder": {}, "pick": "Kamaru Usman", "opp": "Dricus Du Plessis", "price": "+250", "market": 27.0, "model": 26.0, "edge": -2.5, "se": 1.1, "net": -3.6, "bet": false, "stake": 0, "meta": "Middleweight Bout \u00b7 2026-07-18", "props": {"opp_DEC": 246, "opp_KO": 183, "opp_SUB": 925, "pick_DEC": 610, "pick_KO": 1164, "pick_SUB": 2378}}];
+const recent = [{"date": "2026-03-28", "pick": "Tofiq Musayev", "model": 29, "edge": -2.6, "bet": false, "won": true}, {"date": "2026-03-28", "pick": "Alexia Thainara", "model": 83, "edge": -0.2, "bet": false, "won": true}, {"date": "2026-03-28", "pick": "Navajo Stirling", "model": 83, "edge": 1.3, "bet": false, "won": true}, {"date": "2026-03-28", "pick": "Casey O'Neill", "model": 55, "edge": 2.3, "bet": false, "won": true}, {"date": "2026-03-28", "pick": "Marcin Tybura", "model": 49, "edge": -2.3, "bet": false, "won": false}, {"date": "2026-03-28", "pick": "Lance Gibson Jr.", "model": 31, "edge": -1.2, "bet": false, "won": true}, {"date": "2026-03-28", "pick": "Joe Pyfer", "model": 48, "edge": -1.2, "bet": false, "won": true}, {"date": "2026-03-28", "pick": "Terrance McKinney", "model": 69, "edge": 9.0, "bet": true, "won": true}, {"date": "2026-03-28", "pick": "Mansur Abdul-Malik", "model": 67, "edge": 6.0, "bet": true, "won": false}, {"date": "2026-03-28", "pick": "Julian Erosa", "model": 29, "edge": -1.2, "bet": false, "won": false}, {"date": "2026-03-28", "pick": "Michael Chiesa", "model": 88, "edge": -1.6, "bet": false, "won": true}, {"date": "2026-03-28", "pick": "Alexa Grasso", "model": 46, "edge": 1.8, "bet": false, "won": true}, {"date": "2026-03-21", "pick": "Axel Sola", "model": 46, "edge": -1.0, "bet": false, "won": false}, {"date": "2026-03-21", "pick": "Shanelle Dyer", "model": 83, "edge": 1.1, "bet": false, "won": true}, {"date": "2026-03-21", "pick": "Abdul-Kareem Al-Selwady", "model": 56, "edge": 1.6, "bet": false, "won": true}, {"date": "2026-03-21", "pick": "Louie Sutherland", "model": 47, "edge": 15.2, "bet": true, "won": false}, {"date": "2026-03-21", "pick": "Mantas Kondratavicius", "model": 89, "edge": 0.7, "bet": false, "won": true}, {"date": "2026-03-21", "pick": "Mario Pinto", "model": 88, "edge": -1.5, "bet": false, "won": true}, {"date": "2026-03-21", "pick": "Losene Keita", "model": 69, "edge": -1.6, "bet": false, "won": false}, {"date": "2026-03-21", "pick": "Movsar Evloev", "model": 73, "edge": 1.8, "bet": false, "won": true}, {"date": "2026-03-21", "pick": "Kurtis Campbell", "model": 73, "edge": 3.7, "bet": false, "won": false}, {"date": "2026-03-21", "pick": "Roman Dolidze", "model": 22, "edge": -0.5, "bet": false, "won": false}, {"date": "2026-03-21", "pick": "Austen Lane", "model": 42, "edge": 22.5, "bet": true, "won": false}, {"date": "2026-03-21", "pick": "Sam Patterson", "model": 41, "edge": 0.1, "bet": false, "won": false}, {"date": "2026-03-21", "pick": "Luke Riley", "model": 72, "edge": 3.1, "bet": false, "won": true}, {"date": "2026-03-14", "pick": "Piera Rodriguez", "model": 59, "edge": -1.0, "bet": false, "won": true}, {"date": "2026-03-14", "pick": "Luan Lacerda", "model": 38, "edge": 0.2, "bet": false, "won": false}, {"date": "2026-03-14", "pick": "Bia Mesquita", "model": 89, "edge": 0.7, "bet": false, "won": true}, {"date": "2026-03-14", "pick": "Eryk Anders", "model": 61, "edge": 4.0, "bet": true, "won": true}, {"date": "2026-03-14", "pick": "Bolaji Oki", "model": 34, "edge": 2.5, "bet": false, "won": false}];
+const summary = {"n": 7, "pnl": -0.75, "roi": -10.7};
+const chips = [["backtest","841 bets · 2019–2026"],["ROI","+6.9% flat stakes"],
+  ["90% CI","+0.9% … +13.1%"],["last 120d",`${summary.n||0} bets · ${(summary.pnl>=0?"+":"")}${summary.pnl||0}u`]];
+document.getElementById("chips").innerHTML = chips.map(([k,v],i)=>
+  `<div class="chip ${i==1||i==3?"gold":""}">${k} <b>${v}</b></div>`).join("");
+
+function row(f){
+  const lo=Math.min(f.market,f.model), hi=Math.max(f.market,f.model);
+  const tag=f.bet?`<span class="tag yes">BET · ${f.stake||1}U</span>`:`<span class="tag no">PASS</span>`;
+  return `<div class="fight ${f.bet?"bet":""}">
+    <div class="who"><div class="name pick">${f.pick} <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">${f.price}</span></div>
+    <div class="vs">vs</div><div class="name" style="font-weight:500;color:var(--muted)">${f.opp}</div>
+    <div class="meta">${f.meta}</div></div>
+    <div class="gauge"><div class="rail"></div><div class="mid"></div>
+    <div class="edgeband" style="left:${lo}%;width:0%" data-w="${hi-lo}"></div>
+    <div class="mark" style="left:${f.market}%"></div>
+    <div class="mark model" style="left:${f.market}%" data-x="${f.model}"></div>
+    <div class="glabel top" style="left:${f.market}%">mkt <span class="v">${f.market.toFixed(0)}%</span></div>
+    <div class="glabel bot gold" style="left:${f.model}%">model <span class="v">${f.model.toFixed(0)}%${f.se!==undefined?` ±${f.se.toFixed(0)}`:""}</span></div></div>
+    <div class="verdict"><div class="edge">${(f.net!==undefined?f.net:f.edge)>0?"+":""}${(f.net!==undefined?f.net:f.edge).toFixed(1)} net</div>${tag}
+    <div style="margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);line-height:1.7">
+    ${f.ladder && f.ladder["2u"]!==undefined ? `2U at <span style="color:var(--gold)">${f.ladder["2u"]>0?"+":""}${f.ladder["2u"]}</span> or better<br>` : ""}
+    ${f.ladder && f.ladder["1u"]!==undefined ? `1U at <span style="color:var(--text)">${f.ladder["1u"]>0?"+":""}${f.ladder["1u"]}</span> or better<br>` : ""}
+    PASS below</div>
+    ${f.props ? `<div style="margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);line-height:1.6">fair (pick): DEC ${f.props.pick_DEC>0?"+":""}${f.props.pick_DEC} · KO ${f.props.pick_KO>0?"+":""}${f.props.pick_KO} · SUB ${f.props.pick_SUB>0?"+":""}${f.props.pick_SUB}<br>fair (opp): DEC ${f.props.opp_DEC>0?"+":""}${f.props.opp_DEC} · KO ${f.props.opp_KO>0?"+":""}${f.props.opp_KO} · SUB ${f.props.opp_SUB>0?"+":""}${f.props.opp_SUB}</div>` : ""}
+    </div></div>`;
+}
+const bets=upcoming.filter(f=>f.bet).sort((a,b)=>b.edge-a.edge);
+document.getElementById("bets").innerHTML = bets.length?bets.map(row).join(""):
+  `<div style="padding:24px 14px;color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:13px">
+   No fights clear the 4-point rule at current prices. Not betting is a position.</div>`;
+document.getElementById("nbets").textContent=`${bets.length} of ${upcoming.length} · edge > 4.0 pts`;
+document.getElementById("passes").innerHTML=upcoming.filter(f=>!f.bet)
+  .sort((a,b)=>b.edge-a.edge).map(row).join("");
+document.getElementById("recent").innerHTML=recent.map(r=>
+  `<tr class="${r.bet?"wasbet":""}"><td>${r.date}</td><td class="pick">${r.pick}</td>
+   <td>${r.model}%</td><td>${r.edge>0?"+":""}${r.edge}</td>
+   <td class="${r.won?"w":"l"}">${r.won?"WIN":"LOSS"}</td></tr>`).join("");
+document.getElementById("recsum").textContent=
+  `qualified bets last 120 days: ${summary.n||0} · P&L ${(summary.pnl>=0?"+":"")}${summary.pnl||0}u`;
+requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  document.querySelectorAll(".mark.model").forEach(el=>el.style.left=el.dataset.x+"%");
+  document.querySelectorAll(".edgeband").forEach(el=>el.style.width=el.dataset.w+"%");
+}));
+</script>
+</body>
+</html>
