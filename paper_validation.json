@@ -1,0 +1,11 @@
+{
+  "official_trades": 0,
+  "settled": 0,
+  "staked": 0.0,
+  "pnl": 0.0,
+  "roi": null,
+  "mean_clv_prob_points": null,
+  "positive_clv_rate": null,
+  "status": "paper_only",
+  "interpretation": "Forward-test evidence only. Positive closing-line value should be established before ROI is treated as meaningful."
+}

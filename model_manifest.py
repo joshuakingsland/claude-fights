@@ -3,6 +3,7 @@
 import hashlib
 import json
 import platform
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -21,9 +22,22 @@ def sha256(path, chunk=1024 * 1024):
     return h.hexdigest()
 
 
+
+def git_commit():
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL,
+            text=True, timeout=2).strip()
+    except Exception:
+        return None
+
 def write_manifest(path="model_manifest.json"):
-    files = ["fights_v2.csv", "raw/ufc-master.csv", "odds_upcoming.csv",
-             "odds_log.csv", "method_model.pkl"]
+    files = [
+        "fights_v2.csv", "raw/ufc-master.csv", "odds_upcoming.csv",
+        "odds_log.csv", "method_model.pkl", "config.py", "production.py",
+        "features_v3.py", "pipeline.py", "predict_card.py",
+        "paper_ledger.py",
+    ]
     hashes = {name: sha256(name) for name in files if Path(name).exists()}
     rows = {}
     if Path("fights_v2.csv").exists():
@@ -38,6 +52,7 @@ def write_manifest(path="model_manifest.json"):
         "bootstrap_models": BOOTSTRAP_MODELS,
         "python": sys.version,
         "platform": platform.platform(),
+        "git_commit": git_commit(),
         "scikit_learn": sklearn.__version__,
         "inputs": hashes,
         "rows": rows,

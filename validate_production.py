@@ -16,10 +16,11 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, log_loss
 
-from config import EDGE_RULE, MODEL_VERSION
+from config import BOOTSTRAP_MODELS, EDGE_RULE, MODEL_VERSION
 from features_v3 import build_features_v3
 from pipeline import load_matched_cached
-from production import event_pnl, fit_ensemble, predict_probabilities, score_bets
+from production import (event_pnl, event_seed, fit_ensemble,
+                        predict_probabilities, score_bets)
 
 
 def clustered_ci(events, n=10000, seed=0):
@@ -43,12 +44,12 @@ def run(args):
     rows = []
     event_rows = []
     dates = sorted(window["date"].dropna().unique())
-    for event_no, date in enumerate(dates):
+    for date in dates:
         train = matched[matched["date"] < date]
         test = window[window["date"] == date].copy()
         if len(train) < args.min_train:
             continue
-        models = fit_ensemble(train, n_models=args.models, seed=event_no)
+        models = fit_ensemble(train, n_models=args.models, seed=event_seed(date))
         p, se = predict_probabilities(models, test)
         scored = score_bets(test, p, se)
         pnl = event_pnl(scored)
@@ -131,8 +132,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--start", default="2019-01-01")
     ap.add_argument("--end", default="2100-01-01")
-    ap.add_argument("--models", type=int, default=30,
-                    help="bootstrap models per event (30 matches deployment)")
+    ap.add_argument("--models", type=int, default=BOOTSTRAP_MODELS,
+                    help="bootstrap models per event (defaults to config.py)")
     ap.add_argument("--event-bootstrap", type=int, default=10000)
     ap.add_argument("--min-train", type=int, default=2000)
     ap.add_argument("--predictions", default="production_validation.csv")

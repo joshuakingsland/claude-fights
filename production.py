@@ -5,16 +5,34 @@ selection rule.  Keeping this here prevents the dashboard, backtest, and
 paper ledger from silently drifting apart.
 """
 
+import hashlib
+
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from config import EDGE_RULE, FOCUS
+from config import BOOTSTRAP_MODELS, EDGE_RULE, FOCUS
 
 MODEL_FEATURES = ["line_logit", "line_abs"] + FOCUS + ["ko_recent"]
 DIFF_FEATURES = FOCUS + ["ko_recent"]
+
+
+def event_seed(value, namespace="production"):
+    """Stable 32-bit seed derived from immutable event identity.
+
+    Validation results for the same event are therefore identical regardless
+    of the requested validation window or enumeration order.
+    """
+    if isinstance(value, (list, tuple, set)):
+        value = "|".join(sorted(str(v) for v in value))
+    try:
+        normalized = str(pd.Timestamp(value).date())
+    except Exception:
+        normalized = str(value)
+    digest = hashlib.sha256(f"{namespace}|{normalized}".encode()).digest()
+    return int.from_bytes(digest[:4], "big", signed=False)
 
 
 def _with_line_abs(frame):
@@ -34,7 +52,7 @@ def _symmetrize(frame):
     return pd.concat([frame, flip], ignore_index=True)
 
 
-def fit_ensemble(train, n_models=30, seed=0):
+def fit_ensemble(train, n_models=BOOTSTRAP_MODELS, seed=0):
     """Fit the deployed model and its bootstrap uncertainty ensemble."""
     train = _with_line_abs(train)
     sym = _symmetrize(train)

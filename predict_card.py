@@ -6,9 +6,10 @@ all matched history, and writes a self-contained HTML page with:
   - the upcoming card: model probability vs market, edge, bet flags
   - a rolling results ledger: how model picks fared at recent events
 
-Usage: python predict_card.py
+Usage: python predict_card.py [--lock-paper-trades]
 """
 
+import argparse
 import json
 from datetime import datetime, timezone
 
@@ -21,8 +22,8 @@ from backtest import american_to_prob, american_payout, norm_name
 from data_quality import assert_clean, identity_warnings
 from features_v3 import build_features_v3
 from pipeline import load_matched_cached
-from config import EDGE_RULE, FOCUS
-from production import (MODEL_FEATURES, event_pnl, fit_ensemble,
+from config import BOOTSTRAP_MODELS, EDGE_RULE, FOCUS, MODEL_VERSION
+from production import (MODEL_FEATURES, event_pnl, event_seed, fit_ensemble,
                         predict_probabilities, score_bets)
 import method_model as MM
 
@@ -107,7 +108,10 @@ def predict_upcoming(up):
     new = new[new["date"] >= hyp["date"].min()]
 
     m, _ = load_matched_cached(build_features_v3, "v3", bout_cols=[])
-    ensemble = fit_ensemble(m, n_models=30, seed=0)
+    # A stable deployment seed keeps unchanged predictions reproducible across
+    # repeated card snapshots; training-data changes still change the fitted model.
+    ensemble = fit_ensemble(m, n_models=BOOTSTRAP_MODELS,
+                            seed=event_seed(MODEL_VERSION, "upcoming"))
     lr = ensemble[0]
     cols = MODEL_FEATURES
 
@@ -148,6 +152,12 @@ def predict_upcoming(up):
             "stake": (2 if net >= 2 * EDGE_RULE else
                        (1 if net >= EDGE_RULE else 0)),
             "date": str(pd.Timestamp(r["date"]).date()),
+            "scheduled_start": (str(r.get("commence_time"))
+                                if pd.notna(r.get("commence_time", np.nan))
+                                and str(r.get("commence_time", "")).strip()
+                                else ""),
+            "odds_source": r.get("odds_source", "manual_or_unknown"),
+            "odds_fetched_at": r.get("fetched_at", ""),
             "meta": f"{r.get('weightclass','') or 'TBD'} · {r['date']}",
         })
     # method props (fair prices; probability-validated, no verified prop edge)
@@ -177,12 +187,13 @@ def recent_results(days=120):
     start = (pd.Timestamp.now() - pd.Timedelta(days=days)).strftime("%Y-%m-%d")
     window = m[m["date"] >= start]
     scored_events = []
-    for event_no, date in enumerate(sorted(window["date"].unique())):
+    for date in sorted(window["date"].unique()):
         train = m[m["date"] < date]
         test = window[window["date"] == date].copy()
         if len(train) < 2000:
             continue
-        models = fit_ensemble(train, n_models=30, seed=event_no)
+        models = fit_ensemble(train, n_models=BOOTSTRAP_MODELS,
+                              seed=event_seed(date))
         p, se = predict_probabilities(models, test)
         scored = score_bets(test, p, se)
         scored["p_line"] = test["p_line"].to_numpy()
@@ -268,12 +279,36 @@ def build_site(upcoming, recent, summary):
           f"({len(upcoming)} upcoming, {len(recent)} recent)")
 
 
-if __name__ == "__main__":
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--lock-paper-trades", action="store_true",
+                    help="lock one official qualifying paper wager per fight")
+    args = ap.parse_args()
+
     up = pd.read_csv("odds_upcoming.csv")
-    upcoming = predict_upcoming(up)
+    from paper_ledger import (assert_pre_event, lock_paper_trades,
+                              record_prediction_snapshots)
+    if len(up):
+        # Validate timing before expensive feature/model work.  Exact API
+        # commence times are preferred; date-only rows must be future-dated.
+        assert_pre_event(up.to_dict("records"))
+        upcoming = predict_upcoming(up)
+    else:
+        print("odds_upcoming.csv contains no fights; building an empty card")
+        upcoming = []
     recent, summary = recent_results()
     build_site(upcoming, recent, summary)
-    from paper_ledger import record_predictions
-    print(f"paper ledger: appended {record_predictions(upcoming)} predictions")
-    from model_manifest import write_manifest
+
+    from model_manifest import sha256, write_manifest
     write_manifest()
+    provenance = {"model_version": MODEL_VERSION,
+                  "manifest_hash": sha256("model_manifest.json")}
+    added = record_prediction_snapshots(upcoming, provenance=provenance)
+    print(f"prediction snapshots: appended {added}")
+    if args.lock_paper_trades:
+        locked = lock_paper_trades(upcoming, provenance=provenance)
+        print(f"official paper trades: locked {locked}")
+
+
+if __name__ == "__main__":
+    main()

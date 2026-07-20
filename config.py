@@ -11,5 +11,5 @@ FOCUS = [
 # A qualifying production bet needs this much edge after uncertainty.
 EDGE_RULE = 0.04
 
-MODEL_VERSION = "production-v2"
+MODEL_VERSION = "production-v3"
 BOOTSTRAP_MODELS = 30

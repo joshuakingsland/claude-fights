@@ -2,8 +2,11 @@
 evaluation/betting utilities used by all improvement rounds.
 """
 
+import hashlib
+import inspect
 import os
 import pickle
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -72,13 +75,44 @@ def _odds_rows(max_date):
         .drop(columns="_priority")
 
 
+def _file_digest(path, h):
+    path = Path(path)
+    h.update(str(path).encode())
+    if not path.exists():
+        h.update(b"MISSING")
+        return
+    with path.open("rb") as f:
+        while block := f.read(1024 * 1024):
+            h.update(block)
+
+
+def _cache_path(builder, tag, bout_cols):
+    """Content-address cache by data, feature code, and invocation settings."""
+    h = hashlib.sha256()
+    h.update(str(tag).encode())
+    h.update(repr(tuple(bout_cols)).encode())
+    for path in ("fights_v2.csv", "raw/ufc-master.csv", "odds_log.csv",
+                 __file__):
+        _file_digest(path, h)
+    try:
+        h.update(inspect.getsource(builder).encode())
+        module = inspect.getmodule(builder)
+        if module and getattr(module, "__file__", None):
+            _file_digest(module.__file__, h)
+    except (OSError, TypeError):
+        h.update(repr(builder).encode())
+    return f"cache_{tag}_{h.hexdigest()[:16]}.pkl"
+
+
 def load_matched_cached(builder, tag, bout_cols=()):
     """Build (or load cached) matched fights+odds table in red-corner frame.
 
     builder: fn(fights_df) -> (feats, fcols). Differential fcols get
     sign-flipped into the red frame; bout_cols do not (bout-level facts).
+    Cache keys include source data and feature code hashes, so stale caches are
+    never silently reused after a data or feature change.
     """
-    cache = f"cache_{tag}_v3.pkl"
+    cache = _cache_path(builder, tag, bout_cols)
     if os.path.exists(cache):
         with open(cache, "rb") as f:
             return pickle.load(f)

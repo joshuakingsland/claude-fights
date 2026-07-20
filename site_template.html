@@ -136,11 +136,6 @@
 const upcoming = __UPCOMING__;
 const recent = __RECENT__;
 const summary = __SUMMARY__;
-const chips = [["backtest","841 bets · 2019–2026"],["ROI","+6.9% flat stakes"],
-  ["90% CI","+0.9% … +13.1%"],["last 120d",`${summary.n||0} bets · ${(summary.pnl>=0?"+":"")}${summary.pnl||0}u`]];
-document.getElementById("chips").innerHTML = chips.map(([k,v],i)=>
-  `<div class="chip ${i==1||i==3?"gold":""}">${k} <b>${v}</b></div>`).join("");
-
 const productionChips = [["rule","net edge > 4 pts"], ["staking","1u / 2u above 8 pts"],
   ["data","closing odds through bundled history"], ["last 120d",`${summary.n||0} bets · ${(summary.pnl>=0?"+":"")}${summary.pnl||0}u`]];
 document.getElementById("chips").innerHTML = productionChips.map(([k,v],i)=>
