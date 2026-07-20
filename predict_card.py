@@ -15,36 +15,37 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 from scipy.special import logit as slogit
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
 
 from adapter import parse_height, parse_reach
 from backtest import american_to_prob, american_payout, norm_name
+from data_quality import assert_clean, identity_warnings
 from features_v3 import build_features_v3
-from pipeline import load_matched_cached, walk_forward, bets
-from research3 import FOCUS
+from pipeline import load_matched_cached
+from config import EDGE_RULE, FOCUS
+from production import (MODEL_FEATURES, event_pnl, fit_ensemble,
+                        predict_probabilities, score_bets)
 import method_model as MM
-
-EDGE_RULE = 0.04
-RECORD_CHIPS = [("backtest", "841 bets · 2019–2026"),
-                ("ROI", "+6.9% flat stakes"),
-                ("90% CI", "+0.9% … +13.1%"),
-                ("vs closing line log loss", "0.6018 / 0.6039")]
-
 
 # --------------------------------------------------------------- modeling
 def resolve_names(up, fights):
     known = {}
     for s in ("a", "b"):
         for n in fights[f"fighter_{s}"]:
-            known[norm_name(n)] = n
+            known.setdefault(norm_name(n), set()).add(n)
+    ambiguous = ({key for key, values in known.items() if len(values) > 1}
+                 | HOMONYMS)
     for s in ("a", "b"):
         fixed = []
         for n in up[f"fighter_{s}"]:
             k = norm_name(n)
-            if k in known:
-                fixed.append(known[k])
+            if k in ambiguous:
+                # Never blend two fighters behind one normalized name. Keep
+                # the display name separately and force neutral features.
+                fixed.append(f"__AMBIGUOUS__{k}")
+                print(f"  WARNING: '{n}' is ambiguous in historical data "
+                      "and will receive neutral features")
+            elif k in known:
+                fixed.append(next(iter(known[k])))
             else:
                 # exact match only — a last-name fuzzy fallback once assigned
                 # a debutant an unrelated veteran's entire career. Unknown
@@ -60,6 +61,12 @@ HOMONYMS = {"bruno silva", "jean silva", "mike davis", "victor valenzuela"}
 
 def predict_upcoming(up):
     fights = pd.read_csv("fights_v2.csv", parse_dates=["date"])
+    assert_clean(fights, up)
+    for warning in identity_warnings(fights):
+        print(f"  WARNING: {warning}")
+    up = up.copy()
+    up["display_a"] = up["fighter_a"]
+    up["display_b"] = up["fighter_b"]
     up = resolve_names(up.copy(), fights)
     for s in ("a", "b"):
         for n in up[f"fighter_{s}"]:
@@ -71,7 +78,7 @@ def predict_upcoming(up):
     rows = []
     for _, r in up.iterrows():
         rows.append({"date": pd.Timestamp(r["date"]), "event": "UPCOMING",
-                     "bout": f"{r['fighter_a']} vs. {r['fighter_b']}",
+                     "bout": f"{r['display_a']} vs. {r['display_b']}",
                      "time_format": ("5 Rnd (5-5-5-5-5)"
                                      if int(r.get("five_rounds", 0) or 0)
                                      else "3 Rnd (5-5-5)"),
@@ -100,25 +107,9 @@ def predict_upcoming(up):
     new = new[new["date"] >= hyp["date"].min()]
 
     m, _ = load_matched_cached(build_features_v3, "v3", bout_cols=[])
-    m["line_abs"] = m["line_logit"].abs()
-    cols = ["line_logit", "line_abs"] + FOCUS + ["ko_recent"]
-    lr = make_pipeline(StandardScaler(),
-                       LogisticRegression(C=0.05, max_iter=3000))
-    flip = m.copy()
-    flip[FOCUS + ["ko_recent"]] = -flip[FOCUS + ["ko_recent"]]
-    flip["line_logit"] = -flip["line_logit"]          # line_abs unchanged
-    flip["y"] = 1 - flip["y"]
-    tr_sym = pd.concat([m, flip], ignore_index=True)
-    lr.fit(tr_sym[cols], tr_sym["y"])
-    # bootstrap ensemble for per-fight uncertainty (SE)
-    rngb = np.random.default_rng(0)
-    ensemble = []
-    for _ in range(30):
-        idx = rngb.choice(tr_sym.index, len(tr_sym), replace=True)
-        eb = make_pipeline(StandardScaler(),
-                           LogisticRegression(C=0.05, max_iter=1500))
-        eb.fit(tr_sym.loc[idx, cols], tr_sym.loc[idx, "y"])
-        ensemble.append(eb)
+    ensemble = fit_ensemble(m, n_models=30, seed=0)
+    lr = ensemble[0]
+    cols = MODEL_FEATURES
 
     out = []
     for _, r in up.iterrows():
@@ -132,13 +123,9 @@ def predict_upcoming(up):
             continue
         ll = slogit(np.clip(p_line, 0.02, 0.98))
         fv = [row.iloc[0][c] for c in FOCUS + ["ko_recent"]]
-        Xa = pd.DataFrame([[ll, abs(ll)] + fv], columns=cols)
-        Xb = pd.DataFrame([[-ll, abs(ll)] + [-v for v in fv]], columns=cols)
-        p = float((lr.predict_proba(Xa)[0, 1]
-                   + 1 - lr.predict_proba(Xb)[0, 1]) / 2)
-        se = float(np.std([(e.predict_proba(Xa)[0, 1]
-                            + 1 - e.predict_proba(Xb)[0, 1]) / 2
-                           for e in ensemble]))
+        X = pd.DataFrame([[ll, abs(ll)] + fv], columns=cols)
+        p, se = predict_probabilities(ensemble, X)
+        p, se = float(p[0]), float(se[0])
         ea, eb = p - pa, (1 - p) - pb
         pick_a = ea >= eb
         net = max(ea, eb) - se
@@ -149,16 +136,18 @@ def predict_upcoming(up):
         out.append({
             "_p_a": p, "_row_idx": int(row.index[0]),
             "ladder": ladder,
-            "pick": r["fighter_a"] if pick_a else r["fighter_b"],
-            "opp": r["fighter_b"] if pick_a else r["fighter_a"],
+            "pick": r["display_a"] if pick_a else r["display_b"],
+            "opp": r["display_b"] if pick_a else r["display_a"],
             "price": f"{int(oa):+d}" if pick_a else f"{int(ob):+d}",
             "market": round((pa if pick_a else pb) / (pa + pb) * 100, 1),
             "model": round((p if pick_a else 1 - p) * 100, 1),
             "edge": round(max(ea, eb) * 100, 1),
             "se": round(se * 100, 1),
             "net": round(net * 100, 1),
-            "bet": bool(net > EDGE_RULE),
-            "stake": (2 if net > 0.08 else (1 if net > EDGE_RULE else 0)),
+            "bet": bool(net >= EDGE_RULE),
+            "stake": (2 if net >= 2 * EDGE_RULE else
+                       (1 if net >= EDGE_RULE else 0)),
+            "date": str(pd.Timestamp(r["date"]).date()),
             "meta": f"{r.get('weightclass','') or 'TBD'} · {r['date']}",
         })
     # method props (fair prices; probability-validated, no verified prop edge)
@@ -171,7 +160,7 @@ def predict_upcoming(up):
         if len(fr) == len(out):
             props = MM.method_props(clf, allf, fr, [o["_p_a"] for o in out])
             for o, pr, (_, r) in zip(out, props, fr.iterrows()):
-                pick_is_a = o["pick"] == r["fighter_a"]
+                pick_is_a = norm_name(o["pick"]) == norm_name(r["fighter_a"])
                 o["props"] = {("pick_" if (k[0] == "a") == pick_is_a
                                else "opp_") + k[2:]: v
                               for k, v in pr.items()}
@@ -183,32 +172,44 @@ def predict_upcoming(up):
 
 
 def recent_results(days=120):
-    """Walk-forward model picks at recent completed events."""
-    from features_v3 import build_features_v3 as b3
-    m, _ = load_matched_cached(b3, "v3", bout_cols=[])
-    m["line_abs"] = m["line_logit"].abs()
-    cols = ["line_logit", "line_abs"] + FOCUS + ["ko_recent"]
+    """Exact production walk-forward picks at recent completed events."""
+    m, _ = load_matched_cached(build_features_v3, "v3", bout_cols=[])
     start = (pd.Timestamp.now() - pd.Timedelta(days=days)).strftime("%Y-%m-%d")
-    te, p = walk_forward(m, cols, start)
-    if not len(te):
+    window = m[m["date"] >= start]
+    scored_events = []
+    for event_no, date in enumerate(sorted(window["date"].unique())):
+        train = m[m["date"] < date]
+        test = window[window["date"] == date].copy()
+        if len(train) < 2000:
+            continue
+        models = fit_ensemble(train, n_models=30, seed=event_no)
+        p, se = predict_probabilities(models, test)
+        scored = score_bets(test, p, se)
+        scored["p_line"] = test["p_line"].to_numpy()
+        scored["pnl"] = event_pnl(scored)
+        scored["date"] = date
+        scored_events.append(scored)
+    if not scored_events:
         return [], {}
-    pnl, dates, _, _ = bets(te, p, EDGE_RULE)
-    summary = {"n": int(len(pnl)), "pnl": round(float(pnl.sum()), 2),
-               "roi": round(float(pnl.mean()) * 100, 1) if len(pnl) else 0.0}
+    te = pd.concat(scored_events, ignore_index=True)
+    active = te["stake"] > 0
+    staked = float(te["stake"].sum())
+    summary = {"n": int(active.sum()), "pnl": round(float(te["pnl"].sum()), 2),
+               "staked": round(staked, 2),
+               "roi": round(float(te["pnl"].sum() / staked * 100), 1)
+               if staked else 0.0}
 
     rows = []
-    pr = te["pr_raw"].to_numpy()
     for i in te.index[::-1][:30]:
-        pm = p[i]
-        pick_red = (pm - te.loc[i, "pr_raw"]) >= ((1 - pm) - te.loc[i, "pb_raw"])
+        pm = te.loc[i, "p_model"]
+        pick_red = te.loc[i, "pick_side"] == "A"
         pick = te.loc[i, "fighter_a"] if (te.loc[i, "key_a"] == te.loc[i, "key_r"]) == pick_red \
             else te.loc[i, "fighter_b"]
         won = bool((te.loc[i, "y"] == 1) == pick_red)
-        edge = max(pm - te.loc[i, "pr_raw"], (1 - pm) - te.loc[i, "pb_raw"])
-        rows.append({"date": str(te.loc[i, "date"].date()), "pick": pick,
+        rows.append({"date": str(pd.Timestamp(te.loc[i, "date"]).date()), "pick": pick,
                      "model": round((pm if pick_red else 1 - pm) * 100),
-                     "edge": round(edge * 100, 1),
-                     "bet": bool(edge > EDGE_RULE), "won": won})
+                     "edge": round(float(te.loc[i, "net_edge"]) * 100, 1),
+                     "bet": bool(te.loc[i, "stake"] > 0), "won": won})
     return rows, summary
 
 
@@ -272,3 +273,7 @@ if __name__ == "__main__":
     upcoming = predict_upcoming(up)
     recent, summary = recent_results()
     build_site(upcoming, recent, summary)
+    from paper_ledger import record_predictions
+    print(f"paper ledger: appended {record_predictions(upcoming)} predictions")
+    from model_manifest import write_manifest
+    write_manifest()

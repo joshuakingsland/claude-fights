@@ -34,8 +34,10 @@ def method_class(method_series):
 
 
 def career_method_rates(fights):
-    """Point-in-time per-(fighter,fight) method-rate table (shift(1))."""
-    fights = fights.sort_values("date").reset_index(drop=True)
+    """Point-in-time per-(fighter,fight) method-rate table (shift(1)).
+    Uses the caller's index AS-IS. Never re-sorts internally: the default
+    pandas sort is unstable and permutes same-date fights, which silently
+    breaks every (index, fighter) join downstream."""
     mcls = method_class(fights["method"])
     frames = []
     for s, o in (("a", "b"), ("b", "a")):
@@ -57,47 +59,59 @@ def career_method_rates(fights):
     return L
 
 
-def frame_features(fights, L, w_side, l_side):
-    """Feature rows with `w_side` as the hypothetical winner."""
-    fights = fights.reset_index(drop=True)
-    sub = L.set_index(["idx", "f"])
+def attach_side_features(fights, L):
+    """Attach each side's PIT method rates to the (full) fights table.
+    Simple, verifiable: one merge per side keyed on (original row index,
+    normalized name) — no remapping, no filtered reindex."""
+    fights = fights.copy()
+    sub = L.set_index(["idx", "f"])[
+        ["r_ko_w", "r_sub_w", "r_dec_w", "r_ko_l", "r_sub_l", "n_pre"]]
+    for side in ("a", "b"):
+        key = fights[f"fighter_{side}"].map(norm_name)
+        idx = pd.MultiIndex.from_arrays(
+            [fights.index.to_numpy(), key.to_numpy()])
+        got = sub.reindex(idx).reset_index(drop=True)
+        for c in got.columns:
+            fights[f"{c}_{side}"] = got[c].to_numpy()
+    return fights
 
-    def side(side_name, cols):
-        key = fights[f"fighter_{side_name}"].map(norm_name)
-        idx = pd.MultiIndex.from_arrays([fights.index, key])
-        return sub.reindex(idx)[cols].reset_index(drop=True)
 
-    Wp = side(w_side, ["r_ko_w", "r_sub_w", "r_dec_w", "n_pre"])
-    Lp = side(l_side, ["r_ko_l", "r_sub_l"])
+def build_X(fights_with_sides, w_side_arr):
+    F, w = fights_with_sides, w_side_arr
+    l = np.where(w == "a", "b", "a")
+
+    def col(side_arr, tmpl):
+        va = F[tmpl.format("a")].to_numpy()
+        vb = F[tmpl.format("b")].to_numpy()
+        return np.where(side_arr == "a", va, vb)
+
     X = pd.DataFrame({
-        "w_ko_rate": Wp["r_ko_w"], "w_sub_rate": Wp["r_sub_w"],
-        "w_dec_rate": Wp["r_dec_w"], "w_n": Wp["n_pre"],
-        "l_ko_l": Lp["r_ko_l"], "l_sub_l": Lp["r_sub_l"],
-        "l_age": (fights["date"] - pd.to_datetime(fights[f"dob_{l_side}"])).dt.days / 365.25,
-        "w_age": (fights["date"] - pd.to_datetime(fights[f"dob_{w_side}"])).dt.days / 365.25,
-        "heavy": fights["weightclass"].astype(str).str.contains(
-            "Heavyweight", case=False).astype(float),
-        "women": fights["weightclass"].astype(str).str.contains(
-            "Women", case=False).astype(float),
-        "five_rd": fights["time_format"].astype(str).str.contains(
-            "5 Rnd").astype(float),
+        "w_ko_rate": col(w, "r_ko_w_{}"), "w_sub_rate": col(w, "r_sub_w_{}"),
+        "w_dec_rate": col(w, "r_dec_w_{}"), "w_n": col(w, "n_pre_{}"),
+        "l_ko_l": col(l, "r_ko_l_{}"), "l_sub_l": col(l, "r_sub_l_{}"),
+        "l_age": (F["date"] - pd.to_datetime(
+            np.where(l == "a", F["dob_a"], F["dob_b"]))).dt.days / 365.25,
+        "w_age": (F["date"] - pd.to_datetime(
+            np.where(w == "a", F["dob_a"], F["dob_b"]))).dt.days / 365.25,
+        "heavy": F["weightclass"].astype(str).str.contains(
+            "Heavyweight", case=False).astype(float).to_numpy(),
+        "women": F["weightclass"].astype(str).str.contains(
+            "Women", case=False).astype(float).to_numpy(),
+        "five_rd": F["time_format"].astype(str).str.contains(
+            "5 Rnd").astype(float).to_numpy(),
     })
     return X[FEATS].fillna(0)
 
 
 def train(fights):
+    fights = fights.sort_values("date", kind="stable").reset_index(drop=True)
     L = career_method_rates(fights)
-    mcls = method_class(fights["method"])
-    ok = fights["winner"].isin(["A", "B"]) & (mcls != "OTHER")
-    W = fights[ok].reset_index(drop=True)
-    Lok = L[L["idx"].isin(fights.index[ok])]
-    # remap idx to positional
-    remap = {old: new for new, old in enumerate(fights.index[ok])}
-    Lok = Lok.assign(idx=Lok["idx"].map(remap))
-    wside = np.where(W["winner"] == "A", "a", "b")
-    Xa = frame_features(W, Lok, "a", "b")
-    Xb = frame_features(W, Lok, "b", "a")
-    X = pd.DataFrame(np.where(wside[:, None] == "a", Xa, Xb), columns=FEATS)
+    F = attach_side_features(fights, L)
+    mcls = method_class(F["method"])
+    ok = F["winner"].isin(["A", "B"]) & (mcls != "OTHER")
+    W = F[ok]
+    X = build_X(W.reset_index(drop=True),
+                np.where(W["winner"] == "A", "a", "b"))
     y = mcls[ok.to_numpy()]
     clf = make_pipeline(StandardScaler(),
                         LogisticRegression(C=0.3, max_iter=3000))
@@ -112,19 +126,18 @@ def fair_american(p):
 
 
 def method_props(clf, fights_all, fight_rows, p_win_a):
-    """For each fight row, return fair method odds for both sides.
-    p_win_a: model P(fighter_a wins) per row."""
+    """Fair method odds for both sides of each fight in fight_rows.
+    fights_all must contain fight_rows; features computed on the full
+    table then selected by index."""
+    fights_all = fights_all.sort_values("date", kind="stable").reset_index(drop=True)
     L = career_method_rates(fights_all)
-    # positions of fight_rows within fights_all
-    remap = {old: new for new, old in enumerate(fight_rows.index)}
-    Lr = L[L["idx"].isin(fight_rows.index)].assign(
-        idx=lambda d: d["idx"].map(remap))
-    fr = fight_rows.reset_index(drop=True)
-    out = []
-    Pa = clf.predict_proba(frame_features(fr, Lr, "a", "b"))
-    Pb = clf.predict_proba(frame_features(fr, Lr, "b", "a"))
+    F = attach_side_features(fights_all, L)
+    sel = F[F["event"] == "UPCOMING"].reset_index(drop=True)
+    Pa = clf.predict_proba(build_X(sel, np.array(["a"] * len(sel))))
+    Pb = clf.predict_proba(build_X(sel, np.array(["b"] * len(sel))))
     classes = list(clf[-1].classes_)
-    for i in range(len(fr)):
+    out = []
+    for i in range(len(sel)):
         pw = p_win_a[i]
         props = {}
         for tag, P, w in (("a", Pa, pw), ("b", Pb, 1 - pw)):

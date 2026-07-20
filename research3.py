@@ -19,11 +19,7 @@ from sklearn.preprocessing import StandardScaler
 
 from research import load_matched, VAL_START, TEST_START
 from research2 import bets_pnl, boot_ci
-
-FOCUS = ["age_diff", "c_apm_diff", "c_ctrld_pm_diff", "c_won_diff",
-         "reach_diff", "c_tdd_diff", "c_ko_loss_n_diff", "elo_slow_diff",
-         "r3_lpm_diff"]
-
+from config import FOCUS
 
 def fit_eval(tr, va, cols, C=0.05, label=""):
     lr = make_pipeline(StandardScaler(),

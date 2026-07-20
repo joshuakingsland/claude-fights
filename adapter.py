@@ -1,9 +1,9 @@
 """Adapter: raw UFCStats scrape (Greco1899/scrape_ufc_stats CSVs, the same
-source behind most Kaggle UFC datasets) -> fights.csv in the schema
-expected by features.py.
+source behind most Kaggle UFC datasets) -> fights_v2.csv in the schema
+expected by the feature builders.
 
 Usage:
-    python adapter.py --raw-dir raw --out fights.csv
+    python adapter.py --raw-dir raw --out fights_v2.csv
 
 Inputs expected in --raw-dir:
     ufc_event_details.csv   (EVENT, DATE, ...)
@@ -168,7 +168,7 @@ def build(raw_dir: str) -> pd.DataFrame:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--raw-dir", default="raw")
-    ap.add_argument("--out", default="fights.csv")
+    ap.add_argument("--out", default="fights_v2.csv")
     args = ap.parse_args()
 
     df = build(args.raw_dir)

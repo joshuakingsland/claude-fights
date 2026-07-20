@@ -90,7 +90,7 @@
   <h1>Model<br>Card Read</h1>
   <p class="sub">Every upcoming fight, priced by a model trained on <b>8,600+ UFC fights</b> and
   benchmarked against closing lines since 2019. A fight qualifies as a bet when the model beats
-  the book's implied price by <b>more than 4 points</b> — the same rule as every backtest.</p>
+  the book's implied price by <b>more than 4 net points</b> after bootstrap uncertainty.</p>
   <div class="record" id="chips"></div>
   <div class="legend">
     <div class="key"><span class="tick"></span> market (de-vig)</div>
@@ -115,12 +115,17 @@
 </section>
 
 <div class="method">
+  <p>Production selections use <b>net edge</b>: model edge less bootstrap
+  uncertainty. A selection needs more than 4 net points; it is 2 units above
+  8 net points. The rolling ledger uses the same production model and stakes,
+  but its sample is small and is not a promise of future returns.</p>
   <p>The model sees public stats only: Elo, age, layoffs, striking and grappling rates,
   accumulated damage, recent knockouts. It cannot see injuries, camp changes, weight cuts,
   or tape. Debutants and fighters returning from very long layoffs are outside its
   reliable range. Gold-bordered rows in Recent results were qualified bets.</p>
   <div class="disclaimer"><b>This is a statistical model, not a tip sheet.</b>
-  Its verified edge averages +7% per bet with a confidence interval that nearly touches zero,
+  There is no verified live-money edge yet; the event-clustered validation interval is the
+  relevant gate,
   and it went flat for a full year inside the backtest. Any single card is noise. If you bet:
   flat stakes or quarter-Kelly (1–2% of bankroll), only money you can afford to lose.
   If gambling stops being fun, call or text 1-800-GAMBLER.</div>
@@ -135,6 +140,11 @@ const chips = [["backtest","841 bets · 2019–2026"],["ROI","+6.9% flat stakes"
   ["90% CI","+0.9% … +13.1%"],["last 120d",`${summary.n||0} bets · ${(summary.pnl>=0?"+":"")}${summary.pnl||0}u`]];
 document.getElementById("chips").innerHTML = chips.map(([k,v],i)=>
   `<div class="chip ${i==1||i==3?"gold":""}">${k} <b>${v}</b></div>`).join("");
+
+const productionChips = [["rule","net edge > 4 pts"], ["staking","1u / 2u above 8 pts"],
+  ["data","closing odds through bundled history"], ["last 120d",`${summary.n||0} bets · ${(summary.pnl>=0?"+":"")}${summary.pnl||0}u`]];
+document.getElementById("chips").innerHTML = productionChips.map(([k,v],i)=>
+  `<div class="chip ${i==0||i==3?"gold":""}">${k} <b>${v}</b></div>`).join("");
 
 function row(f){
   const lo=Math.min(f.market,f.model), hi=Math.max(f.market,f.model);

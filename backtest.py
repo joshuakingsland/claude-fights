@@ -7,7 +7,7 @@ closing-line probabilities on log loss / Brier / accuracy, plus a simple
 flat-stake betting simulation.
 
 Usage:
-    python backtest.py --fights fights.csv --odds raw/ufc-master.csv --events 50
+    python backtest.py --fights fights_v2.csv --odds raw/ufc-master.csv --events 50
 """
 
 import argparse
@@ -45,7 +45,7 @@ def american_payout(odds):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--fights", default="fights.csv")
+    ap.add_argument("--fights", default="fights_v2.csv")
     ap.add_argument("--odds", default="raw/ufc-master.csv")
     ap.add_argument("--events", type=int, default=50)
     args = ap.parse_args()

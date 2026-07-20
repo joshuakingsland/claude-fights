@@ -13,8 +13,63 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from backtest import american_payout, american_to_prob, norm_name
+from data_quality import audit_fights
 
 rng = np.random.default_rng(0)
+
+
+def _odds_rows(max_date):
+    """Load closing odds, with captured snapshots as an explicit fallback.
+
+    The UFC master file wins whenever it has a pair.  Logged snapshots are
+    useful for paper-trading coverage after the master file stops updating,
+    but remain labelled ``odds_log`` so reports cannot mistake them for
+    closing prices.
+    """
+    raw = pd.read_csv("raw/ufc-master.csv", low_memory=False)
+    raw["date"] = pd.to_datetime(raw["date"], errors="coerce")
+    raw = raw.dropna(subset=["date", "R_odds", "B_odds"])
+    raw = raw[raw["Winner"].isin(["Red", "Blue"])].copy()
+    raw["key_r"] = raw["R_fighter"].map(norm_name)
+    raw["key_b"] = raw["B_fighter"].map(norm_name)
+    raw["pair"] = [frozenset(t) for t in zip(raw["key_r"], raw["key_b"])]
+    raw = raw[["date", "pair", "key_r", "R_odds", "B_odds"]]
+    raw["odds_source"] = "ufc-master"
+    raw["odds_is_closing"] = True
+    raw["odds_fetched_at"] = pd.Series(pd.NaT, index=raw.index,
+                                        dtype="datetime64[ns, UTC]")
+
+    path = "odds_log.csv"
+    if not os.path.exists(path):
+        return raw
+    log = pd.read_csv(path, low_memory=False)
+    required = {"date", "fighter_a", "fighter_b", "odds_a", "odds_b"}
+    if not required.issubset(log.columns):
+        return raw
+    log["date"] = pd.to_datetime(log["date"], errors="coerce")
+    fetched = log["fetched_at"] if "fetched_at" in log else pd.NaT
+    log["odds_fetched_at"] = pd.to_datetime(fetched, errors="coerce", utc=True)
+    log = log[(log["date"] <= max_date)
+              & log["odds_a"].notna() & log["odds_b"].notna()].copy()
+    if not len(log):
+        return raw
+    log["key_r"] = log["fighter_a"].map(norm_name)
+    log["key_b"] = log["fighter_b"].map(norm_name)
+    log["pair"] = [frozenset(t) for t in zip(log["key_r"], log["key_b"])]
+    log = log.rename(columns={"odds_a": "R_odds", "odds_b": "B_odds"})
+    log["odds_source"] = "odds_log"
+    log["odds_is_closing"] = False
+    log = log[["date", "pair", "key_r", "R_odds", "B_odds",
+               "odds_source", "odds_is_closing", "odds_fetched_at"]]
+    # Prefer the true historical closing line; for fallback snapshots retain
+    # only the latest captured quote for each otherwise-unmatched fight.
+    all_rows = pd.concat([raw, log], ignore_index=True)
+    all_rows["_priority"] = all_rows["odds_source"].eq("odds_log").astype(int)
+    all_rows = all_rows.sort_values(["date", "pair", "_priority",
+                                     "odds_fetched_at"],
+                                    ascending=[True, True, True, False])
+    return all_rows.drop_duplicates(["date", "pair"], keep="first") \
+        .drop(columns="_priority")
 
 
 def load_matched_cached(builder, tag, bout_cols=()):
@@ -23,26 +78,24 @@ def load_matched_cached(builder, tag, bout_cols=()):
     builder: fn(fights_df) -> (feats, fcols). Differential fcols get
     sign-flipped into the red frame; bout_cols do not (bout-level facts).
     """
-    cache = f"cache_{tag}.pkl"
+    cache = f"cache_{tag}_v3.pkl"
     if os.path.exists(cache):
         with open(cache, "rb") as f:
             return pickle.load(f)
 
     fights = pd.read_csv("fights_v2.csv", parse_dates=["date"])
+    errors = audit_fights(fights)
+    if errors:
+        raise ValueError("Fight data quality gate failed: " + "; ".join(errors))
     feats, fcols = builder(fights)
     feats["key_a"] = feats["fighter_a"].map(norm_name)
     feats["key_b"] = feats["fighter_b"].map(norm_name)
     feats["pair"] = [frozenset(t) for t in zip(feats["key_a"], feats["key_b"])]
 
-    od = pd.read_csv("raw/ufc-master.csv", low_memory=False)
-    od["date"] = pd.to_datetime(od["date"])
-    od = od.dropna(subset=["R_odds", "B_odds"])
-    od = od[od["Winner"].isin(["Red", "Blue"])].copy()
-    od["key_r"] = od["R_fighter"].map(norm_name)
-    od["pair"] = [frozenset(t) for t in
-                  zip(od["key_r"], od["B_fighter"].map(norm_name))]
+    od = _odds_rows(pd.Timestamp(fights["date"].max()))
 
-    m = feats.merge(od[["date", "pair", "key_r", "R_odds", "B_odds"]],
+    m = feats.merge(od[["date", "pair", "key_r", "R_odds", "B_odds",
+                        "odds_source", "odds_is_closing", "odds_fetched_at"]],
                     on=["date", "pair"], how="inner") \
              .drop_duplicates(["date", "pair"]).reset_index(drop=True)
 

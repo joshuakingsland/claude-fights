@@ -1,0 +1,35 @@
+{
+  "model": "production-v2",
+  "start": "2019-01-01",
+  "end": "2100-01-01",
+  "events": 302,
+  "fights": 3218,
+  "bets": 408,
+  "staked": 530.0,
+  "pnl": 26.160298902009252,
+  "roi": 0.04935905453209293,
+  "roi_ci90_event_clustered": [
+    -0.03810245592716196,
+    0.1380744165772755
+  ],
+  "log_loss_model": 0.6027571993304985,
+  "log_loss_line": 0.6038672736511371,
+  "accuracy_model": 0.6821006836544438,
+  "accuracy_line": 0.6746426351771286,
+  "edge_rule": 0.04,
+  "bootstrap_models_per_event": 30,
+  "min_train": 2000,
+  "odds_sources": {
+    "ufc-master": {
+      "fights": 3218,
+      "bets": 408,
+      "staked": 530.0,
+      "pnl": 26.160298902009252,
+      "roi": 0.04935905453209293
+    }
+  },
+  "live_gate": {
+    "status": "paper_only",
+    "reason": "The event-clustered ROI interval must be wholly positive with at least 50 events and 200 bets before live stakes."
+  }
+}

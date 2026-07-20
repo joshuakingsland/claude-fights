@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-07-11T18:15:48Z",
+  "model_version": "production-v2",
+  "focus": [
+    "age_diff",
+    "c_apm_diff",
+    "c_ctrld_pm_diff",
+    "c_won_diff",
+    "reach_diff",
+    "c_tdd_diff",
+    "c_ko_loss_n_diff",
+    "elo_slow_diff",
+    "r3_lpm_diff"
+  ],
+  "edge_rule": 0.04,
+  "bootstrap_models": 30,
+  "python": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
+  "platform": "Linux-6.18.5-x86_64-with-glibc2.39",
+  "scikit_learn": "1.8.0",
+  "inputs": {
+    "fights_v2.csv": "3d85a21c0a4f64bb7a605a7f2457c1b1d2ed60fc12636e9213611f3888daf968",
+    "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
+    "odds_upcoming.csv": "90712bf3526d6c2cb88222df5fc937fd61d70666b5c19d42afd4411442c6225d",
+    "method_model.pkl": "f06cf764a255e83ff367fbea872cfeeaf58297e959fe3163714961fae3cf3d23"
+  },
+  "rows": {
+    "fights": 8612,
+    "fight_date_max": "2026-05-16"
+  }
+}
