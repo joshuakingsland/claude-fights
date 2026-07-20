@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-07-11T18:15:48Z",
+  "created_at": "2026-07-20T00:51:05Z",
   "model_version": "production-v2",
   "focus": [
     "age_diff",
@@ -14,17 +14,18 @@
   ],
   "edge_rule": 0.04,
   "bootstrap_models": 30,
-  "python": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
-  "platform": "Linux-6.18.5-x86_64-with-glibc2.39",
+  "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
   "scikit_learn": "1.8.0",
   "inputs": {
-    "fights_v2.csv": "3d85a21c0a4f64bb7a605a7f2457c1b1d2ed60fc12636e9213611f3888daf968",
+    "fights_v2.csv": "d93543bba9630cfefa3bb890bb91f639f5e746019aef019314639efd3fc5a9ee",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "90712bf3526d6c2cb88222df5fc937fd61d70666b5c19d42afd4411442c6225d",
+    "odds_upcoming.csv": "ceebb40019e85c8d5dee4b6d2247de1aabc2711c257646837ed79edd2c6e64d2",
+    "odds_log.csv": "29eb53eac4c8563666b6624a8155fcda5e1b9d50908ba08fa0a067e14eb20d36",
     "method_model.pkl": "f06cf764a255e83ff367fbea872cfeeaf58297e959fe3163714961fae3cf3d23"
   },
   "rows": {
-    "fights": 8612,
-    "fight_date_max": "2026-05-16"
+    "fights": 8694,
+    "fight_date_max": "2026-07-18"
   }
 }
