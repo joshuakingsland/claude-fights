@@ -1,0 +1,26 @@
+name: Refresh Canonical Validation
+on:
+  schedule:
+    - cron: "0 16 1 * *"  # monthly; intentionally separate from card updates
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - name: Run exact production audit
+        run: python validate_production.py --start 2019-01-01
+      - name: Commit validation artifacts
+        run: |
+          git config user.name "fight-ledger-bot"
+          git config user.email "actions@github.com"
+          git add production_validation.csv production_validation.json model_manifest.json
+          git diff --cached --quiet || git commit -m "validation refresh $(date -u +%F)"
+          git push
