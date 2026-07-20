@@ -1,8 +1,8 @@
 name: Update Fight Ledger
 on:
   schedule:
-    - cron: "0 14 * * 0,1,3"  # Sun & Mon (results) + Wed (early-line snapshot)
-  workflow_dispatch:          # manual "Run workflow" button
+    - cron: "0 14 * * 0,1,3"  # Sun/Mon snapshots + results; Wed official lock
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,24 +17,34 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Refresh fight results
         run: python update_data.py
-      - name: Settle prior paper ledger rows
+      - name: Settle prior official paper trades
         run: python paper_ledger.py settle
       - name: Fetch upcoming odds
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python fetch_odds.py
-      - name: Predict card & build site
-        run: python predict_card.py
+      - name: Snapshot card and optionally lock Wednesday trades
+        shell: bash
+        run: |
+          if [ "$(date -u +%u)" = "3" ]; then
+            python predict_card.py --lock-paper-trades
+          else
+            python predict_card.py
+          fi
+      - name: Validate forward paper ledger
+        run: python validate_paper.py
       - name: Monitor drift when validation data is present
         run: |
           if [ -f production_validation.csv ]; then python monitor_drift.py; fi
-      - name: Commit site
+      - name: Commit generated artifacts
         run: |
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
-          git add docs/ fights_v2.csv odds_upcoming.csv paper_trades.csv model_manifest.json
+          git add docs/ fights_v2.csv odds_upcoming.csv prediction_snapshots.csv \
+            paper_trades.csv paper_settlements.csv paper_validation.json \
+            model_manifest.json
           if [ -f odds_log.csv ]; then git add odds_log.csv; fi
-          if [ -f paper_settlements.csv ]; then git add paper_settlements.csv; fi
           if [ -f drift_report.json ]; then git add drift_report.json; fi
           git diff --cached --quiet || git commit -m "auto-update $(date -u +%F)"
           git push
+
