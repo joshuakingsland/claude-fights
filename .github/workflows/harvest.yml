@@ -1,0 +1,23 @@
+name: Harvest Historical Odds
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Harvest snapshots (artifact only, never committed)
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python harvest_history.py --max-requests 700
+      - name: Upload result as private artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: odds-history
+          path: odds_history.csv
+          retention-days: 7
