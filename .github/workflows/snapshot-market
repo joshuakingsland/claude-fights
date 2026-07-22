@@ -1,0 +1,42 @@
+name: Snapshot MMA Market
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fight-ledger-write
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Verify pricing code
+        run: |
+          python -m py_compile *.py
+          python -m unittest discover -s tests -p "test_live_odds.py"
+      - name: Capture consensus and every paired book quote
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python fetch_odds.py --require-key
+      - name: Refresh card without locking trades
+        run: python predict_card.py
+      - name: Commit market snapshot
+        run: |
+          git config user.name "fight-ledger-bot"
+          git config user.email "actions@github.com"
+          git add docs/ odds_upcoming.csv odds_log.csv prediction_snapshots.csv \
+            model_manifest.json market_snapshot_manifest.json data/market_quotes
+          git diff --cached --quiet || git commit -m "market snapshot $(date -u +%FT%H:%MZ)"
+          git push
