@@ -1,23 +1,22 @@
-name: Harvest Historical Odds
-on: workflow_dispatch
+name: Plan Historical Odds Backfill
+
+on:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  harvest:
+  plan:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
-      - name: Harvest snapshots (artifact only, never committed)
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-        run: python harvest_history.py --max-requests 700
-      - name: Upload result as private artifact
-        uses: actions/upload-artifact@v4
         with:
-          name: odds-history
-          path: odds_history.csv
-          retention-days: 7
+          python-version: "3.12.13"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Show pending requests without spending credits
+        run: python historical_odds.py --dry-run
+
