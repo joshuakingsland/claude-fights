@@ -7,22 +7,35 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: fight-ledger-write
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
-      - run: pip install -r requirements.txt
+        with:
+          python-version: "3.12.13"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Verify code before changing generated artifacts
+        run: |
+          python -m py_compile *.py
+          python -m unittest discover -s tests
       - name: Refresh fight results
         run: python update_data.py
+      - name: Fail closed when tracked completed fights are missing
+        run: python freshness.py --require-current
       - name: Settle prior official paper trades
         run: python paper_ledger.py settle
       - name: Fetch upcoming odds
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-        run: python fetch_odds.py
+        run: python fetch_odds.py --require-key
       - name: Snapshot card and optionally lock Wednesday trades
         shell: bash
         run: |
@@ -42,9 +55,10 @@ jobs:
           git config user.email "actions@github.com"
           git add docs/ fights_v2.csv odds_upcoming.csv prediction_snapshots.csv \
             paper_trades.csv paper_settlements.csv paper_validation.json \
-            model_manifest.json
+            model_manifest.json data_source_manifest.json data_freshness.json
           if [ -f odds_log.csv ]; then git add odds_log.csv; fi
           if [ -f drift_report.json ]; then git add drift_report.json; fi
           git diff --cached --quiet || git commit -m "auto-update $(date -u +%F)"
           git push
+
 
