@@ -6,6 +6,8 @@ the fight, then update. This guarantees the feature is point-in-time safe.
 
 import pandas as pd
 
+from identity import fighter_keys
+
 
 def compute_elo(
     fights: pd.DataFrame,
@@ -35,14 +37,16 @@ def compute_elo(
         elo_diff             : elo_a_pre - elo_b_pre
     """
     df = fights.sort_values("date", kind="stable").reset_index(drop=True).copy()
+    df["fighter_key_a"] = fighter_keys(df, "a")
+    df["fighter_key_b"] = fighter_keys(df, "b")
     ratings: dict[str, float] = {}
 
     elo_a_pre, elo_b_pre = [], []
     has_method = "method" in df.columns
 
     for row in df.itertuples(index=False):
-        ra = ratings.get(row.fighter_a, base)
-        rb = ratings.get(row.fighter_b, base)
+        ra = ratings.get(row.fighter_key_a, base)
+        rb = ratings.get(row.fighter_key_b, base)
         elo_a_pre.append(ra)
         elo_b_pre.append(rb)
 
@@ -63,10 +67,10 @@ def compute_elo(
                 k_eff += finish_bonus
 
         delta = k_eff * (sa - ea)
-        ratings[row.fighter_a] = ra + delta
-        ratings[row.fighter_b] = rb - delta
+        ratings[row.fighter_key_a] = ra + delta
+        ratings[row.fighter_key_b] = rb - delta
 
     df["elo_a_pre"] = elo_a_pre
     df["elo_b_pre"] = elo_b_pre
     df["elo_diff"] = df["elo_a_pre"] - df["elo_b_pre"]
-    return df
+    return df.drop(columns=["fighter_key_a", "fighter_key_b"])

@@ -18,9 +18,10 @@ import pandas as pd
 from scipy.special import logit as slogit
 
 from adapter import parse_height, parse_reach
-from backtest import american_to_prob, american_payout, norm_name
+from backtest import american_to_prob, american_payout
 from data_quality import assert_clean, identity_warnings
 from features_v3 import build_features_v3
+from identity import assign_fighter_identities, fighter_registry
 from pipeline import load_matched_cached
 from config import BOOTSTRAP_MODELS, EDGE_RULE, FOCUS, MODEL_VERSION
 from production import (MODEL_FEATURES, event_pnl, event_seed, fit_ensemble,
@@ -28,36 +29,27 @@ from production import (MODEL_FEATURES, event_pnl, event_seed, fit_ensemble,
 import method_model as MM
 
 # --------------------------------------------------------------- modeling
-def resolve_names(up, fights):
-    known = {}
-    for s in ("a", "b"):
-        for n in fights[f"fighter_{s}"]:
-            known.setdefault(norm_name(n), set()).add(n)
-    ambiguous = ({key for key, values in known.items() if len(values) > 1}
-                 | HOMONYMS)
-    for s in ("a", "b"):
-        fixed = []
-        for n in up[f"fighter_{s}"]:
-            k = norm_name(n)
-            if k in ambiguous:
-                # Never blend two fighters behind one normalized name. Keep
-                # the display name separately and force neutral features.
-                fixed.append(f"__AMBIGUOUS__{k}")
-                print(f"  WARNING: '{n}' is ambiguous in historical data "
-                      "and will receive neutral features")
-            elif k in known:
-                fixed.append(next(iter(known[k])))
-            else:
-                # exact match only — a last-name fuzzy fallback once assigned
-                # a debutant an unrelated veteran's entire career. Unknown
-                # fighters stay unknown (neutral features).
-                fixed.append(n)
-                print(f"  note: '{n}' not in data — treated as debutant")
-        up[f"fighter_{s}"] = fixed
-    return up
+def resolve_identities(up, physicals, details=None):
+    """Attach stable IDs; unresolved sportsbook names receive neutral history."""
+    registry = fighter_registry(physicals, details)
+    resolved = assign_fighter_identities(up, registry, strict=False)
+    for side in ("a", "b"):
+        unresolved = resolved[f"fighter_{side}_id"].str.startswith("unresolved:")
+        for name in resolved.loc[unresolved, f"fighter_{side}"]:
+            print(f"  WARNING: '{name}' has no unambiguous UFCStats identity; "
+                  "using neutral career features")
+    return resolved, registry
 
 
-HOMONYMS = {"bruno silva", "jean silva", "mike davis", "victor valenzuela"}
+def market_probability(odds_a, odds_b, supplied=np.nan):
+    """Prefer a paired-book consensus, with a de-vigged price fallback."""
+    pa = american_to_prob(odds_a)
+    pb = american_to_prob(odds_b)
+    supplied = pd.to_numeric(supplied, errors="coerce")
+    probability = (float(supplied)
+                   if pd.notna(supplied) and 0 < supplied < 1
+                   else float(pa / (pa + pb)))
+    return probability, float(pa), float(pb)
 
 
 def predict_upcoming(up):
@@ -68,13 +60,9 @@ def predict_upcoming(up):
     up = up.copy()
     up["display_a"] = up["fighter_a"]
     up["display_b"] = up["fighter_b"]
-    up = resolve_names(up.copy(), fights)
-    for s in ("a", "b"):
-        for n in up[f"fighter_{s}"]:
-            if norm_name(n) in HOMONYMS:
-                print(f"  WARNING: '{n}' matches multiple distinct UFC "
-                      f"fighters — career features are blended; treat this "
-                      f"fight's numbers with caution")
+    phys = pd.read_csv("raw/ufc_fighter_tott.csv")
+    details = pd.read_csv("raw/ufc_fighter_details.csv")
+    up, registry = resolve_identities(up.copy(), phys, details)
 
     rows = []
     for _, r in up.iterrows():
@@ -85,26 +73,26 @@ def predict_upcoming(up):
                                      else "3 Rnd (5-5-5)"),
                      "weightclass": r.get("weightclass", "") or "",
                      "fighter_a": r["fighter_a"], "fighter_b": r["fighter_b"],
+                     "fighter_a_id": r["fighter_a_id"],
+                     "fighter_b_id": r["fighter_b_id"],
+                     "fighter_a_url": r["fighter_a_url"],
+                     "fighter_b_url": r["fighter_b_url"],
                      "winner": "A", "method": "", "fight_time_min": np.nan})
     hyp = pd.DataFrame(rows)
 
-    phys = pd.read_csv("raw/ufc_fighter_tott.csv")
-    for c in phys.columns:
-        if pd.api.types.is_string_dtype(phys[c]):
-            phys[c] = phys[c].str.strip()
-    phys["height_in"] = phys["HEIGHT"].map(parse_height)
-    phys["reach_in"] = phys["REACH"].map(parse_reach)
-    phys["dob"] = pd.to_datetime(phys["DOB"], format="mixed", errors="coerce")
-    pm = phys.drop_duplicates("FIGHTER").set_index("FIGHTER")
+    registry["height_in"] = registry["HEIGHT"].map(parse_height)
+    registry["reach_in"] = registry["REACH"].map(parse_reach)
+    registry["dob"] = pd.to_datetime(registry["DOB"], format="mixed", errors="coerce")
+    pm = registry.drop_duplicates("fighter_id", keep="first").set_index("fighter_id")
     for s in ("a", "b"):
-        hyp[f"height_{s}"] = hyp[f"fighter_{s}"].map(pm["height_in"])
-        hyp[f"reach_{s}"] = hyp[f"fighter_{s}"].map(pm["reach_in"])
-        hyp[f"dob_{s}"] = hyp[f"fighter_{s}"].map(pm["dob"])
-        hyp[f"stance_{s}"] = hyp[f"fighter_{s}"].map(pm["STANCE"])
+        hyp[f"height_{s}"] = hyp[f"fighter_{s}_id"].map(pm["height_in"])
+        hyp[f"reach_{s}"] = hyp[f"fighter_{s}_id"].map(pm["reach_in"])
+        hyp[f"dob_{s}"] = hyp[f"fighter_{s}_id"].map(pm["dob"])
+        hyp[f"stance_{s}"] = hyp[f"fighter_{s}_id"].map(pm["STANCE"])
 
     feats, _ = build_features_v3(pd.concat([fights, hyp], ignore_index=True))
-    new = feats.merge(hyp[["fighter_a", "fighter_b"]].assign(_u=1),
-                      on=["fighter_a", "fighter_b"], how="inner")
+    identity = ["date", "fighter_a_id", "fighter_b_id"]
+    new = feats.merge(hyp[identity].assign(_u=1), on=identity, how="inner")
     new = new[new["date"] >= hyp["date"].min()]
 
     m, _ = load_matched_cached(build_features_v3, "v3", bout_cols=[])
@@ -117,12 +105,13 @@ def predict_upcoming(up):
 
     out = []
     for _, r in up.iterrows():
-        row = new[(new["fighter_a"] == r["fighter_a"])
-                  & (new["fighter_b"] == r["fighter_b"])]
+        row = new[(new["fighter_a_id"] == r["fighter_a_id"])
+                  & (new["fighter_b_id"] == r["fighter_b_id"])]
         oa = float(str(r["odds_a"]).replace("+", ""))
         ob = float(str(r["odds_b"]).replace("+", ""))
-        pa, pb = american_to_prob(oa), american_to_prob(ob)
-        p_line = float(pa / (pa + pb))
+        p_line, pa, pb = market_probability(
+            oa, ob, r.get("market_prob_a", np.nan)
+        )
         if not len(row):
             continue
         ll = slogit(np.clip(p_line, 0.02, 0.98))
@@ -138,12 +127,12 @@ def predict_upcoming(up):
         imp_now = pa if pick_a else pb
         ladder = sizing_ladder(lr, cols, feat_pick, float(imp_now), float(pa + pb - 1), se_sub=se)
         out.append({
-            "_p_a": p, "_row_idx": int(row.index[0]),
+            "_p_a": p, "_row_idx": int(row.index[0]), "_pick_a": bool(pick_a),
             "ladder": ladder,
             "pick": r["display_a"] if pick_a else r["display_b"],
             "opp": r["display_b"] if pick_a else r["display_a"],
             "price": f"{int(oa):+d}" if pick_a else f"{int(ob):+d}",
-            "market": round((pa if pick_a else pb) / (pa + pb) * 100, 1),
+            "market": round((p_line if pick_a else 1 - p_line) * 100, 1),
             "model": round((p if pick_a else 1 - p) * 100, 1),
             "edge": round(max(ea, eb) * 100, 1),
             "se": round(se * 100, 1),
@@ -158,7 +147,7 @@ def predict_upcoming(up):
                                 else ""),
             "odds_source": r.get("odds_source", "manual_or_unknown"),
             "odds_fetched_at": r.get("fetched_at", ""),
-            "meta": f"{r.get('weightclass','') or 'TBD'} · {r['date']}",
+            "meta": f"{r.get('weightclass','') or 'TBD'} | {r['date']}",
         })
     # method props (fair prices; probability-validated, no verified prop edge)
     try:
@@ -170,14 +159,14 @@ def predict_upcoming(up):
         if len(fr) == len(out):
             props = MM.method_props(clf, allf, fr, [o["_p_a"] for o in out])
             for o, pr, (_, r) in zip(out, props, fr.iterrows()):
-                pick_is_a = norm_name(o["pick"]) == norm_name(r["fighter_a"])
+                pick_is_a = o["_pick_a"]
                 o["props"] = {("pick_" if (k[0] == "a") == pick_is_a
                                else "opp_") + k[2:]: v
                               for k, v in pr.items()}
     except Exception as exc:
         print("props skipped:", exc)
     for o in out:
-        o.pop("_p_a", None); o.pop("_row_idx", None)
+        o.pop("_p_a", None); o.pop("_row_idx", None); o.pop("_pick_a", None)
     return out
 
 
@@ -263,13 +252,20 @@ def sizing_ladder(lr, cols, feat_row, imp_now, vig, se_sub=0.0):
     return ths
 
 # --------------------------------------------------------------- site
-def build_site(upcoming, recent, summary):
+def build_site(upcoming, recent, summary, freshness=None):
     with open("site_template.html") as f:
         tpl = f.read()
     stamp = datetime.now(timezone.utc).strftime("%b %d, %Y %H:%M UTC")
+    freshness = freshness or {}
+    freshness_banner = (
+        f'<div class="freshness {freshness.get("status", "check")}">'
+        f'Results through <b>{freshness.get("results_through", "unknown")}</b> | '
+        f'{freshness.get("message", "freshness not checked")}</div>'
+    )
     html = (tpl.replace("__UPCOMING__", json.dumps(upcoming))
                .replace("__RECENT__", json.dumps(recent))
                .replace("__SUMMARY__", json.dumps(summary))
+               .replace("__FRESHNESS_BANNER__", freshness_banner)
                .replace("__STAMP__", stamp))
     import os
     os.makedirs("docs", exist_ok=True)
@@ -297,7 +293,11 @@ def main():
         print("odds_upcoming.csv contains no fights; building an empty card")
         upcoming = []
     recent, summary = recent_results()
-    build_site(upcoming, recent, summary)
+    from freshness import assess_freshness
+    freshness = assess_freshness(pd.read_csv("fights_v2.csv"))
+    with open("data_freshness.json", "w", encoding="utf-8") as output:
+        json.dump(freshness, output, indent=2)
+    build_site(upcoming, recent, summary, freshness)
 
     from model_manifest import sha256, write_manifest
     write_manifest()

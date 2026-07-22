@@ -27,6 +27,7 @@ import numpy as np
 import pandas as pd
 
 from elo import compute_elo
+from identity import fighter_keys
 
 # Per-fight stats we accumulate into career rates. (name, per-minute?)
 STAT_COLS = [
@@ -44,7 +45,7 @@ def _to_long(df: pd.DataFrame) -> pd.DataFrame:
         cols = {
             "date": df["date"],
             "fight_id": df["fight_id"],
-            "fighter": df[f"fighter_{side}"],
+            "fighter": fighter_keys(df, side),
             "won": (df["winner"] == side.upper()).astype(float),
             "finish": df.get(
                 "method", pd.Series("", index=df.index)
@@ -135,6 +136,8 @@ def build_features(fights: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
     df = fights.sort_values("date", kind="stable").reset_index(drop=True).copy()
     df["date"] = pd.to_datetime(df["date"])
     df["fight_id"] = np.arange(len(df))
+    df["_fighter_key_a"] = fighter_keys(df, "a")
+    df["_fighter_key_b"] = fighter_keys(df, "b")
 
     # 1) Elo (pre-fight by construction)
     df = compute_elo(df)
@@ -144,9 +147,9 @@ def build_features(fights: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
     stat_cols = [c for c in career.columns if c not in ("fight_id", "fighter")]
 
     for side in ("a", "b"):
-        merged = df[["fight_id", f"fighter_{side}"]].merge(
+        merged = df[["fight_id", f"_fighter_key_{side}"]].merge(
             career,
-            left_on=["fight_id", f"fighter_{side}"],
+            left_on=["fight_id", f"_fighter_key_{side}"],
             right_on=["fight_id", "fighter"],
             how="left",
         )
@@ -175,8 +178,13 @@ def build_features(fights: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
     df = df[df["winner"].isin(["A", "B"])].copy()
     df["target"] = (df["winner"] == "A").astype(int)
 
-    out = df[["fight_id", "date", "fighter_a", "fighter_b", "target"]
-             + feature_cols].copy()
+    identity_columns = [
+        column for column in (
+            "fighter_a_id", "fighter_b_id", "fighter_a_url", "fighter_b_url"
+        ) if column in df
+    ]
+    out = df[["fight_id", "date", "fighter_a", "fighter_b"]
+             + identity_columns + ["target"] + feature_cols].copy()
     out[feature_cols] = out[feature_cols].fillna(0)
     return out, feature_cols
 

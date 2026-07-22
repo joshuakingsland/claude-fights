@@ -4,8 +4,8 @@ Winner-frame multinomial logistic. Combined with the moneyline model:
     P(fighter by KO) = P(fighter wins) x P(KO | fighter wins)
 giving fair prices for the six method-prop outcomes.
 
-Validated (train <2024, test 2024+, n=1,228): 3-way log loss 0.951 vs
-0.990 weight-class baseline and 1.010 global frequencies.
+Validated after the stable-identity migration (train <2024, test 2024+,
+n=1,310): 3-way log loss 0.95188 vs 1.01469 global frequencies.
 
 IMPORTANT HONESTY NOTE: unlike the moneyline model, there is no
 historical prop-odds dataset here, so these are fair prices validated
@@ -20,7 +20,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from backtest import norm_name
+from identity import fighter_keys
 
 FEATS = ["w_ko_rate", "w_sub_rate", "w_dec_rate", "w_n", "l_ko_l",
          "l_sub_l", "l_age", "w_age", "heavy", "women", "five_rd"]
@@ -43,7 +43,7 @@ def career_method_rates(fights):
     for s, o in (("a", "b"), ("b", "a")):
         frames.append(pd.DataFrame({
             "idx": fights.index, "date": fights["date"],
-            "f": fights[f"fighter_{s}"].map(norm_name),
+            "f": fighter_keys(fights, s),
             "ko_w": ((fights["winner"] == s.upper()) & (mcls == "KO")).astype(float),
             "sub_w": ((fights["winner"] == s.upper()) & (mcls == "SUB")).astype(float),
             "dec_w": ((fights["winner"] == s.upper()) & (mcls == "DEC")).astype(float),
@@ -67,7 +67,7 @@ def attach_side_features(fights, L):
     sub = L.set_index(["idx", "f"])[
         ["r_ko_w", "r_sub_w", "r_dec_w", "r_ko_l", "r_sub_l", "n_pre"]]
     for side in ("a", "b"):
-        key = fights[f"fighter_{side}"].map(norm_name)
+        key = fighter_keys(fights, side)
         idx = pd.MultiIndex.from_arrays(
             [fights.index.to_numpy(), key.to_numpy()])
         got = sub.reindex(idx).reset_index(drop=True)

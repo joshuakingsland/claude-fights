@@ -18,6 +18,8 @@ import re
 import numpy as np
 import pandas as pd
 
+from identity import assign_fighter_identities, fighter_registry
+
 
 def parse_of(s):
     """'23 of 38' -> (23, 38); missing -> (nan, nan)."""
@@ -68,13 +70,14 @@ def build(raw_dir: str) -> pd.DataFrame:
     res = load("ufc_fight_results.csv")
     stats = load("ufc_fight_stats.csv")
     tott = load("ufc_fighter_tott.csv")
+    details = load("ufc_fighter_details.csv")
 
     # --- events: name -> date ------------------------------------------
     ev["date"] = pd.to_datetime(ev["DATE"], format="mixed", errors="coerce")
     ev = ev[["EVENT", "date"]].drop_duplicates("EVENT")
 
     # --- results: one row per fight -------------------------------------
-    res = res.merge(ev, on="EVENT", how="left")
+    res = res.merge(ev, on="EVENT", how="left", validate="many_to_one")
     ab = res["BOUT"].str.split(r"\s+vs\.?\s+", n=1, regex=True, expand=True)
     res["fighter_a"], res["fighter_b"] = ab[0].str.strip(), ab[1].str.strip()
     res["winner"] = res["OUTCOME"].map(
@@ -85,6 +88,8 @@ def build(raw_dir: str) -> pd.DataFrame:
         for r, t, f in zip(res["ROUND"], res["TIME"], res["TIME FORMAT"])
     ]
     res = res.dropna(subset=["date", "winner", "fighter_a", "fighter_b"])
+    res = res.reset_index(drop=True)
+    res["_row_id"] = np.arange(len(res))
     res["method"] = res["METHOD"].fillna("")
     res["event"] = res["EVENT"]
     res["bout"] = res["BOUT"]
@@ -106,11 +111,12 @@ def build(raw_dir: str) -> pd.DataFrame:
     )
 
     def side_stats(side_col, prefix):
-        m = res[["EVENT", "BOUT", side_col]].merge(
+        m = res[["_row_id", "EVENT", "BOUT", side_col]].merge(
             agg, left_on=["EVENT", "BOUT", side_col],
             right_on=["EVENT", "BOUT", "FIGHTER"], how="left",
+            validate="many_to_one", sort=False,
         )
-        return m[["sig_landed", "td_landed", "td_att"]].rename(
+        return m[["_row_id", "sig_landed", "td_landed", "td_att"]].rename(
             columns={
                 "sig_landed": f"sig_str_landed_{prefix}",
                 "td_landed": f"td_landed_{prefix}",
@@ -118,37 +124,41 @@ def build(raw_dir: str) -> pd.DataFrame:
             }
         )
 
-    sa = side_stats("fighter_a", "a").reset_index(drop=True)
-    sb = side_stats("fighter_b", "b").reset_index(drop=True)
-    res = pd.concat([res.reset_index(drop=True), sa, sb], axis=1)
+    sa = side_stats("fighter_a", "a")
+    sb = side_stats("fighter_b", "b")
+    res = res.merge(sa, on="_row_id", how="left", validate="one_to_one", sort=False)
+    res = res.merge(sb, on="_row_id", how="left", validate="one_to_one", sort=False)
 
     # Strikes absorbed = opponent's strikes landed
     res["sig_str_absorbed_a"] = res["sig_str_landed_b"]
     res["sig_str_absorbed_b"] = res["sig_str_landed_a"]
 
     # --- fighter physicals ----------------------------------------------
-    tott = tott.drop_duplicates("FIGHTER", keep="first").copy()
+    registry = fighter_registry(tott, details)
+    res = assign_fighter_identities(res, registry, strict=True)
+    tott = registry.drop_duplicates("fighter_id", keep="first").copy()
     tott["height_in"] = tott["HEIGHT"].map(parse_height)
     tott["reach_in"] = tott["REACH"].map(parse_reach)
     tott["dob"] = pd.to_datetime(tott["DOB"], format="mixed", errors="coerce")
     tott["stance"] = tott["STANCE"]
-    phys = tott[["FIGHTER", "height_in", "reach_in", "dob", "stance"]]
+    phys = tott[["fighter_id", "height_in", "reach_in", "dob", "stance"]]
 
     for side in ("a", "b"):
         res = res.merge(
             phys.rename(columns={
-                "FIGHTER": f"fighter_{side}",
+                "fighter_id": f"fighter_{side}_id",
                 "height_in": f"height_{side}",
                 "reach_in": f"reach_{side}",
                 "dob": f"dob_{side}",
                 "stance": f"stance_{side}",
             }),
-            on=f"fighter_{side}", how="left",
+            on=f"fighter_{side}_id", how="left", validate="many_to_one",
         )
 
     cols = [
         "date", "event", "bout", "time_format", "weightclass",
         "stance_a", "stance_b", "fighter_a", "fighter_b", "winner", "method",
+        "fighter_a_id", "fighter_b_id", "fighter_a_url", "fighter_b_url",
         "fight_time_min",
         "dob_a", "dob_b", "reach_a", "reach_b", "height_a", "height_b",
         "sig_str_landed_a", "sig_str_landed_b",
@@ -156,7 +166,9 @@ def build(raw_dir: str) -> pd.DataFrame:
         "td_landed_a", "td_landed_b",
         "td_attempted_a", "td_attempted_b",
     ]
-    out = res[cols].sort_values("date").reset_index(drop=True)
+    out = res[cols + ["_row_id"]].sort_values(
+        ["date", "_row_id"], kind="stable"
+    ).drop(columns="_row_id").reset_index(drop=True)
 
     # Known caveat: UFCStats lists the winner first in most historical
     # bouts, so 'A' is heavily the winner. symmetrize() in training and

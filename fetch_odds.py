@@ -1,89 +1,164 @@
-"""Fetch upcoming UFC fights + moneylines into odds_upcoming.csv.
+"""Fetch upcoming UFC fights and auditable market consensus prices.
 
-Two modes:
-  1. Automatic — set env var ODDS_API_KEY (free tier at the-odds-api.com,
-     500 requests/month; this uses 1 per run).
-  2. Manual — no key: edit odds_upcoming.csv yourself with lines from
-     your book. Columns: date,commence_time,fighter_a,fighter_b,
-     odds_a,odds_b,weightclass,five_rounds,odds_source,fetched_at
-
-Usage: python fetch_odds.py
+Automatic mode requires ``ODDS_API_KEY``. The GitHub workflow also passes
+``--require-key`` so a missing secret cannot silently reuse a stale card.
+Manual CSVs remain supported; the two consensus columns are optional there.
 """
 
+import argparse
 import csv
 import json
 import os
+import statistics
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
+from pathlib import Path
 
-API = ("https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds"
-       "?apiKey={key}&regions=us&markets=h2h&oddsFormat=american")
+from config import ODDS_CONSENSUS_VERSION
 
 
-def main():
+API = "https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds"
+UPCOMING_FIELDS = [
+    "date", "commence_time", "fighter_a", "fighter_b", "odds_a", "odds_b",
+    "market_prob_a", "market_books", "weightclass", "five_rounds",
+    "odds_source", "fetched_at",
+]
+LOG_FIELDS = [
+    "fetched_at", "commence_time", "date", "fighter_a", "fighter_b",
+    "odds_a", "odds_b", "market_prob_a", "market_books", "odds_source",
+]
+
+
+def _american_to_prob(odds):
+    odds = float(odds)
+    return -odds / (-odds + 100.0) if odds < 0 else 100.0 / (odds + 100.0)
+
+
+def _upper_median(values):
+    values = sorted(values)
+    return values[len(values) // 2]
+
+
+def consensus_quote(event):
+    """Return paired median prices and median per-book de-vig probability."""
+    fighter_a = event.get("home_team", "")
+    fighter_b = event.get("away_team", "")
+    paired = []
+    for book in event.get("bookmakers", []):
+        for market in book.get("markets", []):
+            if market.get("key") != "h2h":
+                continue
+            prices = {
+                outcome.get("name"): outcome.get("price")
+                for outcome in market.get("outcomes", [])
+            }
+            odds_a = prices.get(fighter_a)
+            odds_b = prices.get(fighter_b)
+            try:
+                odds_a = float(odds_a)
+                odds_b = float(odds_b)
+            except (TypeError, ValueError):
+                continue
+            if abs(odds_a) < 100 or abs(odds_b) < 100:
+                continue
+            pa = _american_to_prob(odds_a)
+            pb = _american_to_prob(odds_b)
+            paired.append((odds_a, odds_b, pa / (pa + pb)))
+            break
+    if not paired:
+        return None
+    return {
+        "odds_a": _upper_median([row[0] for row in paired]),
+        "odds_b": _upper_median([row[1] for row in paired]),
+        "market_prob_a": round(float(statistics.median(row[2] for row in paired)), 8),
+        "market_books": len(paired),
+    }
+
+
+def _write_atomic(path, fields, rows):
+    path = Path(path)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("w", newline="", encoding="utf-8") as output:
+        writer = csv.DictWriter(output, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+    os.replace(temporary, path)
+
+
+def append_log(path, rows):
+    """Append via an atomic rewrite, migrating older log schemas in place."""
+    path = Path(path)
+    existing = []
+    if path.exists():
+        with path.open(newline="", encoding="utf-8") as source:
+            existing.extend(csv.DictReader(source))
+    normalized = [{field: row.get(field, "") for field in LOG_FIELDS}
+                  for row in existing]
+    normalized.extend({field: row.get(field, "") for field in LOG_FIELDS}
+                      for row in rows)
+    _write_atomic(path, LOG_FIELDS, normalized)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--require-key", action="store_true",
+        help="fail instead of entering manual mode when ODDS_API_KEY is absent",
+    )
+    args = parser.parse_args(argv)
+
     key = os.environ.get("ODDS_API_KEY")
     if not key:
-        print("No ODDS_API_KEY set — using manual mode.")
-        print("Edit odds_upcoming.csv by hand with your book's lines.")
-        if not os.path.exists("odds_upcoming.csv"):
-            with open("odds_upcoming.csv", "w", newline="") as f:
-                w = csv.writer(f)
-                w.writerow(["date", "commence_time", "fighter_a", "fighter_b",
-                            "odds_a", "odds_b", "weightclass",
-                            "five_rounds", "odds_source", "fetched_at"])
-                w.writerow(["2099-01-02", "2099-01-02T03:00:00Z",
-                            "Example Fighter", "Other Fighter", "+150",
-                            "-180", "Lightweight Bout", "0", "manual", ""])
-            print("Template written to odds_upcoming.csv")
+        if args.require_key:
+            raise SystemExit(
+                "ODDS_API_KEY is required. Add it as a GitHub Actions secret."
+            )
+        print("No ODDS_API_KEY set; using manual mode.")
+        print("Edit odds_upcoming.csv by hand with current book prices.")
+        if not Path("odds_upcoming.csv").exists():
+            _write_atomic("odds_upcoming.csv", UPCOMING_FIELDS, [])
+            print("Empty odds_upcoming.csv template written.")
         return
 
-    with urllib.request.urlopen(API.format(key=key), timeout=30) as r:
-        events = json.load(r)
+    query = urllib.parse.urlencode({
+        "apiKey": key,
+        "regions": "us",
+        "markets": "h2h",
+        "oddsFormat": "american",
+    })
+    request = urllib.request.Request(
+        f"{API}?{query}", headers={"Accept": "application/json"}
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        events = json.load(response)
 
     stamp = f"{datetime.now(timezone.utc):%Y-%m-%dT%H:%M:%SZ}"
     rows = []
-    for ev in events:
-        home, away = ev["home_team"], ev["away_team"]
-        commence = ev["commence_time"]
-        t = commence[:10]
-        # median price across books for robustness
-        pa, pb = [], []
-        for book in ev.get("bookmakers", []):
-            for mk in book.get("markets", []):
-                if mk["key"] != "h2h":
-                    continue
-                for o in mk["outcomes"]:
-                    if o["name"] == home:
-                        pa.append(o["price"])
-                    elif o["name"] == away:
-                        pb.append(o["price"])
-                    # anything else (Draw etc.) is ignored
-        if not pa or not pb:
+    for event in events:
+        quote = consensus_quote(event)
+        if quote is None:
             continue
-        med = lambda xs: sorted(xs)[len(xs) // 2]
-        rows.append([t, commence, home, away, med(pa), med(pb), "", "0",
-                     "the-odds-api-median", stamp])
+        commence = event.get("commence_time", "")
+        rows.append({
+            "date": commence[:10],
+            "commence_time": commence,
+            "fighter_a": event.get("home_team", ""),
+            "fighter_b": event.get("away_team", ""),
+            **quote,
+            "weightclass": "",
+            "five_rounds": "0",
+            "odds_source": f"the-odds-api-{ODDS_CONSENSUS_VERSION}",
+            "fetched_at": stamp,
+        })
 
-    with open("odds_upcoming.csv", "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["date", "commence_time", "fighter_a", "fighter_b",
-                    "odds_a", "odds_b", "weightclass", "five_rounds",
-                    "odds_source", "fetched_at"])
-        w.writerows(rows)
-
-    # append timestamped snapshot -> over months this becomes an
-    # open/close line-movement dataset AND a prop-validation base
-    new_file = not os.path.exists("odds_log.csv")
-    with open("odds_log.csv", "a", newline="") as f:
-        w = csv.writer(f)
-        if new_file:
-            w.writerow(["fetched_at", "commence_time", "date",
-                        "fighter_a", "fighter_b", "odds_a", "odds_b",
-                        "odds_source"])
-        for r in rows:
-            w.writerow([stamp, r[1], r[0], r[2], r[3], r[4], r[5], r[8]])
-    print(f"wrote odds_upcoming.csv ({len(rows)} fights) and appended "
-          f"snapshot to odds_log.csv at {stamp}")
+    _write_atomic("odds_upcoming.csv", UPCOMING_FIELDS, rows)
+    log_rows = [{field: row.get(field, "") for field in LOG_FIELDS} for row in rows]
+    append_log("odds_log.csv", log_rows)
+    print(
+        f"wrote odds_upcoming.csv ({len(rows)} fights) and appended "
+        f"a paired-book consensus snapshot at {stamp}"
+    )
 
 
 if __name__ == "__main__":

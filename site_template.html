@@ -77,6 +77,10 @@
   .disclaimer{margin-top:18px;padding:14px 16px;border:1px solid var(--line);border-radius:6px;
               font-size:13px;color:var(--muted)}
   .disclaimer b{color:var(--text)}
+  .freshness{margin-top:18px;padding:10px 12px;border-left:3px solid var(--faint);
+             color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px}
+  .freshness.current{border-color:var(--gold)}
+  .freshness.check,.freshness.lagging{border-color:var(--warn);color:var(--text)}
   @media(max-width:640px){.fight{grid-template-columns:1fr;gap:12px}.verdict{text-align:left}}
   @media(prefers-reduced-motion:no-preference){
     .mark.model{transition:left .9s cubic-bezier(.2,.8,.2,1)}
@@ -97,6 +101,7 @@
     <div class="key"><span class="tick model"></span> model</div>
     <div class="key"><span class="band"></span> the edge</div>
   </div>
+  __FRESHNESS_BANNER__
 </header>
 
 <section class="sect">
@@ -124,11 +129,10 @@
   or tape. Debutants and fighters returning from very long layoffs are outside its
   reliable range. Gold-bordered rows in Recent results were qualified bets.</p>
   <div class="disclaimer"><b>This is a statistical model, not a tip sheet.</b>
-  There is no verified live-money edge yet; the event-clustered validation interval is the
-  relevant gate,
-  and it went flat for a full year inside the backtest. Any single card is noise. If you bet:
-  flat stakes or quarter-Kelly (1–2% of bankroll), only money you can afford to lose.
-  If gambling stops being fun, call or text 1-800-GAMBLER.</div>
+  There is no verified live-money edge. The event-clustered validation interval and
+  forward CLV sample are the relevant gates, and both workflows remain paper-only.
+  Any single card is noise. Do not treat a displayed selection as betting advice.
+  If gambling is causing harm, call or text 1-800-GAMBLER.</div>
 </div>
 </div>
 

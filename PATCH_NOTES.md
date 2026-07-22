@@ -1,4 +1,4 @@
-# Production-v3 integrity update
+# Production-v3 stable-identity and collection update
 
 This package was upgraded from the verified v2 prototype to production-v3.
 
@@ -22,21 +22,32 @@ This package was upgraded from the verified v2 prototype to production-v3.
   GitHub Actions workflows.
 - Integrity tests cover timing, idempotency, settlement gating, stable seeds,
   and corner symmetry.
+- Fighter careers, Elo, physicals, and method rates now use URL-derived
+  UFCStats IDs. Seven duplicated display names no longer blend careers.
+- The source refresh is transactional and rejects shrinking, backward, or
+  identity-incomplete datasets before replacing live files.
+- The dashboard publishes its exact results-through date and fails closed when
+  a tracked completed fight is absent from the result source.
+- A cost-gated workflow captures one standardized T-30-window H2H snapshot per
+  event; paper CLV prefers it over the bundled historical-line fallback.
+- Prop-market discovery is manual, capped, and defaults to zero requests.
+- CI now covers identity resolution, validated adapter joins, point-in-time
+  winner flipping, refresh regressions, T-30 deduplication, and UTC date joins.
 
 ## Revalidated production-v3 result
 
 The full 2019+ event-by-event audit completed successfully:
 
 - 302 events / 3,218 fights
-- 404 qualifying bets
-- 526 units staked
-- +23.30 units
-- +4.43% ROI
-- Event-clustered 90% ROI interval: -4.37% to +13.42%
-- Model log loss 0.60276 vs market 0.60387
+- 415 qualifying bets
+- 534 units staked
+- +29.45 units
+- +5.52% ROI
+- Event-clustered 90% ROI interval: -3.18% to +14.49%
+- Model log loss 0.60253 vs market 0.60387
 - Gate remains `paper_only`
 
-The prior production-v2 report showed 408 bets and +4.94% ROI. The difference
-comes from making bootstrap uncertainty deterministic by event, which changes a
-small number of threshold decisions. The confidence interval still crosses
-zero, so no live-money conclusion is justified.
+The preceding package showed 404 bets and +4.43% ROI. The change comes from
+separating same-name fighters and refreshing the source through July 18, 2026.
+The confidence interval still crosses zero, so no live-money conclusion is
+justified.

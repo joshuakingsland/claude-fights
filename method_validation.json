@@ -1,0 +1,17 @@
+{
+  "model": "method-probability-v1-stable-identities",
+  "cutoff": "2024-01-01",
+  "training_fights": 7375,
+  "test_fights": 1310,
+  "classes": [
+    "DEC",
+    "KO",
+    "SUB"
+  ],
+  "log_loss_model": 0.9518816052729625,
+  "log_loss_global_prior": 1.0146931970466004,
+  "accuracy_model": 0.5419847328244275,
+  "status": "probability_only",
+  "prop_edge_validated": false,
+  "note": "No historical sportsbook prop prices are used in this audit."
+}

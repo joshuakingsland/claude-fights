@@ -1,0 +1,45 @@
+{
+  "downloaded_at": "2026-07-22T00:05:58Z",
+  "source": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/",
+  "rows": 8694,
+  "result_date_min": "1994-03-11",
+  "result_date_max": "2026-07-18",
+  "fights_sha256": "accb50127d3eb883cdb309c31b92e04de86ec880d57e7e44a6d4e52e520c0860",
+  "files": {
+    "ufc_event_details.csv": {
+      "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_event_details.csv",
+      "last_modified": null,
+      "etag": "\"f529e5af0add693d588af95752afd9974227814b7a6ea3e7eccce52109138258\"",
+      "sha256": "7bfb29457acf9eda277c4bdce97683f5ed3db0a50b68a9013f8e4647f8ce5450",
+      "bytes": 101153
+    },
+    "ufc_fight_results.csv": {
+      "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fight_results.csv",
+      "last_modified": null,
+      "etag": "\"77b44a4aacae175acc9829bd2e6277c3a2b48b0c13f6bfc53a3ea063f0536587\"",
+      "sha256": "051c4af220a3015f5e0a65cba8d69d5d8b263591660a5b10159d55eb8a1b8ec1",
+      "bytes": 2063552
+    },
+    "ufc_fight_stats.csv": {
+      "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fight_stats.csv",
+      "last_modified": null,
+      "etag": "\"6aac7fcf0b69a1cc4a3b019e0f08ecd33af054a178b8e366d772ecc74cd40ed5\"",
+      "sha256": "1ea84726cdc622b9bcece12dbd9023bf8ae3b83c7c401a1aed629d6995508c9a",
+      "bytes": 7518247
+    },
+    "ufc_fighter_tott.csv": {
+      "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fighter_tott.csv",
+      "last_modified": null,
+      "etag": "\"7b47c8c48ef7926ec89a4bbefa71d584850507e70286c3e5f9f49c683df20ebe\"",
+      "sha256": "21fb21429544db31c63f20792b30c8039abe4ca4054d6087e2741a2257f9073f",
+      "bytes": 502870
+    },
+    "ufc_fighter_details.csv": {
+      "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fighter_details.csv",
+      "last_modified": null,
+      "etag": "\"1e2a60ecb3593ba401c271de411c328f7ef7b77ea26438bdc7545777befb92c6\"",
+      "sha256": "d0b6ad28591dff90e42ceb482e252ac517b20a4c9f4f05999800fe42934c9c29",
+      "bytes": 336049
+    }
+  }
+}

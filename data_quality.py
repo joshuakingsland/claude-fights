@@ -22,21 +22,33 @@ def ambiguous_names(fights):
 def identity_warnings(fights):
     id_columns = {"fighter_a_id", "fighter_b_id", "fighter_a_url",
                   "fighter_b_url"}
-    if not id_columns.intersection(fights.columns):
+    if not id_columns.issubset(fights.columns):
         return ["stable fighter IDs/URLs are absent; name matching remains a risk"]
     return []
 
 
 def audit_fights(fights):
     errors = []
-    required = {"date", "fighter_a", "fighter_b", "winner"}
+    required = {
+        "date", "fighter_a", "fighter_b", "winner",
+        "fighter_a_id", "fighter_b_id", "fighter_a_url", "fighter_b_url",
+    }
     errors.extend(f"fights missing column: {c}" for c in sorted(required - set(fights)))
     if errors:
         return errors
     dates = pd.to_datetime(fights["date"], errors="coerce")
     if dates.isna().any():
         errors.append(f"fights contain {int(dates.isna().sum())} invalid dates")
-    pairs = _pairs(fights)
+    for column in ("fighter_a_id", "fighter_b_id", "fighter_a_url", "fighter_b_url"):
+        missing_identity = fights[column].fillna("").astype(str).str.strip().eq("")
+        if missing_identity.any():
+            errors.append(
+                f"fights contain {int(missing_identity.sum())} missing values in {column}"
+            )
+    pairs = [
+        frozenset((str(a), str(b)))
+        for a, b in zip(fights["fighter_a_id"], fights["fighter_b_id"])
+    ]
     duplicate = pd.DataFrame({"date": dates, "pair": pairs}).duplicated().sum()
     if duplicate:
         errors.append(f"fights contain {int(duplicate)} duplicate date/pair rows")
@@ -47,6 +59,20 @@ def audit_fights(fights):
             for a, b in zip(fights["fighter_a"], fights["fighter_b"])]
     if any(same):
         errors.append(f"fights contain {sum(same)} self-match rows")
+    same_id = fights["fighter_a_id"].astype(str).eq(fights["fighter_b_id"].astype(str))
+    if same_id.any():
+        errors.append(f"fights contain {int(same_id.sum())} same-ID match rows")
+    for side in ("a", "b"):
+        url_ids = fights[f"fighter_{side}_url"].astype(str).str.extract(
+            r"/fighter-details/([0-9a-f]+)", expand=False
+        )
+        mismatch = url_ids.fillna("").str.lower().ne(
+            fights[f"fighter_{side}_id"].astype(str).str.lower()
+        )
+        if mismatch.any():
+            errors.append(
+                f"fights contain {int(mismatch.sum())} fighter {side.upper()} URL/ID mismatches"
+            )
     return errors
 
 

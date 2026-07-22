@@ -1,10 +1,14 @@
-"""Harvest historical MMA odds snapshots from The Odds API.
+"""Legacy sparse historical MMA odds harvester.
+
+Prefer ``historical_odds.py`` for new work. It has point-in-time card matching,
+an immutable manifest, and separate entry/close-proxy snapshots. This legacy
+tool remains only for reproducing the original twice-weekly consensus archive.
 
 Run LOCALLY (do not commit output to a public repo — bulk redistribution
 of their data likely violates their terms):
 
     set ODDS_API_KEY=yourkey        (Windows)
-    python harvest_history.py --start 2020-06-01 --max-requests 700
+    python harvest_history.py --start 2020-06-01 --max-requests 30
 
 Resumable: already-harvested snapshot timestamps are skipped. Two
 snapshots per week: Wednesday 14:00 UTC (early lines) and Saturday
@@ -65,7 +69,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--start", default="2020-06-01")
     ap.add_argument("--end", default=None)
-    ap.add_argument("--max-requests", type=int, default=700)
+    ap.add_argument("--max-requests", type=int, default=30)
     args = ap.parse_args()
 
     key = os.environ.get("ODDS_API_KEY")

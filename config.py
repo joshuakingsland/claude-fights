@@ -13,3 +13,4 @@ EDGE_RULE = 0.04
 
 MODEL_VERSION = "production-v3"
 BOOTSTRAP_MODELS = 30
+ODDS_CONSENSUS_VERSION = "paired-book-devig-v1"

@@ -1,0 +1,1760 @@
+{
+  "experiment": "entry-market-offset-v1",
+  "production_model_unchanged": "production-v3",
+  "status": "research_only",
+  "entry_only_training": true,
+  "close_is_benchmark_only": true,
+  "start": "2022-01-01",
+  "end": "2100-01-01",
+  "min_train": 500,
+  "events": 173,
+  "fights": 1266,
+  "source_sha256": {
+    "fights": "accb50127d3eb883cdb309c31b92e04de86ec880d57e7e44a6d4e52e520c0860",
+    "history": "996eaca925bb1058005ab355de087ba913f3d97eaca5c1c7356d50049cf2f4bb",
+    "research_code": "b804fe89f982fb0f1a999d0b385b9c2cef86d2fc9ef6d4338dfe7231f92abcc8",
+    "requirements": "52c20d17a069ed0c738ea7eb78088b36ca360ea995e09da48639af1293043ad8"
+  },
+  "entry_market": {
+    "log_loss": 0.5910218423715047,
+    "brier": 0.2026600411754587,
+    "accuracy": 0.6816745655608215
+  },
+  "offset": {
+    "fixed_market_logit_coefficient": 1.0,
+    "intercept": 0.0,
+    "features": [
+      "age_diff",
+      "c_apm_diff",
+      "c_ctrld_pm_diff",
+      "c_won_diff",
+      "reach_diff",
+      "c_tdd_diff",
+      "c_ko_loss_n_diff",
+      "elo_slow_diff",
+      "r3_lpm_diff",
+      "ko_recent"
+    ],
+    "l2": 0.02,
+    "symmetry": "f(-line_logit, -features) = 1 - f(line_logit, features)"
+  },
+  "nested_blend": {
+    "objective": "prior out-of-fold fight log loss",
+    "grid": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      1.0
+    ],
+    "minimum_prior_rows": 200,
+    "default_market_weight": 1.0,
+    "future_rows_available_to_selector": 0,
+    "event_weight_counts": {
+      "0.25": 10,
+      "0.5": 125,
+      "0.75": 15,
+      "1.0": 23
+    },
+    "trace": [
+      {
+        "date": "2022-06-18",
+        "event_start": "2022-06-18 20:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 0,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-06-25",
+        "event_start": "2022-06-25 22:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 13,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-07-02",
+        "event_start": "2022-07-02 22:35:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 23,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-07-09",
+        "event_start": "2022-07-09 22:15:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 30,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-07-16",
+        "event_start": "2022-07-16 15:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 37,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-07-23",
+        "event_start": "2022-07-23 19:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 46,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-07-30",
+        "event_start": "2022-07-30 22:45:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 59,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-08-06",
+        "event_start": "2022-08-06 23:10:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 64,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-08-13",
+        "event_start": "2022-08-13 20:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 70,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-08-20",
+        "event_start": "2022-08-20 23:05:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 79,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-09-03",
+        "event_start": "2022-09-03 16:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 83,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-09-10",
+        "event_start": "2022-09-10 22:15:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 94,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-09-17",
+        "event_start": "2022-09-17 21:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 100,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-10-01",
+        "event_start": "2022-10-01 20:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 112,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-10-15",
+        "event_start": "2022-10-15 20:15:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 123,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-10-22",
+        "event_start": "2022-10-22 14:15:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 133,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-10-29",
+        "event_start": "2022-10-29 20:15:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 144,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-11-05",
+        "event_start": "2022-11-05 20:10:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 152,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-11-12",
+        "event_start": "2022-11-12 23:05:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 161,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-11-19",
+        "event_start": "2022-11-19 18:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 165,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-12-03",
+        "event_start": "2022-12-04 00:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 176,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-12-10",
+        "event_start": "2022-12-10 23:30:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 183,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2022-12-17",
+        "event_start": "2022-12-17 21:00:00+00:00",
+        "market_weight": 1.0,
+        "history_rows": 191,
+        "selection": "default_insufficient_history",
+        "selected_log_loss": null
+      },
+      {
+        "date": "2023-01-14",
+        "event_start": "2023-01-14 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 202,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6000804903788839
+      },
+      {
+        "date": "2023-01-21",
+        "event_start": "2023-01-21 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 208,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.591807130278817
+      },
+      {
+        "date": "2023-02-04",
+        "event_start": "2023-02-04 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 210,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5942767044101523
+      },
+      {
+        "date": "2023-02-11",
+        "event_start": "2023-02-11 23:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 212,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5981607754107396
+      },
+      {
+        "date": "2023-02-18",
+        "event_start": "2023-02-18 21:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 215,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6007471045168813
+      },
+      {
+        "date": "2023-02-25",
+        "event_start": "2023-02-25 21:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 220,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5970668051964697
+      },
+      {
+        "date": "2023-03-04",
+        "event_start": "2023-03-04 22:35:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 226,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5966755896391193
+      },
+      {
+        "date": "2023-03-11",
+        "event_start": "2023-03-11 20:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 229,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5927663920294891
+      },
+      {
+        "date": "2023-03-18",
+        "event_start": "2023-03-18 17:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 237,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5938440414242371
+      },
+      {
+        "date": "2023-03-25",
+        "event_start": "2023-03-25 20:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 249,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5916188254773714
+      },
+      {
+        "date": "2023-04-08",
+        "event_start": "2023-04-08 22:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 257,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5950465073024634
+      },
+      {
+        "date": "2023-04-15",
+        "event_start": "2023-04-15 21:35:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 261,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5941545137183001
+      },
+      {
+        "date": "2023-04-22",
+        "event_start": "2023-04-22 20:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 269,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5945134651608697
+      },
+      {
+        "date": "2023-04-29",
+        "event_start": "2023-04-29 20:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 276,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5983175628118074
+      },
+      {
+        "date": "2023-05-06",
+        "event_start": "2023-05-06 22:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 285,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6013984696692698
+      },
+      {
+        "date": "2023-05-13",
+        "event_start": "2023-05-13 16:30:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 292,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6015085540467924
+      },
+      {
+        "date": "2023-05-20",
+        "event_start": "2023-05-20 20:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 300,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6012104812250223
+      },
+      {
+        "date": "2023-06-03",
+        "event_start": "2023-06-03 22:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 308,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5995005681648985
+      },
+      {
+        "date": "2023-06-10",
+        "event_start": "2023-06-10 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 318,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5992906388225361
+      },
+      {
+        "date": "2023-06-17",
+        "event_start": "2023-06-17 23:00:00+00:00",
+        "market_weight": 0.75,
+        "history_rows": 324,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6020549945423274
+      },
+      {
+        "date": "2023-06-24",
+        "event_start": "2023-06-24 15:35:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 329,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6008139951309357
+      },
+      {
+        "date": "2023-07-01",
+        "event_start": "2023-07-01 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 339,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6042158814629885
+      },
+      {
+        "date": "2023-07-08",
+        "event_start": "2023-07-08 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 346,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6052417027132555
+      },
+      {
+        "date": "2023-07-15",
+        "event_start": "2023-07-15 18:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 350,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.6014761627865867
+      },
+      {
+        "date": "2023-07-22",
+        "event_start": "2023-07-22 16:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 357,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5968877599571106
+      },
+      {
+        "date": "2023-07-29",
+        "event_start": "2023-07-29 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 370,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.596453283467292
+      },
+      {
+        "date": "2023-08-05",
+        "event_start": "2023-08-05 22:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 375,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5957821541696909
+      },
+      {
+        "date": "2023-08-12",
+        "event_start": "2023-08-12 20:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 379,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.59708232358088
+      },
+      {
+        "date": "2023-08-19",
+        "event_start": "2023-08-19 22:00:54+00:00",
+        "market_weight": 0.5,
+        "history_rows": 389,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5960201937108187
+      },
+      {
+        "date": "2023-08-26",
+        "event_start": "2023-08-26 09:00:08+00:00",
+        "market_weight": 0.5,
+        "history_rows": 393,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5936694202079211
+      },
+      {
+        "date": "2023-09-02",
+        "event_start": "2023-09-02 16:00:00+00:00",
+        "market_weight": 0.25,
+        "history_rows": 403,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5884174395690205
+      },
+      {
+        "date": "2023-09-09",
+        "event_start": "2023-09-09 22:15:00+00:00",
+        "market_weight": 0.25,
+        "history_rows": 412,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5861772672425979
+      },
+      {
+        "date": "2023-09-16",
+        "event_start": "2023-09-16 23:00:00+00:00",
+        "market_weight": 0.25,
+        "history_rows": 416,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.585164484658539
+      },
+      {
+        "date": "2023-09-23",
+        "event_start": "2023-09-23 20:00:00+00:00",
+        "market_weight": 0.25,
+        "history_rows": 423,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5821427667847533
+      },
+      {
+        "date": "2023-10-07",
+        "event_start": "2023-10-07 20:00:10+00:00",
+        "market_weight": 0.25,
+        "history_rows": 429,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5854040066582564
+      },
+      {
+        "date": "2023-10-14",
+        "event_start": "2023-10-14 20:00:00+00:00",
+        "market_weight": 0.25,
+        "history_rows": 433,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5881499594790641
+      },
+      {
+        "date": "2023-10-21",
+        "event_start": "2023-10-21 14:00:23+00:00",
+        "market_weight": 0.25,
+        "history_rows": 441,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5888998584036413
+      },
+      {
+        "date": "2023-11-04",
+        "event_start": "2023-11-04 22:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 449,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5868548935987282
+      },
+      {
+        "date": "2023-11-11",
+        "event_start": "2023-11-11 23:00:03+00:00",
+        "market_weight": 0.5,
+        "history_rows": 452,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5873505446528358
+      },
+      {
+        "date": "2023-11-18",
+        "event_start": "2023-11-18 19:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 455,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5865486028935195
+      },
+      {
+        "date": "2023-12-02",
+        "event_start": "2023-12-02 21:10:00+00:00",
+        "market_weight": 0.25,
+        "history_rows": 465,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5850334906865071
+      },
+      {
+        "date": "2023-12-09",
+        "event_start": "2023-12-10 00:00:00+00:00",
+        "market_weight": 0.25,
+        "history_rows": 470,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5857325974501875
+      },
+      {
+        "date": "2023-12-16",
+        "event_start": "2023-12-16 23:00:00+00:00",
+        "market_weight": 0.25,
+        "history_rows": 472,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5855939887587989
+      },
+      {
+        "date": "2024-01-13",
+        "event_start": "2024-01-13 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 476,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5874036470407301
+      },
+      {
+        "date": "2024-01-20",
+        "event_start": "2024-01-20 23:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 483,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5861602926290328
+      },
+      {
+        "date": "2024-02-03",
+        "event_start": "2024-02-03 21:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 487,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5871704819281793
+      },
+      {
+        "date": "2024-02-10",
+        "event_start": "2024-02-10 21:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 495,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5868416823912226
+      },
+      {
+        "date": "2024-02-17",
+        "event_start": "2024-02-17 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 504,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5875817010984506
+      },
+      {
+        "date": "2024-02-24",
+        "event_start": "2024-02-25 00:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 509,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.585914400783982
+      },
+      {
+        "date": "2024-03-02",
+        "event_start": "2024-03-02 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 512,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5847563409746173
+      },
+      {
+        "date": "2024-03-09",
+        "event_start": "2024-03-09 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 520,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5854212279246975
+      },
+      {
+        "date": "2024-03-16",
+        "event_start": "2024-03-16 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 526,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5851024072099549
+      },
+      {
+        "date": "2024-03-23",
+        "event_start": "2024-03-23 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 536,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.585969621518212
+      },
+      {
+        "date": "2024-03-30",
+        "event_start": "2024-03-31 00:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 539,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5864351877508194
+      },
+      {
+        "date": "2024-04-06",
+        "event_start": "2024-04-06 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 544,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5875110770779036
+      },
+      {
+        "date": "2024-04-13",
+        "event_start": "2024-04-12 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 552,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5900016247881156
+      },
+      {
+        "date": "2024-04-27",
+        "event_start": "2024-04-27 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 558,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5889690919403026
+      },
+      {
+        "date": "2024-05-04",
+        "event_start": "2024-05-04 22:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 566,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5902752016648818
+      },
+      {
+        "date": "2024-05-11",
+        "event_start": "2024-05-11 23:05:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 572,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5881898756656552
+      },
+      {
+        "date": "2024-05-18",
+        "event_start": "2024-05-18 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 580,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5889620227689792
+      },
+      {
+        "date": "2024-06-01",
+        "event_start": "2024-06-01 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 589,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5895658889937865
+      },
+      {
+        "date": "2024-06-08",
+        "event_start": "2024-06-08 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 594,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5876332139919245
+      },
+      {
+        "date": "2024-06-15",
+        "event_start": "2024-06-15 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 605,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5895212263179438
+      },
+      {
+        "date": "2024-06-22",
+        "event_start": "2024-06-22 16:45:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 611,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5908909640225415
+      },
+      {
+        "date": "2024-06-29",
+        "event_start": "2024-06-29 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 618,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5888098905847241
+      },
+      {
+        "date": "2024-07-13",
+        "event_start": "2024-07-13 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 624,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.590642677970859
+      },
+      {
+        "date": "2024-07-20",
+        "event_start": "2024-07-20 21:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 632,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5930511478776573
+      },
+      {
+        "date": "2024-07-27",
+        "event_start": "2024-07-27 22:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 641,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5941224316549981
+      },
+      {
+        "date": "2024-08-03",
+        "event_start": "2024-08-03 16:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 648,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5948625707730609
+      },
+      {
+        "date": "2024-08-10",
+        "event_start": "2024-08-10 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 658,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.592005717716136
+      },
+      {
+        "date": "2024-08-17",
+        "event_start": "2024-08-17 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 666,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5914545762126153
+      },
+      {
+        "date": "2024-08-24",
+        "event_start": "2024-08-24 18:30:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 671,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5912195886034041
+      },
+      {
+        "date": "2024-09-07",
+        "event_start": "2024-09-07 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 677,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.590651992651441
+      },
+      {
+        "date": "2024-09-14",
+        "event_start": "2024-09-14 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 684,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5884267384427391
+      },
+      {
+        "date": "2024-09-28",
+        "event_start": "2024-09-28 16:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 692,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5907558526983813
+      },
+      {
+        "date": "2024-10-05",
+        "event_start": "2024-10-05 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 703,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5919288036918868
+      },
+      {
+        "date": "2024-10-12",
+        "event_start": "2024-10-12 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 708,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5921705512520792
+      },
+      {
+        "date": "2024-10-19",
+        "event_start": "2024-10-19 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 716,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5918956170093528
+      },
+      {
+        "date": "2024-10-26",
+        "event_start": "2024-10-26 14:05:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 724,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5936148606381748
+      },
+      {
+        "date": "2024-11-02",
+        "event_start": "2024-11-02 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 733,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.591990432068743
+      },
+      {
+        "date": "2024-11-09",
+        "event_start": "2024-11-09 21:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 744,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5916830940976747
+      },
+      {
+        "date": "2024-11-16",
+        "event_start": "2024-11-16 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 749,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5910061687991541
+      },
+      {
+        "date": "2024-11-23",
+        "event_start": "2024-11-23 08:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 756,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5922806151989983
+      },
+      {
+        "date": "2024-12-07",
+        "event_start": "2024-12-07 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 763,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5922752261779368
+      },
+      {
+        "date": "2024-12-14",
+        "event_start": "2024-12-14 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 776,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5892902488568061
+      },
+      {
+        "date": "2025-01-11",
+        "event_start": "2025-01-11 21:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 788,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5872648542313886
+      },
+      {
+        "date": "2025-01-18",
+        "event_start": "2025-01-18 23:05:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 794,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5882721276722507
+      },
+      {
+        "date": "2025-02-01",
+        "event_start": "2025-02-01 14:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 797,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5887958542489977
+      },
+      {
+        "date": "2025-02-08",
+        "event_start": "2025-02-08 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 806,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5896677701801418
+      },
+      {
+        "date": "2025-02-15",
+        "event_start": "2025-02-15 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 811,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5893489842306076
+      },
+      {
+        "date": "2025-02-22",
+        "event_start": "2025-02-22 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 817,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5889690304765435
+      },
+      {
+        "date": "2025-03-01",
+        "event_start": "2025-03-01 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 820,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5891707774897292
+      },
+      {
+        "date": "2025-03-08",
+        "event_start": "2025-03-08 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 827,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5908732339872622
+      },
+      {
+        "date": "2025-03-15",
+        "event_start": "2025-03-15 20:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 831,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.590443566976948
+      },
+      {
+        "date": "2025-03-22",
+        "event_start": "2025-03-22 17:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 839,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5933785809328306
+      },
+      {
+        "date": "2025-03-29",
+        "event_start": "2025-03-29 20:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 851,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5951202695959099
+      },
+      {
+        "date": "2025-04-05",
+        "event_start": "2025-04-05 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 861,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5932480279722123
+      },
+      {
+        "date": "2025-04-12",
+        "event_start": "2025-04-12 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 871,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5935006735219784
+      },
+      {
+        "date": "2025-04-26",
+        "event_start": "2025-04-26 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 879,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5928841422289035
+      },
+      {
+        "date": "2025-05-03",
+        "event_start": "2025-05-03 23:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 885,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5917665615200502
+      },
+      {
+        "date": "2025-05-10",
+        "event_start": "2025-05-10 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 892,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5919385313403632
+      },
+      {
+        "date": "2025-05-17",
+        "event_start": "2025-05-17 02:45:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 897,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5912955695841509
+      },
+      {
+        "date": "2025-05-31",
+        "event_start": "2025-05-31 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 903,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5902705030373234
+      },
+      {
+        "date": "2025-06-07",
+        "event_start": "2025-06-07 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 908,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5906358684717619
+      },
+      {
+        "date": "2025-06-14",
+        "event_start": "2025-06-14 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 913,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5897587641485232
+      },
+      {
+        "date": "2025-06-21",
+        "event_start": "2025-06-21 16:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 921,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5895999357308279
+      },
+      {
+        "date": "2025-06-28",
+        "event_start": "2025-06-28 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 927,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5888352180161399
+      },
+      {
+        "date": "2025-07-12",
+        "event_start": "2025-07-12 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 936,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.588051601565771
+      },
+      {
+        "date": "2025-07-19",
+        "event_start": "2025-07-19 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 943,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5865460233846853
+      },
+      {
+        "date": "2025-07-26",
+        "event_start": "2025-07-26 14:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 950,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5867162593393059
+      },
+      {
+        "date": "2025-08-02",
+        "event_start": "2025-08-02 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 961,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.590500952051412
+      },
+      {
+        "date": "2025-08-09",
+        "event_start": "2025-08-09 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 970,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5888739627331537
+      },
+      {
+        "date": "2025-08-16",
+        "event_start": "2025-08-16 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 980,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5871472608539825
+      },
+      {
+        "date": "2025-08-23",
+        "event_start": "2025-08-23 07:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 984,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.588055275986963
+      },
+      {
+        "date": "2025-09-06",
+        "event_start": "2025-09-06 15:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 990,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5893591223669906
+      },
+      {
+        "date": "2025-09-13",
+        "event_start": "2025-09-13 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1001,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5889629710527665
+      },
+      {
+        "date": "2025-09-27",
+        "event_start": "2025-09-27 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1011,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5907935877393442
+      },
+      {
+        "date": "2025-10-04",
+        "event_start": "2025-10-04 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1021,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5911012138970452
+      },
+      {
+        "date": "2025-10-11",
+        "event_start": "2025-10-11 14:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1025,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5925132124854855
+      },
+      {
+        "date": "2025-10-18",
+        "event_start": "2025-10-18 20:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1032,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5921108130166323
+      },
+      {
+        "date": "2025-10-25",
+        "event_start": "2025-10-25 14:05:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1039,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5928752775123299
+      },
+      {
+        "date": "2025-11-01",
+        "event_start": "2025-11-01 19:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1048,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5934007415636174
+      },
+      {
+        "date": "2025-11-08",
+        "event_start": "2025-11-08 21:45:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1053,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5923935042344812
+      },
+      {
+        "date": "2025-11-15",
+        "event_start": "2025-11-15 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1058,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5918243530320144
+      },
+      {
+        "date": "2025-11-22",
+        "event_start": "2025-11-22 15:45:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1067,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5904136075336005
+      },
+      {
+        "date": "2025-12-06",
+        "event_start": "2025-12-06 23:45:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1075,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.590852446520126
+      },
+      {
+        "date": "2025-12-13",
+        "event_start": "2025-12-14 00:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1076,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.590397444245406
+      },
+      {
+        "date": "2026-01-24",
+        "event_start": "2026-01-24 15:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1080,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5901777415213585
+      },
+      {
+        "date": "2026-01-31",
+        "event_start": "2026-01-31 22:30:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1088,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.588972017131558
+      },
+      {
+        "date": "2026-02-07",
+        "event_start": "2026-02-07 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1092,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5894787276976401
+      },
+      {
+        "date": "2026-02-21",
+        "event_start": "2026-02-21 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1098,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5887490162297081
+      },
+      {
+        "date": "2026-02-28",
+        "event_start": "2026-02-28 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1105,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5878047684126103
+      },
+      {
+        "date": "2026-03-07",
+        "event_start": "2026-03-07 22:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1110,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5862310242600298
+      },
+      {
+        "date": "2026-03-14",
+        "event_start": "2026-03-14 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1114,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5869919422563926
+      },
+      {
+        "date": "2026-03-21",
+        "event_start": "2026-03-21 16:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1125,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.585728545957212
+      },
+      {
+        "date": "2026-03-28",
+        "event_start": "2026-03-28 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1137,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5845064516236633
+      },
+      {
+        "date": "2026-04-04",
+        "event_start": "2026-04-04 22:15:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1148,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5849518654949293
+      },
+      {
+        "date": "2026-04-11",
+        "event_start": "2026-04-11 22:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1151,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5859849033888505
+      },
+      {
+        "date": "2026-04-18",
+        "event_start": "2026-04-18 21:10:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1154,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5865796716066037
+      },
+      {
+        "date": "2026-04-25",
+        "event_start": "2026-04-25 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1164,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5868368992779569
+      },
+      {
+        "date": "2026-05-02",
+        "event_start": "2026-05-02 08:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1175,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5898103450007385
+      },
+      {
+        "date": "2026-05-09",
+        "event_start": "2026-05-09 20:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1186,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5890803721362932
+      },
+      {
+        "date": "2026-05-16",
+        "event_start": "2026-05-17 00:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1197,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5897391945372279
+      },
+      {
+        "date": "2026-05-30",
+        "event_start": "2026-05-30 08:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1207,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5908367979659436
+      },
+      {
+        "date": "2026-06-06",
+        "event_start": "2026-06-06 09:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1213,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5903824925663101
+      },
+      {
+        "date": "2026-06-14",
+        "event_start": "2026-06-14 07:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1225,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5895571964942354
+      },
+      {
+        "date": "2026-06-20",
+        "event_start": "2026-06-20 16:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1231,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5896778582137087
+      },
+      {
+        "date": "2026-06-27",
+        "event_start": "2026-06-27 12:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1241,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.589668833272996
+      },
+      {
+        "date": "2026-07-11",
+        "event_start": "2026-07-11 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1249,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5893256493585545
+      },
+      {
+        "date": "2026-07-18",
+        "event_start": "2026-07-18 21:00:00+00:00",
+        "market_weight": 0.5,
+        "history_rows": 1259,
+        "selection": "prior_oof_log_loss",
+        "selected_log_loss": 0.5890981570022754
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "name": "current_entry_refit",
+      "events": 173,
+      "fights": 1266,
+      "bets": 203,
+      "staked": 255.0,
+      "pnl": 11.908789852375527,
+      "roi": 0.04670113667598246,
+      "roi_ci90_event_clustered": [
+        -0.04876911033112642,
+        0.13947500365954493
+      ],
+      "log_loss": 0.5905043901129003,
+      "log_loss_model": 0.5905043901129003,
+      "log_loss_entry_market": 0.5910218423715047,
+      "model_minus_market_log_loss": -0.000517452258604334,
+      "brier": 0.20314952886756596,
+      "accuracy": 0.6848341232227488,
+      "closing_line_value": {
+        "active_bets_with_close": 102,
+        "mean_clv_prob_points_active_bets": 0.5880652167803566,
+        "mean_clv_prob_points_ci90_event_clustered": [
+          0.18709193726702766,
+          1.0203312443571282
+        ],
+        "positive_clv_rate_active_bets": 0.5784313725490197
+      },
+      "promotion_gate": {
+        "status": "paper_only",
+        "checks": {
+          "minimum_events": {
+            "passed": true,
+            "observed": 173,
+            "required": ">= 50"
+          },
+          "minimum_bets": {
+            "passed": true,
+            "observed": 203,
+            "required": ">= 200"
+          },
+          "positive_roi_interval": {
+            "passed": false,
+            "observed": [
+              -0.04876911033112642,
+              0.13947500365954493
+            ],
+            "required": "90% event-clustered ROI lower bound > 0"
+          },
+          "model_beats_entry_market": {
+            "passed": true,
+            "observed": -0.000517452258604334,
+            "required": "model-minus-market log loss < 0"
+          },
+          "minimum_active_clv_bets": {
+            "passed": false,
+            "observed": 102,
+            "required": ">= 200"
+          },
+          "positive_clv_interval": {
+            "passed": true,
+            "observed": [
+              0.18709193726702766,
+              1.0203312443571282
+            ],
+            "required": "90% event-clustered mean CLV lower bound > 0"
+          },
+          "positive_clv_rate": {
+            "passed": true,
+            "observed": 0.5784313725490197,
+            "required": "> 0.55"
+          }
+        },
+        "note": "No gate result enables automated wagering."
+      },
+      "promotion": "paper_only"
+    },
+    {
+      "name": "market_offset",
+      "events": 173,
+      "fights": 1266,
+      "bets": 110,
+      "staked": 135.0,
+      "pnl": 18.210523521515732,
+      "roi": 0.13489276682604245,
+      "roi_ci90_event_clustered": [
+        -0.0027544999551798056,
+        0.27342568457763977
+      ],
+      "log_loss": 0.5906436615765772,
+      "log_loss_model": 0.5906436615765772,
+      "log_loss_entry_market": 0.5910218423715047,
+      "model_minus_market_log_loss": -0.0003781807949274629,
+      "brier": 0.20310605195244444,
+      "accuracy": 0.6895734597156398,
+      "closing_line_value": {
+        "active_bets_with_close": 66,
+        "mean_clv_prob_points_active_bets": 0.40873062227973034,
+        "mean_clv_prob_points_ci90_event_clustered": [
+          -0.005759060819746707,
+          0.8525486474280847
+        ],
+        "positive_clv_rate_active_bets": 0.5303030303030303
+      },
+      "promotion_gate": {
+        "status": "paper_only",
+        "checks": {
+          "minimum_events": {
+            "passed": true,
+            "observed": 173,
+            "required": ">= 50"
+          },
+          "minimum_bets": {
+            "passed": false,
+            "observed": 110,
+            "required": ">= 200"
+          },
+          "positive_roi_interval": {
+            "passed": false,
+            "observed": [
+              -0.0027544999551798056,
+              0.27342568457763977
+            ],
+            "required": "90% event-clustered ROI lower bound > 0"
+          },
+          "model_beats_entry_market": {
+            "passed": true,
+            "observed": -0.0003781807949274629,
+            "required": "model-minus-market log loss < 0"
+          },
+          "minimum_active_clv_bets": {
+            "passed": false,
+            "observed": 66,
+            "required": ">= 200"
+          },
+          "positive_clv_interval": {
+            "passed": false,
+            "observed": [
+              -0.005759060819746707,
+              0.8525486474280847
+            ],
+            "required": "90% event-clustered mean CLV lower bound > 0"
+          },
+          "positive_clv_rate": {
+            "passed": false,
+            "observed": 0.5303030303030303,
+            "required": "> 0.55"
+          }
+        },
+        "note": "No gate result enables automated wagering."
+      },
+      "promotion": "paper_only"
+    },
+    {
+      "name": "fixed_50_50",
+      "events": 173,
+      "fights": 1266,
+      "bets": 21,
+      "staked": 22.0,
+      "pnl": 7.983817430145878,
+      "roi": 0.3629007922793581,
+      "roi_ci90_event_clustered": [
+        0.05482998940721268,
+        0.7086202308367041
+      ],
+      "log_loss": 0.5880786938718953,
+      "log_loss_model": 0.5880786938718953,
+      "log_loss_entry_market": 0.5910218423715047,
+      "model_minus_market_log_loss": -0.002943148499609416,
+      "brier": 0.20175842028471444,
+      "accuracy": 0.6816745655608215,
+      "closing_line_value": {
+        "active_bets_with_close": 16,
+        "mean_clv_prob_points_active_bets": 0.5193358352209847,
+        "mean_clv_prob_points_ci90_event_clustered": [
+          -0.09905159907206862,
+          1.065127406696564
+        ],
+        "positive_clv_rate_active_bets": 0.6875
+      },
+      "promotion_gate": {
+        "status": "paper_only",
+        "checks": {
+          "minimum_events": {
+            "passed": true,
+            "observed": 173,
+            "required": ">= 50"
+          },
+          "minimum_bets": {
+            "passed": false,
+            "observed": 21,
+            "required": ">= 200"
+          },
+          "positive_roi_interval": {
+            "passed": true,
+            "observed": [
+              0.05482998940721268,
+              0.7086202308367041
+            ],
+            "required": "90% event-clustered ROI lower bound > 0"
+          },
+          "model_beats_entry_market": {
+            "passed": true,
+            "observed": -0.002943148499609416,
+            "required": "model-minus-market log loss < 0"
+          },
+          "minimum_active_clv_bets": {
+            "passed": false,
+            "observed": 16,
+            "required": ">= 200"
+          },
+          "positive_clv_interval": {
+            "passed": false,
+            "observed": [
+              -0.09905159907206862,
+              1.065127406696564
+            ],
+            "required": "90% event-clustered mean CLV lower bound > 0"
+          },
+          "positive_clv_rate": {
+            "passed": true,
+            "observed": 0.6875,
+            "required": "> 0.55"
+          }
+        },
+        "note": "No gate result enables automated wagering."
+      },
+      "promotion": "paper_only"
+    },
+    {
+      "name": "nested_past_only_blend",
+      "events": 173,
+      "fights": 1266,
+      "bets": 9,
+      "staked": 9.0,
+      "pnl": 2.986206896551724,
+      "roi": 0.3318007662835249,
+      "roi_ci90_event_clustered": [
+        -0.12600255427841628,
+        0.7581098339719028
+      ],
+      "log_loss": 0.5889968338201892,
+      "log_loss_model": 0.5889968338201892,
+      "log_loss_entry_market": 0.5910218423715047,
+      "model_minus_market_log_loss": -0.002025008551315488,
+      "brier": 0.2021205494346977,
+      "accuracy": 0.6785150078988942,
+      "closing_line_value": {
+        "active_bets_with_close": 4,
+        "mean_clv_prob_points_active_bets": -0.17276480684074724,
+        "mean_clv_prob_points_ci90_event_clustered": [
+          -2.0605031891429313,
+          1.801827329830921
+        ],
+        "positive_clv_rate_active_bets": 0.5
+      },
+      "promotion_gate": {
+        "status": "paper_only",
+        "checks": {
+          "minimum_events": {
+            "passed": true,
+            "observed": 173,
+            "required": ">= 50"
+          },
+          "minimum_bets": {
+            "passed": false,
+            "observed": 9,
+            "required": ">= 200"
+          },
+          "positive_roi_interval": {
+            "passed": false,
+            "observed": [
+              -0.12600255427841628,
+              0.7581098339719028
+            ],
+            "required": "90% event-clustered ROI lower bound > 0"
+          },
+          "model_beats_entry_market": {
+            "passed": true,
+            "observed": -0.002025008551315488,
+            "required": "model-minus-market log loss < 0"
+          },
+          "minimum_active_clv_bets": {
+            "passed": false,
+            "observed": 4,
+            "required": ">= 200"
+          },
+          "positive_clv_interval": {
+            "passed": false,
+            "observed": [
+              -2.0605031891429313,
+              1.801827329830921
+            ],
+            "required": "90% event-clustered mean CLV lower bound > 0"
+          },
+          "positive_clv_rate": {
+            "passed": false,
+            "observed": 0.5,
+            "required": "> 0.55"
+          }
+        },
+        "note": "No gate result enables automated wagering."
+      },
+      "promotion": "paper_only"
+    }
+  ],
+  "ranking_by_log_loss": [
+    "fixed_50_50",
+    "nested_past_only_blend",
+    "current_entry_refit",
+    "market_offset"
+  ],
+  "decision_rule": "No candidate changes production automatically. A candidate must pass its promotion gate and then receive manual review."
+}

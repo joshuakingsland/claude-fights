@@ -23,6 +23,8 @@ import re
 import numpy as np
 import pandas as pd
 
+from identity import fighter_keys
+
 
 # ---------------------------------------------------------------- helpers
 def _of(series):
@@ -95,6 +97,8 @@ def build_features_v2(fights, raw_dir="raw"):
     df = fights.sort_values("date", kind="stable").reset_index(drop=True).copy()
     df["date"] = pd.to_datetime(df["date"])
     df["fight_id"] = np.arange(len(df))
+    df["_fighter_key_a"] = fighter_keys(df, "a")
+    df["_fighter_key_b"] = fighter_keys(df, "b")
     df["is_5rd"] = df.get("time_format", pd.Series("", index=df.index)) \
         .astype(str).str.contains("5 Rnd").astype(float)
 
@@ -106,8 +110,10 @@ def build_features_v2(fights, raw_dir="raw"):
         d = pd.DataFrame({
             "fight_id": df["fight_id"], "date": df["date"],
             "event": df["event"], "bout": df["bout"],
-            "fighter": df[f"fighter_{side}"],
-            "opponent": df[f"fighter_{opp}"],
+            "fighter": df[f"_fighter_key_{side}"],
+            "opponent": df[f"_fighter_key_{opp}"],
+            "fighter_name": df[f"fighter_{side}"],
+            "opponent_name": df[f"fighter_{opp}"],
             "won": (df["winner"] == side.upper()).astype(float),
             "t_min": df["fight_time_min"],
             "is_5rd": df["is_5rd"],
@@ -119,14 +125,14 @@ def build_features_v2(fights, raw_dir="raw"):
         frames.append(d)
     long = pd.concat(frames, ignore_index=True)
 
-    long = long.merge(per, left_on=["event", "bout", "fighter"],
+    long = long.merge(per, left_on=["event", "bout", "fighter_name"],
                       right_on=["EVENT", "BOUT", "FIGHTER"], how="left")
     opp_per = per.rename(columns={c: f"opp_{c}" for c in
                                   ["sig_l", "sig_a", "kd", "ctrl_s", "td_l"]})
     long = long.merge(
         opp_per[["EVENT", "BOUT", "FIGHTER",
                  "opp_sig_l", "opp_kd", "opp_ctrl_s", "opp_td_l"]],
-        left_on=["event", "bout", "opponent"],
+        left_on=["event", "bout", "opponent_name"],
         right_on=["EVENT", "BOUT", "FIGHTER"], how="left", suffixes=("", "_o"))
 
     # Per-fight rates
@@ -204,8 +210,8 @@ def build_features_v2(fights, raw_dir="raw"):
     # ---------------- merge fighter-level features back to wide ----------
     keep = long[["fight_id", "fighter"] + feat_cols_f]
     for side in ("a", "b"):
-        m = df[["fight_id", f"fighter_{side}"]].merge(
-            keep, left_on=["fight_id", f"fighter_{side}"],
+        m = df[["fight_id", f"_fighter_key_{side}"]].merge(
+            keep, left_on=["fight_id", f"_fighter_key_{side}"],
             right_on=["fight_id", "fighter"], how="left")
         for c in feat_cols_f:
             df[f"{c}_{side}"] = m[c].values
@@ -242,8 +248,13 @@ def build_features_v2(fights, raw_dir="raw"):
 
     df = df[df["winner"].isin(["A", "B"])].copy()
     df["target"] = (df["winner"] == "A").astype(int)
-    out = df[["fight_id", "date", "fighter_a", "fighter_b", "target"]
-             + feature_cols].copy()
+    identity_columns = [
+        column for column in (
+            "fighter_a_id", "fighter_b_id", "fighter_a_url", "fighter_b_url"
+        ) if column in df
+    ]
+    out = df[["fight_id", "date", "fighter_a", "fighter_b"]
+             + identity_columns + ["target"] + feature_cols].copy()
 
     # days_since_ko: NaN means never KO'd -> large value; off_ko NaN -> 0
     for s in ("",):

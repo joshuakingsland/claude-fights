@@ -9,9 +9,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
+import scipy
 import sklearn
 
-from config import BOOTSTRAP_MODELS, EDGE_RULE, FOCUS, MODEL_VERSION
+from config import (BOOTSTRAP_MODELS, EDGE_RULE, FOCUS, MODEL_VERSION,
+                    ODDS_CONSENSUS_VERSION)
 
 
 def sha256(path, chunk=1024 * 1024):
@@ -35,8 +38,13 @@ def write_manifest(path="model_manifest.json"):
     files = [
         "fights_v2.csv", "raw/ufc-master.csv", "odds_upcoming.csv",
         "odds_log.csv", "method_model.pkl", "config.py", "production.py",
-        "features_v3.py", "pipeline.py", "predict_card.py",
-        "paper_ledger.py",
+        "features.py", "features_v2.py", "features_v3.py", "elo.py",
+        "adapter.py", "pipeline.py", "predict_card.py",
+        "paper_ledger.py", "fetch_odds.py", "requirements.txt",
+        "identity.py", "data_quality.py", "freshness.py", "capture_close.py",
+        "method_model.py", "method_model.pkl", "method_validation.json",
+        "close_snapshots.csv",
+        "data_source_manifest.json", "raw/ufc_fighter_details.csv",
     ]
     hashes = {name: sha256(name) for name in files if Path(name).exists()}
     rows = {}
@@ -47,6 +55,7 @@ def write_manifest(path="model_manifest.json"):
     manifest = {
         "created_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "model_version": MODEL_VERSION,
+        "odds_consensus_version": ODDS_CONSENSUS_VERSION,
         "focus": FOCUS,
         "edge_rule": EDGE_RULE,
         "bootstrap_models": BOOTSTRAP_MODELS,
@@ -54,6 +63,12 @@ def write_manifest(path="model_manifest.json"):
         "platform": platform.platform(),
         "git_commit": git_commit(),
         "scikit_learn": sklearn.__version__,
+        "dependencies": {
+            "numpy": np.__version__,
+            "pandas": pd.__version__,
+            "scipy": scipy.__version__,
+            "scikit_learn": sklearn.__version__,
+        },
         "inputs": hashes,
         "rows": rows,
     }

@@ -39,6 +39,7 @@ def _odds_rows(max_date):
     raw = raw[["date", "pair", "key_r", "R_odds", "B_odds"]]
     raw["odds_source"] = "ufc-master"
     raw["odds_is_closing"] = True
+    raw["market_prob_r"] = np.nan
     raw["odds_fetched_at"] = pd.Series(pd.NaT, index=raw.index,
                                         dtype="datetime64[ns, UTC]")
 
@@ -60,9 +61,13 @@ def _odds_rows(max_date):
     log["key_b"] = log["fighter_b"].map(norm_name)
     log["pair"] = [frozenset(t) for t in zip(log["key_r"], log["key_b"])]
     log = log.rename(columns={"odds_a": "R_odds", "odds_b": "B_odds"})
+    if "market_prob_a" in log:
+        log["market_prob_r"] = pd.to_numeric(log["market_prob_a"], errors="coerce")
+    else:
+        log["market_prob_r"] = np.nan
     log["odds_source"] = "odds_log"
     log["odds_is_closing"] = False
-    log = log[["date", "pair", "key_r", "R_odds", "B_odds",
+    log = log[["date", "pair", "key_r", "R_odds", "B_odds", "market_prob_r",
                "odds_source", "odds_is_closing", "odds_fetched_at"]]
     # Prefer the true historical closing line; for fallback snapshots retain
     # only the latest captured quote for each otherwise-unmatched fight.
@@ -91,8 +96,11 @@ def _cache_path(builder, tag, bout_cols):
     h = hashlib.sha256()
     h.update(str(tag).encode())
     h.update(repr(tuple(bout_cols)).encode())
-    for path in ("fights_v2.csv", "raw/ufc-master.csv", "odds_log.csv",
-                 __file__):
+    for path in (
+        "fights_v2.csv", "raw/ufc-master.csv", "odds_log.csv", __file__,
+        "features.py", "features_v2.py", "features_v3.py", "elo.py",
+        "identity.py", "data_quality.py",
+    ):
         _file_digest(path, h)
     try:
         h.update(inspect.getsource(builder).encode())
@@ -128,7 +136,7 @@ def load_matched_cached(builder, tag, bout_cols=()):
 
     od = _odds_rows(pd.Timestamp(fights["date"].max()))
 
-    m = feats.merge(od[["date", "pair", "key_r", "R_odds", "B_odds",
+    m = feats.merge(od[["date", "pair", "key_r", "R_odds", "B_odds", "market_prob_r",
                         "odds_source", "odds_is_closing", "odds_fetched_at"]],
                     on=["date", "pair"], how="inner") \
              .drop_duplicates(["date", "pair"]).reset_index(drop=True)
@@ -140,7 +148,10 @@ def load_matched_cached(builder, tag, bout_cols=()):
     for c in diff_cols:
         m[c] = m[c] * sign
     pr, pb = american_to_prob(m["R_odds"]), american_to_prob(m["B_odds"])
-    m["p_line"] = pr / (pr + pb)
+    fallback_line = pr / (pr + pb)
+    consensus_line = pd.to_numeric(m["market_prob_r"], errors="coerce")
+    valid_consensus = consensus_line.between(0, 1, inclusive="neither")
+    m["p_line"] = consensus_line.where(valid_consensus, fallback_line)
     m["pr_raw"], m["pb_raw"] = pr, pb
     from scipy.special import logit as slogit
     m["line_logit"] = slogit(m["p_line"].clip(0.02, 0.98))

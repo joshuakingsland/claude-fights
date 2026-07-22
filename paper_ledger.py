@@ -259,10 +259,52 @@ def _closing_lookup(master_path):
             if pd.notna(r.date)}
 
 
+def _captured_closing_lookup(path):
+    if not Path(path).exists():
+        return {}
+    captured = pd.read_csv(path)
+    required = {
+        "captured_at", "commence_time", "fighter_a", "fighter_b",
+        "odds_a", "odds_b", "market_prob_a",
+    }
+    if not required.issubset(captured.columns):
+        return {}
+    captured["captured_at"] = pd.to_datetime(
+        captured["captured_at"], errors="coerce", utc=True
+    )
+    captured["commence_time"] = pd.to_datetime(
+        captured["commence_time"], errors="coerce", utc=True
+    )
+    captured = captured[
+        captured["captured_at"].notna()
+        & captured["commence_time"].notna()
+        & (captured["captured_at"] < captured["commence_time"])
+    ].copy()
+    captured["date"] = captured["commence_time"].dt.date.astype(str)
+    captured["pair"] = [
+        frozenset((norm_name(a), norm_name(b)))
+        for a, b in zip(captured["fighter_a"], captured["fighter_b"])
+    ]
+    captured = captured.sort_values("captured_at").drop_duplicates(
+        ["date", "pair"], keep="last"
+    )
+    return {(row.date, row.pair): row for row in captured.itertuples()}
+
+
+def _near_date(lookup, date, pair):
+    stamp = pd.Timestamp(date)
+    for delta in (0, -1, 1):
+        key = (str((stamp + pd.Timedelta(days=delta)).date()), pair)
+        if key in lookup:
+            return lookup[key]
+    return None
+
+
 def settle_completed(trades_path="paper_trades.csv",
                      settlements_path="paper_settlements.csv",
                      fights_path="fights_v2.csv",
-                     closing_path="raw/ufc-master.csv"):
+                     closing_path="raw/ufc-master.csv",
+                     captured_closing_path="close_snapshots.csv"):
     """Append settlements for valid, pre-event official paper trades."""
     trades = _read(trades_path, TRADE_FIELDS)
     if not len(trades):
@@ -276,6 +318,7 @@ def settle_completed(trades_path="paper_trades.csv",
     by_key = {(str(pd.Timestamp(r.date).date()), r.pair): r
               for r in fights.itertuples()}
     closing = _closing_lookup(closing_path)
+    captured_closing = _captured_closing_lookup(captured_closing_path)
     rows = []
     invalid = 0
     for row in trades.itertuples():
@@ -286,7 +329,7 @@ def settle_completed(trades_path="paper_trades.csv",
             continue
         date = str(row.date)[:10]
         pair = frozenset((norm_name(row.pick), norm_name(row.opp)))
-        fight = by_key.get((date, pair))
+        fight = _near_date(by_key, date, pair)
         if fight is None:
             continue
         pick_is_a = norm_name(row.pick) == norm_name(fight.fighter_a)
@@ -300,13 +343,24 @@ def settle_completed(trades_path="paper_trades.csv",
             won = False
 
         closing_price = closing_market = clv = ""
-        close = closing.get((date, pair))
+        close = _near_date(captured_closing, date, pair)
+        close_source = "standardized-t30" if close is not None else ""
+        if close is None:
+            close = _near_date(closing, date, pair)
+            close_source = "ufc-master" if close is not None else ""
         if close is not None:
-            pick_is_red = norm_name(row.pick) == norm_name(close.R_fighter)
-            close_price = float(close.R_odds if pick_is_red else close.B_odds)
-            pr = float(american_to_prob(float(close.R_odds)))
-            pb = float(american_to_prob(float(close.B_odds)))
-            close_market = (pr if pick_is_red else pb) / (pr + pb) * 100.0
+            if close_source == "standardized-t30":
+                pick_is_red = norm_name(row.pick) == norm_name(close.fighter_a)
+                close_price = float(close.odds_a if pick_is_red else close.odds_b)
+                probability_a = float(close.market_prob_a)
+                close_market = (probability_a if pick_is_red
+                                else 1.0 - probability_a) * 100.0
+            else:
+                pick_is_red = norm_name(row.pick) == norm_name(close.R_fighter)
+                close_price = float(close.R_odds if pick_is_red else close.B_odds)
+                pr = float(american_to_prob(float(close.R_odds)))
+                pb = float(american_to_prob(float(close.B_odds)))
+                close_market = (pr if pick_is_red else pb) / (pr + pb) * 100.0
             try:
                 captured_market = float(row.market)
                 clv = round(close_market - captured_market, 6)
@@ -323,7 +377,7 @@ def settle_completed(trades_path="paper_trades.csv",
             "closing_price": closing_price,
             "closing_market": closing_market,
             "clv_prob": clv,
-            "closing_source": "ufc-master" if close is not None else "",
+            "closing_source": close_source,
         })
     if invalid:
         print(f"skipped {invalid} trade(s) with unverifiable pre-event timing")
@@ -356,10 +410,11 @@ def main():
     ap.add_argument("--settlements", default="paper_settlements.csv")
     ap.add_argument("--fights", default="fights_v2.csv")
     ap.add_argument("--closing", default="raw/ufc-master.csv")
+    ap.add_argument("--captured-closing", default="close_snapshots.csv")
     args = ap.parse_args()
     if args.command == "settle":
         count = settle_completed(args.trades, args.settlements, args.fights,
-                                 args.closing)
+                                 args.closing, args.captured_closing)
         print(f"settled {count} official paper trades")
         return
     print(json.dumps(summary(args.trades, args.settlements), indent=2))
