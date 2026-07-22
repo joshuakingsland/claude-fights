@@ -12,25 +12,32 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
 
 from backtest import american_payout, american_to_prob, norm_name
-from config import MODEL_VERSION
+from config import MODEL_VERSION, STAKING_POLICY_VERSION
 
 SNAPSHOT_FIELDS = [
     "snapshot_id", "recorded_at", "scheduled_start", "timing_precision",
     "date", "fight_key", "pick", "opp", "price", "market", "model",
     "edge", "se", "net_edge", "bet", "stake", "meta", "model_version",
-    "manifest_hash", "odds_source", "odds_fetched_at",
+    "manifest_hash", "odds_source", "odds_fetched_at", "consensus_price",
+    "consensus_opp_price", "execution_price", "execution_book",
+    "execution_implied", "market_books", "market_spread",
+    "eligibility_reason", "staking_policy",
 ]
 TRADE_FIELDS = [
     "trade_id", "snapshot_id", "locked_at", "scheduled_start",
     "timing_precision", "date", "fight_key", "pick", "opp", "price",
     "market", "model", "edge", "se", "net_edge", "stake", "meta",
     "model_version", "manifest_hash", "odds_source", "odds_fetched_at",
+    "consensus_price", "consensus_opp_price", "execution_price",
+    "execution_book", "execution_implied", "market_books", "market_spread",
+    "eligibility_reason", "staking_policy",
 ]
 SETTLEMENT_FIELDS = [
     "trade_id", "settled_at", "result", "pnl", "closing_price",
@@ -116,8 +123,9 @@ def _provenance(provenance=None):
 def _snapshot_row(item, stamp, provenance):
     start, precision = scheduled_start(item)
     fight_key = _fight_key(item)
-    raw = "|".join(str(item.get(k, "")) for k in
-                   ("pick", "opp", "price", "model", "net", "stake"))
+    raw = "|".join(str(item.get(k, "")) for k in (
+        "pick", "opp", "price", "execution_book", "model", "net", "stake",
+    ))
     snapshot_id = hashlib.sha256(
         f"{stamp}|{fight_key}|{raw}".encode()
     ).hexdigest()[:20]
@@ -143,15 +151,38 @@ def _snapshot_row(item, stamp, provenance):
         "manifest_hash": provenance["manifest_hash"],
         "odds_source": item.get("odds_source", "manual_or_unknown"),
         "odds_fetched_at": item.get("odds_fetched_at", ""),
+        "consensus_price": item.get("consensus_price", item.get("price", "")),
+        "consensus_opp_price": item.get("consensus_opp_price", ""),
+        "execution_price": item.get("execution_price", item.get("price", "")),
+        "execution_book": item.get("execution_book", "consensus"),
+        "execution_implied": item.get("execution_implied", ""),
+        "market_books": item.get("market_books", ""),
+        "market_spread": item.get("market_spread", ""),
+        "eligibility_reason": item.get("eligibility_reason", ""),
+        "staking_policy": STAKING_POLICY_VERSION,
     }
 
 
 def _append_rows(path, fields, rows):
     if not rows:
         return 0
-    write_header = not Path(path).exists() or Path(path).stat().st_size == 0
+    path = Path(path)
+    if path.exists() and path.stat().st_size:
+        with path.open(newline="", encoding="utf-8") as source:
+            reader = csv.DictReader(source)
+            existing = list(reader)
+            existing_fields = reader.fieldnames or []
+        if existing_fields != fields:
+            temporary = path.with_suffix(path.suffix + ".tmp")
+            with temporary.open("w", newline="", encoding="utf-8") as output:
+                writer = csv.DictWriter(output, fieldnames=fields,
+                                        extrasaction="ignore")
+                writer.writeheader()
+                writer.writerows(existing)
+            os.replace(temporary, path)
+    write_header = not path.exists() or path.stat().st_size == 0
     with open(path, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fields)
+        writer = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
         if write_header:
             writer.writeheader()
         writer.writerows(rows)
@@ -230,6 +261,15 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
             "manifest_hash": snap["manifest_hash"],
             "odds_source": snap["odds_source"],
             "odds_fetched_at": snap["odds_fetched_at"],
+            "consensus_price": snap["consensus_price"],
+            "consensus_opp_price": snap["consensus_opp_price"],
+            "execution_price": snap["execution_price"],
+            "execution_book": snap["execution_book"],
+            "execution_implied": snap["execution_implied"],
+            "market_books": snap["market_books"],
+            "market_spread": snap["market_spread"],
+            "eligibility_reason": snap["eligibility_reason"],
+            "staking_policy": snap["staking_policy"],
         })
         locked_fights.add(fight_key)
     return _append_rows(trades_path, TRADE_FIELDS, rows)

@@ -1,2 +1,1 @@
 trade_id,snapshot_id,locked_at,scheduled_start,timing_precision,date,fight_key,pick,opp,price,market,model,edge,se,net_edge,stake,meta,model_version,manifest_hash,odds_source,odds_fetched_at
-8cb70607f72685b6d22e,73d7d84f93850cccb4a7,2026-07-22T01:16:21Z,2026-07-25T09:00:00Z,exact,2026-07-25,5667986813f04ea399b2,Nurullo Aliev,Mike Davis,-220,65.8,73.8,5.1,1.0,4.0,1,nan | 2026-07-25,production-v3,3854651eeaba0db13c505a97731ac277e6b33b528c3892b11b8a607f6db974b9,the-odds-api-paired-book-devig-v1,2026-07-22T01:15:48Z

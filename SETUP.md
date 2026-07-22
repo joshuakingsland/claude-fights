@@ -16,6 +16,10 @@ The routine workflow runs Sunday, Monday, and Wednesday. Sunday and Monday
 record snapshots only. Wednesday also locks at most one official qualifying
 paper wager per fight. The separate **Refresh Canonical Validation** workflow
 runs monthly because the exact historical walk-forward audit is much heavier.
+The **Snapshot MMA Market** workflow runs every six hours, stores every paired
+book quote in monthly files, and refreshes the dashboard without locking a
+trade. That schedule adds roughly 124 current-odds calls in a 31-day month,
+plus routine workflow calls; confirm API quota before enabling it.
 The **Capture Standardized T-30 Odds** workflow polls event metadata during
 the normal Saturday/Sunday UFC window and spends an odds request only when a
 not-yet-captured fight is 10-50 minutes away. GitHub schedules can be delayed,
@@ -33,6 +37,7 @@ python validate_paper.py
 python monitor_drift.py
 python freshness.py --require-current
 python validate_method.py
+python validate_staking.py
 ```
 
 To deliberately lock official paper wagers from the current card:
@@ -82,7 +87,7 @@ it catalogs market keys and does not download prop prices.
 Manual odds use (`market_prob_a` and `market_books` may be blank):
 
 ```text
-date,commence_time,fighter_a,fighter_b,odds_a,odds_b,market_prob_a,market_books,weightclass,five_rounds,odds_source,fetched_at
+date,commence_time,fighter_a,fighter_b,odds_a,odds_b,market_prob_a,market_books,market_spread,best_odds_a,best_book_a,best_odds_b,best_book_b,weightclass,five_rounds,odds_source,fetched_at
 ```
 
 Use an ISO-8601 UTC time such as `2026-08-01T23:00:00Z`. The code refuses any
@@ -114,6 +119,8 @@ python validate_paper.py
 
 Each row carries model and manifest provenance. The legacy mixed file is
 preserved in `archive/` and is excluded from verified forward statistics.
+New rows also preserve consensus prices separately from the executable price
+and sportsbook. Settlement P&L uses the executable price.
 
 The `live_gate` remains `paper_only` unless the historical clustered interval
 is wholly positive with at least 50 events and 200 bets. Forward-test closing
@@ -129,6 +136,7 @@ reported as a research candidate, not silently deployed.
 - UFCStats data can lag an event by a day or two.
 - Historical training prefers closing odds in `raw/ufc-master.csv`.
   `odds_log.csv` is labelled fallback data, not assumed closing data.
-- The displayed rule is 1 unit above 4 net points and 2 units above 8.
+- The active paper rule is flat 1 unit above 4 net points, capped at 2 units
+  per event day. The displayed 10-point 2-unit threshold is research-only.
 - The model cannot account for injuries, camps, weight cuts, or tape.
 - This is research and paper tracking, not betting advice or automated betting.

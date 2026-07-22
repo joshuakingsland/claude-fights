@@ -11,6 +11,7 @@ Usage: python predict_card.py [--lock-paper-trades]
 
 import argparse
 import json
+import math
 from datetime import datetime, timezone
 
 import numpy as np
@@ -23,9 +24,11 @@ from data_quality import assert_clean, identity_warnings
 from features_v3 import build_features_v3
 from identity import assign_fighter_identities, fighter_registry
 from pipeline import load_matched_cached
-from config import BOOTSTRAP_MODELS, EDGE_RULE, FOCUS, MODEL_VERSION
-from production import (MODEL_FEATURES, event_pnl, event_seed, fit_ensemble,
-                        predict_probabilities, score_bets)
+from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP, FOCUS,
+                    MARKET_DISAGREEMENT_WARNING, MAX_ODDS_AGE_MINUTES,
+                    MIN_MARKET_BOOKS, MODEL_VERSION, RESEARCH_TWO_UNIT_RULE)
+from production import (MODEL_FEATURES, allocate_stakes, event_pnl, event_seed,
+                        fit_ensemble, predict_probabilities, score_bets)
 import method_model as MM
 
 # --------------------------------------------------------------- modeling
@@ -50,6 +53,43 @@ def market_probability(odds_a, odds_b, supplied=np.nan):
                    if pd.notna(supplied) and 0 < supplied < 1
                    else float(pa / (pa + pb)))
     return probability, float(pa), float(pb)
+
+
+def _optional_number(value, fallback=None):
+    value = pd.to_numeric(value, errors="coerce")
+    return float(value) if pd.notna(value) else fallback
+
+
+def execution_ladder(p_model, se):
+    """Return fixed-consensus execution thresholds for each stake tier."""
+    ladder = {}
+    for label, threshold in (
+        ("1u", EDGE_RULE),
+        ("2u_candidate", RESEARCH_TWO_UNIT_RULE),
+    ):
+        probability = float(p_model) - float(se) - threshold
+        if 0.02 <= probability <= 0.98:
+            exact = (-100.0 * probability / (1.0 - probability)
+                     if probability >= 0.5
+                     else 100.0 * (1.0 - probability) / probability)
+            ladder[label] = int(math.ceil(exact))
+    return ladder
+
+
+def quote_age_minutes(value, now=None):
+    timestamp = pd.to_datetime(value, errors="coerce", utc=True)
+    if pd.isna(timestamp):
+        return None
+    current = pd.Timestamp.now(tz="UTC") if now is None else pd.Timestamp(now)
+    current = (current.tz_localize("UTC") if current.tzinfo is None
+               else current.tz_convert("UTC"))
+    return max(0.0, float((current - timestamp).total_seconds() / 60.0))
+
+
+def _clean_meta(value, fallback="TBD"):
+    if value is None or pd.isna(value) or not str(value).strip():
+        return fallback
+    return str(value).strip()
 
 
 def predict_upcoming(up):
@@ -100,7 +140,6 @@ def predict_upcoming(up):
     # repeated card snapshots; training-data changes still change the fitted model.
     ensemble = fit_ensemble(m, n_models=BOOTSTRAP_MODELS,
                             seed=event_seed(MODEL_VERSION, "upcoming"))
-    lr = ensemble[0]
     cols = MODEL_FEATURES
 
     out = []
@@ -119,36 +158,84 @@ def predict_upcoming(up):
         X = pd.DataFrame([[ll, abs(ll)] + fv], columns=cols)
         p, se = predict_probabilities(ensemble, X)
         p, se = float(p[0]), float(se[0])
-        ea, eb = p - pa, (1 - p) - pb
+        execution_a = _optional_number(r.get("best_odds_a"), oa)
+        execution_b = _optional_number(r.get("best_odds_b"), ob)
+        execution_pa = american_to_prob(execution_a)
+        execution_pb = american_to_prob(execution_b)
+        ea, eb = p - execution_pa, (1 - p) - execution_pb
         pick_a = ea >= eb
         net = max(ea, eb) - se
-        feat_vals = [row.iloc[0][c] for c in FOCUS + ["ko_recent"]]
-        feat_pick = feat_vals if pick_a else [-v for v in feat_vals]
-        imp_now = pa if pick_a else pb
-        ladder = sizing_ladder(lr, cols, feat_pick, float(imp_now), float(pa + pb - 1), se_sub=se)
+        pick_probability = p if pick_a else 1.0 - p
+        ladder = execution_ladder(pick_probability, se)
+        books = _optional_number(r.get("market_books"))
+        books = int(books) if books is not None else None
+        spread = _optional_number(r.get("market_spread"))
+        age_minutes = quote_age_minutes(r.get("fetched_at"))
+        source = str(r.get("odds_source", "manual_or_unknown"))
+        enough_books = books is None or books >= MIN_MARKET_BOOKS
+        fresh_quote = (age_minutes is None or age_minutes <= MAX_ODDS_AGE_MINUTES
+                       or not source.startswith("the-odds-api"))
+        quality_ok = enough_books and fresh_quote
+        execution_price = execution_a if pick_a else execution_b
+        execution_book = r.get("best_book_a" if pick_a else "best_book_b", "")
+        execution_book = _clean_meta(execution_book, "consensus")
+        consensus_price = oa if pick_a else ob
+        consensus_opp_price = ob if pick_a else oa
+        market_pick = p_line if pick_a else 1.0 - p_line
+        execution_pick = execution_pa if pick_a else execution_pb
         out.append({
             "_p_a": p, "_row_idx": int(row.index[0]), "_pick_a": bool(pick_a),
+            "_net_raw": net, "_quality_ok": quality_ok,
             "ladder": ladder,
             "pick": r["display_a"] if pick_a else r["display_b"],
             "opp": r["display_b"] if pick_a else r["display_a"],
-            "price": f"{int(oa):+d}" if pick_a else f"{int(ob):+d}",
-            "market": round((p_line if pick_a else 1 - p_line) * 100, 1),
-            "model": round((p if pick_a else 1 - p) * 100, 1),
+            "price": f"{int(execution_price):+d}",
+            "execution_price": f"{int(execution_price):+d}",
+            "execution_book": execution_book,
+            "execution_implied": round(execution_pick * 100, 1),
+            "consensus_price": f"{int(consensus_price):+d}",
+            "consensus_opp_price": f"{int(consensus_opp_price):+d}",
+            "market": round(market_pick * 100, 1),
+            "model": round(pick_probability * 100, 1),
             "edge": round(max(ea, eb) * 100, 1),
             "se": round(se * 100, 1),
             "net": round(net * 100, 1),
-            "bet": bool(net >= EDGE_RULE),
-            "stake": (2 if net >= 2 * EDGE_RULE else
-                       (1 if net >= EDGE_RULE else 0)),
+            "qualified": bool(net >= EDGE_RULE and quality_ok),
+            "bet": False,
+            "stake": 0,
             "date": str(pd.Timestamp(r["date"]).date()),
             "scheduled_start": (str(r.get("commence_time"))
                                 if pd.notna(r.get("commence_time", np.nan))
                                 and str(r.get("commence_time", "")).strip()
                                 else ""),
-            "odds_source": r.get("odds_source", "manual_or_unknown"),
+            "odds_source": source,
             "odds_fetched_at": r.get("fetched_at", ""),
-            "meta": f"{r.get('weightclass','') or 'TBD'} | {r['date']}",
+            "market_books": books,
+            "market_spread": round(spread * 100, 1) if spread is not None else None,
+            "quote_age_minutes": round(age_minutes, 1) if age_minutes is not None else None,
+            "market_warning": bool(spread is not None
+                                   and spread > MARKET_DISAGREEMENT_WARNING),
+            "eligibility_reason": ("eligible" if net >= EDGE_RULE and quality_ok
+                                   else "price stale" if not fresh_quote
+                                   else "fewer than 3 paired books" if not enough_books
+                                   else "below edge rule"),
+            "meta": f"{_clean_meta(r.get('weightclass'))} | {r['date']}",
         })
+    if out:
+        allocation_net = np.array([
+            item["_net_raw"] if item["_quality_ok"] else -np.inf
+            for item in out
+        ])
+        stakes = allocate_stakes(
+            allocation_net,
+            groups=np.array([item["date"] for item in out]),
+            group_cap=EVENT_DAY_STAKE_CAP,
+        )
+        for item, stake in zip(out, stakes):
+            item["stake"] = int(stake)
+            item["bet"] = bool(stake > 0)
+            if item["qualified"] and not item["bet"]:
+                item["eligibility_reason"] = "event-day exposure cap"
     # method props (fair prices; probability-validated, no verified prop edge)
     try:
         import pickle
@@ -167,6 +254,7 @@ def predict_upcoming(up):
         print("props skipped:", exc)
     for o in out:
         o.pop("_p_a", None); o.pop("_row_idx", None); o.pop("_pick_a", None)
+        o.pop("_net_raw", None); o.pop("_quality_ok", None)
     return out
 
 
@@ -215,12 +303,12 @@ def recent_results(days=120):
 
 
 
-def american_from_prob(p):
+def _legacy_american_from_prob(p):
     """Fair American odds for an implied probability."""
     return int(round(-100 * p / (1 - p))) if p >= 0.5 else int(round(100 * (1 - p) / p))
 
 
-def sizing_ladder(lr, cols, feat_row, imp_now, vig, se_sub=0.0):
+def _legacy_sizing_ladder(lr, cols, feat_row, imp_now, vig, se_sub=0.0):
     """Worst acceptable price per stake tier, within +/-15 implied points
     of market. A tier is shown only if its qualifying region includes or
     extends to longer odds than the current price — i.e., the ladder
@@ -247,7 +335,7 @@ def sizing_ladder(lr, cols, feat_row, imp_now, vig, se_sub=0.0):
             regions.append((start, len(grid) - 1))
         for a, b in regions:
             if grid[a] <= imp_now + step:      # touches or extends longer than market
-                ths[tier] = american_from_prob(grid[b])
+                ths[tier] = _legacy_american_from_prob(grid[b])
                 break
     return ths
 
@@ -265,6 +353,7 @@ def build_site(upcoming, recent, summary, freshness=None):
     html = (tpl.replace("__UPCOMING__", json.dumps(upcoming))
                .replace("__RECENT__", json.dumps(recent))
                .replace("__SUMMARY__", json.dumps(summary))
+               .replace("__MAX_ODDS_AGE__", str(MAX_ODDS_AGE_MINUTES))
                .replace("__FRESHNESS_BANNER__", freshness_banner)
                .replace("__STAMP__", stamp))
     import os

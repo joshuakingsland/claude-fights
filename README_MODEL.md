@@ -59,14 +59,23 @@ Automatic odds capture now stores the exact API `commence_time`, source, and
 fetch timestamp. Manual rows should use these columns:
 
 ```text
-date,commence_time,fighter_a,fighter_b,odds_a,odds_b,market_prob_a,market_books,weightclass,five_rounds,odds_source,fetched_at
+date,commence_time,fighter_a,fighter_b,odds_a,odds_b,market_prob_a,market_books,market_spread,best_odds_a,best_book_a,best_odds_b,best_book_b,weightclass,five_rounds,odds_source,fetched_at
 ```
 
 `market_prob_a` and `market_books` are optional for manual rows. Automatic
 capture pairs both fighters within each book, de-vigs each paired quote, and
 uses the median per-book probability as the model's market input. Median
-American prices remain the executable-price approximation used for edge and
-payout calculations.
+American prices remain consensus provenance. The best captured price on each
+side is stored separately and is the only price used for execution edge and
+payout calculations. A better sportsbook quote never changes the model's
+consensus input.
+
+Every paired sportsbook quote is appended to a monthly file under
+`data/market_quotes/`, including book, timestamp, both prices, event ID, and
+per-book de-vig probability. `market_snapshot_manifest.json` summarizes the
+latest capture. The `Snapshot MMA Market` workflow runs every six hours,
+adding roughly 124 current-odds endpoint calls in a 31-day month; review API
+quota before enabling or increasing that schedule.
 
 Predictions fail closed when a commence time is not in the future. For a
 manual date-only row, the event date itself is rejected because the system
@@ -107,9 +116,10 @@ current estimator, a constrained market-offset model, a fixed 50/50 blend,
 and a nested blend whose weight is selected from prior out-of-fold cards only.
 It writes `entry_model_research.json` and never changes production settings.
 
-Raw API responses, quote rows, manifests, and generated historical CSVs are
-local research inputs and are ignored by Git. Audit JSONs and all code remain
-safe to publish. Keep `ODDS_API_KEY` only in your environment or a GitHub
+Historical API responses, historical quote rows, request manifests, and
+generated historical CSVs are local research inputs and are ignored by Git.
+Current forward market snapshots under `data/market_quotes/` are tracked.
+Audit JSONs and all code remain safe to publish. Keep `ODDS_API_KEY` only in your environment or a GitHub
 Actions secret; never commit it.
 
 `capture_close.py` polls the quota-free event list and makes one H2H odds
@@ -117,6 +127,9 @@ request only when an uncaptured fight is 10-50 minutes from its scheduled
 start. The result is a standardized T-30-window snapshot, not an official
 book close. `discover_prop_markets.py` is manual and defaults to zero discovery
 requests; it records available market keys but never fetches prop prices.
+`validate_staking.py` audits flat staking, the retired 8-point doubling rule,
+the research-only 10-point candidate, edge buckets, drawdown, ROI intervals,
+and available CLV. It cannot promote a staking tier automatically.
 
 Runtime versions are exact-pinned in `requirements.txt`, and GitHub Actions
 uses Python 3.12.13. Upgrade these deliberately and rerun both canonical
@@ -157,13 +170,15 @@ The files now have distinct purposes:
 - `paper_settlements.csv` — append-only outcomes and available closing-line value.
 - `paper_validation.json` — forward-test summary.
 
-Each new snapshot and trade stores the model version, model-manifest hash, odds
-source, odds fetch time, event start, and recording/lock time. A repeat run
-cannot lock a second official trade for the same fight.
+Each new snapshot and trade stores the model version, model-manifest hash,
+consensus prices, executable price and book, book count, market spread, odds
+fetch time, event start, and recording/lock time. A repeat run cannot lock a
+second official trade for the same fight.
 
-The scheduled workflow records snapshots on Sunday and Monday and records a
-snapshot plus the official qualifying paper wagers on Wednesday. The original
-mixed ledger is preserved unchanged under
+The main workflow records snapshots on Sunday and Monday and records a
+snapshot plus the official qualifying paper wagers on Wednesday. The separate
+market workflow captures prices every six hours without locking trades. The
+original mixed ledger is preserved unchanged under
 `archive/paper_trades_legacy_mixed_predictions.csv`; it is not counted as
 verified forward-test evidence.
 
@@ -171,8 +186,11 @@ verified forward-test evidence.
 
 The deployed model is a symmetrized ridge logistic regression on de-vigged
 market probability plus the focused differentials in `config.py` and
-`ko_recent`. A displayed wager requires net edge—model edge minus bootstrap
-uncertainty—above 4 points; it is 2 units above 8 points.
+`ko_recent`. A displayed paper signal requires execution net edge: model
+probability minus best-price implied probability and bootstrap uncertainty,
+above 4 points. Active allocations are flat 1 unit and capped at 2 units per
+event day. The 10-point 2-unit threshold shown by the dashboard is a research
+candidate, not an active allocation.
 
 Content-addressed caches include source-data and feature-code hashes, so a
 changed dataset or feature implementation cannot silently reuse an old cache.
@@ -191,6 +209,7 @@ unresolved external name receives neutral history and a visible warning.
 - `validate_entry_history.py` - strict entry-price, blend, and CLV audit.
 - `research_entry_models.py` - leakage-safe entry-trained candidate comparison.
 - `capture_close.py` - deduplicated standardized T-30-window H2H capture.
+- `validate_staking.py` - active/candidate stake-policy and edge-tier audit.
 - `discover_prop_markets.py` - explicitly capped MMA prop-market discovery.
 - `freshness.py` - visible result-source freshness and contradiction gate.
 - `validate_method.py` - probability-only method-model audit.
@@ -208,6 +227,7 @@ unresolved external name receives neutral history and a visible warning.
 - `features*.py`, `elo.py` — point-in-time feature construction.
 - `adapter.py`, `update_data.py`, `fetch_odds.py` — data and odds capture.
 - `.github/workflows/update.yml` — routine site/snapshot/settlement workflow.
+- `.github/workflows/snapshot-market.yml` - six-hour paired-book quote capture.
 - `.github/workflows/validate.yml` — separate monthly canonical audit.
 
 `research.py` and `research3.py` are archived research harnesses, not production

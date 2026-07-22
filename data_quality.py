@@ -95,6 +95,29 @@ def audit_upcoming(upcoming):
             errors.append("upcoming contains invalid American odds")
     except (TypeError, ValueError):
         errors.append("upcoming odds are not numeric American odds")
+    if "market_prob_a" in upcoming:
+        probability = pd.to_numeric(upcoming["market_prob_a"], errors="coerce")
+        supplied = probability.notna()
+        if supplied.any() and not probability[supplied].between(0, 1, inclusive="neither").all():
+            errors.append("upcoming contains invalid consensus probabilities")
+    if "market_books" in upcoming:
+        books = pd.to_numeric(upcoming["market_books"], errors="coerce")
+        supplied = books.notna()
+        if supplied.any() and (books[supplied] < 1).any():
+            errors.append("upcoming contains invalid paired-book counts")
+    for side in ("a", "b"):
+        odds_field = f"best_odds_{side}"
+        book_field = f"best_book_{side}"
+        if odds_field not in upcoming:
+            continue
+        best = pd.to_numeric(upcoming[odds_field], errors="coerce")
+        supplied = best.notna()
+        if supplied.any() and (best[supplied].abs() < 100).any():
+            errors.append(f"upcoming contains invalid {odds_field}")
+        if supplied.any() and book_field in upcoming:
+            missing_book = upcoming.loc[supplied, book_field].fillna("").astype(str).str.strip().eq("")
+            if missing_book.any():
+                errors.append(f"upcoming contains best prices without {book_field}")
     pairs = _pairs(upcoming)
     duplicate = pd.DataFrame({"date": dates, "pair": pairs}).duplicated().sum()
     if duplicate:

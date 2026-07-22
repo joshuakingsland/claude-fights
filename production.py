@@ -13,7 +13,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from config import BOOTSTRAP_MODELS, EDGE_RULE, FOCUS
+from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP, FOCUS,
+                    PRODUCTION_MAX_STAKE)
 
 MODEL_FEATURES = ["line_logit", "line_abs"] + FOCUS + ["ko_recent"]
 DIFF_FEATURES = FOCUS + ["ko_recent"]
@@ -86,6 +87,30 @@ def predict_probabilities(models, frame):
     return arr[0], arr.std(axis=0, ddof=0) if len(arr) > 1 else np.zeros(len(frame))
 
 
+def allocate_stakes(net_edge, groups=None, threshold=EDGE_RULE,
+                    max_stake=PRODUCTION_MAX_STAKE,
+                    group_cap=EVENT_DAY_STAKE_CAP):
+    """Allocate a deterministic flat-stake paper policy by event day."""
+    net_edge = np.asarray(net_edge, dtype=float)
+    groups = (np.zeros(len(net_edge), dtype=int) if groups is None
+              else np.asarray(groups))
+    stakes = np.zeros(len(net_edge), dtype=int)
+    if max_stake <= 0 or group_cap <= 0:
+        return stakes
+    for group in pd.unique(groups):
+        indices = np.flatnonzero(groups == group)
+        eligible = indices[net_edge[indices] >= threshold]
+        eligible = eligible[np.argsort(-net_edge[eligible], kind="stable")]
+        remaining = int(group_cap)
+        for index in eligible:
+            stake = min(int(max_stake), remaining)
+            if stake <= 0:
+                break
+            stakes[index] = stake
+            remaining -= stake
+    return stakes
+
+
 def score_bets(frame, p_model, se):
     """Score both sides using net edge and return a row-level ledger."""
     frame = frame.reset_index(drop=True).copy()
@@ -97,13 +122,15 @@ def score_bets(frame, p_model, se):
     choose_a = edge_a >= edge_b
     gross = np.where(choose_a, edge_a, edge_b)
     net = gross - se
-    stake = np.where(net >= 2 * EDGE_RULE, 2,
-                     np.where(net >= EDGE_RULE, 1, 0)).astype(int)
+    groups = (frame["date"].astype(str).to_numpy()
+              if "date" in frame else np.zeros(len(frame), dtype=int))
+    stake = allocate_stakes(net, groups=groups)
     frame["p_model"] = p_model
     frame["se"] = se
     frame["edge"] = gross
     frame["net_edge"] = net
     frame["pick_side"] = np.where(choose_a, "A", "B")
+    frame["qualified"] = net >= EDGE_RULE
     frame["stake"] = stake
     return frame
 

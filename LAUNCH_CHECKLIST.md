@@ -15,7 +15,12 @@
 8. Leave prop discovery at its default zero-request cap until API usage is
    reviewed. Confirm the T-30 workflow has not duplicated event IDs.
 9. Open the published page and verify its UTC update stamp, fighter names,
-   prices, start times, and `paper_only` language before sharing the URL.
+   consensus prices, best book/price, start times, and `paper_only` language
+   before sharing the URL.
+10. Review API quota before enabling `Snapshot MMA Market`; its six-hour
+    schedule adds roughly 124 current-odds calls in a 31-day month.
+11. Confirm `staking_validation.json` says the active and 2-unit candidate
+    policies are `paper_only`.
 
 ## Operating rules
 
@@ -26,3 +31,5 @@
 - Upgrade pinned dependencies only with fresh production and entry-price audits.
 - Keep all selections paper-only until the promotion gates pass. Publishing
   the dashboard is not approval for real-money operation.
+- Keep active allocation flat at 1 unit with the 2-unit event-day cap. Do not
+  treat the displayed 10-point 2-unit threshold as an approved stake tier.

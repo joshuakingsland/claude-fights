@@ -4,9 +4,9 @@ Usage:
     python validate_production.py
     python validate_production.py --start 2025-01-01 --models 10 --event-bootstrap 2000
 
-Every event is predicted using only rows dated before that event.  The model,
-symmetry handling, bootstrap SE, and 1u/2u net-edge stakes are the same code
-used by ``predict_card.py``.
+Every event is predicted using only rows dated before that event. The model,
+symmetry handling, bootstrap SE, flat stakes, and event-day cap are the same
+code used by ``predict_card.py``.
 """
 
 import argparse
@@ -16,7 +16,9 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, log_loss
 
-from config import BOOTSTRAP_MODELS, EDGE_RULE, MODEL_VERSION
+from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP,
+                    MODEL_VERSION, PRODUCTION_MAX_STAKE,
+                    STAKING_POLICY_VERSION)
 from features_v3 import build_features_v3
 from pipeline import load_matched_cached
 from production import (event_pnl, event_seed, fit_ensemble,
@@ -105,6 +107,9 @@ def run(args):
         "accuracy_model": float(accuracy_score(y, p >= 0.5)),
         "accuracy_line": float(accuracy_score(y, pred["p_line"] >= 0.5)),
         "edge_rule": EDGE_RULE,
+        "staking_policy": STAKING_POLICY_VERSION,
+        "max_stake": PRODUCTION_MAX_STAKE,
+        "event_day_stake_cap": EVENT_DAY_STAKE_CAP,
         "bootstrap_models_per_event": args.models,
         "min_train": args.min_train,
         "odds_sources": source_stats,

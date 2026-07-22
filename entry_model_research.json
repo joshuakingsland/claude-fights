@@ -1449,13 +1449,13 @@
       "name": "current_entry_refit",
       "events": 173,
       "fights": 1266,
-      "bets": 203,
-      "staked": 255.0,
-      "pnl": 11.908789852375527,
-      "roi": 0.04670113667598246,
+      "bets": 178,
+      "staked": 178.0,
+      "pnl": 7.034225734054625,
+      "roi": 0.03951812210143048,
       "roi_ci90_event_clustered": [
-        -0.04876911033112642,
-        0.13947500365954493
+        -0.054489796496003357,
+        0.13353463130842133
       ],
       "log_loss": 0.5905043901129003,
       "log_loss_model": 0.5905043901129003,
@@ -1464,13 +1464,13 @@
       "brier": 0.20314952886756596,
       "accuracy": 0.6848341232227488,
       "closing_line_value": {
-        "active_bets_with_close": 102,
-        "mean_clv_prob_points_active_bets": 0.5880652167803566,
+        "active_bets_with_close": 88,
+        "mean_clv_prob_points_active_bets": 0.7023366589773624,
         "mean_clv_prob_points_ci90_event_clustered": [
-          0.18709193726702766,
-          1.0203312443571282
+          0.26187633901593244,
+          1.158621035974495
         ],
-        "positive_clv_rate_active_bets": 0.5784313725490197
+        "positive_clv_rate_active_bets": 0.6136363636363636
       },
       "promotion_gate": {
         "status": "paper_only",
@@ -1481,15 +1481,15 @@
             "required": ">= 50"
           },
           "minimum_bets": {
-            "passed": true,
-            "observed": 203,
+            "passed": false,
+            "observed": 178,
             "required": ">= 200"
           },
           "positive_roi_interval": {
             "passed": false,
             "observed": [
-              -0.04876911033112642,
-              0.13947500365954493
+              -0.054489796496003357,
+              0.13353463130842133
             ],
             "required": "90% event-clustered ROI lower bound > 0"
           },
@@ -1500,20 +1500,20 @@
           },
           "minimum_active_clv_bets": {
             "passed": false,
-            "observed": 102,
+            "observed": 88,
             "required": ">= 200"
           },
           "positive_clv_interval": {
             "passed": true,
             "observed": [
-              0.18709193726702766,
-              1.0203312443571282
+              0.26187633901593244,
+              1.158621035974495
             ],
             "required": "90% event-clustered mean CLV lower bound > 0"
           },
           "positive_clv_rate": {
             "passed": true,
-            "observed": 0.5784313725490197,
+            "observed": 0.6136363636363636,
             "required": "> 0.55"
           }
         },
@@ -1525,13 +1525,13 @@
       "name": "market_offset",
       "events": 173,
       "fights": 1266,
-      "bets": 110,
-      "staked": 135.0,
-      "pnl": 18.210523521515732,
-      "roi": 0.13489276682604245,
+      "bets": 102,
+      "staked": 102.0,
+      "pnl": 10.515274402624158,
+      "roi": 0.10309092551592311,
       "roi_ci90_event_clustered": [
-        -0.0027544999551798056,
-        0.27342568457763977
+        -0.040117708706632046,
+        0.2502307216673005
       ],
       "log_loss": 0.5906436615765772,
       "log_loss_model": 0.5906436615765772,
@@ -1540,13 +1540,13 @@
       "brier": 0.20310605195244444,
       "accuracy": 0.6895734597156398,
       "closing_line_value": {
-        "active_bets_with_close": 66,
-        "mean_clv_prob_points_active_bets": 0.40873062227973034,
+        "active_bets_with_close": 61,
+        "mean_clv_prob_points_active_bets": 0.43105707191809006,
         "mean_clv_prob_points_ci90_event_clustered": [
-          -0.005759060819746707,
-          0.8525486474280847
+          -0.032077859410680656,
+          0.9062055338174212
         ],
-        "positive_clv_rate_active_bets": 0.5303030303030303
+        "positive_clv_rate_active_bets": 0.5573770491803278
       },
       "promotion_gate": {
         "status": "paper_only",
@@ -1558,14 +1558,14 @@
           },
           "minimum_bets": {
             "passed": false,
-            "observed": 110,
+            "observed": 102,
             "required": ">= 200"
           },
           "positive_roi_interval": {
             "passed": false,
             "observed": [
-              -0.0027544999551798056,
-              0.27342568457763977
+              -0.040117708706632046,
+              0.2502307216673005
             ],
             "required": "90% event-clustered ROI lower bound > 0"
           },
@@ -1576,20 +1576,20 @@
           },
           "minimum_active_clv_bets": {
             "passed": false,
-            "observed": 66,
+            "observed": 61,
             "required": ">= 200"
           },
           "positive_clv_interval": {
             "passed": false,
             "observed": [
-              -0.005759060819746707,
-              0.8525486474280847
+              -0.032077859410680656,
+              0.9062055338174212
             ],
             "required": "90% event-clustered mean CLV lower bound > 0"
           },
           "positive_clv_rate": {
-            "passed": false,
-            "observed": 0.5303030303030303,
+            "passed": true,
+            "observed": 0.5573770491803278,
             "required": "> 0.55"
           }
         },
@@ -1602,12 +1602,12 @@
       "events": 173,
       "fights": 1266,
       "bets": 21,
-      "staked": 22.0,
-      "pnl": 7.983817430145878,
-      "roi": 0.3629007922793581,
+      "staked": 21.0,
+      "pnl": 8.983817430145878,
+      "roi": 0.4278008300069466,
       "roi_ci90_event_clustered": [
-        0.05482998940721268,
-        0.7086202308367041
+        0.14290806515811405,
+        0.7299084355392328
       ],
       "log_loss": 0.5880786938718953,
       "log_loss_model": 0.5880786938718953,
@@ -1640,8 +1640,8 @@
           "positive_roi_interval": {
             "passed": true,
             "observed": [
-              0.05482998940721268,
-              0.7086202308367041
+              0.14290806515811405,
+              0.7299084355392328
             ],
             "required": "90% event-clustered ROI lower bound > 0"
           },

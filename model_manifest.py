@@ -13,8 +13,10 @@ import numpy as np
 import scipy
 import sklearn
 
-from config import (BOOTSTRAP_MODELS, EDGE_RULE, FOCUS, MODEL_VERSION,
-                    ODDS_CONSENSUS_VERSION)
+from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP, FOCUS,
+                    MODEL_VERSION, ODDS_CONSENSUS_VERSION,
+                    PRODUCTION_MAX_STAKE, RESEARCH_TWO_UNIT_RULE,
+                    STAKING_POLICY_VERSION)
 
 
 def sha256(path, chunk=1024 * 1024):
@@ -40,11 +42,14 @@ def write_manifest(path="model_manifest.json"):
         "odds_log.csv", "method_model.pkl", "config.py", "production.py",
         "features.py", "features_v2.py", "features_v3.py", "elo.py",
         "adapter.py", "pipeline.py", "predict_card.py",
-        "paper_ledger.py", "fetch_odds.py", "requirements.txt",
+        "paper_ledger.py", "fetch_odds.py", "site_template.html",
+        "requirements.txt",
         "identity.py", "data_quality.py", "freshness.py", "capture_close.py",
         "method_model.py", "method_model.pkl", "method_validation.json",
         "close_snapshots.csv",
         "data_source_manifest.json", "raw/ufc_fighter_details.csv",
+        "market_snapshot_manifest.json", "staking_validation.json",
+        "validate_staking.py",
     ]
     hashes = {name: sha256(name) for name in files if Path(name).exists()}
     rows = {}
@@ -58,6 +63,10 @@ def write_manifest(path="model_manifest.json"):
         "odds_consensus_version": ODDS_CONSENSUS_VERSION,
         "focus": FOCUS,
         "edge_rule": EDGE_RULE,
+        "staking_policy_version": STAKING_POLICY_VERSION,
+        "production_max_stake": PRODUCTION_MAX_STAKE,
+        "event_day_stake_cap": EVENT_DAY_STAKE_CAP,
+        "research_two_unit_rule": RESEARCH_TWO_UNIT_RULE,
         "bootstrap_models": BOOTSTRAP_MODELS,
         "python": sys.version,
         "platform": platform.platform(),

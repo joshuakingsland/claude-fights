@@ -23,13 +23,13 @@ The stable-identity 2022-2026 audit contains 173 cards and 1,266 predicted fight
 
 - Model log loss: 0.59050
 - Entry-market log loss: 0.59102
-- Bets: 203; staked: 255 units
-- P&L: +11.91 units; ROI: +4.67%
-- 90% event-clustered ROI interval: -4.88% to +13.95%
-- Close-covered model bets: 102
-- Mean CLV: +0.59 probability points
-- 90% event-clustered mean CLV interval: +0.19 to +1.02 points
-- Positive CLV rate: 57.8%
+- Bets: 178; staked: 178 units
+- P&L: +7.03 units; ROI: +3.95%
+- 90% event-clustered ROI interval: -5.45% to +13.35%
+- Close-covered model bets: 88
+- Mean CLV: +0.70 probability points
+- 90% event-clustered mean CLV interval: +0.26 to +1.16 points
+- Positive CLV rate: 61.4%
 
 The fixed 50% market / 50% model benchmark improves log loss to 0.58808, but
 it produces only 21 bets, of which 16 have close coverage. Its historical ROI
@@ -46,9 +46,9 @@ out-of-fold predictions only; future outcomes are excluded by code and test.
 
 | Candidate | Log loss | Bets | ROI | 90% card-clustered ROI interval |
 | --- | ---: | ---: | ---: | ---: |
-| Current entry refit | 0.59050 | 203 | +4.67% | -4.88% to +13.95% |
-| Market-offset | 0.59064 | 110 | +13.49% | -0.28% to +27.34% |
-| Fixed 50/50 | **0.58808** | 21 | +36.29% | +5.48% to +70.86% |
+| Current entry refit | 0.59050 | 178 | +3.95% | -5.45% to +13.35% |
+| Market-offset | 0.59064 | 102 | +10.31% | -4.01% to +25.02% |
+| Fixed 50/50 | **0.58808** | 21 | +42.78% | +14.29% to +72.99% |
 | Past-only nested blend | 0.58900 | 9 | +33.18% | -12.60% to +75.81% |
 
 The market-offset candidate fixes the entry-market logit coefficient at 1,
@@ -60,7 +60,16 @@ All four candidates remain `paper_only`; `production-v3` is unchanged.
 ## Promotion blockers
 
 - The clustered ROI lower bound is below zero.
-- Only 102 active bets have close coverage; the gate requires 200.
+- Only 88 active bets have close coverage; the gate requires 200.
+
+## Staking decision
+
+The active paper policy is flat 1 unit with a 2-unit event-day cap. The old
+automatic doubling rule at 8 net points is retired from production. A 2-unit
+candidate at 10 net points remains research-only: the 10+ buckets are strong,
+but contain only 73 production bets and 23 entry-price bets. That threshold
+was observed in the existing sample and must earn promotion on new forward
+data. `staking_validation.json` records the policy comparisons and gate.
 
 Re-run `prepare_api_odds_history.py` and `validate_entry_history.py` as close
 coverage grows. Re-run `research_entry_models.py` only after new point-in-time

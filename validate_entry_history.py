@@ -14,7 +14,9 @@ from scipy.special import logit
 from sklearn.metrics import accuracy_score, brier_score_loss, log_loss
 
 from backtest import american_to_prob
-from config import BOOTSTRAP_MODELS, EDGE_RULE, MODEL_VERSION
+from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP,
+                    MODEL_VERSION, PRODUCTION_MAX_STAKE,
+                    STAKING_POLICY_VERSION)
 from features_v3 import build_features_v3
 from identity import norm_name
 from production import (event_pnl, event_seed, fit_ensemble,
@@ -390,6 +392,9 @@ def run(args):
             if "entry_source" in pred else {"unknown": int(len(pred))}
         ),
         "edge_rule": EDGE_RULE,
+        "staking_policy": STAKING_POLICY_VERSION,
+        "max_stake": PRODUCTION_MAX_STAKE,
+        "event_day_stake_cap": EVENT_DAY_STAKE_CAP,
         "blend_benchmarks": blends,
         "best_observed_blend": blends[0] if blends else None,
         "blend_note": (

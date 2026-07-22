@@ -1,4 +1,4 @@
-# Production-v3 stable-identity and collection update
+# Production-v3 execution-pricing and staking update
 
 This package was upgraded from the verified v2 prototype to production-v3.
 
@@ -33,21 +33,30 @@ This package was upgraded from the verified v2 prototype to production-v3.
 - Prop-market discovery is manual, capped, and defaults to zero requests.
 - CI now covers identity resolution, validated adapter joins, point-in-time
   winner flipping, refresh regressions, T-30 deduplication, and UTC date joins.
+- The model input now remains fixed to paired-book consensus while the best
+  captured sportsbook quote determines execution edge and settlement P&L.
+- Every paired quote is retained in monthly market-history files with book,
+  timestamp, event ID, prices, and per-book de-vig probability.
+- Active paper staking is flat 1 unit with a 2-unit event-day cap. The old
+  automatic 2-unit rule at 8 points is retired; 10 points is tracked only as
+  a gated research candidate in `staking_validation.json`.
+- Dashboard prices now show the executable book, consensus pair, book count,
+  market spread, timestamp, stale state, and separate research threshold.
 
 ## Revalidated production-v3 result
 
 The full 2019+ event-by-event audit completed successfully:
 
 - 302 events / 3,218 fights
-- 415 qualifying bets
-- 534 units staked
-- +29.45 units
-- +5.52% ROI
-- Event-clustered 90% ROI interval: -3.18% to +14.49%
+- 350 allocated paper signals
+- 350 units staked
+- +24.12 units
+- +6.89% ROI
+- Event-clustered 90% ROI interval: -2.24% to +16.25%
 - Model log loss 0.60253 vs market 0.60387
 - Gate remains `paper_only`
 
-The preceding package showed 404 bets and +4.43% ROI. The change comes from
-separating same-name fighters and refreshing the source through July 18, 2026.
-The confidence interval still crosses zero, so no live-money conclusion is
-justified.
+The model probabilities are unchanged. The policy result changes because
+stakes are flat and only the two strongest qualifying signals per event day
+are allocated. The confidence interval still crosses zero, so no live-money
+conclusion is justified.
