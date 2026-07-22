@@ -1,0 +1,35 @@
+name: Capture Standardized T-30 Odds
+
+on:
+  schedule:
+    - cron: "17,47 10-23 * * 6"
+    - cron: "17,47 0-8 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fight-ledger-write
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Poll free event metadata, then capture only due fights
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python capture_close.py
+      - name: Commit new close snapshots
+        run: |
+          git config user.name "fight-ledger-bot"
+          git config user.email "actions@github.com"
+          if [ -f close_snapshots.csv ]; then git add close_snapshots.csv; fi
+          git diff --cached --quiet || git commit -m "capture standardized pre-fight odds"
+          git push
