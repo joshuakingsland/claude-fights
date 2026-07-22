@@ -1,10 +1,10 @@
 {
-  "downloaded_at": "2026-07-22T02:57:51Z",
+  "downloaded_at": "2026-07-22T00:05:58Z",
   "source": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/",
   "rows": 8694,
   "result_date_min": "1994-03-11",
   "result_date_max": "2026-07-18",
-  "fights_sha256": "776f5735e21369e1c06215adba4f4aa7cff712ca6956d2a3e157cfa6a7d3e63c",
+  "fights_sha256": "accb50127d3eb883cdb309c31b92e04de86ec880d57e7e44a6d4e52e520c0860",
   "files": {
     "ufc_event_details.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_event_details.csv",
