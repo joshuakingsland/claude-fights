@@ -6,9 +6,10 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from fetch_odds import (LOG_FIELDS, UPCOMING_FIELDS, _american_to_prob,
-                        append_log, consensus_quote, main)
-from predict_card import market_probability
+from fetch_odds import (LOG_FIELDS, MARKET_QUOTE_FIELDS, UPCOMING_FIELDS,
+                        _american_to_prob, append_log, append_quote_log,
+                        consensus_quote, main, paired_book_quotes)
+from predict_card import execution_ladder, market_probability, quote_age_minutes
 
 
 class LiveOddsConsensusTests(unittest.TestCase):
@@ -49,6 +50,11 @@ class LiveOddsConsensusTests(unittest.TestCase):
         self.assertEqual(result["market_books"], 3)
         self.assertEqual(result["odds_a"], -200)
         self.assertEqual(result["odds_b"], 130)
+        self.assertEqual(result["best_odds_a"], -150)
+        self.assertEqual(result["best_book_a"], "three")
+        self.assertEqual(result["best_odds_b"], 500)
+        self.assertEqual(result["best_book_b"], "two")
+        self.assertGreater(result["market_spread"], 0)
         self.assertAlmostEqual(
             result["market_prob_a"], statistics.median(probabilities), places=8
         )
@@ -80,6 +86,39 @@ class LiveOddsConsensusTests(unittest.TestCase):
             self.assertEqual(len(rows), 2)
             self.assertEqual(rows[0]["market_prob_a"], "")
             self.assertEqual(rows[1]["market_books"], "8")
+
+    def test_full_book_quote_log_is_deduplicated(self):
+        event = {
+            "id": "event-1", "commence_time": "2026-01-02T00:00:00Z",
+            "home_team": "A", "away_team": "B", "bookmakers": [{
+                "key": "fd", "title": "FanDuel",
+                "last_update": "2026-01-01T00:00:00Z",
+                "markets": [{"key": "h2h", "outcomes": [
+                    {"name": "A", "price": -200},
+                    {"name": "B", "price": 170},
+                ]}],
+            }],
+        }
+        quotes = paired_book_quotes(event)
+        self.assertEqual(quotes[0]["book_title"], "FanDuel")
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "quotes.csv"
+            row = {field: "" for field in MARKET_QUOTE_FIELDS}
+            row.update({"snapshot_id": "same", "book_title": "FanDuel"})
+            append_quote_log(path, [row, row])
+            with path.open(newline="", encoding="utf-8") as source:
+                rows = list(csv.DictReader(source))
+            self.assertEqual(len(rows), 1)
+
+    def test_fixed_consensus_execution_ladder(self):
+        ladder = execution_ladder(0.7380193601, 0.0100331085)
+        self.assertEqual(ladder["1u"], -220)
+        self.assertEqual(ladder["2u_candidate"], -168)
+        self.assertAlmostEqual(
+            quote_age_minutes("2026-01-01T00:00:00Z",
+                              now="2026-01-01T01:00:00Z"),
+            60.0,
+        )
 
     def test_required_key_fails_and_manual_template_has_no_fake_fight(self):
         with tempfile.TemporaryDirectory() as directory:
