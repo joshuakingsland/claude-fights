@@ -1,0 +1,21 @@
+{
+  "input_sha256": "68bd029eb289e0723470f48eb86591e2ee7937735921127c3a28ed1ef1c2d9c1",
+  "input_rows": 28764,
+  "valid_source_rows": 28764,
+  "matched_pre_fight_rows": 8383,
+  "unique_matched_fights": 1866,
+  "source_post_start_rows": 88,
+  "matched_post_start_rows_dropped": 28,
+  "minimum_books": 3,
+  "entry_hours_before_start": 24.0,
+  "close_minutes_before_start": 15.0,
+  "maximum_close_proxy_lead_hours": 12.0,
+  "entry_fights": 1779,
+  "entry_and_later_close_fights": 680,
+  "invalid_entry_close_pairs_dropped": 1099,
+  "entry_median_lead_hours": 80.58333333333333,
+  "close_median_lead_hours": 2.708333333333333,
+  "matched_date_min": "2020-06-13 00:00:00+00:00",
+  "matched_date_max": "2026-07-18 00:00:00+00:00",
+  "note": "Consensus source only: individual bookmaker prices are not available. Probabilities are de-vigged from each consensus quote. A close is emitted only when it is later than the chosen entry snapshot."
+}

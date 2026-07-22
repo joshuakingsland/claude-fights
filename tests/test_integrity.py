@@ -108,6 +108,45 @@ class LedgerIntegrityTests(unittest.TestCase):
                 fights_path=fights, closing_path=Path(td) / "missing.csv"), 0)
             self.assertFalse(settlements.exists())
 
+    def test_standardized_close_is_preferred_across_utc_date_boundary(self):
+        with tempfile.TemporaryDirectory() as td:
+            snapshots = Path(td) / "snapshots.csv"
+            trades = Path(td) / "trades.csv"
+            settlements = Path(td) / "settlements.csv"
+            fights = Path(td) / "fights.csv"
+            close = Path(td) / "close.csv"
+            prediction = self.prediction("2025-01-02T03:00:00Z")
+            stamp = "2025-01-01T20:00:00Z"
+            record_prediction_snapshots([prediction], path=snapshots, recorded_at=stamp)
+            lock_paper_trades(
+                [prediction], snapshots_path=snapshots, trades_path=trades,
+                locked_at=stamp,
+            )
+            pd.DataFrame([{
+                "date": "2025-01-01", "fighter_a": "Fighter A",
+                "fighter_b": "Fighter B", "winner": "A",
+            }]).to_csv(fights, index=False)
+            pd.DataFrame([{
+                "captured_at": "2025-01-02T02:30:00Z",
+                "event_id": "event-1",
+                "commence_time": "2025-01-02T03:00:00Z",
+                "lead_minutes": 30,
+                "fighter_a": "Fighter A", "fighter_b": "Fighter B",
+                "odds_a": -150, "odds_b": 130, "market_prob_a": 0.60,
+                "market_books": 5, "snapshot_kind": "standardized_t30_window",
+                "odds_source": "test",
+            }]).to_csv(close, index=False)
+            count = settle_completed(
+                trades_path=trades, settlements_path=settlements,
+                fights_path=fights, closing_path=Path(td) / "missing.csv",
+                captured_closing_path=close,
+            )
+            row = pd.read_csv(settlements).iloc[0]
+            self.assertEqual(count, 1)
+            self.assertEqual(row["closing_source"], "standardized-t30")
+            self.assertAlmostEqual(row["closing_market"], 60.0)
+            self.assertAlmostEqual(row["clv_prob"], 16.0)
+
 
 if __name__ == "__main__":
     unittest.main()
