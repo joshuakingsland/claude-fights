@@ -1,0 +1,37 @@
+name: Discover MMA Prop Markets
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_requests:
+        description: "Maximum event-market discovery requests (0 spends none)"
+        required: true
+        default: "0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fight-ledger-write
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.13"
+      - name: Discover capped event market keys
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python discover_prop_markets.py --max-requests "${{ inputs.max_requests }}"
+      - name: Commit aggregate market catalog
+        run: |
+          git config user.name "fight-ledger-bot"
+          git config user.email "actions@github.com"
+          git add prop_market_catalog.json
+          git diff --cached --quiet || git commit -m "refresh MMA prop market catalog"
+          git push
