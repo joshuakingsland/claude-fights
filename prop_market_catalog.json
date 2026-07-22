@@ -1,0 +1,233 @@
+{
+  "captured_at": "2026-07-22T01:14:31Z",
+  "available_events": 32,
+  "discovery_requests": 32,
+  "request_cap": 1000,
+  "events": [
+    {
+      "event_id": "1382284184eda3da5ba5bd2f3a221bde",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Ismael Bonfim",
+      "fighter_b": "Axel Sola",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "f6e926c493471c7fb622447575c843c4",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Magomed Ankalaev",
+      "fighter_b": "Bogdan Guskov",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "aadd177a06dce384ea7a5406ef2b025b",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Magomed Zaynukov",
+      "fighter_b": "Damian Rzepecki",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "96dce0976c858e0da8478c1b12792f89",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Islam Dulatov",
+      "fighter_b": "Wellington Turman",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "1fee61192bb544721f439c8560afc7e6",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Nurullo Aliev",
+      "fighter_b": "Mike Davis",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "76d27919e05a7dcb1ce4555ce99ba07c",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Stephen Erceg",
+      "fighter_b": "Ramazonbek Temirov",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "ee9ec67d76397a71d56ca25a71d6fe6f",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Rizvan Kuniev",
+      "fighter_b": "Tyrell Fortune",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "7dd77c75b6cef66bca46d1fc528032a3",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Santiago Ponzinibbio",
+      "fighter_b": "Sam Patterson",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "3c1e0cc4ae1722b734dca27034cc269d",
+      "commence_time": "2026-07-25T09:00:00Z",
+      "fighter_a": "Valter Walker",
+      "fighter_b": "Thomas Petersen",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "f945c9c0daa5c2b3fe2598f854ecc4c2",
+      "commence_time": "2026-07-25T13:10:00Z",
+      "fighter_a": "Cody Gibson",
+      "fighter_b": "Abdul Hussein",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "343c05283a55f70a0f89819d8a153d2a",
+      "commence_time": "2026-07-25T13:45:00Z",
+      "fighter_a": "Magomed Tuchalov",
+      "fighter_b": "Brendson Ribeiro",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "c87363a9aa48862f66b0a23daf58ffe7",
+      "commence_time": "2026-07-25T15:15:00Z",
+      "fighter_a": "Dustin Jacoby",
+      "fighter_b": "Muhammad Said",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "9026becb00a858a15cc96f0f5af0d837",
+      "commence_time": "2026-07-25T16:15:00Z",
+      "fighter_a": "Abubakar Vagaev",
+      "fighter_b": "Saygid Izagakhmaev",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "c402e0bce0b73aabf9601b453bfd0725",
+      "commence_time": "2026-08-16T03:00:00Z",
+      "fighter_a": "Mackenzie Dern",
+      "fighter_b": "Gillian Robertson",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "e1ae0688f10d4fcdab848fbb0aa4db28",
+      "commence_time": "2026-08-16T04:00:00Z",
+      "fighter_a": "Islam Makhachev",
+      "fighter_b": "Ian Garry",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "8ab8d406b097e3650cac5c1e838b262b",
+      "commence_time": "2026-08-29T20:00:00Z",
+      "fighter_a": "Umar Nurmagomedov",
+      "fighter_b": "Song Yadong",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "be9636f30a46a5e2c5f9c869b685b788",
+      "commence_time": "2026-12-27T03:00:00Z",
+      "fighter_a": "Manel Kape",
+      "fighter_b": "Joshua Van",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "1e19939d57d05943b27a369682cc1c2d",
+      "commence_time": "2026-12-31T05:00:00Z",
+      "fighter_a": "Josh Hokit",
+      "fighter_b": "Alex Pereira",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "1a92f8c10f11dd40d8ad174b894d33a3",
+      "commence_time": "2026-12-31T05:00:00Z",
+      "fighter_a": "Justin Gaethje",
+      "fighter_b": "Arman Tsarukyan",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "fd4ac76a3a3201af9c0c1426898605ff",
+      "commence_time": "2026-12-31T05:00:00Z",
+      "fighter_a": "Ciryl Gane",
+      "fighter_b": "Josh Hokit",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "c0d24eeb24d69c7f938f38f857924c72",
+      "commence_time": "2026-12-31T05:00:00Z",
+      "fighter_a": "Justin Gaethje",
+      "fighter_b": "Ilia Topuria",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "8ecba67676067ae49594bb3f9bc86673",
+      "commence_time": "2026-12-31T15:00:00Z",
+      "fighter_a": "Valentina Shevchenko",
+      "fighter_b": "Natalia Silva",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "944dd8a4945ba0df2c4370de73387c5d",
+      "commence_time": "2026-12-31T17:00:00Z",
+      "fighter_a": "Conor McGregor",
+      "fighter_b": "Jorge Masvidal",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "e5b5791d4bbe6c78d9a05cbd6b956b2b",
+      "commence_time": "2027-01-01T03:00:00Z",
+      "fighter_a": "Alexandre Pantoja",
+      "fighter_b": "Joshua Van",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "fa2d7e022c2c47e0855f04084d08f163",
+      "commence_time": "2027-01-01T03:00:00Z",
+      "fighter_a": "Tom Aspinall",
+      "fighter_b": "Ciryl Gane",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "8488c2a34f7093513d463d4b2730572e",
+      "commence_time": "2027-01-01T03:00:00Z",
+      "fighter_a": "Khamzat Chimaev",
+      "fighter_b": "Paulo Henrique Costa",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "e697d4df59aa825d85fa764db999757f",
+      "commence_time": "2027-01-01T03:00:00Z",
+      "fighter_a": "Sean Strickland",
+      "fighter_b": "Khamzat Chimaev",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "408347757571816aeae5ff71d1fd3849",
+      "commence_time": "2027-01-01T03:00:00Z",
+      "fighter_a": "Max Holloway",
+      "fighter_b": "Paddy Pimblett",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "1ea714e4819dc8a7185f0870bc490c14",
+      "commence_time": "2027-01-01T03:00:00Z",
+      "fighter_a": "Merab Dvalishvili",
+      "fighter_b": "Petr Yan",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "ead94688d843f96aba0f1486ce663b61",
+      "commence_time": "2027-01-01T03:00:00Z",
+      "fighter_a": "Sean Strickland",
+      "fighter_b": "Nassourdine Imavov",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "fcee675894f8285afc8daf0808198b74",
+      "commence_time": "2027-07-02T02:00:00Z",
+      "fighter_a": "Islam Makhachev",
+      "fighter_b": "Kamaru Usman",
+      "prop_market_keys": []
+    },
+    {
+      "event_id": "9f2a5922ae9758c3b18ad1a31ea88959",
+      "commence_time": "2027-07-11T00:00:00Z",
+      "fighter_a": "Paddy Pimblett",
+      "fighter_b": "Conor McGregor",
+      "prop_market_keys": []
+    }
+  ],
+  "note": "Market-key discovery only; no prop prices are fetched."
+}
