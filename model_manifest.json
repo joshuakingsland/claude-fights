@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-07-23T20:49:05Z",
+  "created_at": "2026-07-24T00:18:02Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -21,7 +21,7 @@
   "bootstrap_models": 30,
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
-  "git_commit": "50fc2059c614b2d2d6a1e02bf1fa85d3d31bdf92",
+  "git_commit": "1da6a43a43a71e77fbf6d423965b9ac43b87545e",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -32,8 +32,8 @@
   "inputs": {
     "fights_v2.csv": "776f5735e21369e1c06215adba4f4aa7cff712ca6956d2a3e157cfa6a7d3e63c",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "f008efeae29f59340bd05b5930f7237b620d729f04f4bba7877139301c3bb2f3",
-    "odds_log.csv": "294fbcef9ff62429543467d4db81bc0b2e2bea72a9bdd43bfe1d5c30a52bc9e7",
+    "odds_upcoming.csv": "8859bee3c97b1e82249557b6e6d12288fe3ccd5e52549c8e97b34d0369b1227b",
+    "odds_log.csv": "87b934e87666316d18f60db2bd16c8da7300e01055ecc40f38a38091255638df",
     "method_model.pkl": "a1f0f6c06b49c6855bfe24bdc3a3f92eb0dd75650b0a7a1151d7e067a592d957",
     "config.py": "b876158b27e54af7dc885f8d4f6dff05e5ac9faef2dcc556cbcf4074783b073a",
     "production.py": "69574c24b293d94113e82fd9fb1b1b7cd3b55383d61fcd75bdcc2c98904b8ea8",
@@ -54,9 +54,9 @@
     "capture_close.py": "deb45799e223e97e06547dab61ee68674ec47ec0f5d89ce72572df82089b75d1",
     "method_model.py": "dcef15fe84ce5876a542e9fa97d28f6a1773645bbc36679a6e023b303bf2dcde",
     "method_validation.json": "b257b9474f201986046218de0e6a0ee82c5a6e8ca771980f9697586f34b6ea6d",
-    "data_source_manifest.json": "4f32bb89a226052a93440f3da7da418a4fe0ed01b398f2b168c5e2d1685427e2",
+    "data_source_manifest.json": "7d194d7bdd160a82fc93baceb3c3b47071067f8989e6e932c8558d745b9103e2",
     "raw/ufc_fighter_details.csv": "d0b6ad28591dff90e42ceb482e252ac517b20a4c9f4f05999800fe42934c9c29",
-    "market_snapshot_manifest.json": "e53668dd2f4f1ced9edef88d74f32d4787e05ee40844365ba47face066ff4f7d",
+    "market_snapshot_manifest.json": "e156dc5c955e10731c92b867bd3e7d01813552ef4025220f91bdcdd5be3a8b6e",
     "staking_validation.json": "9011e9052baab5c7b0628c8a2f8e91b67c89643b3a934f1e189de137619e7cf9",
     "validate_staking.py": "00a38c45f20c58433ff03248071b1ccfd471c1297e2b75d2cfb563748b69f15b"
   },

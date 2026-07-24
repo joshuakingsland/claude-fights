@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-07-23T20:49:05Z",
+  "checked_at": "2026-07-24T00:18:01Z",
   "results_through": "2026-07-18",
-  "days_since_latest_result": 5,
+  "days_since_latest_result": 6,
   "status": "current",
   "message": "no completed tracked fights are missing",
   "known_completed_missing": []
