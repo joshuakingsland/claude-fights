@@ -3,3 +3,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-07-25T12:46:58Z,1fee61192bb544721f439c8560afc7e6,2026-07-25T13:35:00Z,48.03,Nurullo Aliev,Mike Davis,-225.0,188.0,0.66481481,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-07-25T14:23:05Z,7dd77c75b6cef66bca46d1fc528032a3,2026-07-25T14:50:00Z,26.9,Santiago Ponzinibbio,Sam Patterson,410.0,-550.0,0.18965481,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-07-25T15:49:21Z,9026becb00a858a15cc96f0f5af0d837,2026-07-25T16:15:00Z,25.64,Abubakar Vagaev,Saygid Izagakhmaev,-235.0,198.0,0.67599497,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-07-25T17:18:37Z,76d27919e05a7dcb1ce4555ce99ba07c,2026-07-25T17:45:00Z,26.38,Stephen Erceg,Ramazonbek Temirov,-110.0,-110.0,0.5,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
