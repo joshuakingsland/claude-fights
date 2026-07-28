@@ -12,7 +12,7 @@ from discover_prop_markets import prop_keys
 from features import build_features
 from freshness import assess_freshness
 from identity import fighter_registry, resolve_fighter
-from update_data import _regression_errors
+from update_data import _event_date_recovery, _regression_errors
 
 
 class StableIdentityTests(unittest.TestCase):
@@ -84,6 +84,15 @@ class StableIdentityTests(unittest.TestCase):
             self.assertEqual(middle["height_b"], 72)
             self.assertEqual(middle["sig_str_landed_b"], 18)
 
+            pd.DataFrame(columns=["EVENT", "DATE"]).to_csv(
+                root / "ufc_event_details.csv", index=False
+            )
+            recovered = adapter.build(
+                str(root), fallback_event_dates={"Card": "2025-01-01"}
+            )
+            self.assertEqual(len(recovered), 2)
+            self.assertEqual(str(recovered["date"].min().date()), "2025-01-01")
+
 
 class PointInTimeFeatureTests(unittest.TestCase):
     @staticmethod
@@ -136,6 +145,38 @@ class FreshnessAndCaptureTests(unittest.TestCase):
         self.assertTrue(any("shrank" in error for error in errors))
         self.assertTrue(any("backward" in error for error in errors))
         self.assertTrue(any("fighter IDs" in error for error in errors))
+
+    def test_refresh_rejects_a_dropped_fight_even_when_fighter_ids_remain(self):
+        old = pd.DataFrame([
+            {"date": "2025-01-01", "event": "Card One",
+             "fighter_a_id": "a", "fighter_b_id": "b"},
+            {"date": "2025-02-01", "event": "Card Two",
+             "fighter_a_id": "a", "fighter_b_id": "c"},
+        ])
+        new = pd.DataFrame([
+            {"date": "2025-01-01", "event": "Card One",
+             "fighter_a_id": "a", "fighter_b_id": "b"},
+            {"date": "2025-02-01", "event": "Different Card",
+             "fighter_a_id": "a", "fighter_b_id": "c"},
+        ])
+        errors = _regression_errors(new, old)
+        self.assertTrue(any("historical fights" in error for error in errors))
+
+    def test_missing_event_date_uses_only_prior_validated_event(self):
+        previous = pd.DataFrame({
+            "event": ["Known Missing Card"], "date": ["2025-08-22"]
+        })
+        event_details = pd.DataFrame({
+            "EVENT": ["Current Card"], "DATE": ["July 25, 2026"]
+        })
+        results = pd.DataFrame({
+            "EVENT": ["Current Card", "Known Missing Card", "Unknown Card"]
+        })
+        recovered, unresolved = _event_date_recovery(
+            previous, event_details, results
+        )
+        self.assertEqual(str(recovered["Known Missing Card"].date()), "2025-08-22")
+        self.assertEqual(unresolved, ["Unknown Card"])
 
     def test_completed_tracked_fight_marks_results_lagging(self):
         fights = pd.DataFrame([{
