@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-07-28T07:33:38Z",
+  "created_at": "2026-07-28T07:42:09Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -19,9 +19,9 @@
   "event_day_stake_cap": 2,
   "research_two_unit_rule": 0.1,
   "bootstrap_models": 30,
-  "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
-  "platform": "Windows-11-10.0.26200-SP0",
-  "git_commit": null,
+  "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+  "git_commit": "35aff3943afac76134d4f5f46f53d507a6a8a274",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -30,10 +30,10 @@
     "scikit_learn": "1.8.0"
   },
   "inputs": {
-    "fights_v2.csv": "6676a320a4c689bc20a27f8043b5da4369bfa7b69d8793fea57d0c0dd8f26b81",
+    "fights_v2.csv": "55ddb9f6199e8f3a1ccd20eb1f3afc1b86e337a7f09cc5567bd7f4763df67276",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "8094189a21329e4dca404af92617afee5ebabd66f07adfa1af7ac3cd7ebb064d",
-    "odds_log.csv": "f1b300fde5e5fa25b80cec05ede62e64ea22d85342d21e821fbe63b0d610d99b",
+    "odds_upcoming.csv": "aa97f05a9dfc68c3da829bc504e420f9418467559295b1353dee621d2f46afea",
+    "odds_log.csv": "858df15dd4e7b91f66ee82e083620a9cc03aa127bd8fd9325e87612c6457b44b",
     "method_model.pkl": "a1f0f6c06b49c6855bfe24bdc3a3f92eb0dd75650b0a7a1151d7e067a592d957",
     "config.py": "b876158b27e54af7dc885f8d4f6dff05e5ac9faef2dcc556cbcf4074783b073a",
     "production.py": "69574c24b293d94113e82fd9fb1b1b7cd3b55383d61fcd75bdcc2c98904b8ea8",
@@ -55,8 +55,10 @@
     "capture_close.py": "deb45799e223e97e06547dab61ee68674ec47ec0f5d89ce72572df82089b75d1",
     "method_model.py": "dcef15fe84ce5876a542e9fa97d28f6a1773645bbc36679a6e023b303bf2dcde",
     "method_validation.json": "b257b9474f201986046218de0e6a0ee82c5a6e8ca771980f9697586f34b6ea6d",
-    "data_source_manifest.json": "b2c801486b315e5f27af69a4035637cf1f2a5697f285e6a3438370c61b20fb43",
+    "close_snapshots.csv": "d617f357fbefd8767078534889ecdf3ab480d233e463628b188445c1b754d303",
+    "data_source_manifest.json": "b13a5b970854dfb36bf490ec5849df3178e819a0fed1c8a7f748f39260e44812",
     "raw/ufc_fighter_details.csv": "1908b49184603602976e4a4896f866b6724e7bca3a0e639d0ea9d40ac848d101",
+    "market_snapshot_manifest.json": "92937c1f8d07f9a6f66aee774a0eb9a2574ffb30242221e880e31827ae2d169c",
     "staking_validation.json": "9011e9052baab5c7b0628c8a2f8e91b67c89643b3a934f1e189de137619e7cf9",
     "validate_staking.py": "00a38c45f20c58433ff03248071b1ccfd471c1297e2b75d2cfb563748b69f15b"
   },
