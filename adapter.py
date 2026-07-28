@@ -57,7 +57,7 @@ def fight_minutes(round_no, time_str, time_format):
         return np.nan
 
 
-def build(raw_dir: str) -> pd.DataFrame:
+def build(raw_dir: str, fallback_event_dates=None) -> pd.DataFrame:
     def load(name):
         df = pd.read_csv(f"{raw_dir}/{name}")
         for c in df.columns:
@@ -75,6 +75,18 @@ def build(raw_dir: str) -> pd.DataFrame:
     # --- events: name -> date ------------------------------------------
     ev["date"] = pd.to_datetime(ev["DATE"], format="mixed", errors="coerce")
     ev = ev[["EVENT", "date"]].drop_duplicates("EVENT")
+    if fallback_event_dates:
+        known_events = set(ev.loc[ev["date"].notna(), "EVENT"])
+        fallback = pd.DataFrame([
+            {"EVENT": str(event).strip(), "date": pd.to_datetime(date, errors="coerce")}
+            for event, date in fallback_event_dates.items()
+            if str(event).strip() not in known_events
+        ]).dropna(subset=["EVENT", "date"])
+        if len(fallback):
+            ev = pd.concat([ev, fallback], ignore_index=True)
+            ev = ev.sort_values("date", na_position="last").drop_duplicates(
+                "EVENT", keep="first"
+            )
 
     # --- results: one row per fight -------------------------------------
     res = res.merge(ev, on="EVENT", how="left", validate="many_to_one")

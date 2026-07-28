@@ -75,3 +75,19 @@ Re-run `prepare_api_odds_history.py` and `validate_entry_history.py` as close
 coverage grows. Re-run `research_entry_models.py` only after new point-in-time
 entry or close data arrives; repeatedly tuning against the same sample would
 overfit the audit. No result in this repository enables automated wagering.
+
+## Frozen-split improvement audit
+
+`audit_model_improvements.py` tests symmetric calibration, bootstrap-
+uncertainty penalties, minimum-book filters, entry-versus-close timing, and
+the limited individual-book dispersion sample. Settings are selected only on
+data before 2024, checked on 2024, and then evaluated on a 2025+ holdout.
+
+None earns promotion. Symmetric calibration is effectively identity on the
+production ledger and worsens entry-price log loss in both later periods. The
+development-selected uncertainty and book-count settings do not beat their
+baselines consistently. The timing model is only 54.8% directionally accurate
+on 168 holdout fights and underperforms always using the entry price. Per-book
+dispersion covers just 22 matched cards and has no 2025+ holdout coverage.
+Production therefore remains unchanged; full results are in
+`model_improvement_audit.json` and `MODEL_IMPROVEMENT_AUDIT.md`.

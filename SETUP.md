@@ -38,6 +38,7 @@ python monitor_drift.py
 python freshness.py --require-current
 python validate_method.py
 python validate_staking.py
+python audit_model_improvements.py
 ```
 
 To deliberately lock official paper wagers from the current card:

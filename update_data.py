@@ -25,6 +25,7 @@ FILES = [
     "ufc_fighter_details.csv",
 ]
 BASE = "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/"
+MAX_RECOVERED_EVENT_DATES = 5
 
 
 def _sha256(path):
@@ -56,6 +57,55 @@ def _replace_from_staging(source, destination):
     os.replace(temporary, destination)
 
 
+def _fighter_ids(frame):
+    values = []
+    for column in ("fighter_a_id", "fighter_b_id"):
+        if column in frame:
+            values.extend(frame[column].dropna().astype(str).str.strip())
+    return {value for value in values if value}
+
+
+def _fight_keys(frame):
+    required = {"event", "fighter_a_id", "fighter_b_id"}
+    if not required.issubset(frame.columns):
+        return set()
+    keys = set()
+    for event, fighter_a_id, fighter_b_id in zip(
+            frame["event"], frame["fighter_a_id"], frame["fighter_b_id"]):
+        fighters = sorted((str(fighter_a_id).strip(), str(fighter_b_id).strip()))
+        keys.add(f"{str(event).strip()}|{fighters[0]}|{fighters[1]}")
+    return keys
+
+
+def _historical_event_dates(previous):
+    if previous is None or not {"event", "date"}.issubset(previous.columns):
+        return {}
+    rows = previous[["event", "date"]].copy()
+    rows["event"] = rows["event"].fillna("").astype(str).str.strip()
+    rows["date"] = pd.to_datetime(rows["date"], errors="coerce")
+    rows = rows[(rows["event"] != "") & rows["date"].notna()]
+    counts = rows.groupby("event")["date"].nunique()
+    unambiguous = set(counts[counts == 1].index)
+    rows = rows[rows["event"].isin(unambiguous)].drop_duplicates("event")
+    return dict(zip(rows["event"], rows["date"]))
+
+
+def _event_date_recovery(previous, event_details, fight_results):
+    """Recover a missing event date only from the prior validated fight table."""
+    fallback = _historical_event_dates(previous)
+    events = event_details.copy()
+    events["EVENT"] = events["EVENT"].fillna("").astype(str).str.strip()
+    events["date"] = pd.to_datetime(events["DATE"], format="mixed", errors="coerce")
+    valid_events = set(events.loc[events["date"].notna(), "EVENT"])
+    result_events = set(
+        fight_results["EVENT"].fillna("").astype(str).str.strip()
+    ) - {""}
+    missing = result_events - valid_events
+    recovered = {event: fallback[event] for event in sorted(missing) if event in fallback}
+    unresolved = sorted(missing - set(recovered))
+    return recovered, unresolved
+
+
 def _regression_errors(new, old):
     errors = []
     if old is None or not len(old):
@@ -66,10 +116,22 @@ def _regression_errors(new, old):
     old_max = pd.to_datetime(old["date"]).max()
     if new_max < old_max:
         errors.append(f"latest result moved backward from {old_max.date()} to {new_max.date()}")
-    old_ids = set(old.get("fighter_a_id", [])) | set(old.get("fighter_b_id", []))
-    new_ids = set(new["fighter_a_id"]) | set(new["fighter_b_id"])
-    if old_ids and not old_ids.issubset(new_ids):
-        errors.append(f"refresh dropped {len(old_ids - new_ids)} historical fighter IDs")
+    old_ids = _fighter_ids(old)
+    new_ids = _fighter_ids(new)
+    missing_ids = sorted(old_ids - new_ids)
+    if missing_ids:
+        errors.append(
+            f"refresh dropped {len(missing_ids)} historical fighter IDs: "
+            + ", ".join(missing_ids[:5])
+        )
+    old_fights = _fight_keys(old)
+    new_fights = _fight_keys(new)
+    missing_fights = sorted(old_fights - new_fights)
+    if missing_fights:
+        errors.append(
+            f"refresh dropped {len(missing_fights)} historical fights: "
+            + "; ".join(missing_fights[:3])
+        )
     return errors
 
 
@@ -88,7 +150,25 @@ def run(raw_dir="raw", output="fights_v2.csv", manifest="data_source_manifest.js
             metadata["bytes"] = int((staging / filename).stat().st_size)
             sources[filename] = metadata
 
-        rebuilt = adapter.build(str(staging))
+        event_details = pd.read_csv(staging / "ufc_event_details.csv")
+        fight_results = pd.read_csv(staging / "ufc_fight_results.csv")
+        recovered_dates, unresolved_events = _event_date_recovery(
+            previous, event_details, fight_results
+        )
+        if unresolved_events:
+            raise ValueError(
+                "Data refresh rejected:\n- results contain events without a valid date "
+                "or prior validated fallback: " + ", ".join(unresolved_events[:5])
+            )
+        if len(recovered_dates) > MAX_RECOVERED_EVENT_DATES:
+            raise ValueError(
+                "Data refresh rejected:\n- refusing to recover "
+                f"{len(recovered_dates)} missing event dates; limit is "
+                f"{MAX_RECOVERED_EVENT_DATES}"
+            )
+        rebuilt = adapter.build(
+            str(staging), fallback_event_dates=recovered_dates
+        )
         errors = audit_fights(rebuilt) + _regression_errors(rebuilt, previous)
         if errors:
             raise ValueError("Data refresh rejected:\n- " + "\n- ".join(errors))
@@ -102,6 +182,10 @@ def run(raw_dir="raw", output="fights_v2.csv", manifest="data_source_manifest.js
             "result_date_min": str(pd.to_datetime(rebuilt["date"]).min().date()),
             "result_date_max": str(pd.to_datetime(rebuilt["date"]).max().date()),
             "fights_sha256": _sha256(staged_output),
+            "recovered_event_dates": [
+                {"event": event, "date": str(pd.Timestamp(date).date())}
+                for event, date in recovered_dates.items()
+            ],
             "files": sources,
         }
         staged_manifest = staging / "data_source_manifest.json"
@@ -114,6 +198,9 @@ def run(raw_dir="raw", output="fights_v2.csv", manifest="data_source_manifest.js
 
     print(f"{output} rebuilt: {len(rebuilt)} fights through "
           f"{pd.to_datetime(rebuilt['date']).max().date()}")
+    for event, date in recovered_dates.items():
+        print(f"recovered missing upstream event date from prior validated data: "
+              f"{event} ({pd.Timestamp(date).date()})")
     for cache in glob.glob("cache_*.pkl"):
         os.remove(cache)
         print(f"cleared {cache}")

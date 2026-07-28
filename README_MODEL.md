@@ -156,10 +156,14 @@ positive clustered CLV interval. Observed blend winners are research
 candidates only. This repository never places wagers automatically.
 
 `update_data.py` stages all upstream files, rebuilds and audits the complete
-fight table, rejects row-count/maximum-date/identity regressions, and only then
-atomically replaces live inputs. `data_freshness.json` and the dashboard show
-the latest result date. A tracked completed fight missing from the result
-source fails the scheduled update closed.
+fight table, rejects row-count/maximum-date/fight/identity regressions, and
+only then atomically replaces live inputs. If upstream event metadata
+temporarily disappears while the current official result remains, the refresh
+may reuse that event's single previously validated date; the recovery is
+manifested and capped. Unknown or broad deletions still fail closed.
+`data_freshness.json` and the dashboard show the latest result date. A tracked
+completed fight missing from the result source fails the scheduled update
+closed.
 
 ## Immutable paper-ledger design
 
@@ -210,6 +214,8 @@ unresolved external name receives neutral history and a visible warning.
 - `research_entry_models.py` - leakage-safe entry-trained candidate comparison.
 - `capture_close.py` - deduplicated standardized T-30-window H2H capture.
 - `validate_staking.py` - active/candidate stake-policy and edge-tier audit.
+- `audit_model_improvements.py` - frozen-split calibration, uncertainty,
+  book-count, execution-timing, and sportsbook-dispersion challenger audit.
 - `discover_prop_markets.py` - explicitly capped MMA prop-market discovery.
 - `freshness.py` - visible result-source freshness and contradiction gate.
 - `validate_method.py` - probability-only method-model audit.

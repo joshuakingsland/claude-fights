@@ -2,6 +2,21 @@
 
 This package was upgraded from the verified v2 prototype to production-v3.
 
+## July 2026 refresh recovery
+
+- The upstream scraper removed the `UFC - Road to UFC 4.6` event-details row
+  while retaining its official fight results and statistics. That made two
+  completed fights disappear during the adapter join and correctly tripped
+  the historical-identity regression gate.
+- `update_data.py` now recovers a missing event date only when the event still
+  appears in the current result source and the previous validated fight table
+  provides one unambiguous date. Recoveries are recorded in
+  `data_source_manifest.json` and capped at five events per refresh.
+- Unknown missing event dates, disappeared results, dropped fights, dropped
+  fighter IDs, row shrinkage, and backward result dates still fail closed.
+- All workflows now use `actions/checkout@v5` and
+  `actions/setup-python@v6`, removing the Node 20 deprecation warning.
+
 ## Fixed
 
 - Production predictions now fail closed on past or unverifiable event times.

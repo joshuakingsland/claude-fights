@@ -1,0 +1,1373 @@
+{
+  "experiment": "model-improvement-audit-v1",
+  "status": "research_only",
+  "production_unchanged": true,
+  "splits": {
+    "development": "date < 2024-01-01",
+    "validation": "2024-01-01 <= date < 2025-01-01",
+    "holdout": "date >= 2025-01-01"
+  },
+  "baseline_identity": {
+    "production": {
+      "stake_exact": true,
+      "pnl_exact": true
+    },
+    "entry": {
+      "stake_exact": true,
+      "pnl_exact": true
+    }
+  },
+  "production": {
+    "calibration": {
+      "fit_period": "date < 2024-01-01",
+      "scale": 1.0085610429224265,
+      "interpretation": "scale < 1 shrinks probabilities toward 50%",
+      "periods": {
+        "development": {
+          "raw": {
+            "fights": 2228,
+            "log_loss": 0.6123579326812448,
+            "brier": 0.21224504367440805,
+            "ece_10": 0.029270350570674283
+          },
+          "calibrated": {
+            "fights": 2228,
+            "log_loss": 0.6123532004098898,
+            "brier": 0.2122473121839484,
+            "ece_10": 0.03054169738551203
+          },
+          "delta_calibrated_minus_raw": {
+            "log_loss": -4.732271355001316e-06,
+            "brier": 2.268509540354069e-06,
+            "ece_10": 0.001271346814837749
+          },
+          "delta_ci90_event_clustered": {
+            "log_loss": [
+              -0.00010617756301956493,
+              0.0001015551030124715
+            ],
+            "brier": [
+              -3.411275255928531e-05,
+              4.031172645979018e-05
+            ]
+          },
+          "raw_policy": {
+            "events": 210,
+            "fights": 2228,
+            "bets": 246,
+            "staked": 246.0,
+            "pnl": 18.030696681833625,
+            "roi": 0.07329551496680335,
+            "roi_ci90_event_clustered": [
+              -0.029601263622966452,
+              0.1836605843471088
+            ]
+          },
+          "calibrated_policy": {
+            "events": 210,
+            "fights": 2228,
+            "bets": 247,
+            "staked": 247.0,
+            "pnl": 22.99390014503709,
+            "roi": 0.09309271313780199,
+            "roi_ci90_event_clustered": [
+              -0.00910887920216199,
+              0.19892911773878832
+            ]
+          }
+        },
+        "validation": {
+          "raw": {
+            "fights": 379,
+            "log_loss": 0.5912677398273809,
+            "brier": 0.20289166313922505,
+            "ece_10": 0.053086817352149346
+          },
+          "calibrated": {
+            "fights": 379,
+            "log_loss": 0.5912741255844444,
+            "brier": 0.20289633283724662,
+            "ece_10": 0.05562682991415233
+          },
+          "delta_calibrated_minus_raw": {
+            "log_loss": 6.385757063465114e-06,
+            "brier": 4.6696980215699124e-06,
+            "ece_10": 0.002540012562002987
+          },
+          "delta_ci90_event_clustered": {
+            "log_loss": [
+              -0.00028243163903218294,
+              0.0002946777511686755
+            ],
+            "brier": [
+              -9.425761545213144e-05,
+              0.00010571313571228899
+            ]
+          },
+          "raw_policy": {
+            "events": 41,
+            "fights": 379,
+            "bets": 41,
+            "staked": 41.0,
+            "pnl": 5.831578115815607,
+            "roi": 0.14223361258086847,
+            "roi_ci90_event_clustered": [
+              -0.14408490546888672,
+              0.4514291350037454
+            ]
+          },
+          "calibrated_policy": {
+            "events": 41,
+            "fights": 379,
+            "bets": 42,
+            "staked": 42.0,
+            "pnl": 6.631578115815607,
+            "roi": 0.15789471704322874,
+            "roi_ci90_event_clustered": [
+              -0.12874851096082848,
+              0.4577037834696496
+            ]
+          }
+        },
+        "holdout": {
+          "raw": {
+            "fights": 611,
+            "log_loss": 0.5736528821654389,
+            "brier": 0.196045627850024,
+            "ece_10": 0.05911395158297396
+          },
+          "calibrated": {
+            "fights": 611,
+            "log_loss": 0.5735898916424121,
+            "brier": 0.19604599326085,
+            "ece_10": 0.058595071338245895
+          },
+          "delta_calibrated_minus_raw": {
+            "log_loss": -6.299052302671804e-05,
+            "brier": 3.6541082601426744e-07,
+            "ece_10": -0.0005188802447280635
+          },
+          "delta_ci90_event_clustered": {
+            "log_loss": [
+              -0.0002849336691387339,
+              0.00016932764670131738
+            ],
+            "brier": [
+              -7.55451973701666e-05,
+              8.005328405851408e-05
+            ]
+          },
+          "raw_policy": {
+            "events": 51,
+            "fights": 611,
+            "bets": 63,
+            "staked": 63.0,
+            "pnl": 0.26073995563459107,
+            "roi": 0.004138729454517319,
+            "roi_ci90_event_clustered": [
+              -0.2010206144278167,
+              0.21406217781798317
+            ]
+          },
+          "calibrated_policy": {
+            "events": 51,
+            "fights": 611,
+            "bets": 64,
+            "staked": 64.0,
+            "pnl": -0.7392600443654089,
+            "roi": -0.011550938193209515,
+            "roi_ci90_event_clustered": [
+              -0.21348966807014422,
+              0.19954787230418114
+            ]
+          }
+        }
+      },
+      "verdict": "reject_for_now",
+      "gate": {
+        "validation_and_holdout_log_loss_ci_below_zero": false,
+        "validation_and_holdout_brier_ci_below_zero": false
+      }
+    },
+    "uncertainty": {
+      "selection_rule": "highest development ROI; ties prefer multiplier nearest 1",
+      "multipliers": {
+        "0.0": {
+          "development": {
+            "events": 210,
+            "fights": 2228,
+            "bets": 342,
+            "staked": 342.0,
+            "pnl": 41.73433604658392,
+            "roi": 0.12203022235843251,
+            "roi_ci90_event_clustered": [
+              0.02777806842504228,
+              0.21611853915786475
+            ]
+          },
+          "validation": {
+            "events": 41,
+            "fights": 379,
+            "bets": 56,
+            "staked": 56.0,
+            "pnl": 5.555464079480974,
+            "roi": 0.0992047157050174,
+            "roi_ci90_event_clustered": [
+              -0.15916542245204185,
+              0.36041176013552195
+            ]
+          },
+          "holdout": {
+            "events": 51,
+            "fights": 611,
+            "bets": 81,
+            "staked": 81.0,
+            "pnl": 6.683995926177667,
+            "roi": 0.08251846822441565,
+            "roi_ci90_event_clustered": [
+              -0.10961051660924011,
+              0.28064610176988253
+            ]
+          }
+        },
+        "0.5": {
+          "development": {
+            "events": 210,
+            "fights": 2228,
+            "bets": 294,
+            "staked": 294.0,
+            "pnl": 32.6030869766018,
+            "roi": 0.11089485366191089,
+            "roi_ci90_event_clustered": [
+              0.006852401623509933,
+              0.2097213305158286
+            ]
+          },
+          "validation": {
+            "events": 41,
+            "fights": 379,
+            "bets": 47,
+            "staked": 47.0,
+            "pnl": 9.109038166278179,
+            "roi": 0.19380932268676976,
+            "roi_ci90_event_clustered": [
+              -0.07779557831251749,
+              0.46533778479389504
+            ]
+          },
+          "holdout": {
+            "events": 51,
+            "fights": 611,
+            "bets": 70,
+            "staked": 70.0,
+            "pnl": 0.1769304318250664,
+            "roi": 0.0025275775975009485,
+            "roi_ci90_event_clustered": [
+              -0.1940436877683318,
+              0.21900162776040247
+            ]
+          }
+        },
+        "1.0": {
+          "development": {
+            "events": 210,
+            "fights": 2228,
+            "bets": 246,
+            "staked": 246.0,
+            "pnl": 18.030696681833625,
+            "roi": 0.07329551496680335,
+            "roi_ci90_event_clustered": [
+              -0.029601263622966452,
+              0.1836605843471088
+            ]
+          },
+          "validation": {
+            "events": 41,
+            "fights": 379,
+            "bets": 41,
+            "staked": 41.0,
+            "pnl": 5.831578115815607,
+            "roi": 0.14223361258086847,
+            "roi_ci90_event_clustered": [
+              -0.14408490546888672,
+              0.4514291350037454
+            ]
+          },
+          "holdout": {
+            "events": 51,
+            "fights": 611,
+            "bets": 63,
+            "staked": 63.0,
+            "pnl": 0.26073995563459107,
+            "roi": 0.004138729454517319,
+            "roi_ci90_event_clustered": [
+              -0.2010206144278167,
+              0.21406217781798317
+            ]
+          }
+        },
+        "1.5": {
+          "development": {
+            "events": 210,
+            "fights": 2228,
+            "bets": 195,
+            "staked": 195.0,
+            "pnl": 9.905315705866723,
+            "roi": 0.05079649079931653,
+            "roi_ci90_event_clustered": [
+              -0.06684829056786726,
+              0.16831018821375232
+            ]
+          },
+          "validation": {
+            "events": 41,
+            "fights": 379,
+            "bets": 29,
+            "staked": 29.0,
+            "pnl": 5.3434652615695954,
+            "roi": 0.18425742281274468,
+            "roi_ci90_event_clustered": [
+              -0.15230509212010432,
+              0.5654975741855035
+            ]
+          },
+          "holdout": {
+            "events": 51,
+            "fights": 611,
+            "bets": 52,
+            "staked": 52.0,
+            "pnl": -3.9748251236349628,
+            "roi": -0.07643894468528775,
+            "roi_ci90_event_clustered": [
+              -0.2868036137081362,
+              0.14158196510627521
+            ]
+          }
+        },
+        "2.0": {
+          "development": {
+            "events": 210,
+            "fights": 2228,
+            "bets": 155,
+            "staked": 155.0,
+            "pnl": 12.295092579384331,
+            "roi": 0.0793231779315118,
+            "roi_ci90_event_clustered": [
+              -0.0451852095366385,
+              0.20128910256864974
+            ]
+          },
+          "validation": {
+            "events": 41,
+            "fights": 379,
+            "bets": 20,
+            "staked": 20.0,
+            "pnl": 2.4837577450964368,
+            "roi": 0.12418788725482184,
+            "roi_ci90_event_clustered": [
+              -0.3221410393847925,
+              0.6572038333991991
+            ]
+          },
+          "holdout": {
+            "events": 51,
+            "fights": 611,
+            "bets": 44,
+            "staked": 44.0,
+            "pnl": -4.122303118553624,
+            "roi": -0.0936887072398551,
+            "roi_ci90_event_clustered": [
+              -0.29677697549677395,
+              0.12007356083749002
+            ]
+          }
+        }
+      },
+      "development_selected_multiplier": 0.0,
+      "gate": {
+        "beats_multiplier_1_roi_in_validation_and_holdout": false,
+        "at_least_50_bets_in_validation_and_holdout": true
+      },
+      "verdict": "reject_for_now"
+    }
+  },
+  "entry": {
+    "calibration": {
+      "fit_period": "date < 2024-01-01",
+      "scale": 1.0471340536340856,
+      "interpretation": "scale < 1 shrinks probabilities toward 50%",
+      "periods": {
+        "development": {
+          "raw": {
+            "fights": 476,
+            "log_loss": 0.58952567462252,
+            "brier": 0.20317231561745222,
+            "ece_10": 0.046049251546284704
+          },
+          "calibrated": {
+            "fights": 476,
+            "log_loss": 0.5893637829417944,
+            "brier": 0.2032223313286162,
+            "ece_10": 0.04795132066819955
+          },
+          "delta_calibrated_minus_raw": {
+            "log_loss": -0.00016189168072566762,
+            "brier": 5.001571116397541e-05,
+            "ece_10": 0.0019020691219148456
+          },
+          "delta_ci90_event_clustered": {
+            "log_loss": [
+              -0.0013774473161268811,
+              0.0010991708180138593
+            ],
+            "brier": [
+              -0.0003712971780281653,
+              0.0004903499582952349
+            ]
+          },
+          "raw_policy": {
+            "events": 66,
+            "fights": 476,
+            "bets": 75,
+            "staked": 75.0,
+            "pnl": 5.33820695570958,
+            "roi": 0.0711760927427944,
+            "roi_ci90_event_clustered": [
+              -0.08633554311206852,
+              0.22391976238049505
+            ],
+            "clv": {
+              "bets": 51,
+              "mean_prob_points": 0.7490304163517151,
+              "ci90_event_clustered": [
+                0.3367179833831717,
+                1.193030037919399
+              ],
+              "positive_rate": 0.6078431372549019
+            }
+          },
+          "calibrated_policy": {
+            "events": 66,
+            "fights": 476,
+            "bets": 85,
+            "staked": 85.0,
+            "pnl": 7.798732558105987,
+            "roi": 0.09174979480124691,
+            "roi_ci90_event_clustered": [
+              -0.04853337874982236,
+              0.23370827092236102
+            ],
+            "clv": {
+              "bets": 55,
+              "mean_prob_points": 0.7625856612695866,
+              "ci90_event_clustered": [
+                0.3501603122114892,
+                1.1888090797935755
+              ],
+              "positive_rate": 0.5818181818181818
+            }
+          }
+        },
+        "validation": {
+          "raw": {
+            "fights": 312,
+            "log_loss": 0.5914386722657843,
+            "brier": 0.20309310391539753,
+            "ece_10": 0.057751025814040936
+          },
+          "calibrated": {
+            "fights": 312,
+            "log_loss": 0.5920247809628794,
+            "brier": 0.20327164476294074,
+            "ece_10": 0.05652536411502603
+          },
+          "delta_calibrated_minus_raw": {
+            "log_loss": 0.000586108697095078,
+            "brier": 0.0001785408475432071,
+            "ece_10": -0.0012256616990149044
+          },
+          "delta_ci90_event_clustered": {
+            "log_loss": [
+              -0.0011338564777974287,
+              0.002277801615914555
+            ],
+            "brier": [
+              -0.0004210715680173659,
+              0.0007778326467502497
+            ]
+          },
+          "raw_policy": {
+            "events": 42,
+            "fights": 312,
+            "bets": 42,
+            "staked": 42.0,
+            "pnl": -5.5096422887541605,
+            "roi": -0.13118195925605144,
+            "roi_ci90_event_clustered": [
+              -0.3222187022981673,
+              0.07065389543467858
+            ],
+            "clv": {
+              "bets": 13,
+              "mean_prob_points": 0.31816223180360836,
+              "ci90_event_clustered": [
+                -0.8522843724164854,
+                1.4012981649054794
+              ],
+              "positive_rate": 0.5384615384615384
+            }
+          },
+          "calibrated_policy": {
+            "events": 42,
+            "fights": 312,
+            "bets": 49,
+            "staked": 49.0,
+            "pnl": -5.892891476842058,
+            "roi": -0.12026309136412364,
+            "roi_ci90_event_clustered": [
+              -0.28386861366314253,
+              0.04454966861078241
+            ],
+            "clv": {
+              "bets": 16,
+              "mean_prob_points": 0.39358765377513133,
+              "ci90_event_clustered": [
+                -0.7624607305815985,
+                1.5086901636503092
+              ],
+              "positive_rate": 0.625
+            }
+          }
+        },
+        "holdout": {
+          "raw": {
+            "fights": 478,
+            "log_loss": 0.5908691862252878,
+            "brier": 0.20316366713562178,
+            "ece_10": 0.0349654442627306
+          },
+          "calibrated": {
+            "fights": 478,
+            "log_loss": 0.5921963020557058,
+            "brier": 0.20367502905257626,
+            "ece_10": 0.04439568244598358
+          },
+          "delta_calibrated_minus_raw": {
+            "log_loss": 0.001327115830418002,
+            "brier": 0.0005113619169544725,
+            "ece_10": 0.009430238183252983
+          },
+          "delta_ci90_event_clustered": {
+            "log_loss": [
+              -0.0003773219827122703,
+              0.0030539182279883037
+            ],
+            "brier": [
+              -3.6722916284120035e-05,
+              0.0010756040282874596
+            ]
+          },
+          "raw_policy": {
+            "events": 65,
+            "fights": 478,
+            "bets": 61,
+            "staked": 61.0,
+            "pnl": 7.205661067099208,
+            "roi": 0.11812559126392144,
+            "roi_ci90_event_clustered": [
+              -0.019286780548094094,
+              0.248700055580379
+            ],
+            "clv": {
+              "bets": 24,
+              "mean_prob_points": 0.8112069059426462,
+              "ci90_event_clustered": [
+                -0.37219661851686203,
+                1.9860136078417052
+              ],
+              "positive_rate": 0.6666666666666666
+            }
+          },
+          "calibrated_policy": {
+            "events": 65,
+            "fights": 478,
+            "bets": 74,
+            "staked": 74.0,
+            "pnl": 7.61360044488778,
+            "roi": 0.10288649249848351,
+            "roi_ci90_event_clustered": [
+              -0.01136557716178648,
+              0.2168961979048483
+            ],
+            "clv": {
+              "bets": 30,
+              "mean_prob_points": 0.7137452272626174,
+              "ci90_event_clustered": [
+                -0.34880094632974257,
+                1.7846858183867949
+              ],
+              "positive_rate": 0.6
+            }
+          }
+        }
+      },
+      "verdict": "reject_for_now",
+      "gate": {
+        "validation_and_holdout_log_loss_ci_below_zero": false,
+        "validation_and_holdout_brier_ci_below_zero": false
+      }
+    },
+    "uncertainty": {
+      "selection_rule": "highest development ROI; ties prefer multiplier nearest 1",
+      "multipliers": {
+        "0.0": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 112,
+            "staked": 112.0,
+            "pnl": 3.076478725298217,
+            "roi": 0.027468560047305506,
+            "roi_ci90_event_clustered": [
+              -0.09393553420917439,
+              0.14771940990084298
+            ],
+            "clv": {
+              "bets": 75,
+              "mean_prob_points": 0.3796681030597458,
+              "ci90_event_clustered": [
+                0.018409552678935646,
+                0.7352191382603218
+              ],
+              "positive_rate": 0.5466666666666666
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 66,
+            "staked": 66.0,
+            "pnl": -0.8300906671898112,
+            "roi": -0.012577131321057745,
+            "roi_ci90_event_clustered": [
+              -0.1825559977487936,
+              0.15347863046366697
+            ],
+            "clv": {
+              "bets": 24,
+              "mean_prob_points": -0.19370708401491699,
+              "ci90_event_clustered": [
+                -1.0099653754747502,
+                0.6279673045145346
+              ],
+              "positive_rate": 0.5
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 94,
+            "staked": 94.0,
+            "pnl": 4.2973990476669535,
+            "roi": 0.04571701114539312,
+            "roi_ci90_event_clustered": [
+              -0.0737879953640231,
+              0.16663538213756285
+            ],
+            "clv": {
+              "bets": 39,
+              "mean_prob_points": 0.4893068560723067,
+              "ci90_event_clustered": [
+                -0.2604016546461221,
+                1.2789425555364786
+              ],
+              "positive_rate": 0.5641025641025641
+            }
+          }
+        },
+        "0.5": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 96,
+            "staked": 96.0,
+            "pnl": 4.62279120260142,
+            "roi": 0.04815407502709813,
+            "roi_ci90_event_clustered": [
+              -0.08683455417166273,
+              0.18046577746562023
+            ],
+            "clv": {
+              "bets": 65,
+              "mean_prob_points": 0.6040209424630696,
+              "ci90_event_clustered": [
+                0.2680673580553553,
+                0.965158024727252
+              ],
+              "positive_rate": 0.5846153846153846
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 51,
+            "staked": 51.0,
+            "pnl": -6.409164809244422,
+            "roi": -0.12566989822047886,
+            "roi_ci90_event_clustered": [
+              -0.32224953804035184,
+              0.07820605760748518
+            ],
+            "clv": {
+              "bets": 19,
+              "mean_prob_points": -0.4186471256680498,
+              "ci90_event_clustered": [
+                -1.6173750954157815,
+                0.678388597795169
+              ],
+              "positive_rate": 0.5263157894736842
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 74,
+            "staked": 74.0,
+            "pnl": 5.912084809143955,
+            "roi": 0.07989303796140479,
+            "roi_ci90_event_clustered": [
+              -0.0424683292820089,
+              0.20383232841507307
+            ],
+            "clv": {
+              "bets": 29,
+              "mean_prob_points": 0.8191707182546434,
+              "ci90_event_clustered": [
+                -0.3159578938833435,
+                1.9833907833721933
+              ],
+              "positive_rate": 0.6551724137931034
+            }
+          }
+        },
+        "1.0": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 75,
+            "staked": 75.0,
+            "pnl": 5.33820695570958,
+            "roi": 0.0711760927427944,
+            "roi_ci90_event_clustered": [
+              -0.08633554311206852,
+              0.22391976238049505
+            ],
+            "clv": {
+              "bets": 51,
+              "mean_prob_points": 0.7490304163517151,
+              "ci90_event_clustered": [
+                0.3367179833831717,
+                1.193030037919399
+              ],
+              "positive_rate": 0.6078431372549019
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 42,
+            "staked": 42.0,
+            "pnl": -5.5096422887541605,
+            "roi": -0.13118195925605144,
+            "roi_ci90_event_clustered": [
+              -0.3222187022981673,
+              0.07065389543467858
+            ],
+            "clv": {
+              "bets": 13,
+              "mean_prob_points": 0.31816223180360836,
+              "ci90_event_clustered": [
+                -0.8522843724164854,
+                1.4012981649054794
+              ],
+              "positive_rate": 0.5384615384615384
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 61,
+            "staked": 61.0,
+            "pnl": 7.205661067099208,
+            "roi": 0.11812559126392144,
+            "roi_ci90_event_clustered": [
+              -0.019286780548094094,
+              0.248700055580379
+            ],
+            "clv": {
+              "bets": 24,
+              "mean_prob_points": 0.8112069059426462,
+              "ci90_event_clustered": [
+                -0.37219661851686203,
+                1.9860136078417052
+              ],
+              "positive_rate": 0.6666666666666666
+            }
+          }
+        },
+        "1.5": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 58,
+            "staked": 58.0,
+            "pnl": 2.488936652956777,
+            "roi": 0.04291270091304788,
+            "roi_ci90_event_clustered": [
+              -0.12884383118602774,
+              0.20705712120503048
+            ],
+            "clv": {
+              "bets": 39,
+              "mean_prob_points": 0.3618852026310483,
+              "ci90_event_clustered": [
+                -0.02015728503945971,
+                0.7511471532421462
+              ],
+              "positive_rate": 0.5384615384615384
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 24,
+            "staked": 24.0,
+            "pnl": -2.5249222775825357,
+            "roi": -0.10520509489927232,
+            "roi_ci90_event_clustered": [
+              -0.3223049823719829,
+              0.11645069402382796
+            ],
+            "clv": {
+              "bets": 9,
+              "mean_prob_points": 1.0604527875438565,
+              "ci90_event_clustered": [
+                -0.24659409739085728,
+                2.2444046466308842
+              ],
+              "positive_rate": 0.6666666666666666
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 41,
+            "staked": 41.0,
+            "pnl": 6.196127294022432,
+            "roi": 0.15112505595176662,
+            "roi_ci90_event_clustered": [
+              -0.020373880936157527,
+              0.30480792154426406
+            ],
+            "clv": {
+              "bets": 17,
+              "mean_prob_points": 0.8539190978836871,
+              "ci90_event_clustered": [
+                -0.3150825695710678,
+                1.9007147214570546
+              ],
+              "positive_rate": 0.7058823529411765
+            }
+          }
+        },
+        "2.0": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 44,
+            "staked": 44.0,
+            "pnl": 7.471060460829753,
+            "roi": 0.16979682865522164,
+            "roi_ci90_event_clustered": [
+              -0.0315809874416743,
+              0.36358073722606865
+            ],
+            "clv": {
+              "bets": 29,
+              "mean_prob_points": 0.30705075172004803,
+              "ci90_event_clustered": [
+                -0.15902172261001488,
+                0.7707202105104204
+              ],
+              "positive_rate": 0.5517241379310345
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 13,
+            "staked": 13.0,
+            "pnl": -1.7095923674871045,
+            "roi": -0.13150710519131573,
+            "roi_ci90_event_clustered": [
+              -0.42430173548594596,
+              0.17674663299663299
+            ],
+            "clv": {
+              "bets": 6,
+              "mean_prob_points": 0.6942242395023223,
+              "ci90_event_clustered": [
+                -0.9870691900933745,
+                2.2572081390029886
+              ],
+              "positive_rate": 0.6666666666666666
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 27,
+            "staked": 27.0,
+            "pnl": 3.0371344885610236,
+            "roi": 0.11248646253929717,
+            "roi_ci90_event_clustered": [
+              -0.10935047648725749,
+              0.32065244426734585
+            ],
+            "clv": {
+              "bets": 10,
+              "mean_prob_points": 0.95592261689459,
+              "ci90_event_clustered": [
+                -0.9023437750155142,
+                2.4148822422059095
+              ],
+              "positive_rate": 0.7
+            }
+          }
+        }
+      },
+      "development_selected_multiplier": 2.0,
+      "gate": {
+        "beats_multiplier_1_roi_in_validation_and_holdout": false,
+        "at_least_50_bets_in_validation_and_holdout": false
+      },
+      "verdict": "reject_for_now"
+    },
+    "book_count": {
+      "selection_rule": "highest development ROI; ties prefer broader coverage",
+      "minimum_books": {
+        "3": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 75,
+            "staked": 75.0,
+            "pnl": 5.33820695570958,
+            "roi": 0.0711760927427944,
+            "roi_ci90_event_clustered": [
+              -0.08633554311206852,
+              0.22391976238049505
+            ],
+            "clv": {
+              "bets": 51,
+              "mean_prob_points": 0.7490304163517151,
+              "ci90_event_clustered": [
+                0.3367179833831717,
+                1.193030037919399
+              ],
+              "positive_rate": 0.6078431372549019
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 42,
+            "staked": 42.0,
+            "pnl": -5.5096422887541605,
+            "roi": -0.13118195925605144,
+            "roi_ci90_event_clustered": [
+              -0.3222187022981673,
+              0.07065389543467858
+            ],
+            "clv": {
+              "bets": 13,
+              "mean_prob_points": 0.31816223180360836,
+              "ci90_event_clustered": [
+                -0.8522843724164854,
+                1.4012981649054794
+              ],
+              "positive_rate": 0.5384615384615384
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 61,
+            "staked": 61.0,
+            "pnl": 7.205661067099208,
+            "roi": 0.11812559126392144,
+            "roi_ci90_event_clustered": [
+              -0.019286780548094094,
+              0.248700055580379
+            ],
+            "clv": {
+              "bets": 24,
+              "mean_prob_points": 0.8112069059426462,
+              "ci90_event_clustered": [
+                -0.37219661851686203,
+                1.9860136078417052
+              ],
+              "positive_rate": 0.6666666666666666
+            }
+          }
+        },
+        "5": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 75,
+            "staked": 75.0,
+            "pnl": 5.33820695570958,
+            "roi": 0.0711760927427944,
+            "roi_ci90_event_clustered": [
+              -0.08633554311206852,
+              0.22391976238049505
+            ],
+            "clv": {
+              "bets": 51,
+              "mean_prob_points": 0.7490304163517151,
+              "ci90_event_clustered": [
+                0.3367179833831717,
+                1.193030037919399
+              ],
+              "positive_rate": 0.6078431372549019
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 40,
+            "staked": 40.0,
+            "pnl": -4.787420066531939,
+            "roi": -0.11968550166329847,
+            "roi_ci90_event_clustered": [
+              -0.30837854489196326,
+              0.0804929152590245
+            ],
+            "clv": {
+              "bets": 13,
+              "mean_prob_points": 0.31816223180360836,
+              "ci90_event_clustered": [
+                -0.8522843724164854,
+                1.4012981649054794
+              ],
+              "positive_rate": 0.5384615384615384
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 54,
+            "staked": 54.0,
+            "pnl": 8.585295275663123,
+            "roi": 0.15898694954931708,
+            "roi_ci90_event_clustered": [
+              0.015790268746652167,
+              0.2925646378126468
+            ],
+            "clv": {
+              "bets": 24,
+              "mean_prob_points": 0.8112069059426462,
+              "ci90_event_clustered": [
+                -0.37219661851686203,
+                1.9860136078417052
+              ],
+              "positive_rate": 0.6666666666666666
+            }
+          }
+        },
+        "7": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 74,
+            "staked": 74.0,
+            "pnl": 4.6715402890429125,
+            "roi": 0.06312892282490422,
+            "roi_ci90_event_clustered": [
+              -0.09651091525117436,
+              0.21677774589667365
+            ],
+            "clv": {
+              "bets": 51,
+              "mean_prob_points": 0.7490304163517151,
+              "ci90_event_clustered": [
+                0.3367179833831717,
+                1.193030037919399
+              ],
+              "positive_rate": 0.6078431372549019
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 38,
+            "staked": 38.0,
+            "pnl": -4.454086733198606,
+            "roi": -0.11721280876838437,
+            "roi_ci90_event_clustered": [
+              -0.3028920853205948,
+              0.07466119067261455
+            ],
+            "clv": {
+              "bets": 13,
+              "mean_prob_points": 0.31816223180360836,
+              "ci90_event_clustered": [
+                -0.8522843724164854,
+                1.4012981649054794
+              ],
+              "positive_rate": 0.5384615384615384
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 41,
+            "staked": 41.0,
+            "pnl": 8.89842066534374,
+            "roi": 0.21703465037423758,
+            "roi_ci90_event_clustered": [
+              0.07907114801402043,
+              0.3595565076993322
+            ],
+            "clv": {
+              "bets": 22,
+              "mean_prob_points": 0.8020479623124338,
+              "ci90_event_clustered": [
+                -0.48431128940204804,
+                2.1163887031497928
+              ],
+              "positive_rate": 0.6363636363636364
+            }
+          }
+        },
+        "9": {
+          "development": {
+            "events": 66,
+            "fights": 476,
+            "bets": 74,
+            "staked": 74.0,
+            "pnl": 4.6715402890429125,
+            "roi": 0.06312892282490422,
+            "roi_ci90_event_clustered": [
+              -0.09651091525117436,
+              0.21677774589667365
+            ],
+            "clv": {
+              "bets": 51,
+              "mean_prob_points": 0.7490304163517151,
+              "ci90_event_clustered": [
+                0.3367179833831717,
+                1.193030037919399
+              ],
+              "positive_rate": 0.6078431372549019
+            }
+          },
+          "validation": {
+            "events": 42,
+            "fights": 312,
+            "bets": 25,
+            "staked": 25.0,
+            "pnl": -3.593992764775182,
+            "roi": -0.14375971059100728,
+            "roi_ci90_event_clustered": [
+              -0.34715031382425293,
+              0.06239242160062171
+            ],
+            "clv": {
+              "bets": 11,
+              "mean_prob_points": -0.018166217652863678,
+              "ci90_event_clustered": [
+                -1.2982729347232078,
+                1.105229834660771
+              ],
+              "positive_rate": 0.5454545454545454
+            }
+          },
+          "holdout": {
+            "events": 65,
+            "fights": 478,
+            "bets": 0,
+            "staked": 0.0,
+            "pnl": 0.0,
+            "roi": null,
+            "roi_ci90_event_clustered": [
+              null,
+              null
+            ],
+            "clv": {
+              "bets": 0,
+              "mean_prob_points": null,
+              "ci90_event_clustered": [
+                null,
+                null
+              ],
+              "positive_rate": null
+            }
+          }
+        }
+      },
+      "development_selected_minimum": 3,
+      "gate": {
+        "beats_three_book_baseline_in_validation_and_holdout": false,
+        "at_least_50_bets_in_validation_and_holdout": false
+      },
+      "verdict": "reject_for_now"
+    },
+    "timing": {
+      "definition": "Fixed ridge model predicts whether the entry-model side will become more expensive by the close; positive means bet entry, otherwise wait.",
+      "training": "strict prior-card close-covered rows only",
+      "minimum_training_rows": 200,
+      "evaluated_fights": 168,
+      "evaluated_events": 53,
+      "first_evaluated_date": "2025-01-11",
+      "direction_accuracy": 0.5476190476190477,
+      "policies": {
+        "entry": {
+          "events": 53,
+          "fights": 168,
+          "bets": 24,
+          "staked": 24.0,
+          "pnl": 4.379478221424295,
+          "roi": 0.18247825922601227,
+          "roi_ci90_event_clustered": [
+            -0.03035692596920199,
+            0.37621887603057447
+          ],
+          "execution": {
+            "entry_actions": 24,
+            "close_actions": 0,
+            "clv_bets": 24,
+            "mean_clv_prob_points": 0.8112069059426462,
+            "clv_ci90_event_clustered": [
+              -0.37219661851686203,
+              1.9860136078417052
+            ]
+          }
+        },
+        "close": {
+          "events": 53,
+          "fights": 168,
+          "bets": 36,
+          "staked": 36.0,
+          "pnl": 3.190502755140693,
+          "roi": 0.08862507653168591,
+          "roi_ci90_event_clustered": [
+            -0.12049308171654047,
+            0.292066361358644
+          ],
+          "execution": {
+            "entry_actions": 0,
+            "close_actions": 36,
+            "clv_bets": 36,
+            "mean_clv_prob_points": 0.0,
+            "clv_ci90_event_clustered": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "ridge": {
+          "events": 53,
+          "fights": 168,
+          "bets": 27,
+          "staked": 27.0,
+          "pnl": 3.5594782214242944,
+          "roi": 0.1318325267194183,
+          "roi_ci90_event_clustered": [
+            -0.0939163936555651,
+            0.34046165484282787
+          ],
+          "execution": {
+            "entry_actions": 24,
+            "close_actions": 3,
+            "clv_bets": 27,
+            "mean_clv_prob_points": 0.7210728052823524,
+            "clv_ci90_event_clustered": [
+              -0.33814067990344077,
+              1.7755468274371664
+            ]
+          }
+        },
+        "oracle": {
+          "events": 53,
+          "fights": 168,
+          "bets": 43,
+          "staked": 43.0,
+          "pnl": 3.3396654892045707,
+          "roi": 0.07766663928382722,
+          "roi_ci90_event_clustered": [
+            -0.08843892274189727,
+            0.24029331795539283
+          ],
+          "execution": {
+            "entry_actions": 14,
+            "close_actions": 29,
+            "clv_bets": 43,
+            "mean_clv_prob_points": 0.9787075181313871,
+            "clv_ci90_event_clustered": [
+              0.5204218688242286,
+              1.4712600949200016
+            ]
+          }
+        }
+      },
+      "gate": {
+        "ridge_roi_beats_always_entry": false,
+        "at_least_100_ridge_bets": false
+      },
+      "verdict": "defer",
+      "oracle_note": "Oracle uses future prices to choose the better observed entry/close odds. It is a non-actionable execution-price ceiling, not an ROI guarantee."
+    },
+    "dispersion": {
+      "api_cards": 41,
+      "matched_fights": 191,
+      "matched_events": 22,
+      "matched_active_bets": 32,
+      "holdout_fights": 0,
+      "holdout_active_bets": 0,
+      "median_probability_spread_points": 2.310818514987334,
+      "spearman_spread_vs_squared_model_error": -0.04312829082060317,
+      "spearman_spread_vs_absolute_close_move": 0.13081271693777377,
+      "baseline_policy_on_matched_rows": {
+        "events": 22,
+        "fights": 191,
+        "bets": 32,
+        "staked": 32.0,
+        "pnl": 2.529664416049614,
+        "roi": 0.07905201300155043,
+        "roi_ci90_event_clustered": [
+          -0.1598451444189006,
+          0.3178058667051586
+        ],
+        "clv": {
+          "bets": 32,
+          "mean_prob_points": 0.36561001381584624,
+          "ci90_event_clustered": [
+            -0.029032590679574623,
+            0.7850101289536769
+          ],
+          "positive_rate": 0.5
+        }
+      },
+      "verdict": "defer",
+      "reason": "individual-book history covers too few cards and bets for a promotion test"
+    }
+  },
+  "not_historically_testable": {
+    "actual_ticket_execution": "No immutable accepted-ticket ledger exists yet.",
+    "full_archive_book_dispersion": "The large archive stores consensus quotes, not per-book observations.",
+    "future_entry_trained_model": "Requires additional point-in-time entry/close pairs before retuning."
+  },
+  "decision_rule": "No audit result changes production automatically. Holdout improvement must also satisfy sample and forward-paper gates."
+}
