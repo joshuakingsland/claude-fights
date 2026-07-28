@@ -2,6 +2,19 @@
 
 This package was upgraded from the verified v2 prototype to production-v3.
 
+## July 2026 freshness-guard correction
+
+- The result freshness audit now applies the same explicit fighter-name aliases
+  as ingestion, so `Stephen Erceg` / `Steve Erceg` and
+  `Ramazonbek Temirov` / `Ramazan Temirov` resolve deterministically.
+- Repeated odds-log snapshots are collapsed to one date-and-fighter-pair key
+  before missing-result counts are calculated.
+- Confirmed cancellations live in `cancelled_fights.csv` with status, reason,
+  source, and confirmation date. They are reported separately and do not
+  weaken the fail-closed behavior for unaccounted completed fights.
+- The first registry entry records the UFC-confirmed cancellation of
+  Islam Dulatov vs Wellington Turman on July 25, 2026.
+
 ## July 2026 refresh recovery
 
 - The upstream scraper removed the `UFC - Road to UFC 4.6` event-details row

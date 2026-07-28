@@ -35,6 +35,12 @@ NAME_ALIASES = {
 }
 
 
+def canonical_name(value):
+    """Return the explicit cross-source alias used for deterministic joins."""
+    name_key = norm_name(value)
+    return NAME_ALIASES.get(name_key, name_key)
+
+
 def fighter_id_from_url(value):
     match = re.search(r"/fighter-details/([0-9a-f]+)", str(value), re.I)
     return match.group(1).lower() if match else ""
@@ -96,8 +102,7 @@ def fighter_registry(tott, details=None):
 
 def resolve_fighter(name, weightclass, registry, strict=True):
     """Resolve a display name to one UFCStats fighter using division context."""
-    name_key = norm_name(name)
-    name_key = NAME_ALIASES.get(name_key, name_key)
+    name_key = canonical_name(name)
     candidates = registry[registry["name_key"] == name_key]
     if len(candidates) == 1:
         return candidates.iloc[0]

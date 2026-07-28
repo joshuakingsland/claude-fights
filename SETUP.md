@@ -41,6 +41,10 @@ python validate_staking.py
 python audit_model_improvements.py
 ```
 
+`freshness.py` treats only source-backed rows in `cancelled_fights.csv` as
+cancelled. Add a row only after confirming a completed listing did not occur;
+all other tracked fights that lack results continue to fail the update closed.
+
 To deliberately lock official paper wagers from the current card:
 
 ```bash

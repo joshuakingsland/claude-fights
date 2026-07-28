@@ -163,7 +163,9 @@ may reuse that event's single previously validated date; the recovery is
 manifested and capped. Unknown or broad deletions still fail closed.
 `data_freshness.json` and the dashboard show the latest result date. A tracked
 completed fight missing from the result source fails the scheduled update
-closed.
+closed. The audit canonicalizes only explicit aliases, deduplicates repeated
+market snapshots, and exempts only source-backed entries in
+`cancelled_fights.csv`; known cancellations remain visible in the report.
 
 ## Immutable paper-ledger design
 
