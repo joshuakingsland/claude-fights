@@ -11,7 +11,7 @@ from data_quality import audit_fights
 from discover_prop_markets import prop_keys
 from features import build_features
 from freshness import assess_freshness
-from identity import fighter_registry, resolve_fighter
+from identity import canonical_name, fighter_registry, resolve_fighter
 from update_data import _event_date_recovery, _regression_errors
 
 
@@ -39,6 +39,10 @@ class StableIdentityTests(unittest.TestCase):
         middle = resolve_fighter("Bruno Silva", "Middleweight Bout", registry)
         self.assertEqual(fly["fighter_id"], "aaaaaaaaaaaaaaaa")
         self.assertEqual(middle["fighter_id"], "bbbbbbbbbbbbbbbb")
+
+    def test_cross_source_aliases_are_canonical(self):
+        self.assertEqual(canonical_name("Stephen Erceg"), "steve erceg")
+        self.assertEqual(canonical_name("Ramazonbek Temirov"), "ramazan temirov")
 
     def test_adapter_joins_stats_and_physicals_by_validated_keys(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -191,6 +195,45 @@ class FreshnessAndCaptureTests(unittest.TestCase):
             report = assess_freshness(fights, odds, now="2025-01-11T20:00:00Z")
         self.assertEqual(report["status"], "lagging")
         self.assertEqual(len(report["known_completed_missing"]), 1)
+
+    def test_freshness_deduplicates_aliases_and_known_cancellations(self):
+        fights = pd.DataFrame([{
+            "date": "2026-07-25",
+            "fighter_a": "Steve Erceg",
+            "fighter_b": "Ramazan Temirov",
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds = root / "odds.csv"
+            cancellations = root / "cancelled.csv"
+            rows = [
+                {
+                    "commence_time": "2026-07-25T09:00:00Z",
+                    "fighter_a": "Stephen Erceg",
+                    "fighter_b": "Ramazonbek Temirov",
+                },
+                {
+                    "commence_time": "2026-07-25T09:00:00Z",
+                    "fighter_a": "Islam Dulatov",
+                    "fighter_b": "Wellington Turman",
+                },
+            ]
+            pd.DataFrame(rows + rows).to_csv(odds, index=False)
+            pd.DataFrame([{
+                "date": "2026-07-25",
+                "fighter_a": "Islam Dulatov",
+                "fighter_b": "Wellington Turman",
+                "status": "cancelled",
+            }]).to_csv(cancellations, index=False)
+            report = assess_freshness(
+                fights,
+                odds,
+                now="2026-07-26T20:00:00Z",
+                cancelled_fights=cancellations,
+            )
+        self.assertEqual(report["status"], "current")
+        self.assertEqual(report["known_completed_missing"], [])
+        self.assertEqual(len(report["known_cancelled"]), 1)
 
     def test_close_dry_run_never_calls_paid_odds_endpoint(self):
         events = [{
