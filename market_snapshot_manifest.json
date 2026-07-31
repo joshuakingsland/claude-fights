@@ -1,7 +1,7 @@
 {
-  "fetched_at": "2026-07-30T19:51:17Z",
-  "events": 54,
-  "paired_book_quotes": 166,
+  "fetched_at": "2026-07-31T03:48:58Z",
+  "events": 62,
+  "paired_book_quotes": 174,
   "quote_file": "data/market_quotes/quotes_2026-07.csv",
   "first_event_date": "2026-07-31",
   "last_event_date": "2027-08-01"
