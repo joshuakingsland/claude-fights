@@ -7,3 +7,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-07-26T01:01:39Z,0850e8b6ba4f75ef1dbbd075504fda42,2026-07-26T01:40:00Z,38.34,Bryce Meredith,Michael Cyr,-550.0,440.0,0.81540248,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-01T14:17:31Z,720db78542944b9bc7203152b82e7195,2026-08-01T14:30:00Z,12.48,Jovan Leka,Alexander Poppeck,-305.0,250.0,0.72570533,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-01T15:32:16Z,e3ea6b3522a10acecf37d0b26df2ad90,2026-08-01T16:15:00Z,42.72,Borislav Nikolić,Mark Vologdin,-205.0,170.0,0.64472918,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-01T16:40:19Z,4136b336221ea3d3da5af39b66e4bb21,2026-08-01T17:15:00Z,34.67,Miloš Janičić,Noah Gugnon,-118.0,-105.0,0.51982379,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
