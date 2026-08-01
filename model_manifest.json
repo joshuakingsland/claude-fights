@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-01T13:54:36Z",
+  "created_at": "2026-08-01T16:49:46Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -21,7 +21,7 @@
   "bootstrap_models": 30,
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
-  "git_commit": "23e3bd99f8b32381a77ef2238ba7e4d32fd9c12d",
+  "git_commit": "efaef933674838aef9f87090085183f11c34f19e",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -55,7 +55,7 @@
     "capture_close.py": "deb45799e223e97e06547dab61ee68674ec47ec0f5d89ce72572df82089b75d1",
     "method_model.py": "dcef15fe84ce5876a542e9fa97d28f6a1773645bbc36679a6e023b303bf2dcde",
     "method_validation.json": "b257b9474f201986046218de0e6a0ee82c5a6e8ca771980f9697586f34b6ea6d",
-    "close_snapshots.csv": "d617f357fbefd8767078534889ecdf3ab480d233e463628b188445c1b754d303",
+    "close_snapshots.csv": "99d930e84d5cd7fdc58573efff1b95132591e617f61807f39a9d606123f0a363",
     "data_source_manifest.json": "df411347d381b11d52e39e78fcae069b184aee7068c645a79b0a828db6cfa02b",
     "raw/ufc_fighter_details.csv": "d0b6ad28591dff90e42ceb482e252ac517b20a4c9f4f05999800fe42934c9c29",
     "market_snapshot_manifest.json": "70a635165747145843b3121d3f9b88835a79ef3ac126d05d9cc6f4b20887189f",
