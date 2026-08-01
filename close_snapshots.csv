@@ -9,3 +9,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-01T15:32:16Z,e3ea6b3522a10acecf37d0b26df2ad90,2026-08-01T16:15:00Z,42.72,Borislav Nikolić,Mark Vologdin,-205.0,170.0,0.64472918,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-01T16:40:19Z,4136b336221ea3d3da5af39b66e4bb21,2026-08-01T17:15:00Z,34.67,Miloš Janičić,Noah Gugnon,-118.0,-105.0,0.51982379,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-01T17:47:31Z,e7d165a69388195e0562e3633e4eeffa,2026-08-01T18:00:00Z,12.47,Dusko Todorovic,Robert Valentin,130.0,-150.0,0.41858771,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-01T18:44:59Z,79d08aee30e3aa2df53b4a6ec8848106,2026-08-01T19:30:00Z,45.02,Uros Medic,Daniel Rodriguez,-400.0,310.0,0.76818552,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
