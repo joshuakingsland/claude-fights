@@ -5,3 +5,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-07-25T15:49:21Z,9026becb00a858a15cc96f0f5af0d837,2026-07-25T16:15:00Z,25.64,Abubakar Vagaev,Saygid Izagakhmaev,-235.0,198.0,0.67599497,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-07-25T17:18:37Z,76d27919e05a7dcb1ce4555ce99ba07c,2026-07-25T17:45:00Z,26.38,Stephen Erceg,Ramazonbek Temirov,-110.0,-110.0,0.5,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-07-26T01:01:39Z,0850e8b6ba4f75ef1dbbd075504fda42,2026-07-26T01:40:00Z,38.34,Bryce Meredith,Michael Cyr,-550.0,440.0,0.81540248,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-01T14:17:31Z,720db78542944b9bc7203152b82e7195,2026-08-01T14:30:00Z,12.48,Jovan Leka,Alexander Poppeck,-305.0,250.0,0.72570533,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
