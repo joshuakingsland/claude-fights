@@ -9,7 +9,11 @@ import pandas as pd
 def norm_name(value):
     value = unicodedata.normalize("NFKD", str(value))
     value = "".join(char for char in value if not unicodedata.combining(char))
-    return " ".join(value.lower().replace(".", "").replace("-", " ").split())
+    value = value.lower().replace(".", "").replace("-", " ")
+    # Sources disagree on apostrophes for the same fighter ("L'udovit Klein"
+    # against "Ludovit Klein"), and dropping them merges no distinct names.
+    value = value.replace("'", "").replace("’", "")
+    return " ".join(value.split())
 
 
 DIVISION_LIMITS = (

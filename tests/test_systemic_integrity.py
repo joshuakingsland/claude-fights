@@ -187,12 +187,20 @@ class FreshnessAndCaptureTests(unittest.TestCase):
             "date": "2025-01-01", "fighter_a": "A", "fighter_b": "B"
         }])
         with tempfile.TemporaryDirectory() as directory:
-            odds = Path(directory) / "odds.csv"
+            root = Path(directory)
+            odds = root / "odds.csv"
+            roster = root / "roster.csv"
             pd.DataFrame([{
                 "commence_time": "2025-01-10T03:00:00Z",
-                "fighter_a": "C", "fighter_b": "D",
+                "fighter_a": "A", "fighter_b": "D",
             }]).to_csv(odds, index=False)
-            report = assess_freshness(fights, odds, now="2025-01-11T20:00:00Z")
+            pd.DataFrame([
+                {"FIRST": "A", "LAST": ""},
+                {"FIRST": "D", "LAST": ""},
+            ]).to_csv(roster, index=False)
+            report = assess_freshness(
+                fights, odds, now="2025-01-11T20:00:00Z", fighter_roster=roster
+            )
         self.assertEqual(report["status"], "lagging")
         self.assertEqual(len(report["known_completed_missing"]), 1)
 
@@ -234,6 +242,97 @@ class FreshnessAndCaptureTests(unittest.TestCase):
         self.assertEqual(report["status"], "current")
         self.assertEqual(report["known_completed_missing"], [])
         self.assertEqual(len(report["known_cancelled"]), 1)
+
+    def test_freshness_excuses_bouts_the_result_source_never_covers(self):
+        fights = pd.DataFrame([{
+            "date": "2026-07-25",
+            "fighter_a": "Islam Dulatov",
+            "fighter_b": "Wellington Turman",
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds = root / "odds.csv"
+            roster = root / "roster.csv"
+            pd.DataFrame([
+                {
+                    "commence_time": "2026-08-01T00:10:00Z",
+                    "fighter_a": "Dakota Ditcheva",
+                    "fighter_b": "Denise Kielholtz",
+                },
+                {
+                    "commence_time": "2026-08-01T00:10:00Z",
+                    "fighter_a": "Islam Dulatov",
+                    "fighter_b": "Cody Brundage",
+                },
+            ]).to_csv(odds, index=False)
+            pd.DataFrame([
+                {"FIRST": "Islam", "LAST": "Dulatov"},
+                {"FIRST": "Wellington", "LAST": "Turman"},
+                {"FIRST": "Cody", "LAST": "Brundage"},
+            ]).to_csv(roster, index=False)
+            report = assess_freshness(
+                fights,
+                odds,
+                now="2026-08-02T20:00:00Z",
+                fighter_roster=roster,
+            )
+        self.assertEqual(report["status"], "lagging")
+        self.assertEqual(len(report["known_out_of_scope"]), 1)
+        self.assertEqual(
+            report["known_out_of_scope"][0]["fighter_a"], "Dakota Ditcheva"
+        )
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+        self.assertEqual(
+            report["known_completed_missing"][0]["fighter_b"], "Cody Brundage"
+        )
+
+    def test_freshness_keeps_ufc_debuts_in_scope(self):
+        fights = pd.DataFrame([{
+            "date": "2026-07-25",
+            "fighter_a": "Islam Dulatov",
+            "fighter_b": "Wellington Turman",
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds = root / "odds.csv"
+            roster = root / "roster.csv"
+            pd.DataFrame([{
+                "commence_time": "2026-08-01T00:10:00Z",
+                "fighter_a": "Islam Dulatov",
+                "fighter_b": "Newcomer Prospect",
+            }]).to_csv(odds, index=False)
+            pd.DataFrame([
+                {"FIRST": "Islam", "LAST": "Dulatov"},
+                {"FIRST": "Wellington", "LAST": "Turman"},
+                {"FIRST": "Newcomer", "LAST": "Prospect"},
+            ]).to_csv(roster, index=False)
+            report = assess_freshness(
+                fights, odds, now="2026-08-02T20:00:00Z", fighter_roster=roster
+            )
+        self.assertEqual(report["status"], "lagging")
+        self.assertEqual(report["known_out_of_scope"], [])
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+
+    def test_freshness_fails_closed_without_a_fighter_roster(self):
+        fights = pd.DataFrame([{
+            "date": "2025-01-01", "fighter_a": "A", "fighter_b": "B"
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds = root / "odds.csv"
+            pd.DataFrame([{
+                "commence_time": "2025-01-10T03:00:00Z",
+                "fighter_a": "C", "fighter_b": "D",
+            }]).to_csv(odds, index=False)
+            report = assess_freshness(
+                fights,
+                odds,
+                now="2025-01-11T20:00:00Z",
+                fighter_roster=root / "absent.csv",
+            )
+        self.assertEqual(report["status"], "lagging")
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+        self.assertEqual(report["known_out_of_scope"], [])
 
     def test_close_dry_run_never_calls_paid_odds_endpoint(self):
         events = [{

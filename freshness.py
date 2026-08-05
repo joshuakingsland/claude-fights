@@ -17,6 +17,62 @@ def _pairs(frame):
     ]
 
 
+def _roster_names(path):
+    """Return canonical names for every fighter UFCStats has ever listed."""
+    path = Path(path)
+    if not path.exists():
+        return set()
+    roster = pd.read_csv(path)
+    if not {"FIRST", "LAST"}.issubset(roster.columns):
+        raise ValueError(
+            "fighter roster is missing columns: ['FIRST', 'LAST']"
+        )
+    full = (
+        roster["FIRST"].fillna("").astype(str)
+        + " "
+        + roster["LAST"].fillna("").astype(str)
+    )
+    return {name for name in full.map(canonical_name) if name}
+
+
+def _tracked_universe(fights, fighter_roster):
+    """Return ``(listed, veterans)`` for judging whether a bout is UFC scope.
+
+    ``listed`` is everyone UFCStats knows of and ``veterans`` is the subset
+    with a completed UFC bout. Returns ``None`` when the roster is missing,
+    which keeps the check failing closed: scope cannot be judged, so nothing
+    is excused.
+    """
+    roster = _roster_names(fighter_roster)
+    if not roster:
+        return None
+    veterans = set(_names(fights))
+    return roster | veterans, veterans
+
+
+def _in_ufc_scope(fighter_a, fighter_b, tracked):
+    """Report whether UFCStats could ever carry a result for this bout.
+
+    The odds feed covers every MMA promotion while results come from UFCStats
+    alone, so a bout only counts as trackable when both fighters are known to
+    UFCStats and at least one has already fought there. That keeps genuine
+    debuts in scope, since a debutant is always matched against the roster.
+    """
+    listed, veterans = tracked
+    names = [canonical_name(fighter_a), canonical_name(fighter_b)]
+    if not all(name in listed for name in names):
+        return False
+    return any(name in veterans for name in names)
+
+
+def _names(frame):
+    for column in ("fighter_a", "fighter_b"):
+        for value in frame[column]:
+            name = canonical_name(value)
+            if name:
+                yield name
+
+
 def _cancelled_keys(path):
     path = Path(path)
     if not path.exists():
@@ -39,6 +95,7 @@ def assess_freshness(
     odds_log="odds_log.csv",
     now=None,
     cancelled_fights="cancelled_fights.csv",
+    fighter_roster="raw/ufc_fighter_details.csv",
 ):
     now = pd.Timestamp(now or datetime.now(timezone.utc))
     if now.tzinfo is None:
@@ -52,7 +109,9 @@ def assess_freshness(
 
     known_missing = []
     known_cancelled = []
+    known_out_of_scope = []
     cancelled_keys = _cancelled_keys(cancelled_fights)
+    tracked = _tracked_universe(fights, fighter_roster)
     path = Path(odds_log)
     if path.exists():
         odds = pd.read_csv(path)
@@ -78,6 +137,10 @@ def assess_freshness(
                     continue
                 if key in cancelled_keys:
                     known_cancelled.append(item)
+                elif tracked is not None and not _in_ufc_scope(
+                    row.fighter_a, row.fighter_b, tracked
+                ):
+                    known_out_of_scope.append(item)
                 else:
                     known_missing.append(item)
 
@@ -99,6 +162,7 @@ def assess_freshness(
         "message": message,
         "known_completed_missing": known_missing,
         "known_cancelled": known_cancelled,
+        "known_out_of_scope": known_out_of_scope,
     }
 
 
@@ -107,12 +171,16 @@ def main():
     parser.add_argument("--fights", default="fights_v2.csv")
     parser.add_argument("--odds-log", default="odds_log.csv")
     parser.add_argument("--cancelled-fights", default="cancelled_fights.csv")
+    parser.add_argument("--fighter-roster", default="raw/ufc_fighter_details.csv")
     parser.add_argument("--output", default="data_freshness.json")
     parser.add_argument("--require-current", action="store_true")
     args = parser.parse_args()
     fights = pd.read_csv(args.fights)
     report = assess_freshness(
-        fights, args.odds_log, cancelled_fights=args.cancelled_fights
+        fights,
+        args.odds_log,
+        cancelled_fights=args.cancelled_fights,
+        fighter_roster=args.fighter_roster,
     )
     Path(args.output).write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))
