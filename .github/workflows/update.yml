@@ -36,14 +36,8 @@ jobs:
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python fetch_odds.py --require-key
-      - name: Snapshot card and optionally lock Wednesday trades
-        shell: bash
-        run: |
-          if [ "$(date -u +%u)" = "3" ]; then
-            python predict_card.py --lock-paper-trades
-          else
-            python predict_card.py
-          fi
+      - name: Snapshot card and lock any qualifying trades
+        run: python predict_card.py --lock-paper-trades
       - name: Validate forward paper ledger
         run: python validate_paper.py
       - name: Monitor drift when validation data is present

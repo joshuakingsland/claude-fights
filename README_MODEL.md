@@ -192,10 +192,21 @@ consensus prices, executable price and book, book count, market spread, odds
 fetch time, event start, and recording/lock time. A repeat run cannot lock a
 second official trade for the same fight.
 
-The main workflow records snapshots on Sunday and Monday and records a
-snapshot plus the official qualifying paper wagers on Wednesday. The separate
-market workflow captures prices every six hours without locking trades. The
-original mixed ledger is preserved unchanged under
+Both scheduled workflows record a snapshot and lock any qualifying wager they
+see, so a signal is captured the first run it clears the edge rule rather than
+only if it still clears it on one fixed weekday. Locking stays idempotent by
+fight, and `lock_paper_trades` counts trades already on the ledger for that
+event day so the 2-unit cap holds across runs, not just within one card
+scoring. Candidates are considered strongest-first, so an early marginal signal
+cannot take a slot from a stronger one that appears later the same day.
+
+This replaced a Wednesday-only lock. Over 2026-07-20 to 2026-08-05 that cadence
+recorded two of five eligible fights; both misses qualified for days and read
+just below the edge rule at the single Wednesday timestamp. Wagers locked under
+the old rule keep `paper-flat-1u-day-cap2-v1`, and `paper_validation.json`
+reports each staking policy separately as well as pooled.
+
+The original mixed ledger is preserved unchanged under
 `archive/paper_trades_legacy_mixed_predictions.csv`; it is not counted as
 verified forward-test evidence.
 
@@ -247,6 +258,8 @@ unresolved external name receives neutral history and a visible warning.
 - `adapter.py`, `update_data.py`, `fetch_odds.py` — data and odds capture.
 - `.github/workflows/update.yml` — routine site/snapshot/settlement workflow.
 - `.github/workflows/snapshot-market.yml` - six-hour paired-book quote capture.
+  It also locks qualifying wagers, so it runs the full test suite and the
+  freshness gate rather than the pricing tests alone.
 - `.github/workflows/validate.yml` — separate monthly canonical audit.
 
 `research.py` and `research3.py` are archived research harnesses, not production

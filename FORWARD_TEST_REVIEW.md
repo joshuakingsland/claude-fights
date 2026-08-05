@@ -104,10 +104,26 @@ odds endpoint returns alongside the live ones. Those rows will never be
 tradable and are diluting every rate computed over the snapshot file. Coverage
 inside 7 days is good: mean 7.6 books per fight.
 
+## Cadence change
+
+Locking moved from the Wednesday run to the first scheduled run that sees a
+qualifying signal, under staking policy
+`paper-flat-1u-first-touch-cap2-v2`. Stake sizes and the event-day cap are
+unchanged; only the timing of the sample moved.
+
+Because locks now spread across runs, `lock_paper_trades` enforces the 2-unit
+event-day cap against wagers already on the ledger rather than only within one
+card scoring, and takes candidates strongest-first so an early marginal signal
+cannot take the last slot from a stronger one later the same day.
+
+The two wagers locked under the old cadence keep
+`paper-flat-1u-day-cap2-v1`. `paper_validation.json` reports each policy
+separately as well as pooled, so the change does not silently blend two
+different rules into one ROI figure.
+
 ## Not changed here
 
 - Model, features, edge rule, and stake sizing are untouched.
-- The Wednesday lock cadence is unchanged pending a decision, since altering it
-  changes the forward-test policy mid-run and the ledger is append-only.
 - Snapshot horizon filtering is unchanged; the far-future rows are an audit
   record, and dropping them silently would edit that record.
+- The research 2-unit-at-10-points tier stays research-only and unsized.

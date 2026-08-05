@@ -22,21 +22,28 @@ jobs:
           python-version: "3.12.13"
           cache: pip
       - run: python -m pip install -r requirements.txt
-      - name: Verify pricing code
+      # This job writes to the official ledger, so it runs the same full suite
+      # as the routine card update rather than the pricing tests alone.
+      - name: Verify code before changing generated artifacts
         run: |
           python -m py_compile *.py
-          python -m unittest discover -s tests -p "test_live_odds.py"
+          python -m unittest discover -s tests
       - name: Capture consensus and every paired book quote
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python fetch_odds.py --require-key
-      - name: Refresh card without locking trades
-        run: python predict_card.py
+      - name: Fail closed when tracked completed fights are missing
+        run: python freshness.py --require-current
+      - name: Refresh card and lock any qualifying trades
+        run: python predict_card.py --lock-paper-trades
+      - name: Validate forward paper ledger
+        run: python validate_paper.py
       - name: Commit market snapshot
         run: |
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
           git add docs/ odds_upcoming.csv odds_log.csv prediction_snapshots.csv \
+            paper_trades.csv paper_validation.json \
             model_manifest.json market_snapshot_manifest.json data/market_quotes
           git diff --cached --quiet || git commit -m "market snapshot $(date -u +%FT%H:%MZ)"
           git push

@@ -25,11 +25,21 @@ sizing are unchanged.
 - Added the `.gitignore` the README already described. Bytecode caches and the
   three rebuildable `cache_v3_*.pkl` files are no longer tracked.
 
-Open, and deliberately not changed here: official trades lock only on the
-Wednesday run, so a signal that qualifies for days but dips at that one
-timestamp is never recorded. Two of five eligible fights were captured in the
-window, which puts the 200-bet live gate roughly 4.4 years out. Changing the
-cadence changes the forward-test policy mid-run against an append-only ledger.
+- Official trades now lock on the first scheduled run that sees a qualifying
+  signal, replacing the Wednesday-only lock. In the review window that cadence
+  captured two of five eligible fights; both misses held 4.0-4.4 net edge
+  points for days and read 3.3-3.8 at the single Wednesday timestamp, which put
+  the 200-bet live gate roughly 4.4 years out.
+- `lock_paper_trades` now enforces the event-day cap against trades already on
+  the ledger, not only within one card scoring, and considers candidates
+  strongest-first. Without that, spreading locks across runs could push an
+  event day past 2 units.
+- Staking policy version is `paper-flat-1u-first-touch-cap2-v2`. Stake sizes
+  and the cap are unchanged; only the lock timing moved. Existing wagers keep
+  `paper-flat-1u-day-cap2-v1`, and `paper_validation.json` now reports each
+  policy separately as well as pooled so the two cadences are never blended.
+- `snapshot-market.yml` locks trades too, so it runs the full test suite and
+  `freshness.py --require-current` instead of the pricing tests alone.
 
 ## July 2026 freshness-guard correction
 

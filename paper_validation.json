@@ -6,6 +6,17 @@
   "roi": -0.244898,
   "mean_clv_prob_points": 2.0588,
   "positive_clv_rate": 0.5,
+  "by_staking_policy": {
+    "paper-flat-1u-day-cap2-v1": {
+      "official_trades": 2,
+      "settled": 2,
+      "staked": 2.0,
+      "pnl": -0.4898,
+      "roi": -0.244898,
+      "mean_clv_prob_points": 2.0588,
+      "positive_clv_rate": 0.5
+    }
+  },
   "status": "paper_only",
   "interpretation": "Forward-test evidence only. Positive closing-line value should be established before ROI is treated as meaningful."
 }

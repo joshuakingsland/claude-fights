@@ -21,6 +21,10 @@
     schedule adds roughly 124 current-odds calls in a 31-day month.
 11. Confirm `staking_validation.json` says the active and 2-unit candidate
     policies are `paper_only`.
+12. Both scheduled workflows can lock official wagers. After changing either
+    one, confirm `paper_trades.csv` still holds at most one row per fight and
+    at most 2 units per event day, and that `paper_validation.json` reports
+    each staking policy version separately.
 
 ## Operating rules
 

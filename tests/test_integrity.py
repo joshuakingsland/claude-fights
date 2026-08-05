@@ -83,6 +83,57 @@ class LedgerIntegrityTests(unittest.TestCase):
                 locked_at="2099-01-01T01:00:00Z"), 0)
             self.assertEqual(len(pd.read_csv(trades)), 1)
 
+    def test_event_day_cap_holds_across_separate_lock_runs(self):
+        """First-touch locking must count trades already on the ledger.
+
+        ``allocate_stakes`` only caps exposure inside one card scoring, so a
+        third qualifying fight arriving on a later run would otherwise push an
+        event day past the cap.
+        """
+        with tempfile.TemporaryDirectory() as td:
+            snapshots = Path(td) / "snapshots.csv"
+            trades = Path(td) / "trades.csv"
+            day = "2099-01-02T03:00:00Z"
+            first = [dict(self.prediction(day), pick=f"Fighter {n}")
+                     for n in ("A", "C")]
+            later = dict(self.prediction(day), pick="Fighter E")
+            self.assertEqual(lock_paper_trades(
+                first, snapshots_path=snapshots, trades_path=trades,
+                locked_at="2099-01-01T00:00:00Z"), 2)
+            self.assertEqual(lock_paper_trades(
+                [later], snapshots_path=snapshots, trades_path=trades,
+                locked_at="2099-01-01T06:00:00Z"), 0)
+            self.assertEqual(int(pd.read_csv(trades)["stake"].sum()), 2)
+
+    def test_a_later_run_still_locks_a_different_event_day(self):
+        with tempfile.TemporaryDirectory() as td:
+            snapshots = Path(td) / "snapshots.csv"
+            trades = Path(td) / "trades.csv"
+            first = [dict(self.prediction("2099-01-02T03:00:00Z"),
+                          pick=f"Fighter {n}") for n in ("A", "C")]
+            other_day = dict(self.prediction("2099-01-09T03:00:00Z"),
+                             pick="Fighter E")
+            lock_paper_trades(first, snapshots_path=snapshots,
+                              trades_path=trades,
+                              locked_at="2099-01-01T00:00:00Z")
+            self.assertEqual(lock_paper_trades(
+                [other_day], snapshots_path=snapshots, trades_path=trades,
+                locked_at="2099-01-01T06:00:00Z"), 1)
+
+    def test_strongest_candidate_wins_the_last_slot_on_a_day(self):
+        with tempfile.TemporaryDirectory() as td:
+            snapshots = Path(td) / "snapshots.csv"
+            trades = Path(td) / "trades.csv"
+            day = "2099-01-02T03:00:00Z"
+            weak = dict(self.prediction(day), pick="Fighter A", net=4.5)
+            strong = dict(self.prediction(day), pick="Fighter C", net=9.0)
+            middle = dict(self.prediction(day), pick="Fighter E", net=6.0)
+            self.assertEqual(lock_paper_trades(
+                [weak, strong, middle], snapshots_path=snapshots,
+                trades_path=trades, locked_at="2099-01-01T00:00:00Z"), 2)
+            picks = set(pd.read_csv(trades)["pick"])
+            self.assertEqual(picks, {"Fighter C", "Fighter E"})
+
     def test_unverifiable_trade_does_not_settle(self):
         with tempfile.TemporaryDirectory() as td:
             trades = Path(td) / "trades.csv"

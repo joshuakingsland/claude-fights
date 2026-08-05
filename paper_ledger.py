@@ -19,7 +19,8 @@ from pathlib import Path
 import pandas as pd
 
 from backtest import american_payout, american_to_prob, norm_name
-from config import MODEL_VERSION, STAKING_POLICY_VERSION
+from config import (EVENT_DAY_STAKE_CAP, MODEL_VERSION,
+                    STAKING_POLICY_VERSION)
 
 SNAPSHOT_FIELDS = [
     "snapshot_id", "recorded_at", "scheduled_start", "timing_precision",
@@ -110,6 +111,13 @@ def _fight_key(item):
     pair = sorted((norm_name(item.get("pick", "")), norm_name(item.get("opp", ""))))
     raw = f"{start.date()}|{'|'.join(pair)}"
     return hashlib.sha256(raw.encode()).hexdigest()[:20]
+
+
+def _as_float(value, fallback=0.0):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return fallback
 
 
 def _provenance(provenance=None):
@@ -213,8 +221,16 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
                       provenance=None):
     """Lock at most one official qualifying paper wager per fight.
 
-    The caller must opt into this action (the scheduled workflow does so only
-    on Wednesday).  Repeated runs are idempotent by ``fight_key``.
+    The caller must opt into this action.  Every scheduled run locks whatever
+    qualifies at that moment, so a signal is captured the first time it clears
+    the edge rule rather than only if it happens to still clear it on one fixed
+    weekday.  Repeated runs stay idempotent by ``fight_key``.
+
+    ``allocate_stakes`` caps event-day exposure within a single card scoring,
+    which is not enough once locking is spread across runs: trades already on
+    the ledger for that event day have to count too.  Candidates are considered
+    strongest-first so an earlier marginal signal cannot crowd out a stronger
+    one that appears later on the same day.
     """
     qualifying = [p for p in predictions
                   if bool(p.get("bet", False)) and int(p.get("stake", 0)) > 0]
@@ -226,11 +242,24 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
     snapshots = _read(snapshots_path, SNAPSHOT_FIELDS)
     trades = _read(trades_path, TRADE_FIELDS)
     locked_fights = set(trades.get("fight_key", pd.Series(dtype=str)).astype(str))
+    day_exposure = {}
+    for date, stake in zip(trades.get("date", pd.Series(dtype=str)).astype(str),
+                           trades.get("stake", pd.Series(dtype=float))):
+        try:
+            day_exposure[date] = day_exposure.get(date, 0) + int(float(stake))
+        except (TypeError, ValueError):
+            continue
+    qualifying = sorted(
+        qualifying, key=lambda p: _as_float(p.get("net")), reverse=True
+    )
     rows = []
     for item in qualifying:
         snap = _snapshot_row(item, stamp, prov)
         fight_key = snap["fight_key"]
         if fight_key in locked_fights:
+            continue
+        stake = int(snap["stake"])
+        if day_exposure.get(snap["date"], 0) + stake > EVENT_DAY_STAKE_CAP:
             continue
         # The snapshot should normally have just been appended.  Fall back to
         # the deterministic current snapshot id if a caller invokes lock alone.
@@ -272,6 +301,7 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
             "staking_policy": snap["staking_policy"],
         })
         locked_fights.add(fight_key)
+        day_exposure[snap["date"]] = day_exposure.get(snap["date"], 0) + stake
     return _append_rows(trades_path, TRADE_FIELDS, rows)
 
 
@@ -424,23 +454,41 @@ def settle_completed(trades_path="paper_trades.csv",
     return _append_rows(settlements_path, SETTLEMENT_FIELDS, rows)
 
 
-def summary(trades_path="paper_trades.csv", settlements_path="paper_settlements.csv"):
-    trades = _read(trades_path, TRADE_FIELDS)
-    settlements = _read(settlements_path, SETTLEMENT_FIELDS)
-    settled = settlements.merge(trades[["trade_id", "stake"]], on="trade_id", how="left") \
-        if len(settlements) and len(trades) else pd.DataFrame()
+def _ledger_metrics(trades, settled):
     staked = float(settled["stake"].sum()) if len(settled) else 0.0
     pnl = float(settled["pnl"].sum()) if len(settled) else 0.0
     clv = pd.to_numeric(settled.get("clv_prob", pd.Series(dtype=float)), errors="coerce")
     return {
         "official_trades": int(len(trades)),
-        "settled": int(len(settlements)),
+        "settled": int(len(settled)),
         "staked": round(staked, 4),
         "pnl": round(pnl, 4),
         "roi": round(pnl / staked, 6) if staked else None,
         "mean_clv_prob_points": round(float(clv.mean()), 4) if clv.notna().any() else None,
         "positive_clv_rate": round(float((clv > 0).mean()), 4) if clv.notna().any() else None,
     }
+
+
+def summary(trades_path="paper_trades.csv", settlements_path="paper_settlements.csv"):
+    trades = _read(trades_path, TRADE_FIELDS)
+    settlements = _read(settlements_path, SETTLEMENT_FIELDS)
+    settled = (settlements.merge(trades[["trade_id", "stake", "staking_policy"]],
+                                 on="trade_id", how="left")
+               if len(settlements) and len(trades) else pd.DataFrame())
+    report = _ledger_metrics(trades, settled)
+    report["settled"] = int(len(settlements))
+    # A cadence or sizing change gets a staking-policy version.  Report the
+    # tracks separately as well as pooled, so wagers locked under different
+    # rules are never read as one homogeneous forward test.
+    report["by_staking_policy"] = {}
+    if len(trades):
+        policies = trades["staking_policy"].astype(str)
+        for policy, group in trades.groupby(policies):
+            subset = pd.DataFrame()
+            if len(settled):
+                subset = settled[settled["staking_policy"].astype(str) == policy]
+            report["by_staking_policy"][policy] = _ledger_metrics(group, subset)
+    return report
 
 
 def main():

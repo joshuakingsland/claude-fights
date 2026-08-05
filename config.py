@@ -17,7 +17,10 @@ EDGE_RULE = 0.04
 PRODUCTION_MAX_STAKE = 1
 EVENT_DAY_STAKE_CAP = 2
 RESEARCH_TWO_UNIT_RULE = 0.10
-STAKING_POLICY_VERSION = "paper-flat-1u-day-cap2-v1"
+# v2 locks a qualifying signal on the first scheduled run that sees it, instead
+# of only on a fixed weekday. Stake sizing and the event-day cap are unchanged;
+# the version bump keeps rows locked under the old cadence separable.
+STAKING_POLICY_VERSION = "paper-flat-1u-first-touch-cap2-v2"
 
 # Live quote quality controls. A generated page can age after deployment, so
 # the browser also re-checks MAX_ODDS_AGE_MINUTES before presenting a signal.
