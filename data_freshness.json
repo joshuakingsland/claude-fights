@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-07-29T15:54:30Z",
-  "results_through": "2026-07-25",
+  "checked_at": "2026-08-05T18:50:19Z",
+  "results_through": "2026-08-01",
   "days_since_latest_result": 4,
   "status": "current",
   "message": "no completed tracked fights are missing",
@@ -10,6 +10,143 @@
       "date": "2026-07-25",
       "fighter_a": "Islam Dulatov",
       "fighter_b": "Wellington Turman"
+    }
+  ],
+  "known_out_of_scope": [
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Sean Gauci",
+      "fighter_b": "Allan Begosso"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Amru Magomedov",
+      "fighter_b": "Joel Alvarez"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Usman Nurmagomedov",
+      "fighter_b": "Archie Colgan"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Dakota Ditcheva",
+      "fighter_b": "Denise Kielholtz"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Dovletdzhan Yagshimuradov",
+      "fighter_b": "Simeon Powell"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Jonathan Piersma",
+      "fighter_b": "Omar El Dafrawy"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Raufeon Stots",
+      "fighter_b": "Lazaro Dayron"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Montana De La Rosa",
+      "fighter_b": "Tatiana Postarnakova"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Daniel Schwindt",
+      "fighter_b": "David Hosek"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "David Kozma",
+      "fighter_b": "David Zawada"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Jakub Tichota",
+      "fighter_b": "Firas Daud"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Harun Kurt",
+      "fighter_b": "Roman Paulus"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Will Fleury",
+      "fighter_b": "Makhmud Muradov"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Jamelle Jones",
+      "fighter_b": "Khabib Nabiev"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Aristides Vinicius Dias",
+      "fighter_b": "Alexsandro Cangaty"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Daniel Araujo",
+      "fighter_b": "Victor Gabriel"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Juan Pablo Vieira",
+      "fighter_b": "Eduardo Terencio"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Rayan Kadosoe",
+      "fighter_b": "Felipe Rosa"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Leonardo Cerboni",
+      "fighter_b": "Wily Pereira"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Herbeth Sousa",
+      "fighter_b": "Paulo Portillo"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Dakota Ditcheva",
+      "fighter_b": "Denise Kielholtz"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Usman Nurmagomedov",
+      "fighter_b": "Archie Colgan"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Chamy Delva",
+      "fighter_b": "Levan Khabalaev"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Darryl Walker",
+      "fighter_b": "Moustapha Diakhate"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Ivan Klevets",
+      "fighter_b": "Kevin Enz"
+    },
+    {
+      "date": "2026-08-01",
+      "fighter_a": "Miroslav Broz",
+      "fighter_b": "Rafael Aronov"
+    },
+    {
+      "date": "2026-07-31",
+      "fighter_a": "Aristides Vinicius Dias",
+      "fighter_b": "Alexsandro Cangaty"
     }
   ]
 }

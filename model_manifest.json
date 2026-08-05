@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-05T14:32:59Z",
+  "created_at": "2026-08-05T18:50:19Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -21,7 +21,7 @@
   "bootstrap_models": 30,
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
-  "git_commit": "a453b537024c98fff14333cf35fa45f87328a89b",
+  "git_commit": "33a6e6a5bfccf783fd5a7abddecfb8a2887d5a61",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -30,10 +30,10 @@
     "scikit_learn": "1.8.0"
   },
   "inputs": {
-    "fights_v2.csv": "55ddb9f6199e8f3a1ccd20eb1f3afc1b86e337a7f09cc5567bd7f4763df67276",
+    "fights_v2.csv": "e609ffde8c575bb8912d0e848b8e90278c2e5536dffb46a4e7db1b48b12ceee4",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "96389d5dca41dac212e160ecfcb43b0276223fb1d880da3de47b8829912d5f08",
-    "odds_log.csv": "da729c73910569491450fa37ed34c44feadefffa879bf9b7e200ea73b78d3fe4",
+    "odds_upcoming.csv": "4686edc1cdd4b1cbf102746efe7ebdde077980fe861d791c44a948987a1d93f3",
+    "odds_log.csv": "81c055341e21670ba04f7f0c1509623fbe0f739022765e5cb7976a28e8e10868",
     "method_model.pkl": "a1f0f6c06b49c6855bfe24bdc3a3f92eb0dd75650b0a7a1151d7e067a592d957",
     "config.py": "b876158b27e54af7dc885f8d4f6dff05e5ac9faef2dcc556cbcf4074783b073a",
     "production.py": "69574c24b293d94113e82fd9fb1b1b7cd3b55383d61fcd75bdcc2c98904b8ea8",
@@ -48,22 +48,22 @@
     "fetch_odds.py": "6a6fdf13da2162d194a6c6e107bfc3f9f9932aa48884f384ba3534ecd1b4fa72",
     "site_template.html": "9c4479f00263ed5e79f638003eefc89a207e2b911df2b0a7fef2de62b1baa4bc",
     "requirements.txt": "52c20d17a069ed0c738ea7eb78088b36ca360ea995e09da48639af1293043ad8",
-    "identity.py": "9d4c64ef90491c6dfe0c106f00d721a1751da34b1e5e2284a65ba83e376a4d04",
+    "identity.py": "dec21893641429c5f8993c68477640f405370e384d1aa5ccbe990f096e87193b",
     "data_quality.py": "0c0260f7f10ad7f8fd280f9be64d7fcb1cdb7eaeca04cb4325e4cef1dce0d7c4",
-    "freshness.py": "0f35b7e0fd8656ba5507896ffbf8868e25f60397d99888e88f4887c7d27c0e42",
+    "freshness.py": "e416329dc251920d1f018d4b91b2e68bf576258b06b633cfb66c931ce89c4ff7",
     "cancelled_fights.csv": "42ac320277a1f4018e9aef05f17ede9fd0895db7eb64c4023aea71677d2b2855",
     "capture_close.py": "deb45799e223e97e06547dab61ee68674ec47ec0f5d89ce72572df82089b75d1",
     "method_model.py": "dcef15fe84ce5876a542e9fa97d28f6a1773645bbc36679a6e023b303bf2dcde",
     "method_validation.json": "b257b9474f201986046218de0e6a0ee82c5a6e8ca771980f9697586f34b6ea6d",
     "close_snapshots.csv": "90c8462b6f187a935f1760aeb4d6cd7c5b22a9643a5d4325364f3494225216c9",
-    "data_source_manifest.json": "df411347d381b11d52e39e78fcae069b184aee7068c645a79b0a828db6cfa02b",
-    "raw/ufc_fighter_details.csv": "d0b6ad28591dff90e42ceb482e252ac517b20a4c9f4f05999800fe42934c9c29",
-    "market_snapshot_manifest.json": "9724c573020ebcd1b793abf4f059cfab788c3969e0fd4dceca5cfd3c6d4d4e25",
+    "data_source_manifest.json": "326193bd1177b17fda3acb52679df36265be22e419f8393be4bad9beb89aa8a6",
+    "raw/ufc_fighter_details.csv": "d1b23762181b690255cbd6bc3c3e2f932db946183aeb41cf5da94f689b4e509d",
+    "market_snapshot_manifest.json": "2652b75f71f5d1d41eba3cabd16dd910cdadbaa52273aa970ec951f35bd7704b",
     "staking_validation.json": "9c042b2e001e528af61a65c24e0c7667a0a3bd803b0931258b90fa4a8f2c0bb0",
     "validate_staking.py": "00a38c45f20c58433ff03248071b1ccfd471c1297e2b75d2cfb563748b69f15b"
   },
   "rows": {
-    "fights": 8706,
-    "fight_date_max": "2026-07-25"
+    "fights": 8720,
+    "fight_date_max": "2026-08-01"
   }
 }
