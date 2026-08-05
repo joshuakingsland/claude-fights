@@ -16,7 +16,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-from config import (ODDS_CONSENSUS_VERSION, ODDS_REGIONS,
+from config import (LEADER_BOOK_KEYS, ODDS_CONSENSUS_VERSION, ODDS_REGIONS,
                     PRICED_ODDS_REGIONS)
 
 
@@ -26,6 +26,7 @@ UPCOMING_FIELDS = [
     "market_prob_a", "market_books", "market_spread", "best_odds_a",
     "best_book_a", "best_odds_b", "best_book_b", "weightclass",
     "five_rounds", "odds_source", "fetched_at",
+    "leader_prob_a", "leader_books", "follower_prob_a", "follower_books",
 ]
 LOG_FIELDS = [
     "fetched_at", "commence_time", "date", "fighter_a", "fighter_b",
@@ -97,6 +98,28 @@ def priced_quotes(paired):
     """
     return [row for row in paired
             if row.get("region", "us") in PRICED_ODDS_REGIONS]
+
+
+def leader_split(paired):
+    """Split de-vigged probabilities into market-setting books and the rest.
+
+    Research provenance only; no caller may feed this to the model. Leaders are
+    drawn from every captured region, so Pinnacle counts as soon as `eu` is
+    captured even while it stays unpriced. Followers are priced books only, so
+    the gap compares the setters against the market the ledger actually trades.
+    """
+    leaders = [row["devig_prob_a"] for row in paired
+               if row["book_key"] in LEADER_BOOK_KEYS]
+    followers = [row["devig_prob_a"] for row in priced_quotes(paired)
+                 if row["book_key"] not in LEADER_BOOK_KEYS]
+    return {
+        "leader_prob_a": (round(float(statistics.median(leaders)), 8)
+                          if leaders else ""),
+        "leader_books": len(leaders),
+        "follower_prob_a": (round(float(statistics.median(followers)), 8)
+                            if followers else ""),
+        "follower_books": len(followers),
+    }
 
 
 def consensus_quote(event, paired=None):
@@ -293,6 +316,7 @@ def main(argv=None):
             "fighter_a": event.get("home_team", ""),
             "fighter_b": event.get("away_team", ""),
             **quote,
+            **leader_split(paired),
             "weightclass": "",
             "five_rounds": "0",
             "odds_source": f"the-odds-api-{ODDS_CONSENSUS_VERSION}",

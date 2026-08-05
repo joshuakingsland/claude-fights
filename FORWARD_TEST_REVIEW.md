@@ -152,8 +152,14 @@ reweighting the consensus and losing the median's variance reduction.
 The blocker is data. Per-book history exists for 2022 only, and Pinnacle, the
 reference sharp MMA market, was never captured because only the `us` region was
 requested. `eu` is now captured but not priced, so Pinnacle history accumulates
-without touching the model. Re-run this test once forward per-book coverage is
-comparable.
+without touching the model.
+
+Every snapshot and locked trade now also records `leader_prob`,
+`follower_prob`, their book counts, and `leader_gap`, oriented to the picked
+side. That means the forward ledger arrives already carrying the variable this
+question needs, rather than requiring the per-book files to be re-joined to
+snapshots after the fact. Re-run the test above against settled trades once
+forward coverage is comparable to the 226-fight archive sample.
 
 ## Not changed here
 

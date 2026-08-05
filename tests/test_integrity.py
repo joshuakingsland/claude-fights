@@ -83,6 +83,41 @@ class LedgerIntegrityTests(unittest.TestCase):
                 locked_at="2099-01-01T01:00:00Z"), 0)
             self.assertEqual(len(pd.read_csv(trades)), 1)
 
+    def test_research_columns_migrate_and_carry_onto_locked_trades(self):
+        with tempfile.TemporaryDirectory() as td:
+            snapshots = Path(td) / "snapshots.csv"
+            trades = Path(td) / "trades.csv"
+            # A ledger written before the research columns existed.
+            snapshots.write_text(
+                "snapshot_id,recorded_at,pick,opp,stake\n"
+                "old1,2099-01-01T00:00:00Z,Fighter X,Fighter Y,1\n",
+                encoding="utf-8",
+            )
+            pred = dict(self.prediction(), leader_prob=63.5, leader_books=2,
+                        follower_prob=61.0, follower_books=6, leader_gap=2.5)
+            record_prediction_snapshots([pred], path=snapshots,
+                                        recorded_at="2099-01-01T00:00:00Z")
+            rows = pd.read_csv(snapshots)
+            self.assertEqual(len(rows), 2)
+            self.assertTrue(pd.isna(rows.iloc[0]["leader_gap"]))
+            self.assertEqual(rows.iloc[1]["leader_gap"], 2.5)
+            self.assertEqual(rows.iloc[1]["leader_books"], 2)
+            lock_paper_trades([pred], snapshots_path=snapshots,
+                              trades_path=trades,
+                              locked_at="2099-01-01T00:00:00Z")
+            trade = pd.read_csv(trades).iloc[0]
+            self.assertEqual(trade["leader_gap"], 2.5)
+            self.assertEqual(trade["follower_books"], 6)
+
+    def test_snapshot_without_leader_coverage_stays_blank(self):
+        with tempfile.TemporaryDirectory() as td:
+            snapshots = Path(td) / "snapshots.csv"
+            record_prediction_snapshots([self.prediction()], path=snapshots,
+                                        recorded_at="2099-01-01T00:00:00Z")
+            row = pd.read_csv(snapshots).iloc[0]
+            for field in ("leader_prob", "leader_books", "leader_gap"):
+                self.assertTrue(pd.isna(row[field]), field)
+
     def test_event_day_cap_holds_across_separate_lock_runs(self):
         """First-touch locking must count trades already on the ledger.
 

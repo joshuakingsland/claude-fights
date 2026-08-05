@@ -30,6 +30,10 @@ SNAPSHOT_FIELDS = [
     "consensus_opp_price", "execution_price", "execution_book",
     "execution_implied", "market_books", "market_spread",
     "eligibility_reason", "staking_policy",
+    # Research columns. Recorded so the leader-versus-follower gap can be
+    # tested on forward data; nothing reads them back into the model.
+    "leader_prob", "leader_books", "follower_prob", "follower_books",
+    "leader_gap",
 ]
 TRADE_FIELDS = [
     "trade_id", "snapshot_id", "locked_at", "scheduled_start",
@@ -39,6 +43,8 @@ TRADE_FIELDS = [
     "consensus_price", "consensus_opp_price", "execution_price",
     "execution_book", "execution_implied", "market_books", "market_spread",
     "eligibility_reason", "staking_policy",
+    "leader_prob", "leader_books", "follower_prob", "follower_books",
+    "leader_gap",
 ]
 SETTLEMENT_FIELDS = [
     "trade_id", "settled_at", "result", "pnl", "closing_price",
@@ -113,6 +119,11 @@ def _fight_key(item):
     return hashlib.sha256(raw.encode()).hexdigest()[:20]
 
 
+def _blank_if_none(value):
+    """Keep an absent research value empty rather than writing "None"."""
+    return "" if value is None else value
+
+
 def _as_float(value, fallback=0.0):
     try:
         return float(value)
@@ -168,6 +179,11 @@ def _snapshot_row(item, stamp, provenance):
         "market_spread": item.get("market_spread", ""),
         "eligibility_reason": item.get("eligibility_reason", ""),
         "staking_policy": STAKING_POLICY_VERSION,
+        "leader_prob": _blank_if_none(item.get("leader_prob")),
+        "leader_books": _blank_if_none(item.get("leader_books")),
+        "follower_prob": _blank_if_none(item.get("follower_prob")),
+        "follower_books": _blank_if_none(item.get("follower_books")),
+        "leader_gap": _blank_if_none(item.get("leader_gap")),
     }
 
 
@@ -299,6 +315,11 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
             "market_spread": snap["market_spread"],
             "eligibility_reason": snap["eligibility_reason"],
             "staking_policy": snap["staking_policy"],
+            "leader_prob": snap["leader_prob"],
+            "leader_books": snap["leader_books"],
+            "follower_prob": snap["follower_prob"],
+            "follower_books": snap["follower_books"],
+            "leader_gap": snap["leader_gap"],
         })
         locked_fights.add(fight_key)
         day_exposure[snap["date"]] = day_exposure.get(snap["date"], 0) + stake

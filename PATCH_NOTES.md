@@ -72,6 +72,22 @@ captured at all, because only the `us` region was requested.
 - Promoting `eu` into `PRICED_ODDS_REGIONS` is a production model change and
   requires the full validation track, not a config flip.
 
+## August 2026 leader/follower research columns
+
+- `prediction_snapshots.csv` and `paper_trades.csv` gain `leader_prob`,
+  `leader_books`, `follower_prob`, `follower_books`, and `leader_gap`, oriented
+  to the picked side. `_append_rows` migrates both files in place, and rows
+  written earlier stay blank rather than defaulting to zero.
+- Leaders come from `LEADER_BOOK_KEYS` across every captured region, so a
+  Pinnacle quote contributes while `eu` remains unpriced. Followers are priced
+  non-leader books, so the gap measures the setters against the market the
+  ledger can actually trade.
+- The components are recorded rather than only the derived gap, since the
+  definition of a leader will change as Pinnacle history accumulates.
+- These columns are inert. Tests assert that computing the split leaves the
+  consensus byte-identical, that flipping the picked corner flips the gap's
+  sign, and that a missing side yields no gap rather than a zero.
+
 ## July 2026 freshness-guard correction
 
 - The result freshness audit now applies the same explicit fighter-name aliases

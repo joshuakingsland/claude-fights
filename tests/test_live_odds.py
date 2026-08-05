@@ -11,7 +11,7 @@ from config import PRICED_ODDS_REGIONS
 from fetch_odds import (LOG_FIELDS, MARKET_QUOTE_FIELDS, UPCOMING_FIELDS,
                         _american_to_prob, append_log, append_quote_log,
                         collect_events, consensus_quote, main,
-                        paired_book_quotes, priced_quotes)
+                        leader_split, paired_book_quotes, priced_quotes)
 from predict_card import execution_ladder, market_probability, quote_age_minutes
 
 
@@ -34,7 +34,7 @@ class ResearchRegionTests(unittest.TestCase):
     """A captured region must not reach the model until it is priced."""
 
     US = [("dk", "DraftKings", -200, 170), ("fd", "FanDuel", -210, 175),
-          ("bo", "BetOnline.ag", -205, 180)]
+          ("betonlineag", "BetOnline.ag", -205, 180)]
     # Deliberately far off the US market and offering a much better B price.
     EU = [("pinnacle", "Pinnacle", -320, 260)]
 
@@ -78,6 +78,30 @@ class ResearchRegionTests(unittest.TestCase):
         self.assertEqual(len(dk), 1)
         self.assertEqual(dk[0]["region"], "us")
         self.assertEqual(dk[0]["odds_a"], -200)
+
+    def test_leader_split_counts_unpriced_leaders_but_priced_followers(self):
+        _, paired = collect_events("k", ("us", "eu"), fetch=self._fetch)[0]
+        split = leader_split(paired)
+        # Pinnacle (eu, unpriced) and BetOnline (us) are both market setters.
+        self.assertEqual(split["leader_books"], 2)
+        # Followers are the priced non-leader books: DraftKings and FanDuel.
+        self.assertEqual(split["follower_books"], 2)
+        self.assertGreater(split["leader_prob_a"], split["follower_prob_a"])
+
+    def test_leader_split_does_not_touch_the_consensus(self):
+        _, paired = collect_events("k", ("us", "eu"), fetch=self._fetch)[0]
+        before = consensus_quote(None, paired)
+        leader_split(paired)
+        self.assertEqual(consensus_quote(None, paired), before)
+        self.assertNotIn("leader_prob_a", before)
+
+    def test_leader_split_is_blank_when_no_setter_quoted(self):
+        event = _event("e1", [("dk", "DraftKings", -200, 170),
+                              ("fd", "FanDuel", -210, 175)])
+        split = leader_split(paired_book_quotes(event))
+        self.assertEqual(split["leader_prob_a"], "")
+        self.assertEqual(split["leader_books"], 0)
+        self.assertEqual(split["follower_books"], 2)
 
     def test_quotes_carry_region_and_priced_provenance(self):
         _, paired = collect_events("k", ("us", "eu"), fetch=self._fetch)[0]
@@ -215,7 +239,7 @@ class LiveOddsConsensusTests(unittest.TestCase):
 
     def test_multi_region_run_prices_us_and_files_eu_as_research(self):
         us = [("dk", "DraftKings", -200, 170), ("fd", "FanDuel", -210, 175),
-              ("bo", "BetOnline.ag", -205, 180)]
+              ("betonlineag", "BetOnline.ag", -205, 180)]
         eu = [("pinnacle", "Pinnacle", -320, 260)]
 
         def fetch(key, region, timeout=30):
@@ -243,7 +267,7 @@ class LiveOddsConsensusTests(unittest.TestCase):
                 self.assertEqual(len(rows), 4)
                 self.assertEqual(by_book["pinnacle"]["region"], "eu")
                 self.assertEqual(by_book["pinnacle"]["priced"], "0")
-                self.assertEqual(by_book["bo"]["priced"], "1")
+                self.assertEqual(by_book["betonlineag"]["priced"], "1")
                 manifest = json.loads(
                     Path("market_snapshot_manifest.json").read_text(encoding="utf-8")
                 )

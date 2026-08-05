@@ -93,6 +93,23 @@ def _clean_meta(value, fallback="TBD"):
     return str(value).strip()
 
 
+def leader_gap_for_pick(leader_prob_a, follower_prob_a, pick_a):
+    """Orient recorded leader/follower probabilities onto the picked side.
+
+    Returns ``(leader, follower, gap_points)``, where the gap reads as "the
+    market-setting books make this pick that much more likely than the books
+    that follow them". Flipping the pick flips the sign. Research provenance
+    only; nothing downstream reads it back into the model.
+    """
+    leader, follower = leader_prob_a, follower_prob_a
+    if not pick_a:
+        leader = None if leader is None else 1.0 - leader
+        follower = None if follower is None else 1.0 - follower
+    gap = (None if leader is None or follower is None
+           else round((leader - follower) * 100, 2))
+    return leader, follower, gap
+
+
 def quote_quality(books, age_minutes, source, market_pick, execution_pick):
     """Return ``(ok, reason)`` for a live quote, before the edge rule applies.
 
@@ -203,6 +220,11 @@ def predict_upcoming(up):
         quality_ok, quality_reason = quote_quality(
             books, age_minutes, source, market_pick, execution_pick
         )
+        leader_prob, follower_prob, leader_gap = leader_gap_for_pick(
+            _optional_number(r.get("leader_prob_a")),
+            _optional_number(r.get("follower_prob_a")),
+            pick_a,
+        )
         out.append({
             "_p_a": p, "_row_idx": int(row.index[0]), "_pick_a": bool(pick_a),
             "_net_raw": net, "_quality_ok": quality_ok,
@@ -231,6 +253,11 @@ def predict_upcoming(up):
             "odds_source": source,
             "odds_fetched_at": r.get("fetched_at", ""),
             "market_books": books,
+            "leader_prob": round(leader_prob * 100, 1) if leader_prob is not None else None,
+            "leader_books": _optional_number(r.get("leader_books")),
+            "follower_prob": round(follower_prob * 100, 1) if follower_prob is not None else None,
+            "follower_books": _optional_number(r.get("follower_books")),
+            "leader_gap": leader_gap,
             "market_spread": round(spread * 100, 1) if spread is not None else None,
             "quote_age_minutes": round(age_minutes, 1) if age_minutes is not None else None,
             "market_warning": bool(spread is not None

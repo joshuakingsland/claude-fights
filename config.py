@@ -50,3 +50,14 @@ ODDS_REGIONS = ("us", "eu")
 # `eu` is captured to measure what Pinnacle does to the consensus before any
 # decision to price it.
 PRICED_ODDS_REGIONS = ("us",)
+
+# Books that set the MMA market rather than follow it. On the 2022 per-book
+# archive every other book converged toward BetOnline's entry price while it
+# did not converge back; LowVig behaved the same way, and Pinnacle is the
+# reference sharp market the `eu` region exists to capture.
+#
+# This drives a research column only. Leader and follower probabilities are
+# recorded next to each snapshot so the leader-versus-follower gap can be
+# tested on forward data later. Nothing here reaches the model, the consensus,
+# the edge rule, or the executable price.
+LEADER_BOOK_KEYS = ("pinnacle", "betonlineag", "lowvig")

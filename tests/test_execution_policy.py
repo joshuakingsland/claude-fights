@@ -5,8 +5,31 @@ import pandas as pd
 
 from config import MAX_EXECUTION_DEVIATION
 from paper_ledger import SNAPSHOT_FIELDS, _snapshot_row
-from predict_card import _clean_meta, execution_ladder, quote_quality
+from predict_card import (_clean_meta, execution_ladder, leader_gap_for_pick,
+                          quote_quality)
 from production import allocate_stakes
+
+
+class LeaderGapProvenanceTests(unittest.TestCase):
+    """Research column only: recorded next to a snapshot, never fed back in."""
+
+    def test_gap_is_positive_when_setters_like_the_pick(self):
+        leader, follower, gap = leader_gap_for_pick(0.62, 0.60, pick_a=True)
+        self.assertAlmostEqual(leader, 0.62)
+        self.assertAlmostEqual(follower, 0.60)
+        self.assertAlmostEqual(gap, 2.0)
+
+    def test_picking_the_other_corner_flips_the_sign(self):
+        _, _, on_a = leader_gap_for_pick(0.62, 0.60, pick_a=True)
+        leader, follower, on_b = leader_gap_for_pick(0.62, 0.60, pick_a=False)
+        self.assertAlmostEqual(leader, 0.38)
+        self.assertAlmostEqual(follower, 0.40)
+        self.assertAlmostEqual(on_b, -on_a)
+
+    def test_missing_side_yields_no_gap_rather_than_zero(self):
+        self.assertIsNone(leader_gap_for_pick(None, 0.60, pick_a=True)[2])
+        self.assertIsNone(leader_gap_for_pick(0.62, None, pick_a=False)[2])
+        self.assertIsNone(leader_gap_for_pick(None, None, pick_a=True)[0])
 
 
 class QuoteQualityTests(unittest.TestCase):

@@ -113,6 +113,30 @@ Review API quota before adding a third region.
 capture to `eu` would give Pinnacle-referenced closing-line value, at the cost
 of doubling that workflow's spend; it is a separate decision.
 
+## Leader and follower research columns
+
+`LEADER_BOOK_KEYS` names the books observed to set the MMA market rather than
+follow it. Every snapshot and locked trade records, oriented to the picked
+side:
+
+- `leader_prob` — median de-vigged probability among market-setting books,
+  drawn from every captured region so Pinnacle counts while `eu` stays unpriced.
+- `follower_prob` — median among priced non-leader books, so the comparison is
+  against the market the ledger actually trades.
+- `leader_books`, `follower_books` — how many books backed each side.
+- `leader_gap` — `leader_prob - follower_prob` in probability points. Positive
+  means the setters like the pick more than the followers do.
+
+The components are stored rather than only the gap, because the definition of
+a leader will change as Pinnacle history accumulates and the raw pieces let any
+variant be recomputed. Blank means no book on that side quoted; blank is never
+silently read as zero.
+
+Nothing reads these back. They are not features, not part of `quality_ok`, and
+not part of the edge rule. They exist so that the question of whether sharp
+disagreement predicts outcomes can be answered on forward data instead of a
+2022 archive of 226 fights. Rows written before this change leave them empty.
+
 Predictions fail closed when a commence time is not in the future. For a
 manual date-only row, the event date itself is rejected because the system
 cannot prove the prediction preceded the fight.
