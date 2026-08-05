@@ -3,9 +3,48 @@ import unittest
 import numpy as np
 import pandas as pd
 
+from config import MAX_EXECUTION_DEVIATION
 from paper_ledger import SNAPSHOT_FIELDS, _snapshot_row
-from predict_card import _clean_meta, execution_ladder
+from predict_card import _clean_meta, execution_ladder, quote_quality
 from production import allocate_stakes
+
+
+class QuoteQualityTests(unittest.TestCase):
+    """A single book's broken price must not be read as a tradable edge."""
+
+    SOURCE = "the-odds-api-paired-book-devig-v1"
+
+    def test_normal_vigged_execution_price_passes(self):
+        # A real best price implies slightly more probability than consensus.
+        ok, reason = quote_quality(8, 12.0, self.SOURCE, 0.645, 0.662)
+        self.assertTrue(ok)
+        self.assertEqual(reason, "")
+
+    def test_price_far_better_than_consensus_is_rejected(self):
+        # Observed 2026-08-01: consensus -265, one book posted +126.
+        ok, reason = quote_quality(8, 12.0, self.SOURCE, 0.697, 0.442)
+        self.assertFalse(ok)
+        self.assertEqual(reason, "book price outlier")
+
+    def test_outlier_rejection_starts_past_the_configured_gap(self):
+        inside = MAX_EXECUTION_DEVIATION - 0.005
+        outside = MAX_EXECUTION_DEVIATION + 0.005
+        self.assertTrue(quote_quality(8, 0.0, self.SOURCE, 0.60, 0.60 - inside)[0])
+        self.assertFalse(quote_quality(8, 0.0, self.SOURCE, 0.60, 0.60 - outside)[0])
+
+    def test_book_count_and_staleness_still_take_precedence(self):
+        self.assertEqual(
+            quote_quality(2, 12.0, self.SOURCE, 0.697, 0.442)[1],
+            "fewer than 3 paired books",
+        )
+        self.assertEqual(
+            quote_quality(8, 999.0, self.SOURCE, 0.697, 0.442)[1], "price stale"
+        )
+
+    def test_manual_rows_without_provenance_are_not_gated_on_age(self):
+        ok, reason = quote_quality(None, 999.0, "manual_or_unknown", 0.60, 0.62)
+        self.assertTrue(ok)
+        self.assertEqual(reason, "")
 
 
 class ExecutionPolicyTests(unittest.TestCase):

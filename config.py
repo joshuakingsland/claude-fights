@@ -25,6 +25,12 @@ MIN_MARKET_BOOKS = 3
 MAX_ODDS_AGE_MINUTES = 360
 MARKET_DISAGREEMENT_WARNING = 0.05
 
+# A single sportsbook can publish a stale or mis-mapped price that is far more
+# generous than the paired-book consensus. Line shopping is worth about one to
+# two probability points; anything past this gap is a bad quote, not an edge,
+# so the signal is rejected instead of being priced off that book.
+MAX_EXECUTION_DEVIATION = 0.08
+
 MODEL_VERSION = "production-v3"
 BOOTSTRAP_MODELS = 30
 ODDS_CONSENSUS_VERSION = "paired-book-devig-v1"

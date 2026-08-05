@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+.venv-*/
+venv/
+.env
+
+# Content-addressed feature caches are rebuilt from tracked inputs.
+cache_v*.pkl

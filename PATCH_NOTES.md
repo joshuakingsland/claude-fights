@@ -2,6 +2,35 @@
 
 This package was upgraded from the verified v2 prototype to production-v3.
 
+## August 2026 forward-data review
+
+The first three weeks of six-hour market capture are summarized in
+`FORWARD_TEST_REVIEW.md`. Model probabilities, features, edge rule, and stake
+sizing are unchanged.
+
+- Execution prices are now sanity-checked against the paired-book consensus.
+  On 2026-08-01 one book posted +126 on a side the consensus held at -265, and
+  the resulting 26.5-point net edge passed the edge rule as eligible. The
+  28-point `market_spread` was recorded but only drove a display warning, not
+  eligibility. `predict_card.quote_quality` now rejects a quote implying more
+  than `MAX_EXECUTION_DEVIATION` (8 points) less probability than consensus,
+  with reason `book price outlier`. Replayed across all 1,641 priced snapshots
+  the guard fires on that row alone.
+- The quote gate moved out of the prediction loop into `quote_quality`, which
+  returns its own rejection reason and is covered by unit tests.
+- Removed `.github/workflows/snapshot-market`, an inert byte-for-byte copy of
+  `snapshot-market.yml` still pinned to `actions/checkout@v4` and
+  `actions/setup-python@v5`. GitHub never loaded it, so the v5/v6 upgrade noted
+  below was in force, but the stale copy contradicted it.
+- Added the `.gitignore` the README already described. Bytecode caches and the
+  three rebuildable `cache_v3_*.pkl` files are no longer tracked.
+
+Open, and deliberately not changed here: official trades lock only on the
+Wednesday run, so a signal that qualifies for days but dips at that one
+timestamp is never recorded. Two of five eligible fights were captured in the
+window, which puts the 200-bet live gate roughly 4.4 years out. Changing the
+cadence changes the forward-test policy mid-run against an append-only ledger.
+
 ## July 2026 freshness-guard correction
 
 - The result freshness audit now applies the same explicit fighter-name aliases

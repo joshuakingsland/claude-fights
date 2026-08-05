@@ -70,6 +70,13 @@ side is stored separately and is the only price used for execution edge and
 payout calculations. A better sportsbook quote never changes the model's
 consensus input.
 
+A best price is only accepted when it is consistent with the consensus it was
+drawn from. If the executable price implies more than `MAX_EXECUTION_DEVIATION`
+less probability than the paired-book consensus for that side, the signal is
+rejected as `book price outlier` rather than treated as an edge. Line shopping
+is worth about one to two probability points; a larger gap has so far only ever
+meant a stale or mis-mapped quote at a single book.
+
 Every paired sportsbook quote is appended to a monthly file under
 `data/market_quotes/`, including book, timestamp, both prices, event ID, and
 per-book de-vig probability. `market_snapshot_manifest.json` summarizes the
@@ -117,8 +124,12 @@ and a nested blend whose weight is selected from prior out-of-fold cards only.
 It writes `entry_model_research.json` and never changes production settings.
 
 Historical API responses, historical quote rows, request manifests, and
-generated historical CSVs are local research inputs and are ignored by Git.
-Current forward market snapshots under `data/market_quotes/` are tracked.
+generated historical CSVs are local research inputs. Note that
+`data/odds_history/` and `raw/odds_api_historical/` are currently tracked in
+this repository despite that intent; review the provider terms for the purchased
+archive before treating the repository as publishable, and untrack them if it
+should stay local. Current forward market snapshots under `data/market_quotes/`
+are tracked deliberately.
 Audit JSONs and all code remain safe to publish. Keep `ODDS_API_KEY` only in your environment or a GitHub
 Actions secret; never commit it.
 

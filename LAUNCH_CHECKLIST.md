@@ -32,4 +32,10 @@
 - Keep all selections paper-only until the promotion gates pass. Publishing
   the dashboard is not approval for real-money operation.
 - Keep active allocation flat at 1 unit with the 2-unit event-day cap. Do not
-  treat the displayed 10-point 2-unit threshold as an approved stake tier.
+  treat the displayed 10-point 2-unit threshold as an approved stake tier. The
+  10+ edge bucket that tier is sized from carries the entire historical result
+  on 23 entry bets, and forward data shows how a broken single-book quote lands
+  in that bucket. See `FORWARD_TEST_REVIEW.md`.
+- Investigate any signal rejected as `book price outlier` before overriding it.
+  It means one book's price disagreed with the consensus by more than any
+  genuine line-shopping gain observed so far.

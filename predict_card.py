@@ -25,8 +25,9 @@ from features_v3 import build_features_v3
 from identity import assign_fighter_identities, fighter_registry
 from pipeline import load_matched_cached
 from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP, FOCUS,
-                    MARKET_DISAGREEMENT_WARNING, MAX_ODDS_AGE_MINUTES,
-                    MIN_MARKET_BOOKS, MODEL_VERSION, RESEARCH_TWO_UNIT_RULE)
+                    MARKET_DISAGREEMENT_WARNING, MAX_EXECUTION_DEVIATION,
+                    MAX_ODDS_AGE_MINUTES, MIN_MARKET_BOOKS, MODEL_VERSION,
+                    RESEARCH_TWO_UNIT_RULE)
 from production import (MODEL_FEATURES, allocate_stakes, event_pnl, event_seed,
                         fit_ensemble, predict_probabilities, score_bets)
 import method_model as MM
@@ -90,6 +91,26 @@ def _clean_meta(value, fallback="TBD"):
     if value is None or pd.isna(value) or not str(value).strip():
         return fallback
     return str(value).strip()
+
+
+def quote_quality(books, age_minutes, source, market_pick, execution_pick):
+    """Return ``(ok, reason)`` for a live quote, before the edge rule applies.
+
+    ``market_pick`` is the de-vigged paired-book consensus for the picked side
+    and ``execution_pick`` is the raw implied probability of the best captured
+    price. The executable price carries vig, so it normally implies slightly
+    more probability than the consensus. A price implying materially less is a
+    broken quote at one book rather than a line-shopping gain.
+    """
+    stale = (age_minutes is not None and age_minutes > MAX_ODDS_AGE_MINUTES
+             and str(source).startswith("the-odds-api"))
+    if stale:
+        return False, "price stale"
+    if books is not None and books < MIN_MARKET_BOOKS:
+        return False, "fewer than 3 paired books"
+    if (market_pick - execution_pick) > MAX_EXECUTION_DEVIATION:
+        return False, "book price outlier"
+    return True, ""
 
 
 def predict_upcoming(up):
@@ -172,10 +193,6 @@ def predict_upcoming(up):
         spread = _optional_number(r.get("market_spread"))
         age_minutes = quote_age_minutes(r.get("fetched_at"))
         source = str(r.get("odds_source", "manual_or_unknown"))
-        enough_books = books is None or books >= MIN_MARKET_BOOKS
-        fresh_quote = (age_minutes is None or age_minutes <= MAX_ODDS_AGE_MINUTES
-                       or not source.startswith("the-odds-api"))
-        quality_ok = enough_books and fresh_quote
         execution_price = execution_a if pick_a else execution_b
         execution_book = r.get("best_book_a" if pick_a else "best_book_b", "")
         execution_book = _clean_meta(execution_book, "consensus")
@@ -183,6 +200,9 @@ def predict_upcoming(up):
         consensus_opp_price = ob if pick_a else oa
         market_pick = p_line if pick_a else 1.0 - p_line
         execution_pick = execution_pa if pick_a else execution_pb
+        quality_ok, quality_reason = quote_quality(
+            books, age_minutes, source, market_pick, execution_pick
+        )
         out.append({
             "_p_a": p, "_row_idx": int(row.index[0]), "_pick_a": bool(pick_a),
             "_net_raw": net, "_quality_ok": quality_ok,
@@ -216,9 +236,7 @@ def predict_upcoming(up):
             "market_warning": bool(spread is not None
                                    and spread > MARKET_DISAGREEMENT_WARNING),
             "eligibility_reason": ("eligible" if net >= EDGE_RULE and quality_ok
-                                   else "price stale" if not fresh_quote
-                                   else "fewer than 3 paired books" if not enough_books
-                                   else "below edge rule"),
+                                   else quality_reason or "below edge rule"),
             "meta": f"{_clean_meta(r.get('weightclass'))} | {r['date']}",
         })
     if out:
