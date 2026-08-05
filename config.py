@@ -37,3 +37,16 @@ MAX_EXECUTION_DEVIATION = 0.08
 MODEL_VERSION = "production-v3"
 BOOTSTRAP_MODELS = 30
 ODDS_CONSENSUS_VERSION = "paired-book-devig-v1"
+
+# Regions requested from the odds API, each as its own request. The API bills
+# one credit per region per market, so every added region multiplies the
+# per-request quota cost.
+ODDS_REGIONS = ("us", "eu")
+
+# Regions whose books actually feed the model consensus and the executable
+# price. A region can be captured for research without being priced, so
+# widening ODDS_REGIONS never silently moves the model's most important
+# feature, and never credits an edge to a price the ledger cannot execute.
+# `eu` is captured to measure what Pinnacle does to the consensus before any
+# decision to price it.
+PRICED_ODDS_REGIONS = ("us",)

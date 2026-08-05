@@ -41,6 +41,37 @@ sizing are unchanged.
 - `snapshot-market.yml` locks trades too, so it runs the full test suite and
   `freshness.py --require-current` instead of the pricing tests alone.
 
+## August 2026 second odds region
+
+Motivated by a book-leadership test on the 2022 per-book archive. Across 188
+fights with entry and close coverage, every book moved toward BetOnline's entry
+price (beta 0.50 to 0.88, all 90% event-clustered intervals excluding zero)
+while BetOnline did not follow the soft consensus back (beta -0.024, interval
+-0.202 to +0.170). Directional leadership is real. It did not translate into a
+better level estimate: BetOnline alone predicted the closing consensus worse
+than the all-book median, and the sharp-versus-soft gap had no resolvable
+outcome signal at n=226 (coefficient +0.079, interval -0.128 to +0.310).
+
+The gap in the data is that Pinnacle, the reference sharp MMA market, was never
+captured at all, because only the `us` region was requested.
+
+- `ODDS_REGIONS` now requests `us` and `eu`; `PRICED_ODDS_REGIONS` stays `us`.
+  Captured-but-unpriced quotes are logged with `region` and `priced` columns
+  and are excluded from the consensus median, book count, market spread, and
+  executable price. The model's market input is unchanged by construction, and
+  tests assert that a far-off Pinnacle quote offering the best price on a side
+  changes neither the consensus nor the execution book.
+- Regions are fetched one request each rather than comma-joined. Same billed
+  cost, unambiguous region provenance, and a book present in two regions keeps
+  its priced quote so region ordering cannot move the consensus.
+- Quote rows written before this change have an empty region and are treated as
+  priced US quotes.
+- Quota roughly doubles: the six-hour workflow goes from about 124 to about 248
+  current-odds calls per 31-day month, the routine update from about 13 to 26.
+  `capture_close.py` still requests `us` only.
+- Promoting `eu` into `PRICED_ODDS_REGIONS` is a production model change and
+  requires the full validation track, not a config flip.
+
 ## July 2026 freshness-guard correction
 
 - The result freshness audit now applies the same explicit fighter-name aliases

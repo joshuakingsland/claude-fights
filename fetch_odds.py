@@ -16,7 +16,8 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-from config import ODDS_CONSENSUS_VERSION
+from config import (ODDS_CONSENSUS_VERSION, ODDS_REGIONS,
+                    PRICED_ODDS_REGIONS)
 
 
 API = "https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds"
@@ -34,8 +35,8 @@ LOG_FIELDS = [
 ]
 MARKET_QUOTE_FIELDS = [
     "snapshot_id", "fetched_at", "event_id", "commence_time", "date",
-    "fighter_a", "fighter_b", "book_key", "book_title", "book_updated_at",
-    "odds_a", "odds_b", "devig_prob_a",
+    "fighter_a", "fighter_b", "book_key", "book_title", "region", "priced",
+    "book_updated_at", "odds_a", "odds_b", "devig_prob_a",
 ]
 
 
@@ -49,8 +50,8 @@ def _upper_median(values):
     return values[len(values) // 2]
 
 
-def paired_book_quotes(event):
-    """Return valid, paired H2H quotes with sportsbook provenance."""
+def paired_book_quotes(event, region="us"):
+    """Return valid, paired H2H quotes with sportsbook and region provenance."""
     fighter_a = event.get("home_team", "")
     fighter_b = event.get("away_team", "")
     paired = []
@@ -76,6 +77,8 @@ def paired_book_quotes(event):
             paired.append({
                 "book_key": book.get("key", ""),
                 "book_title": book.get("title", book.get("key", "")),
+                "region": region,
+                "priced": int(region in PRICED_ODDS_REGIONS),
                 "book_updated_at": book.get("last_update", ""),
                 "odds_a": odds_a,
                 "odds_b": odds_b,
@@ -85,9 +88,26 @@ def paired_book_quotes(event):
     return paired
 
 
+def priced_quotes(paired):
+    """Keep only quotes from regions the model is allowed to price.
+
+    Captured-but-unpriced regions exist so a new region can be measured before
+    it is trusted.  A quote with no region predates the multi-region capture
+    and was US, so it stays priced.
+    """
+    return [row for row in paired
+            if row.get("region", "us") in PRICED_ODDS_REGIONS]
+
+
 def consensus_quote(event, paired=None):
-    """Return consensus inputs plus the best executable price on each side."""
+    """Return consensus inputs plus the best executable price on each side.
+
+    Consensus and execution both come from priced regions only, so capturing a
+    research region cannot move the model's market input or offer the ledger a
+    price it has no way to take.
+    """
     paired = paired_book_quotes(event) if paired is None else paired
+    paired = priced_quotes(paired)
     if not paired:
         return None
     best_a = max(paired, key=lambda row: row["odds_a"])
@@ -155,8 +175,9 @@ def _quote_rows(event, paired, stamp):
     commence = event.get("commence_time", "")
     for quote in paired:
         raw = "|".join(str(value) for value in (
-            stamp, event.get("id", ""), quote["book_key"], quote["odds_a"],
-            quote["odds_b"], quote["book_updated_at"],
+            stamp, event.get("id", ""), quote.get("region", "us"),
+            quote["book_key"], quote["odds_a"], quote["odds_b"],
+            quote["book_updated_at"],
         ))
         rows.append({
             "snapshot_id": hashlib.sha256(raw.encode()).hexdigest()[:20],
@@ -171,11 +192,56 @@ def _quote_rows(event, paired, stamp):
     return rows
 
 
+def fetch_region(key, region, timeout=30):
+    """Request one region.  Regions are billed per request, so they are kept
+    separate rather than comma-joined, which costs the same and gives each
+    quote an unambiguous region of origin."""
+    query = urllib.parse.urlencode({
+        "apiKey": key,
+        "regions": region,
+        "markets": "h2h",
+        "oddsFormat": "american",
+    })
+    request = urllib.request.Request(
+        f"{API}?{query}", headers={"Accept": "application/json"}
+    )
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return json.load(response)
+
+
+def collect_events(key, regions=ODDS_REGIONS, fetch=None):
+    """Merge each region's quotes onto one record per event.
+
+    Priced regions are read first so that a book listed in more than one region
+    keeps its priced quote, and the consensus cannot change depending on which
+    region happened to answer first.
+    """
+    fetch = fetch_region if fetch is None else fetch
+    ordered = ([r for r in regions if r in PRICED_ODDS_REGIONS]
+               + [r for r in regions if r not in PRICED_ODDS_REGIONS])
+    merged = {}
+    for region in ordered:
+        for event in fetch(key, region):
+            event_id = event.get("id", "")
+            slot = merged.setdefault(
+                event_id, {"event": event, "paired": [], "seen": set()}
+            )
+            for quote in paired_book_quotes(event, region):
+                if quote["book_key"] in slot["seen"]:
+                    continue
+                slot["seen"].add(quote["book_key"])
+                slot["paired"].append(quote)
+    return [(slot["event"], slot["paired"]) for slot in merged.values()]
+
+
 def _write_snapshot_manifest(path, stamp, rows, quote_rows, quote_path):
     payload = {
         "fetched_at": stamp,
         "events": len(rows),
         "paired_book_quotes": len(quote_rows),
+        "priced_book_quotes": sum(int(row.get("priced", 1)) for row in quote_rows),
+        "regions_requested": list(ODDS_REGIONS),
+        "regions_priced": list(PRICED_ODDS_REGIONS),
         "quote_file": str(quote_path).replace("\\", "/"),
         "first_event_date": min((row["date"] for row in rows), default=None),
         "last_event_date": max((row["date"] for row in rows), default=None),
@@ -208,25 +274,17 @@ def main(argv=None):
             print("Empty odds_upcoming.csv template written.")
         return
 
-    query = urllib.parse.urlencode({
-        "apiKey": key,
-        "regions": "us",
-        "markets": "h2h",
-        "oddsFormat": "american",
-    })
-    request = urllib.request.Request(
-        f"{API}?{query}", headers={"Accept": "application/json"}
-    )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        events = json.load(response)
+    collected = collect_events(key)
 
     stamp = f"{datetime.now(timezone.utc):%Y-%m-%dT%H:%M:%SZ}"
     rows = []
     all_quotes = []
-    for event in events:
-        paired = paired_book_quotes(event)
+    for event, paired in collected:
+        # Research-only quotes are logged even when no priced consensus exists,
+        # so a region under evaluation still accumulates history.
         quote = consensus_quote(event, paired)
         if quote is None:
+            all_quotes.extend(_quote_rows(event, paired, stamp))
             continue
         commence = event.get("commence_time", "")
         rows.append({
@@ -251,9 +309,12 @@ def main(argv=None):
     _write_snapshot_manifest(
         "market_snapshot_manifest.json", stamp, rows, all_quotes, quote_path
     )
+    priced = sum(int(row.get("priced", 1)) for row in all_quotes)
     print(
         f"wrote odds_upcoming.csv ({len(rows)} fights) and appended "
-        f"{len(all_quotes)} paired book quotes at {stamp}"
+        f"{len(all_quotes)} paired book quotes at {stamp} "
+        f"({priced} priced from {','.join(PRICED_ODDS_REGIONS)}; "
+        f"regions requested: {','.join(ODDS_REGIONS)})"
     )
 
 

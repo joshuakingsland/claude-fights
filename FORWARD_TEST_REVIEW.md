@@ -121,6 +121,40 @@ The two wagers locked under the old cadence keep
 separately as well as pooled, so the change does not silently blend two
 different rules into one ROI figure.
 
+## Book leadership and the second region
+
+A separate question asked whether sharp books deserve more weight in the
+consensus. Tested on the 2022 per-book archive, 188 fights with both entry and
+close coverage across 13 books.
+
+Directional leadership is real and one-sided. Every book moved toward
+BetOnline's entry price, beta 0.50 to 0.88, all 90% event-clustered intervals
+excluding zero. BetOnline did not follow the soft consensus back: beta -0.024,
+interval -0.202 to +0.170. Its own entry-to-close movement averaged 1.26
+probability points with beta 0.02 against the market, which is a price-setter
+moving on its own information rather than a follower converging.
+
+Leadership did not make it a better level estimate. BetOnline alone predicted
+the other books' closing consensus at 0.914 mean absolute error against 0.789
+for the all-book median, and the interval on that difference excludes zero.
+Aggregation removes idiosyncratic noise that a single leading book carries.
+
+Whether the sharp-versus-soft gap predicts fight outcomes is unresolved. The
+coefficient is +0.079 per probability point of gap with a 90% interval of
+-0.128 to +0.310. The point estimate is large enough to matter, since a
+two-point gap would move the model about four probability points, the size of
+the whole edge rule, but 226 fights cannot separate it from zero.
+
+The design implication, if it is ever confirmed, is to keep the all-book median
+as the market probability and add the gap as its own feature, rather than
+reweighting the consensus and losing the median's variance reduction.
+
+The blocker is data. Per-book history exists for 2022 only, and Pinnacle, the
+reference sharp MMA market, was never captured because only the `us` region was
+requested. `eu` is now captured but not priced, so Pinnacle history accumulates
+without touching the model. Re-run this test once forward per-book coverage is
+comparable.
+
 ## Not changed here
 
 - Model, features, edge rule, and stake sizing are untouched.

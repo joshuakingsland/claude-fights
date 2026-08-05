@@ -78,11 +78,40 @@ is worth about one to two probability points; a larger gap has so far only ever
 meant a stale or mis-mapped quote at a single book.
 
 Every paired sportsbook quote is appended to a monthly file under
-`data/market_quotes/`, including book, timestamp, both prices, event ID, and
-per-book de-vig probability. `market_snapshot_manifest.json` summarizes the
-latest capture. The `Snapshot MMA Market` workflow runs every six hours,
-adding roughly 124 current-odds endpoint calls in a 31-day month; review API
-quota before enabling or increasing that schedule.
+`data/market_quotes/`, including book, timestamp, both prices, event ID,
+region, priced flag, and per-book de-vig probability.
+`market_snapshot_manifest.json` summarizes the latest capture.
+
+## Captured regions versus priced regions
+
+`ODDS_REGIONS` lists the regions requested; `PRICED_ODDS_REGIONS` lists the
+regions whose books are allowed to reach the model. They are deliberately
+separate. Capture is currently `us` and `eu`, priced is `us` only.
+
+The `eu` region is requested so that Pinnacle — the reference sharp MMA market,
+absent from the US region — accumulates history in `data/market_quotes/`.
+Nothing from an unpriced region enters the consensus median, the book count,
+the market spread, or the executable price. Widening capture therefore cannot
+move the model's most important feature, and cannot credit an edge to a price
+the ledger has no way to take. Promoting `eu` into `PRICED_ODDS_REGIONS` is a
+production model change and needs the full validation track, not a config
+flip.
+
+Regions are requested one per API call rather than comma-joined. The cost is
+identical, because the API bills one credit per region per market, and each
+quote gets an unambiguous region of origin. A book appearing in more than one
+region keeps its priced quote, so the consensus does not depend on which
+region answered first. Quote rows written before this change have an empty
+region and are US; `priced_quotes` treats a missing region as priced.
+
+Cost roughly doubles with the second region. The six-hour `Snapshot MMA
+Market` workflow moves from about 124 to about 248 current-odds calls in a
+31-day month, and the routine update workflow from about 13 to about 26.
+Review API quota before adding a third region.
+
+`capture_close.py` still requests `us` only. Extending the standardized T-30
+capture to `eu` would give Pinnacle-referenced closing-line value, at the cost
+of doubling that workflow's spend; it is a separate decision.
 
 Predictions fail closed when a commence time is not in the future. For a
 manual date-only row, the event date itself is rejected because the system

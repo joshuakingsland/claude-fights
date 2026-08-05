@@ -17,8 +17,10 @@
 9. Open the published page and verify its UTC update stamp, fighter names,
    consensus prices, best book/price, start times, and `paper_only` language
    before sharing the URL.
-10. Review API quota before enabling `Snapshot MMA Market`; its six-hour
-    schedule adds roughly 124 current-odds calls in a 31-day month.
+10. Review API quota before enabling `Snapshot MMA Market`. With `us` and `eu`
+    captured, its six-hour schedule adds roughly 248 current-odds calls in a
+    31-day month, and the routine update workflow about 26. Each region is a
+    separate billed request.
 11. Confirm `staking_validation.json` says the active and 2-unit candidate
     policies are `paper_only`.
 12. Both scheduled workflows can lock official wagers. After changing either
@@ -43,3 +45,6 @@
 - Investigate any signal rejected as `book price outlier` before overriding it.
   It means one book's price disagreed with the consensus by more than any
   genuine line-shopping gain observed so far.
+- Do not move a region from `ODDS_REGIONS` into `PRICED_ODDS_REGIONS` as a
+  config change. Pricing a new region alters the model's market input and the
+  executable price, so it requires the full validation track first.
