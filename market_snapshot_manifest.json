@@ -1,8 +1,8 @@
 {
-  "fetched_at": "2026-08-05T19:53:44Z",
-  "events": 58,
-  "paired_book_quotes": 179,
+  "fetched_at": "2026-08-06T03:35:32Z",
+  "events": 59,
+  "paired_book_quotes": 183,
   "quote_file": "data/market_quotes/quotes_2026-08.csv",
-  "first_event_date": "2026-08-08",
+  "first_event_date": "2026-08-07",
   "last_event_date": "2027-08-01"
 }
