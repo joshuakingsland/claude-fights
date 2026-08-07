@@ -4,20 +4,21 @@ import os
 import statistics
 import tempfile
 import unittest
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest.mock import patch
 
 from config import PRICED_ODDS_REGIONS
 from fetch_odds import (LOG_FIELDS, MARKET_QUOTE_FIELDS, UPCOMING_FIELDS,
-                        _american_to_prob, append_log, append_quote_log,
-                        collect_events, consensus_quote, main,
-                        leader_split, paired_book_quotes, priced_quotes)
+                        _american_to_prob, _is_future, append_log,
+                        append_quote_log, collect_events, consensus_quote,
+                        main, leader_split, paired_book_quotes, priced_quotes)
 from predict_card import execution_ladder, market_probability, quote_age_minutes
 
 
 def _event(event_id, books):
     return {
-        "id": event_id, "commence_time": "2026-01-02T00:00:00Z",
+        "id": event_id, "commence_time": "2099-01-02T00:00:00Z",
         "home_team": "A", "away_team": "B",
         "bookmakers": [{
             "key": key, "title": title,
@@ -28,6 +29,35 @@ def _event(event_id, books):
             ]}],
         } for key, title, odds_a, odds_b in books],
     }
+
+
+class InPlayRejectionTests(unittest.TestCase):
+    """A fight already under way must never reach the card.
+
+    The odds endpoint keeps returning a fight after it starts. Those are
+    in-play prices reflecting what has happened in the cage. On 2026-08-07
+    one was captured three minutes after its start, reached predict_card,
+    and assert_pre_event correctly refused it - taking the scheduled
+    snapshot run down with it. Failing closed there was right; capturing
+    the row at all was the bug.
+    """
+
+    def test_future_start_is_accepted(self):
+        ahead = datetime.now(timezone.utc) + timedelta(hours=2)
+        self.assertTrue(_is_future(ahead.strftime("%Y-%m-%dT%H:%M:%SZ")))
+
+    def test_fight_already_started_is_rejected(self):
+        behind = datetime.now(timezone.utc) - timedelta(minutes=3)
+        self.assertFalse(_is_future(behind.strftime("%Y-%m-%dT%H:%M:%SZ")))
+
+    def test_the_exact_failing_row_is_rejected(self):
+        now = datetime(2026, 8, 7, 13, 38, 13, tzinfo=timezone.utc)
+        self.assertFalse(_is_future("2026-08-07T13:35:00Z", now))
+
+    def test_missing_or_malformed_start_is_rejected(self):
+        self.assertFalse(_is_future(""))
+        self.assertFalse(_is_future(None))
+        self.assertFalse(_is_future("soon"))
 
 
 class ResearchRegionTests(unittest.TestCase):

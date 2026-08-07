@@ -72,6 +72,28 @@ captured at all, because only the `us` region was requested.
 - Promoting `eu` into `PRICED_ODDS_REGIONS` is a production model change and
   requires the full validation track, not a config flip.
 
+## August 2026 in-play capture fix
+
+The scheduled `Snapshot MMA Market` run at 2026-08-07T13:37Z failed:
+
+    ValueError: Refusing retroactive prediction rows.
+    Denis Goltsov vs Hasan Mezhiev (2026-08-07T13:35:00+00:00, exact)
+
+The odds endpoint keeps returning a fight after it starts, so a bout that
+began at 13:35 was captured at 13:38 and written into `odds_upcoming.csv`.
+`assert_pre_event` then correctly refused to predict it and the whole run
+exited non-zero.
+
+Failing closed there was right. Capturing the row at all was the bug, so
+`fetch_odds.py` now rejects any event whose commence time is not strictly
+in the future, and a missing or unparseable timestamp counts as not-future.
+Rejected events still have their quotes logged for research; only the card
+is protected. The run reports how many were dropped.
+
+This is the same defect found independently in a sibling baseball project,
+where in-play rows priced at 96% and 97% win probability - values a pre-game
+market never produces - would have read as enormous edges.
+
 ## August 2026 leader/follower research columns
 
 - `prediction_snapshots.csv` and `paper_trades.csv` gain `leader_prob`,

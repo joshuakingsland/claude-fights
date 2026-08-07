@@ -41,6 +41,24 @@ MARKET_QUOTE_FIELDS = [
 ]
 
 
+def _is_future(commence_time, now=None):
+    """True only when a start time is present, parseable, and still ahead.
+
+    A missing or unparseable timestamp counts as not-future, so a malformed
+    row is dropped rather than carried into the card.
+    """
+    if not commence_time:
+        return False
+    now = now or datetime.now(timezone.utc)
+    try:
+        moment = datetime.fromisoformat(str(commence_time).replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    if moment.tzinfo is None:
+        moment = moment.replace(tzinfo=timezone.utc)
+    return moment > now
+
+
 def _american_to_prob(odds):
     odds = float(odds)
     return -odds / (-odds + 100.0) if odds < 0 else 100.0 / (odds + 100.0)
@@ -300,16 +318,32 @@ def main(argv=None):
     collected = collect_events(key)
 
     stamp = f"{datetime.now(timezone.utc):%Y-%m-%dT%H:%M:%SZ}"
+    now = datetime.now(timezone.utc)
     rows = []
     all_quotes = []
+    in_play = 0
     for event, paired in collected:
+        commence = event.get("commence_time", "")
+        # Drop anything already under way. The odds endpoint keeps returning a
+        # fight after it starts, and those are in-play prices reflecting what
+        # has happened in the cage, which the model cannot see. Writing one
+        # into odds_upcoming.csv used to reach predict_card, where
+        # assert_pre_event correctly refused it and took the whole scheduled
+        # run down with it: the 2026-08-07T13:37Z snapshot failed on Goltsov
+        # vs Mezhiev, captured three minutes after its 13:35 start.
+        #
+        # Failing closed there was right. Capturing the row at all was the
+        # bug, so it is rejected here at the source.
+        if not _is_future(commence, now):
+            in_play += 1
+            all_quotes.extend(_quote_rows(event, paired, stamp))
+            continue
         # Research-only quotes are logged even when no priced consensus exists,
         # so a region under evaluation still accumulates history.
         quote = consensus_quote(event, paired)
         if quote is None:
             all_quotes.extend(_quote_rows(event, paired, stamp))
             continue
-        commence = event.get("commence_time", "")
         rows.append({
             "date": commence[:10],
             "commence_time": commence,
