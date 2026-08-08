@@ -1,0 +1,9 @@
+{
+  "bouts": 22672,
+  "promotions_sharing_a_fighter": 182,
+  "promotions_reportable": 6,
+  "min_shared_fighters": 5,
+  "anchor": "UFC",
+  "reading": "Positive gap means the same fighter wins more often in that promotion than in the UFC, i.e. softer opposition.",
+  "caveat": "Whole-career, not point-in-time. Descriptive only; not a model feature in this form."
+}

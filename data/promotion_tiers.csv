@@ -1,0 +1,183 @@
+promotion,shared_fighters,mean_gap_vs_ufc,median_gap_vs_ufc,reportable
+Bradar Fight,1,-1.5041,-1.5041,False
+FFIT,1,-1.2993,-1.2993,False
+MF,1,-1.0986,-1.0986,False
+Shooto Brazil,1,-0.9808,-0.9808,False
+Rizin,1,-0.8109,-0.8109,False
+FSC,1,-0.6931,-0.6931,False
+CWM MMA,1,-0.6931,-0.6931,False
+Combat USA,1,-0.6614,-0.6614,False
+ProFC,1,-0.6061,-0.6061,False
+SFT,2,-0.528,-0.5893,False
+ACB,3,-0.5062,-0.2513,False
+OC,1,-0.4418,-0.4418,False
+KZMMAF,1,-0.4055,-0.4055,False
+Fight of Gladiators,1,-0.4055,-0.4055,False
+FNC,2,-0.4055,-0.4055,False
+One Championship,2,-0.4055,-0.4055,False
+ACA,4,-0.2962,-0.2877,False
+WMMAA,2,-0.2463,-0.3233,False
+ROC,1,-0.2231,-0.2231,False
+LFC,4,-0.2189,-0.3466,False
+WLF,2,-0.2003,-0.0771,False
+M-1 Challenge,1,-0.1178,-0.1178,False
+Future,1,-0.1178,-0.1178,False
+Rizin FF,3,-0.0959,-0.2877,False
+WEC,3,-0.0464,0.0,False
+Jue Cheng King,1,0.0,0.0,False
+HFS,2,0.0,0.0,False
+Cage Rage,1,0.0,0.0,False
+SFMMA,1,0.0,0.0,False
+Muradov Professional League,1,0.0,0.0,False
+VFC,1,0.0,0.0,False
+WFC,2,0.0536,0.0112,False
+Russian MMA Union,1,0.069,0.069,False
+MMAA,2,0.094,0.3466,False
+Professional Fighters League,30,0.1312,-0.1438,True
+Flawless,1,0.1542,0.1542,False
+CW,3,0.1728,0.5878,False
+IFC WC,1,0.2231,0.2231,False
+BCM Promotions,1,0.2231,0.2231,False
+Tuff-N-Uff,1,0.2231,0.2231,False
+Bellator,29,0.2384,0.0,True
+Legion Fighting Championship,2,0.2616,0.2616,False
+WFCA,2,0.2617,0.2695,False
+GGC,1,0.2877,0.2877,False
+Strikeforce,3,0.2976,0.4055,False
+Dana White's Contender Series,2,0.3466,0.3466,False
+IMMAF-WMMAA,4,0.3891,0.3993,False
+M-1 Global,1,0.4055,0.4055,False
+BYE,1,0.4055,0.4055,False
+Jungle Fight,1,0.4055,0.4055,False
+GFC,2,0.4778,0.4778,False
+PF,1,0.4796,0.4796,False
+FNM,1,0.4796,0.4796,False
+MMA Attack,1,0.4796,0.4796,False
+KSW,3,0.4904,-0.4055,False
+ProFC Grand Prix Global,1,0.4925,0.4925,False
+CFFC,4,0.4974,0.3284,False
+LFA,12,0.5152,0.2899,True
+Rizin Fighting Federation,1,0.539,0.539,False
+One,2,0.5493,0.5493,False
+NFC,1,0.5596,0.5596,False
+CMTA,1,0.5878,0.5878,False
+RXF,1,0.5878,0.5878,False
+FLP,2,0.5893,0.3901,False
+HRMMA,2,0.5928,0.5928,False
+SF,2,0.5928,0.5928,False
+DCS,2,0.602,0.602,False
+XKO,2,0.6688,0.6688,False
+SMMAF,1,0.6931,0.6931,False
+Titan,1,0.6931,0.6931,False
+C3 Fights,2,0.7566,0.6768,False
+ZSSC,1,0.7673,0.7673,False
+Cage Titans FC,3,0.7798,0.6931,False
+Governors Cup,1,0.7802,0.7802,False
+MPF,1,0.8109,0.8109,False
+Reality Fighting,1,0.8109,0.8109,False
+RFA,3,0.8209,0.5878,False
+USWF,1,0.8473,0.8473,False
+Oktagon MMA,9,0.8527,1.1394,True
+UCMMA,2,0.9145,0.7136,False
+Pinnacle,1,0.9163,0.9163,False
+HFC,1,0.9163,0.9163,False
+IMMAF,5,0.9378,1.3863,True
+Rebel,1,0.9445,0.9445,False
+Chinese Kung Fu Championships,1,0.9445,0.9445,False
+Caged Aggression,1,0.9933,0.9933,False
+TU,1,1.0986,1.0986,False
+WCS,1,1.0986,1.0986,False
+OFC,1,1.0986,1.0986,False
+GetDown Promotions,1,1.0986,1.0986,False
+CKFC,1,1.0986,1.0986,False
+FCOC,1,1.0986,1.0986,False
+LFN,1,1.0986,1.0986,False
+CN,1,1.0986,1.0986,False
+MFC,2,1.0986,1.0986,False
+Rogue Promotions,1,1.0986,1.0986,False
+Affliction,1,1.0986,1.0986,False
+Ares,1,1.0986,1.0986,False
+NEF,1,1.0986,1.0986,False
+ADW,1,1.0986,1.0986,False
+Tayta,1,1.0986,1.0986,False
+Inka,1,1.0986,1.0986,False
+ABA Fighting Championship,1,1.0986,1.0986,False
+Adrenaline,1,1.0986,1.0986,False
+KOTC,7,1.11,1.0986,True
+HOOKnSHOOT,2,1.143,1.1836,False
+Superior Challenge,3,1.1945,1.7918,False
+Invicta,2,1.2425,1.2425,False
+UAE Warriors,3,1.2425,1.3863,False
+IGF,1,1.2528,1.2528,False
+Fury,1,1.2528,1.2528,False
+NAFC,1,1.2809,1.2809,False
+WWFC,1,1.2809,1.2809,False
+CLIP,1,1.3218,1.3218,False
+Brave CF,2,1.3523,1.2425,False
+SBC,2,1.354,1.354,False
+XFL,1,1.3581,1.3581,False
+XFN,3,1.3795,0.9933,False
+Alash Pride,1,1.3863,1.3863,False
+TFC Danghara,1,1.3863,1.3863,False
+Cage Conflict,1,1.3863,1.3863,False
+NOW,2,1.3863,1.3863,False
+CXF,1,1.3863,1.3863,False
+CES,4,1.4196,1.1757,False
+Square Ring Promotions,2,1.4452,1.4452,False
+GMC,3,1.4648,1.5041,False
+RFC,1,1.5041,1.5041,False
+BC,1,1.5041,1.5041,False
+PML,1,1.5041,1.5041,False
+Babilon,1,1.5041,1.5041,False
+FCR,1,1.5404,1.5404,False
+ABG,2,1.5599,1.4634,False
+FFC,2,1.599,1.6683,False
+Eagles,1,1.6094,1.6094,False
+ROFE,1,1.6094,1.6094,False
+Knockout Promotions,1,1.6094,1.6094,False
+Midwest Fight League,2,1.6623,1.2306,False
+RA,1,1.7918,1.7918,False
+Aspera,1,1.7918,1.7918,False
+EFC,1,1.7918,1.7918,False
+Thunder Fight,1,1.7918,1.7918,False
+Shamrock Events,1,1.7918,1.7918,False
+SB,1,1.7918,1.7918,False
+CS,1,1.7918,1.7918,False
+CFP,1,1.7918,1.7918,False
+Lights Out,1,1.8326,1.8326,False
+AOW,1,1.8788,1.8788,False
+CLFC,1,1.8971,1.8971,False
+Professional Combat Sambo,1,1.8971,1.8971,False
+Alpha One Sports,1,1.8971,1.8971,False
+LXF,1,2.0149,2.0149,False
+FG,1,2.0794,2.0794,False
+CC,1,2.0794,2.0794,False
+Eternal,1,2.0794,2.0794,False
+TFC,1,2.1203,2.1203,False
+A&A Fight Time Promotions,1,2.1972,2.1972,False
+FAC,1,2.1972,2.1972,False
+NG,1,2.1972,2.1972,False
+Trophy,1,2.1972,2.1972,False
+GMA,1,2.1972,2.1972,False
+GF,1,2.1972,2.1972,False
+Combat Zone,2,2.3411,2.3411,False
+Cage,1,2.3514,2.3514,False
+FWC,1,2.3514,2.3514,False
+GFA,1,2.3514,2.3514,False
+PFC,2,2.4095,2.1831,False
+CFC,1,2.4567,2.4567,False
+AFC,3,2.4728,2.4849,False
+FCC,1,2.4849,2.4849,False
+IHC,1,2.4849,2.4849,False
+GC,1,2.4849,2.4849,False
+EC,1,2.6391,2.6391,False
+MFL,1,2.7081,2.7081,False
+Shamrock,1,2.7081,2.7081,False
+SFC,1,2.7081,2.7081,False
+Cageside Promotions / KCFA,1,2.7081,2.7081,False
+MITC,1,2.7081,2.7081,False
+TNT Fight Series,1,2.7081,2.7081,False
+Pancrase,1,2.7726,2.7726,False
+BFW,1,2.8904,2.8904,False
+Fight Nights,1,3.1781,3.1781,False
+XFO,1,3.4657,3.4657,False
