@@ -1,0 +1,12 @@
+{
+  "bouts": 22672,
+  "fighters_rated": 13095,
+  "promotions_total": 2386,
+  "promotions_ratable": 98,
+  "min_bouts_for_tier": 25,
+  "anchors": {
+    "UFC": "S (given)",
+    "PFL/Bellator": "A (given)"
+  },
+  "caveat": "Descriptive only. Ratings use each fighter's whole career, so this is not point-in-time and must not be used as a model feature without rebuilding it as of each fight."
+}
