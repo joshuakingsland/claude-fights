@@ -12,3 +12,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-01T18:44:59Z,79d08aee30e3aa2df53b4a6ec8848106,2026-08-01T19:30:00Z,45.02,Uros Medic,Daniel Rodriguez,-400.0,310.0,0.76818552,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-08T20:52:11Z,825e28002cc8ba14f67a913a93833346,2026-08-08T21:10:00Z,17.8,Giovanna Canuto,Carol Foro,182.0,-215.0,0.34255149,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-08T20:52:11Z,abaf00200471a2bdfc0aecc648f3d9eb,2026-08-08T21:35:00Z,42.8,Juliana Miller,Ravena Oliveira,-340.0,275.0,0.74318541,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-08T21:49:04Z,4747134e3e1143e612926bbb7307af05,2026-08-08T22:10:00Z,20.92,Miles Johns,Gianni Vazquez,-210.0,176.0,0.65152878,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-08T21:49:04Z,9a92d22531015bdd32db87afa9f9bee2,2026-08-08T22:25:00Z,35.92,Manoel Sousa,Richie Miranda,-340.0,270.0,0.7391033,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
