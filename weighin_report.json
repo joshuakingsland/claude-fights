@@ -1,0 +1,96 @@
+{
+  "fights": 45,
+  "window": {
+    "pre_hours_min": 40.0,
+    "post_hours_max": 30.0
+  },
+  "absolute_move_points": {
+    "median": 1.557,
+    "mean": 2.027,
+    "p90": 4.848,
+    "max": 8.449
+  },
+  "notable_moves": {
+    "threshold_points": 3.0,
+    "count": 12,
+    "share": 0.2667,
+    "basis": "inferred",
+    "caveat": "A large move is a proxy for a weigh-in event, not evidence of one. Cancellations, injury news and ordinary Friday drift move lines too.",
+    "fights": [
+      {
+        "date": "2026-08-08",
+        "fight": "Cheyden Leialoha vs Robbie Ring",
+        "move_points": 8.45,
+        "pre_books": 2,
+        "post_books": 3
+      },
+      {
+        "date": "2026-08-08",
+        "fight": "Michael Boylan vs Landry Ward",
+        "move_points": -6.19,
+        "pre_books": 2,
+        "post_books": 3
+      },
+      {
+        "date": "2026-08-08",
+        "fight": "Denis Goltsov vs Hasan Mezhiev",
+        "move_points": 5.34,
+        "pre_books": 2,
+        "post_books": 2
+      },
+      {
+        "date": "2026-07-31",
+        "fight": "Sean Gauci vs Allan Begosso",
+        "move_points": 5.0,
+        "pre_books": 2,
+        "post_books": 2
+      },
+      {
+        "date": "2026-08-08",
+        "fight": "Lewis McGrillen vs Brandon Lewis",
+        "move_points": 4.96,
+        "pre_books": 2,
+        "post_books": 3
+      },
+      {
+        "date": "2026-08-07",
+        "fight": "Jonathan Martin vs Wilson Lopshire",
+        "move_points": 4.68,
+        "pre_books": 2,
+        "post_books": 3
+      },
+      {
+        "date": "2026-08-08",
+        "fight": "Louie Sutherland vs Jose Montanha",
+        "move_points": 4.44,
+        "pre_books": 8,
+        "post_books": 13
+      },
+      {
+        "date": "2026-08-01",
+        "fight": "Jovan Leka vs Alexander Poppeck",
+        "move_points": 3.99,
+        "pre_books": 8,
+        "post_books": 8
+      },
+      {
+        "date": "2026-08-08",
+        "fight": "Josh Fremd vs Jhony Gregory",
+        "move_points": 3.41,
+        "pre_books": 2,
+        "post_books": 4
+      },
+      {
+        "date": "2026-08-01",
+        "fight": "Mateusz Rebecki vs Kyle Prepolec",
+        "move_points": 3.12,
+        "pre_books": 8,
+        "post_books": 8
+      }
+    ]
+  },
+  "missed_weight": {
+    "status": "unavailable",
+    "reason": "UFCStats publishes no weigh-in results, so no scale reading or missed-weight flag exists in this repository. The column is plumbed and empty; adding a commission or weigh-in feed makes it a join."
+  }
+}
