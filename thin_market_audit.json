@@ -1,0 +1,37 @@
+{
+  "fights_resolved": 13,
+  "buckets": [
+    {
+      "books": "1 book",
+      "fights": 0,
+      "status": "below 20-fight reporting minimum"
+    },
+    {
+      "books": "2 books",
+      "fights": 0,
+      "status": "below 20-fight reporting minimum"
+    },
+    {
+      "books": "3-5",
+      "fights": 0,
+      "status": "below 20-fight reporting minimum"
+    },
+    {
+      "books": "6-8",
+      "fights": 13,
+      "status": "below 20-fight reporting minimum"
+    },
+    {
+      "books": "9+",
+      "fights": 0,
+      "status": "below 20-fight reporting minimum"
+    }
+  ],
+  "thin_versus_thick": {
+    "status": "insufficient sample",
+    "thin_fights": 0,
+    "thick_fights": 13,
+    "note": "Thin fights accumulate at roughly the rate cards are scored. This is a standing question, not a finished one."
+  },
+  "interpretation": "Research only. A thin bucket that looks profitable on a small sample is noise, and nothing here promotes a fight into the tradable set. The production screen still requires three paired books."
+}
