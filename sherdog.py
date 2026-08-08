@@ -250,6 +250,29 @@ def unknown_fighters(snapshots_path="prediction_snapshots.csv",
             if key not in known]
 
 
+def opponent_names(bouts_path="data/sherdog_bouts.csv"):
+    """Opponents named in collected records whose own record is not yet held.
+
+    This is the second hop, and it is what makes strength of schedule
+    computable. A 20-0 run means nothing until you know whether those twenty
+    opponents were themselves 3-105 or were future PFL fighters. Without it a
+    promotion can only be ranked by its label; with it, by who actually fought
+    there.
+    """
+    import pandas as pd
+
+    from identity import norm_name
+
+    bouts = pd.read_csv(bouts_path)
+    have = {norm_name(n) for n in bouts["fighter_name"].dropna()}
+    seen = {}
+    for name in bouts["opponent"].dropna():
+        key = norm_name(name)
+        if key and key not in have:
+            seen.setdefault(key, name)
+    return [display for _, display in sorted(seen.items())]
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default="data/sherdog_bouts.csv")
@@ -257,10 +280,16 @@ def main():
     parser.add_argument("--pause", type=float, default=1.5)
     parser.add_argument("--names", default="",
                         help="comma-separated; defaults to unknown fighters")
+    parser.add_argument("--opponents", action="store_true",
+                        help="second hop: collect opponents of collected fighters")
     args = parser.parse_args()
-    names = ([n.strip() for n in args.names.split(",") if n.strip()]
-             or unknown_fighters())
-    print(f"{len(names)} fighters with no UFCStats history")
+    if args.opponents:
+        names = opponent_names(args.out)
+        print(f"{len(names)} opponents without a record of their own")
+    else:
+        names = ([n.strip() for n in args.names.split(",") if n.strip()]
+                 or unknown_fighters())
+        print(f"{len(names)} fighters with no UFCStats history")
     collect(names, args.out, pause=args.pause, limit=args.limit)
 
 
