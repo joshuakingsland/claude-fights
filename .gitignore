@@ -7,3 +7,6 @@ venv/
 
 # Content-addressed feature caches are rebuilt from tracked inputs.
 cache_v*.pkl
+
+# Cached Sherdog HTML; re-fetchable and large. The parsed CSV is tracked.
+raw/sherdog/
