@@ -1,341 +1,2419 @@
-promotion,bouts,fighters,fighters_also_in_pfl_bellator,bouts_vs_ufc_experienced
-Professional Fighters League,156,40,40,29
-Oktagon MMA,97,12,1,9
-LFA,90,24,11,3
-Bellator,69,11,11,7
-Jungle Fight,23,6,3,1
-UAE Warriors,19,9,7,0
-CFFC,18,6,5,2
-CW,17,3,0,1
-VFC,16,7,7,1
-GCF,16,2,0,0
-WMMAA,15,4,2,2
-IMMAF-WMMAA,15,3,1,0
-OC,13,1,1,1
-IMMAF,12,3,1,0
-Combat Zone,12,2,2,0
-AFC,11,6,5,0
-Combate Global,10,2,2,0
-CN,10,1,1,0
-ACB,10,2,2,4
-Cage Titans FC,9,3,3,1
-UFC,9,2,1,6
-GMC,9,3,0,0
-MCC,9,1,1,0
-Dana White's Contender Series,9,8,5,7
-GFC,9,5,4,0
-NP Fight,8,2,0,0
-DCS,7,3,2,0
-AUFC,7,1,1,0
-EFC,7,5,4,0
-WLF,7,1,0,0
-HFS,7,1,1,1
-Tech-Krep FC,7,1,1,1
-BFC,6,3,1,0
-CC,6,2,1,0
-UKFC,6,2,2,1
-XFN,6,4,1,0
-Real Fight Arena,6,2,0,0
-Brave CF,6,4,3,0
-FSC,6,3,3,1
-MAC,6,2,0,1
-TOC,6,1,1,0
-CES,6,3,3,1
-UFC Fight Night,5,3,1,5
-AFS,5,1,1,1
-National Fighting Championship,5,2,0,0
-HG,5,2,0,0
-M-1 Challenge,5,3,2,1
-Shooto Brazil,5,4,1,1
-FFC,5,3,2,1
-XKO,5,1,1,0
-Russian MMA Union,5,1,1,1
-KOTC,5,2,2,0
-CWA,5,2,1,0
-LNK Boxing / WFCA Baltic,5,1,1,0
-UWC Mexico,5,1,0,0
-PML,5,3,0,0
-Brutaal Genesis Fight Night,5,1,1,0
-RMMAU,5,2,2,0
-SMMA,4,2,2,0
-Full Contact Promotions,4,1,1,0
-NFC,4,4,0,0
-Spartacus MMA,4,3,1,0
-FFIT,4,1,1,0
-Nashe Delo,4,1,1,0
-RCC,4,3,2,0
-PFC,4,3,2,0
-Ares,4,1,1,0
-KSW,4,2,0,1
-Caged Steel,4,4,4,0
-African Knockout,4,1,0,0
-Tuff-N-Uff,4,1,1,0
-Rizin FF,4,3,2,1
-Eagle,3,2,2,0
-GF,3,3,2,0
-Thunder Fight,3,2,2,1
-SLAM,3,1,0,0
-WCMMA,3,2,2,1
-Rizin,3,1,1,0
-Ryoshin Fighting Championship,3,1,1,0
-MF,3,1,1,0
-PC,3,1,0,0
-Freon,3,1,1,0
-NEF,3,2,2,0
-Reality Fighting,3,1,1,0
-UFC on ESPN,3,2,1,3
-Muradov Professional League,3,1,0,0
-Spar Star Promotions,3,1,0,0
-Caged Aggression,3,1,1,0
-Arena,3,1,0,0
-Ignite Fights,3,2,2,0
-M-1 Global,3,2,2,0
-X-1,3,1,1,0
-SCL,3,1,1,0
-Soldado Combat,3,2,0,0
-Samurai Fight,3,2,0,0
-CG,3,2,2,0
-Bali MMA,3,1,1,0
-League S-70,3,1,1,2
-ICE FC,3,1,1,0
-COF,3,2,0,0
-Future,3,2,0,0
-GAMMA,3,1,0,0
-WOCS,3,2,0,0
-Fabriq MMA,3,3,0,0
-Titan,3,2,2,0
-ProFC,3,1,1,0
-GEMMAF,3,1,0,0
-RF,2,2,2,0
-GMMA,2,1,1,0
-Rizin Fighting Federation,2,2,2,0
-PFL Super Fights,2,2,2,0
-CUFF,2,1,0,0
-Knockout Promotions,2,1,0,0
-Bellator Champions Series San Diego,2,2,2,0
-FF,2,1,0,0
-Legion Fighting Championship,2,1,0,0
-LFC,2,2,2,0
-X-Fest,2,1,0,0
-WLMMA,2,2,0,0
-Dana White's Tuesday Night Contender Series,2,2,2,2
-MMA Live,2,1,0,0
-IAF,2,1,0,0
-EFN,2,2,1,0
-IDC,2,1,0,0
-MMA Experience,2,2,0,0
-RBFC,2,1,0,0
-EBD,2,1,1,0
-ACA,2,1,1,0
-RXC,2,1,0,0
-Moscow Pankration Federation,2,2,2,0
-Bellator Champions Series London,2,2,2,1
-Pitbull Fighting Championship,2,1,0,0
-MMAB,2,1,1,0
-Hardcore FC,2,1,0,0
-Destiny MMA,2,1,1,0
-Fury,2,2,1,0
-MMA Brutus,2,1,0,0
-LFL,2,2,1,0
-NFC Contenders,2,2,0,0
-WFCA Baltic,2,1,1,0
-PMMA,2,1,0,0
-Combat,2,1,1,0
-Budo,2,2,1,0
-FCOC,2,2,1,0
-Intense Fight Championship,2,2,1,0
-Battle on Volga,2,1,1,0
-IFL,2,2,0,0
-FGC,2,1,0,0
-PFMMA,2,1,0,0
-BRTL,2,1,0,0
-SFT,2,2,2,0
-BTC,2,1,1,0
-Honor,1,1,1,0
-NAAFS,1,1,1,0
-OFC,1,1,1,0
-Gladiators of the Cage,1,1,1,0
-Alpha One Sports,1,1,1,0
-Rocktagon MMA,1,1,1,0
-Brothers Fight Championship,1,1,0,0
-Brabos Combat,1,1,0,0
-HC,1,1,0,0
-MFC,1,1,1,0
-Team Nogueira,1,1,1,0
-011 MMA Team,1,1,1,0
-SFG,1,1,0,0
-CFK,1,1,0,0
-Fight of Gladiators,1,1,0,0
-NOT,1,1,0,0
-Reign,1,1,1,0
-Minotaur,1,1,1,0
-MMADU,1,1,1,0
-Contenders East Anglia,1,1,1,0
-BCMMA,1,1,1,0
-Ural,1,1,1,0
-OCE Professional,1,1,1,0
-RCFN,1,1,1,0
-864 Fighting Championship,1,1,1,0
-FLP,1,1,1,0
-FNG / GFC,1,1,1,0
-Professional Combat Sambo,1,1,1,0
-EFM Show,1,1,1,0
-Bellator Milan,1,1,1,0
-EFM,1,1,1,0
-BAMMA,1,1,1,0
-Elite Fight Night,1,1,1,0
-OCL,1,1,1,0
-Team Buck Wild,1,1,1,0
-Cidade da Luta,1,1,0,0
-TRUE TIME,1,1,0,0
-FTD,1,1,0,0
-LBS Challenger,1,1,0,0
-HCC,1,1,0,0
-Sicario MMA,1,1,0,0
-Spartanos Fight,1,1,0,0
-BFN,1,1,0,0
-NTF,1,1,0,0
-Curitiba Top Fight,1,1,0,0
-CTF,1,1,0,1
-ZLF,1,1,1,0
-PFE,1,1,0,0
-Bazara 0 Fight Club,1,1,1,1
-MMA Bushido / King of Kings,1,1,1,0
-RTC,1,1,1,0
-WFCA,1,1,1,0
-Zero 11 Bar,1,1,0,0
-Brasil Fight,1,1,0,0
-UFC on ABC,1,1,0,1
-Cage Warriors,1,1,0,0
-CLFC,1,1,0,0
-CRC,1,1,0,0
-Fighting Force,1,1,1,0
-Unified,1,1,1,0
-BYB Extreme,1,1,1,0
-COTC,1,1,1,0
-Bellator MMA,1,1,1,0
-559 Fights,1,1,0,0
-Urijah Faber's A1 Combat,1,1,0,0
-Force of One MMA,1,1,0,0
-Bear River,1,1,0,0
-Dragon House MMA,1,1,0,0
-NC /,1,1,1,0
-XFE MMA,1,1,1,0
-GD,1,1,1,0
-Lion Fight,1,1,1,0
-DC Fighters,1,1,1,0
-AFC MMA,1,1,1,0
-Maverick,1,1,1,0
-TF,1,1,1,0
-WFF,1,1,1,0
-CFM,1,1,0,0
-MMADF,1,1,0,0
-Honor Combat Series,1,1,0,0
-The Cage,1,1,0,0
-The Cage MMA,1,1,0,0
-SLM,1,1,0,0
-MMA Berlin,1,1,0,0
-AMC Fight Nights,1,1,1,0
-EXF,1,1,1,0
-LXF,1,1,1,0
-PFL,1,1,1,0
-R1 Fighting Series,1,1,0,0
-FFL,1,1,0,0
-Colosseum MMA,1,1,1,0
-World Amateur K-1 Federation,1,1,1,0
-FCC,1,1,1,0
-Rogue Promotions,1,1,1,0
-Fusion Fight Night Series,1,1,0,0
-EPF,1,1,0,0
-CMTA,1,1,0,0
-Den Bojovnikov,1,1,0,0
-Hamr Gym,1,1,0,0
-DB,1,1,0,0
-MMAC,1,1,0,0
-Union of Veterans of Sport,1,1,1,0
-Lion's Fights,1,1,1,0
-Bellator London,1,1,1,0
-TSF,1,1,1,0
-WWFC,1,1,1,0
-RFP,1,1,1,0
-OP,1,1,1,0
-Sharks Fight,1,1,0,0
-MMA Uncaged FC,1,1,1,0
-Evolution Of Combat,1,1,1,0
-FMMAMG,1,1,0,0
-One Championship,1,1,1,0
-Extreme Challenge,1,1,1,0
-TFS,1,1,1,0
-FNW,1,1,0,0
-GEC,1,1,1,0
-Evolution Championship,1,1,1,0
-UPL,1,1,0,0
-SFH,1,1,0,0
-Adrenalina MMA,1,1,0,0
-BFS,1,1,0,0
-WKC MMA,1,1,0,0
-UDC Internacional,1,1,0,0
-LUMMAAP,1,1,0,0
-MMA International,1,1,0,0
-Fronteira Fight,1,1,0,0
-IF,1,1,0,0
-Souza Combat MV,1,1,0,0
-AFL,1,1,1,0
-B2 Fighting Series,1,1,1,1
-FAC,1,1,1,0
-NSC,1,1,1,0
-SF,1,1,1,0
-PAWFC,1,1,1,0
-Bellator Champions Series Dublin,1,1,1,0
-BCM Promotions,1,1,1,1
-Made Men Promotions,1,1,1,0
-Pinnacle,1,1,1,0
-Soko FC,1,1,0,0
-GMC Fight Night,1,1,0,0
-Impact Championship,1,1,0,0
-The AKO Show,1,1,0,0
-Imbgim FC,1,1,0,0
-Bellator Champions Series Paris,1,1,1,1
-Future MMA,1,1,0,0
-Arena Global,1,1,0,0
-Falcon,1,1,1,0
-Demolidor Fight,1,1,1,0
-Gladiador,1,1,1,0
-Elton Monstro Fight Team,1,1,0,0
-Forja dos Campeoes,1,1,0,0
-HFL,1,1,0,0
-IWCC,1,1,0,0
-Zuri Warriors Championship,1,1,0,0
-Zuri,1,1,0,0
-Mix Fight Israel,1,1,0,0
-Octagon Promotion,1,1,0,0
-KMC,1,1,0,0
-ROC,1,1,1,1
-United Combat League,1,1,1,0
-EC,1,1,1,0
-Extreme Combat Challenge,1,1,1,0
-FMS,1,1,0,0
-VXFC,1,1,0,0
-Fight Fusion,1,1,0,0
-HFN,1,1,0,0
-LCS,1,1,0,0
-Ultimate Battle Grounds,1,1,1,0
-MAMMAL,1,1,0,0
-MTE,1,1,0,0
-CFS,1,1,1,0
-AOS9,1,1,1,0
-AOS8,1,1,1,0
-AOS6,1,1,1,0
-AOS5,1,1,1,0
-MFL,1,1,1,0
-AOS4,1,1,1,0
-UFL,1,1,0,0
-CL,1,1,0,0
-Metanoia Fight Combat,1,1,0,0
-CWB FIGHT LEAGUE,1,1,0,0
-Beach Combat Championship,1,1,0,0
-OFT,1,1,0,0
-Bellator Champions Series Belfast,1,1,1,0
-RC,1,1,0,0
-UFT,1,1,0,0
-BFL,1,1,0,0
+promotion,bouts,fighters,direct_ufc,linked_to_ufc,link_rate
+Oktagon MMA,665,114,10,59,0.518
+Professional Fighters League,549,154,24,118,0.766
+Bellator,478,115,12,93,0.809
+LFA,400,157,18,96,0.611
+CW,244,73,3,41,0.562
+UFC Fight Night,242,67,57,67,1.0
+UFC,224,66,52,64,0.97
+IMMAF,169,34,3,15,0.441
+GCF,140,40,2,19,0.475
+KOTC,130,56,10,39,0.696
+CFFC,127,55,3,32,0.582
+AFC,122,71,9,37,0.521
+Jungle Fight,120,45,1,23,0.511
+Cage Titans FC,118,22,3,14,0.636
+IMMAF-WMMAA,118,37,3,16,0.432
+UAE Warriors,109,46,1,23,0.5
+DCS,88,23,0,10,0.435
+KSW,88,30,4,25,0.833
+ACB,87,34,6,32,0.941
+WMMAA,86,26,2,12,0.462
+UFC on ESPN,85,36,31,36,1.0
+VFC,84,43,3,26,0.605
+Brave CF,82,40,3,25,0.625
+CN,82,22,1,9,0.409
+FFC,80,44,7,27,0.614
+XFN,78,36,4,16,0.444
+EFC,78,42,2,22,0.524
+GMC,76,36,2,19,0.528
+CES,76,27,4,22,0.815
+OC,75,28,1,17,0.607
+GFC,74,50,2,27,0.54
+M-1 Challenge,73,40,4,35,0.875
+ACA,72,20,2,17,0.85
+Fury,72,26,3,18,0.692
+RCC,69,24,1,17,0.708
+NFC,67,34,2,12,0.353
+BFC,66,39,3,23,0.59
+Shooto Brazil,63,31,2,21,0.677
+Brutaal Genesis Fight Night,63,13,0,4,0.308
+UCMMA,63,16,4,11,0.688
+MFC,62,39,9,19,0.487
+SFC,61,35,4,21,0.6
+CFC,60,34,3,19,0.559
+WLF,60,13,1,5,0.385
+CC,58,23,2,12,0.522
+PFC,56,41,3,25,0.61
+ProFC,55,17,1,13,0.765
+Dana White's Contender Series,54,49,20,47,0.959
+Real Fight Arena,51,25,0,11,0.44
+MCC,49,11,0,5,0.455
+Rizin FF,47,22,3,18,0.818
+Combate Global,47,17,1,7,0.412
+Titan,46,23,4,18,0.783
+WLMMA,46,23,1,8,0.348
+Tuff-N-Uff,45,26,3,16,0.615
+LFC,45,24,8,18,0.75
+RFC,44,25,2,18,0.72
+SFT,44,21,1,13,0.619
+One Championship,43,14,2,8,0.571
+NP Fight,41,15,0,4,0.267
+CWFC,40,23,0,20,0.87
+ROC,39,23,3,18,0.783
+Eternal,39,11,3,7,0.636
+BCMMA,39,13,1,8,0.615
+FSC,38,25,1,12,0.48
+Shooto,38,8,1,6,0.75
+WFCA,38,19,1,13,0.684
+Babilon,37,16,0,9,0.562
+LFL,37,16,1,7,0.438
+CWA,37,16,2,3,0.188
+WOCS,37,13,0,6,0.462
+FEN,37,15,0,14,0.933
+Superior Challenge,36,14,3,13,0.929
+WFC,36,25,4,20,0.8
+Ares,35,14,2,8,0.571
+MF,35,23,1,11,0.478
+HG,35,23,1,10,0.435
+ECSF,35,10,0,8,0.8
+SMMA,33,22,3,14,0.636
+NEF,33,11,1,8,0.727
+Gladiator Challenge,33,14,0,10,0.714
+Combat Zone,33,17,0,11,0.647
+AOW,32,6,1,3,0.5
+SCL,32,12,0,8,0.667
+Caged Aggression,32,15,1,6,0.4
+HRMMA,32,6,2,4,0.667
+BAMMA,32,15,1,14,0.933
+NOW,31,15,2,10,0.667
+Caged Steel,30,15,0,7,0.467
+AUFC,30,8,0,1,0.125
+SF,30,20,3,14,0.7
+EPF,29,15,0,6,0.4
+100&#37; Fight,28,8,0,6,0.75
+UKFC,28,18,1,8,0.444
+BFL,28,8,0,4,0.5
+Russian MMA Union,28,12,2,9,0.75
+PML,28,21,0,4,0.19
+GF,27,13,0,9,0.692
+CFS,27,18,1,9,0.5
+Tru Rev MMA,27,7,0,4,0.571
+Maxfight,27,4,0,2,0.5
+RF,27,13,0,12,0.923
+OFC,27,19,0,10,0.526
+Fight Nights,27,15,1,12,0.8
+HFC,26,15,3,9,0.6
+XKO,26,9,2,4,0.444
+SLAM,26,13,0,1,0.077
+AFS,26,9,1,5,0.556
+WWFC,25,13,0,10,0.769
+FCC,25,17,2,6,0.353
+Bellator MMA,25,10,1,9,0.9
+Cage,24,13,2,11,0.846
+IFC,24,17,3,12,0.706
+Fabriq MMA,24,15,0,1,0.067
+WCMMA,24,10,1,3,0.3
+HFS,24,10,3,5,0.5
+TFC,24,18,3,13,0.722
+Fusion Fight League,23,7,0,4,0.571
+RFA,23,15,5,10,0.667
+UWC Mexico,23,11,1,3,0.273
+Budo,23,14,0,8,0.571
+PC,23,9,0,6,0.667
+M-1 Global,23,16,1,13,0.812
+TF,23,9,1,5,0.556
+FF,23,14,0,7,0.5
+Eagles,22,5,0,4,0.8
+Fusion Fight Night Series,22,18,1,9,0.5
+NOTG,22,5,0,4,0.8
+PCF,22,10,0,6,0.6
+MMA Series,22,12,0,6,0.5
+Thunder Fight,21,11,1,7,0.636
+SBC,21,10,2,6,0.6
+HXMMA,21,12,1,5,0.417
+XFC,21,15,3,6,0.4
+LXF,21,10,0,7,0.7
+WEF,21,7,0,3,0.429
+IAF,21,12,0,6,0.5
+FNC,21,17,3,13,0.765
+Future,21,14,1,9,0.643
+CS,20,6,1,6,1.0
+KZMMAF,20,4,1,2,0.5
+B2 Fighting Series,20,15,3,9,0.6
+GCF Challenge,20,11,0,6,0.545
+HC,20,9,0,6,0.667
+EC,20,10,2,7,0.7
+ROTR,20,8,1,8,1.0
+COF,20,11,1,3,0.273
+CLFC,20,11,2,8,0.727
+Nashe Delo,19,8,0,2,0.25
+TOC,19,6,0,1,0.167
+Combat,19,11,1,6,0.545
+EFN,19,16,0,12,0.75
+Ignite Fights,19,12,0,6,0.5
+Spartacus MMA,19,15,0,8,0.533
+Fierce,19,6,0,4,0.667
+PF,19,15,1,7,0.467
+UFC on Fox,19,11,10,11,1.0
+Hardcore FC,19,6,0,0,0.0
+Golden Ticket Fight Promotions,19,12,1,6,0.5
+Shamrock FC,19,8,0,5,0.625
+FCFF,19,5,1,3,0.6
+Arena Global,18,13,0,7,0.538
+UNF,18,6,0,4,0.667
+Octagon Promotion,18,12,1,5,0.417
+National Fighting Championship,18,14,0,0,0.0
+FFIT,18,8,1,5,0.625
+WSC,17,7,0,0,0.0
+League S-70,17,15,2,15,1.0
+Bushido Lithuania,17,8,0,6,0.75
+559 Fights,17,8,0,5,0.625
+SHC,17,12,1,7,0.583
+TFN,17,10,0,3,0.3
+RITC,17,9,0,3,0.333
+MOF,17,4,0,0,0.0
+Rizin,17,7,0,7,1.0
+WFF,17,6,0,4,0.667
+GMC Fight Night,17,11,0,2,0.182
+Reality Fighting,17,11,0,8,0.727
+RMMAU,17,8,0,1,0.125
+African Knockout,16,6,0,1,0.167
+Zst,16,6,1,2,0.333
+OCL,16,7,0,2,0.286
+U of MMA,16,4,0,3,0.75
+Raged UK MMA,16,5,0,5,1.0
+Freon,16,9,0,2,0.222
+NAFC,16,4,1,3,0.75
+VFN,16,8,0,3,0.375
+HDH,16,2,0,2,1.0
+PLMMA,16,7,0,6,0.857
+XFL,16,9,1,5,0.556
+Strikeforce,16,8,3,8,1.0
+Tech-Krep FC,16,9,1,7,0.778
+X-1,16,8,0,7,0.875
+NAAFS,15,4,0,2,0.5
+AFL,15,11,1,7,0.636
+RAC,15,6,0,3,0.5
+Fighting Nexus,15,4,0,2,0.5
+Dragon House MMA,15,6,0,1,0.167
+MCF,15,9,0,7,0.778
+WOW,15,4,0,1,0.25
+Shooto Lithuania,15,3,0,3,1.0
+MFL,15,9,1,4,0.444
+Spar Star Promotions,15,7,0,3,0.429
+Evolution Championship,15,5,0,1,0.2
+Desert Force,15,4,0,4,1.0
+UMMAF,14,4,0,1,0.25
+Invicta,14,6,2,4,0.667
+Aggrelin,14,7,1,6,0.857
+CXF,14,5,0,5,1.0
+BSC,14,4,0,1,0.25
+NYFE,14,5,0,3,0.6
+Samurai Fight,14,9,0,3,0.333
+FAC,13,10,2,6,0.6
+EBD,13,8,0,3,0.375
+RFP,13,10,0,6,0.6
+SC,13,10,0,4,0.4
+NFT Gym,13,10,1,2,0.2
+One,13,4,2,4,1.0
+UFT,13,7,0,3,0.429
+WTE,13,4,0,2,0.5
+UFC on ABC,13,13,11,13,1.0
+FLP,13,8,2,6,0.75
+Eagle,13,10,0,3,0.3
+IGF,13,2,0,2,1.0
+WEC,13,3,2,3,1.0
+PFMMA,13,7,0,1,0.143
+Combate Americas,13,9,0,7,0.778
+CWM MMA,13,6,1,5,0.833
+CG,13,10,0,7,0.7
+CFX,13,3,0,2,0.667
+AF,13,10,1,8,0.8
+FoG,13,8,1,4,0.5
+Adventure Fighters Tournament,12,4,0,3,0.75
+Soldado Combat,12,9,0,4,0.444
+IFL,12,10,1,3,0.3
+Dana White's Tuesday Night Contender Series,12,11,3,11,1.0
+ICE FC,12,10,0,4,0.4
+XFO,12,5,2,5,1.0
+MAMMAL,12,6,0,1,0.167
+BC,12,8,2,7,0.875
+Knockout Promotions,12,5,0,2,0.4
+MMAA,12,7,2,5,0.714
+BA,12,6,1,6,1.0
+COGA,12,5,0,3,0.6
+864 Fighting Championship,12,9,2,6,0.667
+Destiny MMA,12,7,0,6,0.857
+Katana Fight,12,6,0,4,0.667
+The Cage,12,8,0,1,0.125
+IRFA,12,6,0,6,1.0
+CF,12,11,0,8,0.727
+Croatian MMA League,11,2,0,1,0.5
+FEFoMP,11,7,1,5,0.714
+Deep,11,4,1,3,0.75
+FK MMA,11,7,0,6,0.857
+NG,11,6,1,5,0.833
+Innferno,11,8,1,3,0.375
+Full Contact Promotions,11,6,0,1,0.167
+Ryoshin Fighting Championship,11,7,0,4,0.571
+Akuma,11,8,0,4,0.5
+EMC,11,7,0,4,0.571
+FNL,11,6,0,2,0.333
+HFL,11,2,0,0,0.0
+MMAPU,11,8,0,6,0.75
+GFA,11,5,2,5,1.0
+CAGE,11,7,1,4,0.571
+UWC,11,4,0,2,0.5
+LNK Boxing / WFCA Baltic,11,7,0,4,0.571
+Fight Star,11,6,0,4,0.667
+SFS,11,5,0,2,0.4
+Unified,11,2,0,2,1.0
+TKO,10,3,0,1,0.333
+WCFL,10,5,0,2,0.4
+TCF,10,2,0,2,1.0
+The AKO Show,10,4,0,1,0.25
+BTC,10,6,0,2,0.333
+Midwest Fight League,10,4,2,3,0.75
+Square Ring Promotions,10,5,2,4,0.8
+MMA Battle Arena,10,8,0,5,0.625
+Panama Fight League,10,2,0,2,1.0
+XMMA,10,7,3,7,1.0
+DB,10,7,0,3,0.429
+MAC,10,6,1,2,0.333
+WSOF,10,8,1,8,1.0
+CWC,10,5,0,3,0.6
+Jue Cheng King,10,3,0,0,0.0
+EMMA,10,8,1,7,0.875
+CFN,10,10,1,8,0.8
+RW,10,3,0,1,0.333
+CFK,10,9,0,2,0.222
+Maverick,10,5,0,3,0.6
+RMMA,10,8,0,5,0.625
+Titov Boxing Promotion,10,2,0,2,1.0
+FCOC,10,7,0,6,0.857
+Rings Lithuania,10,2,0,2,1.0
+MMAB,9,4,1,2,0.5
+Ultimate Battle Grounds,9,7,1,6,0.857
+Epic Fighting,9,5,0,3,0.6
+KOP,9,4,0,2,0.5
+Battle on Volga,9,8,0,3,0.375
+Anthony Pettis,9,8,1,4,0.5
+Colosseum MMA,9,7,0,0,0.0
+FG,9,4,1,3,0.75
+Aspera,9,8,0,4,0.5
+IC,9,6,0,5,0.833
+C3 Fights,9,5,3,5,1.0
+Cage Conflict,9,6,1,3,0.5
+IUR Fighting Championships,9,4,0,0,0.0
+Driller Promotions,9,5,1,3,0.6
+BFS,9,9,0,6,0.667
+LFN,9,5,0,4,0.8
+RCF,9,3,0,2,0.667
+FGC,9,8,0,0,0.0
+Home Fight Championship,9,3,0,1,0.333
+Made Men Promotions,9,7,2,4,0.571
+MFP,9,8,1,4,0.5
+FNG,9,8,0,5,0.625
+VMMA,9,8,1,4,0.5
+The King of Fighters,9,7,0,5,0.714
+CWA / Shinobi FC,9,5,0,2,0.4
+TFL,9,4,0,2,0.5
+BFN,9,7,1,4,0.571
+TFS,9,7,0,4,0.571
+SLM,9,8,0,2,0.25
+IFC MMA,9,7,0,2,0.286
+RXF,9,5,0,4,0.8
+BYE,9,4,1,2,0.5
+Champion of the Ring,9,1,0,1,1.0
+USFFC,9,4,1,3,0.75
+Costa Combat,9,2,0,0,0.0
+HOOKnSHOOT,9,2,2,2,1.0
+CFL,9,6,0,6,1.0
+King of the Cage Lithuania,9,5,0,3,0.6
+FNF,8,4,0,3,0.75
+Fight of Gladiators,8,7,1,3,0.429
+Benin,8,5,0,0,0.0
+PC MMA,8,5,0,2,0.4
+Power Fight,8,2,0,0,0.0
+DFN,8,7,0,4,0.571
+Bali MMA,8,4,0,0,0.0
+Urijah Faber's A1 Combat,8,7,0,3,0.429
+GFF,8,5,0,3,0.6
+Siberian League,8,2,0,1,0.5
+Tatfight,8,2,0,0,0.0
+Sambo Club Belisce,8,3,0,1,0.333
+Nokaut Fighting,8,2,0,1,0.5
+COTC,8,4,0,4,1.0
+LUMMAAP,8,4,0,1,0.25
+ProFC Grand Prix Global,8,4,1,4,1.0
+Draka,8,5,0,3,0.6
+FNW,8,7,0,4,0.571
+M4tC,8,5,0,3,0.6
+The Cage Vol.,8,4,0,3,0.75
+IF,8,7,0,3,0.429
+CMTA,8,7,1,4,0.571
+LCS,8,3,0,0,0.0
+WCF,8,4,0,2,0.5
+Gladiators of the Cage,8,4,1,3,0.75
+UI,8,4,0,3,0.75
+CCC,8,4,0,4,1.0
+Pancrase,8,3,1,2,0.667
+TWC,8,4,1,3,0.75
+USACA,8,2,0,2,1.0
+AMF,8,3,0,2,0.667
+Rizin Fighting Federation,8,6,0,5,0.833
+Pantanal Fight,8,2,0,1,0.5
+GKO,8,4,0,4,1.0
+RFL,8,6,0,0,0.0
+FCR,8,2,1,2,1.0
+GITC,8,3,0,0,0.0
+X1 Kombat,8,3,0,1,0.333
+Contenders East Anglia,8,6,1,4,0.667
+USWF,8,1,1,1,1.0
+German Cage Pioneer,8,6,0,1,0.167
+SteelFist Fight Night,7,2,0,2,1.0
+Absolute Combat Federation,7,4,0,1,0.25
+Intense Fight Championship,7,4,0,3,0.75
+GAMMA,7,4,0,0,0.0
+CRC,7,5,0,4,0.8
+Alash Pride,7,5,1,2,0.4
+TC,7,5,0,3,0.6
+Southside Boxing,7,4,0,2,0.5
+BF,7,7,0,5,0.714
+CKFC,7,1,0,1,1.0
+Altay Republik MMA League,7,3,0,2,0.667
+Arena,7,5,0,1,0.2
+Future MMA,7,7,0,2,0.286
+XFCI,7,4,0,4,1.0
+AC,7,5,0,3,0.6
+GEMMAF,7,4,0,0,0.0
+FA,7,7,0,6,0.857
+OFU,7,5,0,0,0.0
+NCE,7,4,0,2,0.5
+DonnyBrooke Fight Promotion,7,2,0,1,0.5
+Disorderly Conduct,7,5,0,3,0.6
+MMA Experience,7,5,0,3,0.6
+Alpha One Sports,7,5,2,3,0.6
+Pitbull Fighting Championship,7,3,0,1,0.333
+RXC,7,4,0,1,0.25
+FCF,7,5,0,5,1.0
+EFL,7,5,0,2,0.4
+Pure,7,3,0,2,0.667
+Gladork Gym,7,6,0,1,0.167
+NEC,7,3,0,2,0.667
+Shinobi War,7,6,0,3,0.5
+DF,7,7,1,3,0.429
+Killacam Fight Night,7,4,0,2,0.5
+Evolution Of Combat,7,4,0,0,0.0
+IFC WC,7,1,1,1,1.0
+M-1 Ukraine,7,4,0,3,0.75
+LUX,7,4,0,2,0.5
+AMC Fight Nights,7,4,0,1,0.25
+Slam,7,4,1,3,0.75
+AFN,7,7,0,4,0.571
+Batalha,7,5,0,2,0.4
+XCC,7,6,1,5,0.833
+BH Fight,7,3,0,2,0.667
+PMMAL,7,3,0,2,0.667
+Middle East Fighting Championship,7,4,0,1,0.25
+The Battle Championship,7,5,0,3,0.6
+Breakthrough,7,5,1,3,0.6
+STB,7,7,1,4,0.571
+ABCF,7,3,0,1,0.333
+Road,7,2,0,2,1.0
+Warrior FC,7,2,0,1,0.5
+SPF / PFC,7,2,0,1,0.5
+BMMAF,7,5,0,2,0.4
+RUF,7,5,0,2,0.4
+F21,7,5,0,3,0.6
+Arena Combat,7,6,1,4,0.667
+PAMMA,7,3,0,0,0.0
+CUFF,7,4,0,1,0.25
+ProFC / GM Fight,7,6,0,6,1.0
+Legion Fighting Championship,7,5,1,3,0.6
+RFN,6,3,0,1,0.333
+Dacheng Wuyi,6,1,0,1,1.0
+WCC,6,3,0,3,1.0
+ARMMADA,6,5,0,3,0.6
+FMMAF,6,4,0,2,0.5
+Phoenix Fighting Championship,6,4,0,2,0.5
+MMA Live,6,4,0,1,0.25
+Fight Club Den Haag,6,6,1,4,0.667
+OP,6,5,0,2,0.4
+WFL,6,3,1,2,0.667
+CZ,6,3,0,3,1.0
+Valor Fights,6,6,2,4,0.667
+Inka,6,4,1,3,0.75
+FMS,6,6,0,1,0.167
+CageSport MMA,6,4,0,2,0.5
+ABG,6,3,2,3,1.0
+Bayou,6,5,0,3,0.6
+TNT Fight Series,6,2,0,2,1.0
+SCC,6,5,3,4,0.8
+PFL Super Fights,6,6,2,6,1.0
+Abadan FC,6,3,0,2,0.667
+FE,6,4,0,2,0.5
+Shaolin Ryu,6,4,0,3,0.75
+SFH,6,5,0,1,0.2
+Venator,6,4,0,2,0.5
+ADW,6,5,2,5,1.0
+WOC,6,4,0,2,0.5
+WKC MMA,6,4,0,2,0.5
+EFX,6,2,0,2,1.0
+Full Fight,6,6,0,4,0.667
+PFA,6,3,0,2,0.667
+Cageside Promotions / KCFA,6,3,1,3,1.0
+ACL,6,2,0,1,0.5
+WCSA Combat League,6,3,1,2,0.667
+MMA Berlin,6,2,0,0,0.0
+Arena Tour,6,5,0,5,1.0
+Flex Fight Series Vol.,6,1,0,0,0.0
+Rod Fighting,6,4,0,3,0.75
+FMMAMG,6,4,0,2,0.5
+GEC,6,4,0,0,0.0
+Muradov Professional League,6,4,0,2,0.5
+HFN,6,6,0,3,0.5
+Professional Combat Sambo,6,3,1,2,0.667
+CTF,6,5,0,2,0.4
+Sicario MMA,6,4,0,3,0.75
+ArmFC,6,1,0,0,0.0
+247 FC,6,4,0,2,0.5
+Northwest League of Combat Sambo,6,2,0,1,0.5
+NIF,6,5,0,3,0.6
+DH,6,5,0,4,0.8
+SEAFC,6,3,0,1,0.333
+MMAC,6,5,0,4,0.8
+Ring of Combat,6,3,0,2,0.667
+Warrior's Way,6,2,0,2,1.0
+VFCL,5,5,0,3,0.6
+Conflict,5,5,1,4,0.8
+OMMAC,5,3,0,2,0.667
+PFN,5,5,0,3,0.6
+Professional Fight Union,5,3,0,2,0.667
+Combat Quest,5,3,0,1,0.333
+Hanuman Cup,5,2,0,0,0.0
+LOF,5,2,1,2,1.0
+BRTL,5,3,0,1,0.333
+TBC,5,2,0,2,1.0
+EFM,5,3,0,3,1.0
+Ural,5,4,0,3,0.75
+ACC,5,2,1,1,0.5
+TGC,5,5,0,4,0.8
+Xtreme Fighting Championships,5,4,0,3,0.75
+1° Round Combat,5,3,0,3,1.0
+Altay Republic MMA League,5,3,0,2,0.667
+M-1 Selection,5,3,0,2,0.667
+RWE,5,3,0,3,1.0
+Ravage,5,3,0,1,0.333
+Hype,5,3,0,2,0.667
+Nightmare FC,5,4,0,1,0.25
+XCF,5,5,0,4,0.8
+KOK,5,3,1,3,1.0
+CAM,5,3,0,1,0.333
+UFL,5,5,0,1,0.2
+WSFC,5,4,0,2,0.5
+FTD,5,3,0,3,1.0
+Rise Debut Fight Series,5,2,0,0,0.0
+BFW,5,1,1,1,1.0
+AFF,5,5,0,3,0.6
+FMD,5,4,1,4,1.0
+209,5,2,0,0,0.0
+Premier,5,4,0,3,0.75
+R1 Fighting Series,5,5,0,1,0.2
+MOTC,5,2,0,2,1.0
+Cage Warriors,5,4,0,3,0.75
+MMADF,5,2,0,0,0.0
+BB,5,4,1,3,0.75
+CCFC,5,4,0,2,0.5
+MBC,5,3,0,1,0.333
+Shooto Italy,5,3,0,3,1.0
+True Fight Fan,5,3,0,1,0.333
+Fight Explosion,5,5,1,4,0.8
+GEFC,5,3,0,2,0.667
+MMA Pro Ukraine,5,3,0,3,1.0
+KOC,5,5,0,3,0.6
+USC,5,5,1,4,0.8
+K-1,5,3,0,3,1.0
+CFU,5,3,0,1,0.333
+MMAA CZ,5,1,0,0,0.0
+Juiz de Fora Fight,5,3,0,3,1.0
+MTF,5,2,0,0,0.0
+MMAX,5,4,0,2,0.5
+CFC Malta,5,4,0,3,0.75
+LF,5,4,0,1,0.25
+Rizin Fighting World Grand Prix,5,4,0,4,1.0
+GVT,5,3,0,0,0.0
+V3 Fights,5,3,0,2,0.667
+Superior,5,3,0,3,1.0
+ECC,5,4,1,4,1.0
+SHP,5,4,1,4,1.0
+Victory Fighting Championship,5,5,0,3,0.6
+Fury FC,5,5,1,3,0.6
+Pinnacle,5,3,1,2,0.667
+XFE,5,3,0,2,0.667
+BCM Promotions,5,4,1,2,0.5
+AFC MMA,5,4,0,3,0.75
+Staredown FC,5,1,0,1,1.0
+Shamrock Events,5,1,1,1,1.0
+Smash Global,5,3,0,3,1.0
+Bellator London,5,5,0,3,0.6
+Bellator Champions Series San Diego,5,5,0,3,0.6
+X-Fest,5,4,0,1,0.25
+Soko FC,5,4,0,2,0.5
+NMEF,5,3,0,3,1.0
+X-1 World Events,5,2,0,2,1.0
+Cageside Promotions,5,3,0,3,1.0
+The Cage Inc.,5,3,0,3,1.0
+Bellator Champions Series Paris,4,4,1,4,1.0
+GC,4,2,1,1,0.5
+AMMO Fight League,4,3,0,1,0.333
+Real Deal Championships,4,2,0,1,0.5
+Cagebound Fighting Championship,4,2,0,1,0.5
+CZMMA,4,2,0,1,0.5
+Mangu Professional League,4,4,0,1,0.25
+BKO Club,4,1,0,1,1.0
+AGC,4,3,0,1,0.333
+Brothers Fight Championship,4,3,0,0,0.0
+Brabos Combat,4,2,0,0,0.0
+ML,4,2,0,1,0.5
+Moscow Pankration Federation,4,4,0,1,0.25
+Demolidor Fight,4,2,0,1,0.5
+ICF,4,2,0,1,0.5
+Fusion,4,3,0,1,0.333
+Mglebi,4,2,0,0,0.0
+Spartan Fight,4,4,0,4,1.0
+MPF,4,2,1,2,1.0
+Cage Rage,4,1,1,1,1.0
+WTKF,4,2,0,2,1.0
+WXC,4,3,0,2,0.667
+Lights Out / Bash Entertainment,4,3,0,2,0.667
+X-Fight,4,2,0,1,0.5
+North Iowa Fights,4,4,0,3,0.75
+ROAW,4,4,0,0,0.0
+NLFC,4,4,1,1,0.25
+SEC,4,4,0,4,1.0
+Crash Combat,4,3,0,2,0.667
+NC,4,3,0,1,0.333
+SSP,4,3,0,3,1.0
+WUFC,4,3,0,3,1.0
+WSOF-GC,4,3,0,3,1.0
+Kunlun Fight,4,4,0,3,0.75
+WFCA Baltic,4,3,0,1,0.333
+MMA Bushido / King of Kings,4,4,0,4,1.0
+RTC,4,4,0,4,1.0
+PMMA,4,3,0,1,0.333
+NFC Contenders,4,4,0,0,0.0
+United Fight League,4,3,0,3,1.0
+EMMAA,4,2,1,1,0.5
+Hamara MMA,4,4,0,3,0.75
+UFC Live,4,4,4,4,1.0
+RTP,4,4,2,4,1.0
+Prime,4,3,1,3,1.0
+CSFU,4,2,0,2,1.0
+Nomad MMA,4,4,0,2,0.5
+Strife,4,2,0,2,1.0
+Pro MMA Challenge,4,4,0,4,1.0
+Lajeado Fight MMA,4,3,0,2,0.667
+Rubao Fight Combat,4,2,0,1,0.5
+XFMMA,4,3,0,2,0.667
+Cage Bros,4,2,0,2,1.0
+ACA YE,4,4,0,0,0.0
+Bison Kombat,4,4,0,0,0.0
+MMA Galla,4,3,0,1,0.333
+ASC,4,4,0,1,0.25
+Mr. Cage Championship,4,4,0,1,0.25
+Punch Up Promotions,4,2,0,1,0.5
+NOF,4,4,0,2,0.5
+Fightstar,4,2,0,0,0.0
+DCC,4,3,0,1,0.333
+Caveam,4,4,1,3,0.75
+FCK,4,3,1,3,1.0
+GMA,4,3,1,2,0.667
+971 Fighting Championship,4,3,0,1,0.333
+Brutaal,4,1,0,1,1.0
+Charge,4,3,0,2,0.667
+MMA Brutus,4,3,0,2,0.667
+GPC,4,1,0,0,0.0
+Campeonato Internacional de,4,1,0,0,0.0
+PFL,4,4,0,0,0.0
+EFFC,4,1,0,1,1.0
+EMAA,4,2,0,1,0.5
+UC,4,4,0,2,0.5
+AOC,4,2,0,1,0.5
+WAR,4,2,0,1,0.5
+APF,4,3,0,1,0.333
+CMMA,4,4,0,1,0.25
+MMA Attack,4,3,2,3,1.0
+Professional Fighter League Storm,4,3,0,2,0.667
+GP,4,4,0,2,0.5
+Rio Fight,4,2,0,0,0.0
+EF,4,3,1,2,0.667
+OMMAF,4,3,0,3,1.0
+SLF,4,1,0,1,1.0
+AKFC,4,4,1,4,1.0
+DFC,4,4,1,2,0.5
+AFU,4,2,0,1,0.5
+Glory of Heroes,4,4,0,3,0.75
+The Zone,4,4,0,4,1.0
+UAMA,4,2,0,2,1.0
+SFN,4,4,0,3,0.75
+RA,4,2,1,2,1.0
+Ring XF,4,2,0,2,1.0
+FTF,4,4,0,2,0.5
+RWC,4,3,0,1,0.333
+FWC,4,3,1,2,0.667
+ULLAMP,4,2,0,2,1.0
+AOS4,4,4,0,1,0.25
+EliteXC,4,2,0,2,1.0
+Chaos,4,3,0,0,0.0
+UCFC,4,2,0,2,1.0
+Bellator MMA x Rizin,4,4,0,4,1.0
+Dark Night Nove Zamky,4,4,0,1,0.25
+Florida Fight Foundation,4,3,0,1,0.333
+BAMMA USA,4,4,0,3,0.75
+Lights Out,4,1,1,1,1.0
+Shamrock,4,3,1,2,0.667
+Captains Fight Club,4,4,0,2,0.5
+Bellator Milan,4,4,0,4,1.0
+Rogue Promotions,4,3,1,1,0.333
+Fronteira Fight,4,4,0,1,0.25
+IDC,4,3,0,1,0.333
+Iron Man MMA,4,2,0,0,0.0
+VXFC,4,4,1,2,0.5
+GFN,4,3,0,3,1.0
+MKOTR,4,1,0,1,1.0
+RCS,4,2,0,0,0.0
+ATFC,4,2,0,1,0.5
+Impact Promotions,4,3,0,2,0.667
+SnA,4,3,0,2,0.667
+Bradar Fight,4,2,1,2,1.0
+Cidade da Luta,4,4,0,3,0.75
+NSC,4,3,0,2,0.667
+PMMAC,4,2,0,0,0.0
+Impact Championship,3,3,0,1,0.333
+YFC,3,2,0,0,0.0
+UNU,3,1,0,1,1.0
+FFM,3,1,0,1,1.0
+Bellator Champions Series Dublin,3,3,0,1,0.333
+Team Nogueira,3,3,0,2,0.667
+Rocktagon MMA,3,3,0,2,0.667
+AOS2,3,3,0,2,0.667
+CRF,3,1,0,1,1.0
+Cage Survivor,3,3,0,2,0.667
+Rocket Combat Sports,3,2,0,0,0.0
+MMAFS,3,3,0,2,0.667
+FW,3,3,0,0,0.0
+URCC,3,3,0,1,0.333
+Talent MMA Circuit,3,2,0,1,0.5
+Combat Challenge Serbia,3,3,0,1,0.333
+Limo Fight,3,3,0,2,0.667
+Legacy Nightlyfe,3,3,0,1,0.333
+TAURA MMA,3,3,0,2,0.667
+Matchmaker,3,1,0,1,1.0
+Naciones,3,2,0,1,0.5
+LIF,3,2,0,0,0.0
+MFN,3,3,0,3,1.0
+Sprawl & Brawl,3,3,0,2,0.667
+AFO,3,2,1,2,1.0
+Big Shot Fight,3,2,0,2,1.0
+TKOMMA,3,2,0,1,0.5
+Hybrid,3,3,0,1,0.333
+SOW,3,3,0,2,0.667
+SMMAF,3,2,1,2,1.0
+OFG,3,1,0,0,0.0
+Bizzarro Promotions,3,2,0,0,0.0
+Primus MMA,3,1,0,1,1.0
+War of Titans,3,3,2,2,0.667
+Bellator Newcastle,3,3,0,3,1.0
+Kezen Fight,3,2,0,1,0.5
+Arena Combate,3,1,0,1,1.0
+Xtreme Caged Combat,3,3,0,3,1.0
+Number,3,2,0,2,1.0
+Arabian Combat Sports,3,2,0,0,0.0
+SFFN,3,3,0,3,1.0
+Fight Club OC,3,3,0,3,1.0
+ABA Fighting Championship,3,2,0,0,0.0
+GetDown Promotions,3,2,0,2,1.0
+LCC,3,3,0,1,0.333
+Azerbaijan MMA Federation,3,1,0,1,1.0
+X Fight,3,3,0,2,0.667
+Fight in the West,3,2,0,1,0.5
+Walkout,3,3,0,1,0.333
+Saikyo,3,3,0,1,0.333
+M-1 Selection Ukraine,3,3,0,3,1.0
+APM,3,2,0,1,0.5
+TKKM,3,2,0,1,0.5
+VNF,3,1,0,0,0.0
+UFN,3,3,1,1,0.333
+Battle,3,3,0,2,0.667
+3RT,3,3,0,1,0.333
+AUTMMAF,3,1,0,0,0.0
+Cage Fight,3,2,0,2,1.0
+UMMA,3,3,1,2,0.667
+Celtic Gladiator,3,3,0,3,1.0
+360 Promotion,3,3,1,3,1.0
+Hit-FC,3,3,0,3,1.0
+RIR,3,2,0,2,1.0
+RDMMA,3,3,1,2,0.667
+Knuckled Up Promotions,3,2,0,1,0.5
+RCC Boxing Promotions,3,2,0,2,1.0
+iFC,3,3,1,3,1.0
+FFEC,3,1,0,1,1.0
+Khan Fight,3,3,0,1,0.333
+Fight Night Finland,3,3,0,3,1.0
+Ultimate Impact,3,3,0,2,0.667
+Liechtensteiner Fight Night,3,2,1,1,0.5
+Euro,3,3,2,3,1.0
+VF,3,3,0,1,0.333
+CAVEMMA,3,2,0,1,0.5
+Fearless,3,1,0,1,1.0
+GOW,3,3,0,2,0.667
+UF,3,3,1,3,1.0
+SS,3,1,0,1,1.0
+Fighting Zone,3,3,1,3,1.0
+LMMA,3,3,0,2,0.667
+Probellum MMA,3,3,0,2,0.667
+OGC,3,2,1,2,1.0
+La Onda,3,3,0,2,0.667
+WFS,3,3,1,2,0.667
+WFN,3,2,0,1,0.5
+BPN,3,2,0,0,0.0
+Go FC,3,3,0,1,0.333
+PBFN,3,2,0,1,0.5
+CFT,3,2,0,0,0.0
+Champions Fight,3,2,0,1,0.5
+MGFN,3,2,0,1,0.5
+ROF,3,3,2,2,0.667
+AOS7,3,3,0,0,0.0
+Brutaal Fight Night,3,1,0,1,1.0
+Hype FC,3,2,0,1,0.5
+Adrenaline,3,1,1,1,1.0
+Turku Fight,3,2,0,1,0.5
+Shooto Finland,3,3,0,2,0.667
+IHC,3,2,1,2,1.0
+SB,3,1,1,1,1.0
+UFC on Fuel TV,3,2,2,2,1.0
+PKM,3,2,0,2,1.0
+Fight1 Promotion,3,2,0,0,0.0
+Frontline Fight Series,3,3,0,3,1.0
+SW,3,1,0,0,0.0
+NP Fight Night,3,3,0,2,0.667
+OEF,3,2,0,2,1.0
+Nemesis Fighting Alliance,3,2,0,1,0.5
+Flex Fight Series,3,2,0,1,0.5
+IMVT,3,2,0,2,1.0
+TeutoFight,3,1,0,0,0.0
+Vale Tudo Japan,3,3,0,3,1.0
+Time to Shine,3,3,0,1,0.333
+Slugfest,3,2,0,1,0.5
+MGL-1 Fighting Championship,3,1,0,0,0.0
+BMF,3,2,0,0,0.0
+BSB Fight,3,3,0,2,0.667
+IE Fight Night,3,2,0,1,0.5
+LeLeo Code MMA,3,3,0,1,0.333
+WTFCA,3,3,0,1,0.333
+Samurai,3,3,1,3,1.0
+World Cossack Fight Federation,3,2,0,1,0.5
+Game of Cage,3,2,0,1,0.5
+NBR,3,3,0,2,0.667
+Pain Pit Fight Night,3,3,0,3,1.0
+FNM,3,2,1,2,1.0
+ZSSC,3,1,1,1,1.0
+Heroes of the Arena,3,1,0,0,0.0
+Goat Promotions,3,2,0,2,1.0
+PK,3,2,0,1,0.5
+Rebel,3,2,0,2,1.0
+National Fight Alliance,3,1,0,1,1.0
+TU,3,2,0,1,0.5
+WCS,3,2,1,2,1.0
+Mix It Up Sports,3,2,0,1,0.5
+EMC: Talents,3,2,0,0,0.0
+FCB,3,3,0,2,0.667
+Metanoia Fight Combat,3,3,0,1,0.333
+FCP,3,2,0,1,0.5
+OT,3,1,0,0,0.0
+Honneur et Gloire,3,2,0,1,0.5
+Cage XFC,3,3,1,3,1.0
+Fight Night,3,3,0,3,1.0
+XCage,3,1,0,1,1.0
+SoCa Fights / Alliance MMA,3,3,0,3,1.0
+AMMA FC,3,2,0,1,0.5
+MMA,3,2,0,2,1.0
+CGP,3,3,0,3,1.0
+MTK MMA,3,3,0,2,0.667
+Italian Cage,3,3,0,1,0.333
+Monster Octagon Fight,3,3,0,0,0.0
+AGM,3,3,0,3,1.0
+Virtus MMA,3,2,0,0,0.0
+Premier FC,3,1,0,0,0.0
+IMMAA,3,1,0,0,0.0
+W-1,3,2,0,2,1.0
+MMADU,3,2,0,1,0.5
+Sokol Fighting,3,3,0,2,0.667
+Unity Fight Series,3,3,0,2,0.667
+War,3,3,0,3,1.0
+AXFC,3,2,0,2,1.0
+Victory Cage Fighting Championships,3,2,0,0,0.0
+Kombat Goiano,3,2,0,1,0.5
+FCDH,3,2,0,1,0.5
+SFMMA,3,1,1,1,1.0
+Wawan,3,2,0,1,0.5
+AOS6,3,3,0,0,0.0
+AOS5,3,3,0,1,0.333
+United Combat League,3,3,0,3,1.0
+Zuri Warriors Championship,3,3,0,0,0.0
+Mix Fight Israel,3,2,0,1,0.5
+Trophy,3,2,1,2,1.0
+Iron Boy Promotions,3,3,0,2,0.667
+Warrior,3,2,0,0,0.0
+Elite Fight Night,3,2,0,0,0.0
+AOS8,3,3,0,0,0.0
+EFM Show,3,3,0,3,1.0
+JFC,3,3,0,1,0.333
+Brother's Octagon Fight,3,2,0,0,0.0
+Fairtex Fight Promotion,3,2,0,1,0.5
+CGA,3,3,0,0,0.0
+Hendo Sports Management,3,2,0,1,0.5
+MPX Promotions,3,3,0,3,1.0
+Elite Amateur Fight League,3,3,0,1,0.333
+M-1 Global / Angel Fight Promotions,3,3,1,2,0.667
+Xplode Fight Series,3,3,0,2,0.667
+Impact MMA,3,3,0,2,0.667
+TDLMMA,3,1,0,0,0.0
+PCFC,3,3,0,0,0.0
+RBFC,3,2,0,2,1.0
+Extreme Challenge,3,3,0,2,0.667
+Eagles FC,3,1,0,1,1.0
+MTE,3,3,0,0,0.0
+SFG,3,3,1,1,0.333
+Fight Fusion,3,3,0,0,0.0
+SPF,3,1,0,0,0.0
+Gladiator,3,1,0,0,0.0
+FSF,3,2,0,1,0.5
+SSCC,3,1,0,1,1.0
+Combat USA,3,2,1,2,1.0
+URF,3,2,0,2,1.0
+Elton Monstro Fight Team,3,3,0,1,0.333
+UDC Internacional,3,3,0,2,0.667
+Fighting Force,3,3,0,1,0.333
+KFC,3,2,0,1,0.5
+Runda,3,2,0,2,1.0
+Governors Cup,3,1,1,1,1.0
+PFE,3,2,0,0,0.0
+Spartanos Fight,3,3,0,3,1.0
+GGC,3,1,0,0,0.0
+Red City Fights,3,1,0,0,0.0
+KOTR,3,1,0,0,0.0
+Ragnarok,3,1,0,1,1.0
+Savage,3,1,0,0,0.0
+RSC,3,2,0,1,0.5
+Zhekpe Zhek,3,1,0,0,0.0
+NTF,3,3,0,1,0.333
+PAWFC,3,3,0,3,1.0
+Hamr Gym,3,3,0,1,0.333
+TPF,3,2,0,2,1.0
+VFL,3,2,0,2,1.0
+Fair,3,3,0,3,1.0
+Beastmode Productions,3,3,0,2,0.667
+Knockout Events,3,2,0,1,0.5
+TriState Cage Fights,3,1,0,1,1.0
+CPWC,3,2,0,1,0.5
+Falcon,3,2,0,1,0.5
+COTR,3,1,0,1,1.0
+Bellator Champions Series Belfast,3,3,0,3,1.0
+FDI Real Kech,3,1,0,1,1.0
+FFAA,2,1,0,1,1.0
+FFV,2,2,1,2,1.0
+Almighty Fighting Championship,2,2,0,2,1.0
+Yorkshire MMA Championships,2,1,0,0,0.0
+Fight Card Entertainment,2,2,0,0,0.0
+BGC,2,2,0,2,1.0
+Punch Fight,2,2,0,1,0.5
+LITC,2,2,0,2,1.0
+Perviy Club,2,2,0,0,0.0
+Aleksey Raevskiy Promotion,2,1,0,0,0.0
+Federal MMA,2,2,0,0,0.0
+Gastro Fight Night,2,2,0,1,0.5
+DFL,2,2,0,1,0.5
+Flawless,2,1,1,1,1.0
+Open Fighting Championship,2,2,0,0,0.0
+Conquest Promotions,2,2,0,1,0.5
+Virginia Cage Fighting Championships,2,1,0,0,0.0
+GLFC,2,2,0,0,0.0
+BoW,2,1,0,0,0.0
+CWI,2,1,0,0,0.0
+Pinnacle Combat,2,2,0,1,0.5
+DC Fighters,2,2,0,2,1.0
+Caestus,2,2,0,1,0.5
+Dojo Serpiente,2,2,0,1,0.5
+Coalition of Combat,2,2,0,1,0.5
+Sammai Uba,2,1,0,1,1.0
+XTC,2,2,0,2,1.0
+ISFA,2,2,0,1,0.5
+Brasil Fight,2,2,0,2,1.0
+BYB Extreme,2,2,0,2,1.0
+LTF,2,2,0,1,0.5
+Impact,2,2,0,1,0.5
+Federation of MMA of Russia,2,2,1,2,1.0
+VMAU,2,2,1,2,1.0
+WMMA,2,2,1,1,0.5
+MMA Brazil Tour,2,2,0,1,0.5
+Imortal,2,2,0,2,1.0
+Affliction,2,1,1,1,1.0
+GA,2,2,0,1,0.5
+WCC Natural Selection,2,2,0,1,0.5
+BAC,2,1,0,0,0.0
+Urijah Faber A1 Combat,2,2,0,1,0.5
+LXMMA,2,1,0,1,1.0
+FFH,2,2,0,2,1.0
+UFS,2,1,0,0,0.0
+Szombathely,2,2,0,2,1.0
+LATAMM,2,2,0,0,0.0
+TNX,2,1,0,1,1.0
+Fire Fight,2,2,0,1,0.5
+FNFC,2,2,0,0,0.0
+FSLB,2,1,0,1,1.0
+Killacam Promotions,2,1,0,0,0.0
+Rize FC,2,2,1,1,0.5
+TKO Palmas,2,1,0,1,1.0
+Triple X Cagefighting,2,1,0,0,0.0
+Kick Down,2,1,0,0,0.0
+Luna Productions,2,1,0,1,1.0
+UFR,2,2,0,2,1.0
+Arena Surpass,2,2,0,1,0.5
+WKA,2,2,0,2,1.0
+AA,2,2,0,2,1.0
+Allstars Fight Night,2,1,0,1,1.0
+Pantanal Esporte e Lazer,2,2,0,0,0.0
+Spartan,2,1,0,0,0.0
+Tyumen MMA Federation,2,1,0,0,0.0
+Invictos Team,2,2,0,2,1.0
+CIMMA,2,1,0,1,1.0
+WF,2,2,0,2,1.0
+ATS Kombat,2,1,0,1,1.0
+SPF / PSF,2,1,0,0,0.0
+The Ultimate Warrior,2,1,0,0,0.0
+Ultimax,2,2,0,1,0.5
+Noc Skorpiona,2,1,0,1,1.0
+IMBGIM,2,2,0,0,0.0
+Fight Academy,2,2,0,2,1.0
+CCCW,2,2,1,2,1.0
+RRR Promotions,2,1,0,1,1.0
+GFL,2,1,0,1,1.0
+Republica MMA,2,2,0,1,0.5
+Naiza,2,2,0,2,1.0
+Square Off Promotions,2,2,0,2,1.0
+Valiant FC,2,2,0,0,0.0
+Kondzilla Fight Night,2,1,0,1,1.0
+NoF,2,2,0,2,1.0
+Ultra FC,2,1,0,1,1.0
+Extreme Beatdown,2,2,0,2,1.0
+Union of Mixed Martial Arts,2,2,0,1,0.5
+PCG,2,1,0,1,1.0
+ZZ,2,1,0,0,0.0
+Max Sport,2,2,0,1,0.5
+MMA Koszalin,2,2,0,1,0.5
+Heat,2,1,0,1,1.0
+Triumph Fighter,2,1,0,1,1.0
+Force of One MMA,2,2,0,0,0.0
+Bear River,2,2,0,1,0.5
+NC /,2,2,0,1,0.5
+AFP,2,2,0,1,0.5
+GD,2,2,0,2,1.0
+Lion Fight,2,2,0,2,1.0
+Victory Fighting League,2,2,0,2,1.0
+Brutaal Genesis Iowa,2,2,0,1,0.5
+RC,2,2,0,0,0.0
+Mile High MMAyhem,2,2,0,1,0.5
+Sparta Combat League,2,2,0,2,1.0
+UCC,2,2,1,2,1.0
+XF,2,2,0,0,0.0
+Talent Draft,2,2,0,1,0.5
+CWB FIGHT LEAGUE,2,2,0,0,0.0
+BFMMA,2,1,0,0,0.0
+PXM,2,1,0,0,0.0
+Opolscy Wojownicy,2,2,0,1,0.5
+Kumite MMA,2,2,0,1,0.5
+MASS,2,1,0,1,1.0
+The Fight Project MMA,2,2,0,0,0.0
+PMW,2,1,0,0,0.0
+UFE,2,1,0,0,0.0
+ExciteFight,2,2,0,2,1.0
+NFG,2,2,0,1,0.5
+Fight on the East,2,2,0,2,1.0
+Wawan MMA,2,1,0,1,1.0
+MixFace / Tech-Krep FC,2,2,0,2,1.0
+A&A Fight Time Promotions,2,1,1,1,1.0
+Only Men Stuff,2,2,0,2,1.0
+FS,2,2,0,1,0.5
+BFFC,2,2,0,1,0.5
+Carpathian Warriors,2,2,0,1,0.5
+Fight1,2,2,0,2,1.0
+PCP,2,2,0,2,1.0
+Coliseum FC,2,2,0,2,1.0
+DMMA,2,2,0,1,0.5
+Fusion Fighting Championship,2,1,0,0,0.0
+Gape Fight Night,2,2,0,1,0.5
+LOW,2,2,0,1,0.5
+Dominus,2,2,0,0,0.0
+FMMA,2,2,0,1,0.5
+Madtown Throwdown,2,2,1,2,1.0
+XKK,2,1,0,1,1.0
+IFO,2,2,1,2,1.0
+Desafio,2,1,0,1,1.0
+Global Fight Club,2,2,0,2,1.0
+Genesis Fights,2,1,0,1,1.0
+NOTW,2,1,0,0,0.0
+Mongol,2,2,0,1,0.5
+FX3,2,2,1,2,1.0
+UGP,2,1,0,1,1.0
+Smesh MMA,2,2,0,1,0.5
+Oklahoma KO,2,1,0,1,1.0
+ZFC,2,1,0,1,1.0
+KnuckleUp MMA,2,2,0,1,0.5
+King Kombat,2,2,0,1,0.5
+NCF,2,1,0,1,1.0
+OFL,2,2,0,0,0.0
+Nitrix,2,1,0,1,1.0
+Sport Nocaut MMA,2,1,0,0,0.0
+Kaue Rodrigues Fight Center,2,1,0,0,0.0
+Shooto Kings,2,2,0,1,0.5
+Synergy,2,2,0,1,0.5
+Nordic Fighting Championship,2,2,0,2,1.0
+LPM,2,1,0,0,0.0
+War Of Gods,2,2,0,0,0.0
+PIF,2,1,0,0,0.0
+KCC,2,1,0,0,0.0
+AWF,2,2,0,1,0.5
+St. Chamas,2,2,0,0,0.0
+Spirit of the Warrior,2,2,0,0,0.0
+Dynamite,2,2,0,0,0.0
+Crowbar MMA,2,2,1,2,1.0
+Supreme Cage,2,2,0,1,0.5
+Detentor Fight,2,1,0,1,1.0
+Valhalla Fight Night,2,2,0,2,1.0
+Extreme Combat Challenge,2,2,0,1,0.5
+CSFM,2,1,0,1,1.0
+Zuri,2,2,0,0,0.0
+M-1 Fighter,2,2,0,2,1.0
+Rkena,2,2,0,1,0.5
+UPL,2,2,0,1,0.5
+MMA International,2,2,0,1,0.5
+Productora LFN,2,1,0,0,0.0
+Forja dos Campeoes,2,2,0,2,1.0
+West Combat,2,2,1,1,0.5
+PFI,2,1,0,0,0.0
+Cascavel Fight Championship,2,1,0,0,0.0
+XCage 6 / PLMMA,2,2,0,2,1.0
+Absolute Championship Berkut,2,2,0,1,0.5
+Megdan,2,2,0,2,1.0
+VHTHFF,2,2,0,2,1.0
+BAF,2,2,0,0,0.0
+KMC,2,2,0,1,0.5
+Grachan / WCF,2,1,0,0,0.0
+SBS,2,2,0,1,0.5
+CFM,2,2,0,1,0.5
+IFB,2,1,0,1,1.0
+Samurai Pro Sports,2,1,0,1,1.0
+YKC,2,2,0,1,0.5
+HST,2,2,0,1,0.5
+MMATC,2,2,0,2,1.0
+Voronezh MMA Federation,2,2,0,1,0.5
+AMC,2,2,0,1,0.5
+AOWCF,2,2,2,2,1.0
+Hardcore MMA,2,2,0,0,0.0
+Garcia Promotions,2,2,1,2,1.0
+Shogun Fights,2,2,0,1,0.5
+NOVA,2,2,0,2,1.0
+Sengoku,2,1,0,1,1.0
+Steve Rivera's Elite Wrestling,2,2,0,2,1.0
+Studsport,2,1,0,0,0.0
+Smash,2,1,0,1,1.0
+Twins,2,2,0,2,1.0
+WFL MMA,2,1,0,0,0.0
+Lyon Fighting Championship,2,2,0,1,0.5
+FFAC,2,1,0,0,0.0
+ReciFight MMA,2,1,0,1,1.0
+Lions,2,2,0,2,1.0
+Battle Arena,2,2,0,2,1.0
+Brusque Championship MMA,2,1,0,0,0.0
+UFCA Combat,2,2,0,0,0.0
+FM,2,2,0,1,0.5
+Northwest Fight Promotions,2,2,0,1,0.5
+Cagefest Xtreme,2,1,0,1,1.0
+UF SAGA,2,2,0,1,0.5
+Pro Fighting Cesena / Venator FC,2,2,0,1,0.5
+FNE,2,2,0,2,1.0
+Minotaur,2,2,0,1,0.5
+TFC Danghara,2,1,1,1,1.0
+Reign,2,2,0,2,1.0
+Olimp Extreme Fight,2,2,0,2,1.0
+NOT,2,2,0,0,0.0
+MITC,2,1,1,1,1.0
+CFP,2,1,0,1,1.0
+Rio FC,2,1,0,0,0.0
+House of Fame,2,2,0,2,1.0
+Top,2,2,0,2,1.0
+EFC Africa,2,1,0,0,0.0
+Kaiser Fight Night,2,2,0,2,1.0
+Tahiti Fighting Championship,2,1,0,1,1.0
+BOS,2,2,1,2,1.0
+Honor Combat Series,2,2,0,0,0.0
+The Cage MMA,2,2,0,0,0.0
+EXF,2,2,0,0,0.0
+Legion FC,2,2,0,1,0.5
+FFL,2,2,0,1,0.5
+World Amateur K-1 Federation,2,2,0,0,0.0
+FNG / GFC,2,2,0,2,1.0
+RCFN,2,2,0,1,0.5
+OCE Professional,2,2,0,1,0.5
+WJF,2,2,0,0,0.0
+SMF,2,1,0,0,0.0
+Arena Fight,2,2,0,0,0.0
+Jez Premier Promotions,2,1,0,1,1.0
+Ox MMA / Revolucao MMA,2,2,0,2,1.0
+COG,2,2,0,1,0.5
+Den Bojovnikov,2,2,0,1,0.5
+Samara MMA Federation,2,2,0,2,1.0
+The Golden Cage,2,2,0,2,1.0
+TNG,2,2,1,2,1.0
+Nightmare Promotions,2,2,0,0,0.0
+Ring of Fire,2,2,1,2,1.0
+CCS,2,2,0,1,0.5
+CITC,2,2,0,0,0.0
+MEZ Sports,2,2,0,1,0.5
+Lem Fight,2,2,0,1,0.5
+SMMAS,2,1,0,1,1.0
+Bulldog Media,2,2,0,2,1.0
+NMMAF,2,2,0,0,0.0
+Tru-Form Entertainment,2,2,0,1,0.5
+BONO,2,2,0,1,0.5
+Throne,2,2,0,2,1.0
+NS,2,2,1,1,0.5
+King of Warriors MMA,2,2,0,1,0.5
+FNP,2,2,0,1,0.5
+Aruba Fighting Championship,2,2,1,2,1.0
+EFS,2,2,0,1,0.5
+Inhumas Fight Championship,2,2,0,0,0.0
+Lutadores,2,2,0,0,0.0
+LMMAI,2,2,0,0,0.0
+Genesis Promotion,2,2,0,0,0.0
+SDC MMA,2,2,0,2,1.0
+Eiko,2,1,0,1,1.0
+First Fighting Championship,2,2,0,1,0.5
+Predador,2,1,0,1,1.0
+Throne MMA,2,1,0,1,1.0
+Hoyer's Productions,2,2,0,1,0.5
+AEF,2,1,0,1,1.0
+FC,2,2,0,1,0.5
+Face The Danger,2,2,0,2,1.0
+Fight Pro Championship,2,1,0,1,1.0
+Evolution,2,2,0,0,0.0
+DG,2,2,0,0,0.0
+FEFoMP and Russian MMA Union,2,2,1,2,1.0
+ANMMA,2,2,0,2,1.0
+Saturn & RusFighters,2,1,0,0,0.0
+Union of Veterans of Sport,2,2,0,2,1.0
+Lion's Fights,2,2,0,2,1.0
+Caged,2,2,0,2,1.0
+TSF,2,2,0,1,0.5
+Knockout in the Cage,2,1,0,1,1.0
+TRUE TIME,2,2,0,1,0.5
+BKP,2,1,0,1,1.0
+FWR,2,2,0,1,0.5
+Bellator Birmingham,2,2,0,2,1.0
+RMMAC,2,1,0,1,1.0
+BvtW,2,1,0,1,1.0
+TWNC,2,2,0,0,0.0
+Bushido Fighting Championship,2,2,0,2,1.0
+IMC,2,2,0,2,1.0
+CEF,2,2,0,1,0.5
+UCS,2,2,0,2,1.0
+Strikeforce / M-1 Global,2,2,1,2,1.0
+Pinnacle FC,2,2,1,1,0.5
+GOTC,2,1,0,0,0.0
+Spartan MMA,2,1,0,1,1.0
+Sharks Fight,2,2,0,1,0.5
+Evolution Sports Expo,2,1,0,1,1.0
+FTS,2,1,0,0,0.0
+Rogue Fights,2,2,0,1,0.5
+OR,2,2,1,1,0.5
+Gallus FC,2,1,0,0,0.0
+Jennifer Ireland Foundation,2,2,0,2,1.0
+Romani Fight Brasil,2,2,1,1,0.5
+WH,2,1,0,1,1.0
+CombatX,2,2,0,0,0.0
+VCS,2,2,1,2,1.0
+CCW,2,2,0,2,1.0
+XFS,2,2,1,2,1.0
+FSG,2,2,0,2,1.0
+PCC,2,2,0,2,1.0
+011 MMA Team,2,2,0,1,0.5
+Aftermath Combat Sports,2,2,0,0,0.0
+Honor,2,2,0,2,1.0
+Fight One,2,1,0,1,1.0
+COBVT,2,1,0,1,1.0
+Slam FC,2,1,0,1,1.0
+ABG Promotions,2,2,2,2,1.0
+Wolf Fight Promotion,2,1,0,1,1.0
+Black Dragon,2,2,1,2,1.0
+Eurasian Fighting Championship,2,2,0,1,0.5
+Siberian Fighter,2,2,0,1,0.5
+TFF,2,2,0,1,0.5
+FOP,2,1,0,1,1.0
+Industrials,2,2,0,1,0.5
+GCFC,2,1,0,0,0.0
+Brave CF 74 / HXMMA,2,2,0,1,0.5
+Xtreme Combat Promotions,2,2,0,1,0.5
+24/7 Entertainment 16 &,2,2,1,2,1.0
+Senshi MMA,2,1,0,1,1.0
+TCMMA,2,1,0,1,1.0
+iFF,2,2,0,2,1.0
+Imbgim FC,2,2,0,1,0.5
+Bellator Champions Series London,2,2,0,2,1.0
+GMMA,2,1,0,1,1.0
+Gladiador,2,2,0,1,0.5
+PCFN,2,2,0,1,0.5
+Souza Combat MV,2,2,0,2,1.0
+MCFC,2,1,0,0,0.0
+KP,2,2,1,2,1.0
+Fight On MMA,2,1,0,0,0.0
+EBR,2,2,0,2,1.0
+FMC,2,1,0,1,1.0
+Octogone,2,2,0,2,1.0
+Chinese Kung Fu Championships,2,1,0,1,1.0
+PureCombat,2,2,0,1,0.5
+Evocke Fight,2,2,1,1,0.5
+Batalha MMA,2,2,1,2,1.0
+CLIP,2,1,1,1,1.0
+MMASH,2,2,1,2,1.0
+Peru FC,2,2,1,2,1.0
+Tayta,2,1,1,1,1.0
+Strike Off,2,2,1,1,0.5
+Rocktagon,2,2,0,1,0.5
+24/7 Entertainment,2,2,1,1,0.5
+WEF ProfFight,2,2,0,0,0.0
+Shogun MMA,2,2,0,1,0.5
+Urartu,2,1,0,0,0.0
+Night of Champions,2,2,0,2,1.0
+RSF,2,2,0,1,0.5
+Fatality Arena,2,2,0,2,1.0
+Guerreiros Vikings,2,1,0,1,1.0
+Zero 11 Bar,2,2,0,1,0.5
+Phoenix MMA UK,2,2,0,0,0.0
+Action Fight League,2,1,0,1,1.0
+Latvian MMA Association,2,2,0,1,0.5
+Road to One,2,1,0,0,0.0
+MMMA,2,2,0,1,0.5
+ECMMA,2,2,1,1,0.5
+Griggs Entertainment,2,1,0,0,0.0
+Global FC,2,1,0,0,0.0
+PLMMA 18 Extra / Prime,2,2,0,2,1.0
+PDC MMA,2,2,0,0,0.0
+SCF,2,2,0,0,0.0
+CFA,2,2,1,2,1.0
+World Pankido Federation,2,2,0,0,0.0
+Infinity Fight Team,2,1,0,0,0.0
+Combat Games MMA,2,1,0,1,1.0
+DMF,2,2,0,1,0.5
+SCS,2,1,0,0,0.0
+IWC,2,1,0,0,0.0
+GOTC MMA,2,2,1,2,1.0
+Destroyer,2,2,0,0,0.0
+Adrenalina MMA / Infinity Fight Team,2,2,0,0,0.0
+Revolution MMA,2,2,0,0,0.0
+Round,2,2,0,1,0.5
+Vale Tudo MMA Academy,2,2,0,1,0.5
+IMAT,2,2,0,1,0.5
+Contenders,2,2,0,0,0.0
+TG,2,1,0,1,1.0
+WKG & M-1 Global,2,2,0,0,0.0
+Elev8 Fight League,2,1,0,1,1.0
+Dream,2,1,0,1,1.0
+International League MMA,2,1,0,1,1.0
+Staredown,2,2,0,1,0.5
+B1 MMA,2,2,0,0,0.0
+LBS Challenger,2,2,0,2,1.0
+305 Fights,2,2,0,0,0.0
+M-1 MFC,2,2,0,2,1.0
+FHMMA,2,2,0,2,1.0
+Georgian Fighting Championship,2,2,0,0,0.0
+FFA,2,2,0,2,1.0
+HCC,2,2,0,1,0.5
+Wieczor Walk,2,2,0,2,1.0
+DWM Fight Night,2,2,0,1,0.5
+King's Arena,2,2,0,1,0.5
+Respect Fighting Championship,2,2,0,0,0.0
+Borroka Promotions,2,1,0,1,1.0
+GOTA,2,1,0,0,0.0
+ZLF,2,2,0,1,0.5
+Curitiba Top Fight,2,2,0,2,1.0
+ROFE,2,1,1,1,1.0
+BFF,2,1,0,1,1.0
+SMMAC,2,2,1,2,1.0
+AKA,2,2,0,0,0.0
+K-1 HERO'S,2,2,0,2,1.0
+Mad Fighting Championship,2,2,0,0,0.0
+El Mas Fuerte,1,1,0,1,1.0
+CAMGFC,1,1,0,0,0.0
+IQFC,1,1,0,0,0.0
+FR,1,1,0,1,1.0
+Fuji Fight,1,1,0,0,0.0
+WOCS Challenge,1,1,0,1,1.0
+XFM,1,1,0,1,1.0
+FC Rio Maria,1,1,0,1,1.0
+Gladiators Bowl,1,1,0,0,0.0
+Conquest MMA,1,1,0,0,0.0
+Kongs Fighting Championship,1,1,0,1,1.0
+Atlas MMA,1,1,1,1,1.0
+Enfusion,1,1,0,1,1.0
+Predator Fight Club,1,1,0,1,1.0
+BC Fight,1,1,0,1,1.0
+Hero FC,1,1,0,0,0.0
+MKC,1,1,0,1,1.0
+QFC,1,1,0,0,0.0
+KFE,1,1,0,0,0.0
+BWL,1,1,0,1,1.0
+PLMMA 62 / AFC,1,1,0,1,1.0
+IWCC,1,1,0,0,0.0
+Furio Fighter,1,1,0,0,0.0
+FKS,1,1,0,1,1.0
+Alvorada Fight Combat,1,1,0,0,0.0
+Marau Combat,1,1,0,0,0.0
+Challenge Cup,1,1,0,1,1.0
+Copa Predadores,1,1,0,0,0.0
+CATC,1,1,0,1,1.0
+RSU,1,1,0,1,1.0
+Cage Gods,1,1,0,1,1.0
+ACM,1,1,0,1,1.0
+FLA,1,1,0,0,0.0
+POC,1,1,0,1,1.0
+Durham Fight Series,1,1,0,0,0.0
+PLMMA 59 / AFC,1,1,0,1,1.0
+Pyatigorsk Fighting,1,1,0,1,1.0
+Xtreme Fighting Alliance,1,1,0,0,0.0
+SibForce,1,1,0,0,0.0
+Draka MMA,1,1,0,0,0.0
+Cage Fighting Slovakia,1,1,0,0,0.0
+NF,1,1,0,0,0.0
+Beatdown Promotions,1,1,1,1,1.0
+Glory Fighting Championships,1,1,0,0,0.0
+Fighting with the Stars,1,1,0,1,1.0
+BlueBlood MMA / QCFC,1,1,0,1,1.0
+Way of Warrior,1,1,0,0,0.0
+TFP,1,1,0,1,1.0
+Gladiators,1,1,0,1,1.0
+Sarkozi MMA Team,1,1,0,0,0.0
+CombatX MMA Hungary,1,1,0,0,0.0
+Expocombat,1,1,0,1,1.0
+Super Pitbull Combat Mae do Rio,1,1,0,1,1.0
+ICW,1,1,0,1,1.0
+KOMMA,1,1,0,1,1.0
+Seconds Out / Vivid MMA,1,1,0,1,1.0
+915 MMA,1,1,0,0,0.0
+JMMAS,1,1,0,0,0.0
+MWC,1,1,0,0,0.0
+Rumble on the Ridge,1,1,0,1,1.0
+Alliance,1,1,0,1,1.0
+Liga X13,1,1,0,1,1.0
+FBB,1,1,0,1,1.0
+Vtx Fight Combat,1,1,0,1,1.0
+JC (Amapa),1,1,0,1,1.0
+KWF MMA,1,1,0,1,1.0
+BCP,1,1,0,0,0.0
+West Fights,1,1,0,0,0.0
+WCT,1,1,0,0,0.0
+MMA Team Bariloche,1,1,0,0,0.0
+IM,1,1,0,0,0.0
+PHF,1,1,0,0,0.0
+Strength & Honour,1,1,0,1,1.0
+Nerike MMA,1,1,0,1,1.0
+FC6,1,1,0,1,1.0
+Battle on Tsna,1,1,0,0,0.0
+Sul Fluminense Fight Night,1,1,1,1,1.0
+K1EL,1,1,1,1,1.0
+War of the Vikings,1,1,0,1,1.0
+MTGP,1,1,0,1,1.0
+Samurai Fight Contest,1,1,1,1,1.0
+DTC Fights,1,1,1,1,1.0
+Suomen Vapaaotteluliitto,1,1,0,1,1.0
+The M Fight League,1,1,0,1,1.0
+Nilo Fight,1,1,0,0,0.0
+KSW Epic,1,1,0,1,1.0
+FECALUMA,1,1,1,1,1.0
+Danish MMA Night,1,1,0,1,1.0
+ShoFight,1,1,0,1,1.0
+Gold Warriors MMA,1,1,0,1,1.0
+TKOTC,1,1,0,1,1.0
+COTT,1,1,0,1,1.0
+IR,1,1,0,1,1.0
+Superacao Fight,1,1,0,1,1.0
+EWT,1,1,0,1,1.0
+EOF,1,1,0,1,1.0
+P5,1,1,0,0,0.0
+EUG,1,1,0,0,0.0
+RMBB,1,1,0,0,0.0
+Northwest Fight Challenge,1,1,0,1,1.0
+Noche de Titanes,1,1,0,0,0.0
+Immortal Champions,1,1,0,0,0.0
+Muay Thai Mayhem,1,1,0,0,0.0
+Instinct MMA,1,1,0,1,1.0
+MTK,1,1,0,0,0.0
+FGAMM,1,1,0,0,0.0
+ASF,1,1,0,0,0.0
+KW,1,1,0,1,1.0
+Battleground,1,1,0,0,0.0
+Gladiadores,1,1,0,1,1.0
+Ultimatum MMA,1,1,0,0,0.0
+PLMMA 66 / 3F,1,1,0,1,1.0
+War Zone Fight Events,1,1,0,0,0.0
+StandUpWar,1,1,0,1,1.0
+KFN,1,1,0,1,1.0
+PLMMA 24 Extra,1,1,0,1,1.0
+PLMMA 26 Extra,1,1,0,1,1.0
+BFC: Contender Series,1,1,0,1,1.0
+Familia Furacao,1,1,0,0,0.0
+Team Buck Wild,1,1,0,0,0.0
+AOS9,1,1,0,0,0.0
+Samurai FC / PFE,1,1,0,1,1.0
+Rostov Region Pankration Federation,1,1,0,0,0.0
+Kokoro Cup,1,1,0,1,1.0
+AMC Fight Nights Global,1,1,0,0,0.0
+Power Fighting Championship,1,1,0,1,1.0
+RFC Colombia,1,1,0,1,1.0
+Brutal Team,1,1,0,1,1.0
+Fight Nights Global,1,1,0,1,1.0
+Empire Sports Marketing,1,1,0,1,1.0
+Colombia MMA,1,1,0,1,1.0
+XMA,1,1,0,1,1.0
+Pitbull Fighting,1,1,0,1,1.0
+Frozen Fury,1,1,0,1,1.0
+PLMMA 58 / AFC 2 / MMA Cup,1,1,0,0,0.0
+PS,1,1,0,0,0.0
+51Fifty,1,1,0,0,0.0
+BOC,1,1,0,0,0.0
+Tambov MMA Federation,1,1,0,0,0.0
+Smash Fight,1,1,0,1,1.0
+Karos K1 MMA Fight Series,1,1,0,0,0.0
+Empire Promotions,1,1,0,1,1.0
+Lockdown Fight Series,1,1,0,0,0.0
+RBM,1,1,0,0,0.0
+Aeternum,1,1,0,0,0.0
+ZF Promotion,1,1,0,0,0.0
+WCA,1,1,0,0,0.0
+Ural FC,1,1,0,0,0.0
+MMA Cup,1,1,0,0,0.0
+TPP,1,1,0,0,0.0
+OFT,1,1,0,0,0.0
+FCBB,1,1,0,0,0.0
+SIBT,1,1,0,1,1.0
+Beach Combat Championship,1,1,0,0,0.0
+EGM,1,1,0,0,0.0
+CL,1,1,0,0,0.0
+Night of Heroes,1,1,0,0,0.0
+Russia Top Team,1,1,0,1,1.0
+Prokopyevsk Challenge,1,1,0,1,1.0
+SAS,1,1,0,1,1.0
+PPFN,1,1,0,1,1.0
+CM,1,1,0,1,1.0
+CDL Promotions,1,1,1,1,1.0
+AAMMA,1,1,0,0,0.0
+Bella Vista Fighter,1,1,0,0,0.0
+Sparta MMA Club,1,1,0,0,0.0
+SE,1,1,1,1,1.0
+Fitness Life Balakovo,1,1,0,0,0.0
+SSS,1,1,0,0,0.0
+Parma Fights,1,1,0,0,0.0
+HOG,1,1,0,1,1.0
+WFCF,1,1,0,0,0.0
+EFC / AMC,1,1,0,0,0.0
+VT,1,1,0,1,1.0
+PG,1,1,1,1,1.0
+TKOP,1,1,0,1,1.0
+BP Fight Night,1,1,0,1,1.0
+MMA Raju,1,1,0,1,1.0
+XCage 8 / PLMMA,1,1,0,1,1.0
+Retribution FC,1,1,1,1,1.0
+Man of War Fighting Championship,1,1,0,0,0.0
+GP Fight,1,1,0,0,0.0
+SRFC,1,1,0,0,0.0
+Knock-Out MMA,1,1,0,1,1.0
+Action Fight,1,1,0,0,0.0
+CZ Fight,1,1,0,0,0.0
+Gorilas Fight,1,1,0,0,0.0
+MFC South Africa,1,1,0,0,0.0
+Ludus Magnus MMA,1,1,0,1,1.0
+Luctor Cage Fight,1,1,0,1,1.0
+FC5,1,1,0,0,0.0
+Dakota FC / Ultimate Productions,1,1,0,1,1.0
+A Batalha,1,1,0,0,0.0
+League MMA,1,1,0,0,0.0
+Gladiators in the Cage,1,1,0,0,0.0
+Fighter Galla,1,1,0,1,1.0
+VAF,1,1,0,0,0.0
+Upper Fight,1,1,0,0,0.0
+VRMMA,1,1,0,1,1.0
+Fist Fight Combat,1,1,0,0,0.0
+Empire,1,1,0,0,0.0
+PRB FCF-MMA,1,1,0,1,1.0
+Noite de Guerra,1,1,0,0,0.0
+WOP,1,1,0,0,0.0
+FNR,1,1,0,0,0.0
+I.M. Poddubnogo Sports Club,1,1,0,0,0.0
+Max Fight League,1,1,0,0,0.0
+B2F,1,1,0,1,1.0
+PXC,1,1,0,1,1.0
+Galan Lord of the Cage,1,1,1,1,1.0
+Talentos Fight Maranhao,1,1,0,0,0.0
+LKO,1,1,0,1,1.0
+HS,1,1,0,1,1.0
+TAO MMA,1,1,0,1,1.0
+Jackhammer Promotions,1,1,0,0,0.0
+MW,1,1,0,0,0.0
+Bazara 0 Fight Club,1,1,0,1,1.0
+MTC,1,1,0,1,1.0
+Xplosion,1,1,0,1,1.0
+Ambitions Fighting Championship,1,1,0,0,0.0
+Naiza Jekpe-Jek,1,1,0,0,0.0
+Nomads Absolute Challenge,1,1,0,0,0.0
+Star Elite Cage Fighting,1,1,0,1,1.0
+Capone's Productions,1,1,0,1,1.0
+SportFight,1,1,1,1,1.0
+Valor Fight,1,1,1,1,1.0
+Submission,1,1,1,1,1.0
+Ruckus Entertainment,1,1,0,1,1.0
+Ablay FC,1,1,0,0,0.0
+Fight Lounge,1,1,0,1,1.0
+BRS,1,1,0,1,1.0
+NCFC,1,1,0,1,1.0
+Sika Fighting Club,1,1,0,0,0.0
+Nokaut Fighting Championship,1,1,0,1,1.0
+Cage Fight Championship,1,1,0,1,1.0
+Serbian Battle Championship,1,1,0,1,1.0
+Lewy Prosty,1,1,0,1,1.0
+Unity FC,1,1,0,0,0.0
+Eric Favre Nation MMA,1,1,0,0,0.0
+Deep & Pancrase,1,1,1,1,1.0
+The One Real Combat,1,1,0,1,1.0
+Free Fighting MMA,1,1,0,0,0.0
+FI,1,1,1,1,1.0
+Trophee des Etoiles,1,1,1,1,1.0
+VCFC,1,1,0,0,0.0
+Trogon Fighting Alliance,1,1,0,1,1.0
+MCP,1,1,0,0,0.0
+BFL Pro,1,1,0,0,0.0
+Shooto Sweden,1,1,0,1,1.0
+Rings,1,1,0,1,1.0
+Vision,1,1,0,1,1.0
+Israel Fighting Championship,1,1,0,1,1.0
+Cage Fighting League,1,1,0,0,0.0
+LFFC,1,1,0,1,1.0
+Octagon Athletes,1,1,0,1,1.0
+Showdown Fights,1,1,0,1,1.0
+MMA Cage Fights,1,1,0,1,1.0
+Reunion Promotion,1,1,0,1,1.0
+Dominance FC 3.0,1,1,0,1,1.0
+Garda,1,1,0,1,1.0
+Vilamir Challengers,1,1,0,0,0.0
+MMA dos Santos,1,1,0,0,0.0
+RXC Open,1,1,0,0,0.0
+WT,1,1,0,1,1.0
+Ostdeutschland Kampft,1,1,0,1,1.0
+PLMMA 13 / Prime,1,1,0,1,1.0
+Shooto Latvia,1,1,0,1,1.0
+K-1 HERO's,1,1,0,1,1.0
+Maxxx Fight,1,1,0,1,1.0
+Aralas Zhekpe-Zhek,1,1,0,0,0.0
+Bushido Kazakhstan,1,1,0,0,0.0
+Grabaka,1,1,0,1,1.0
+Circuito Figueredo de Lutas,1,1,0,0,0.0
+Back Fish MMA,1,1,0,0,0.0
+Elite MMA,1,1,0,1,1.0
+Hermandad K-1,1,1,0,1,1.0
+Alem Fighters,1,1,0,0,0.0
+Alfa FC,1,1,0,0,0.0
+ZMMA,1,1,0,0,0.0
+Best Combat MMA,1,1,0,0,0.0
+Fight On,1,1,0,0,0.0
+Jua Fight,1,1,0,0,0.0
+XGP,1,1,0,1,1.0
+Up N Up,1,1,0,1,1.0
+UIC,1,1,0,1,1.0
+Destiny Promotions,1,1,0,1,1.0
+Freedom Fight Night,1,1,0,1,1.0
+IFA,1,1,0,1,1.0
+DreamFC,1,1,0,1,1.0
+Fury Fight Series,1,1,0,1,1.0
+YTYT,1,1,0,1,1.0
+PLMMA 8 / Prime,1,1,0,1,1.0
+TW,1,1,0,1,1.0
+RadMer,1,1,0,1,1.0
+SOMMAF,1,1,0,1,1.0
+Tachi Palace Fights,1,1,0,1,1.0
+OFP,1,1,0,0,0.0
+SAP,1,1,0,0,0.0
+PCN,1,1,0,1,1.0
+Champions Night,1,1,0,1,1.0
+DDW,1,1,0,1,1.0
+HW,1,1,0,1,1.0
+Savage Entertainment,1,1,1,1,1.0
+SFNA,1,1,0,0,0.0
+WCE,1,1,0,0,0.0
+AFL Elite,1,1,0,0,0.0
+FEM,1,1,0,0,0.0
+Legia Fight Club,1,1,0,0,0.0
+R.O.D. MMA,1,1,0,0,0.0
+TMC,1,1,1,1,1.0
+Battleground Amateur Combative Association,1,1,0,0,0.0
+Donnie Hair's Live Cage Fights,1,1,0,1,1.0
+Fight Time,1,1,0,1,1.0
+Supreme,1,1,0,1,1.0
+NXT,1,1,0,0,0.0
+Mega Fight,1,1,0,1,1.0
+Cut Throat MMA,1,1,1,1,1.0
+Hoosier,1,1,1,1,1.0
+CCNE,1,1,0,1,1.0
+World Championship Pankration,1,1,1,1,1.0
+Human Project,1,1,0,0,0.0
+Climent Club,1,1,0,0,0.0
+Chelyabinsk Martial Arts Festival,1,1,0,0,0.0
+IFO Europe,1,1,0,0,0.0
+Berkut Fighting Championship,1,1,0,0,0.0
+Fight Time Promotions,1,1,0,0,0.0
+GAMMA Championship,1,1,0,0,0.0
+Pride Martial Arts Training Center,1,1,0,0,0.0
+TPFP,1,1,1,1,1.0
+ND,1,1,1,1,1.0
+Ural FC X Ozon,1,1,1,1,1.0
+WXF,1,1,1,1,1.0
+Magdeburger Cage,1,1,0,0,0.0
+Tough Gym Hamburg,1,1,0,0,0.0
+Vigilant Promotions,1,1,0,1,1.0
+Burt Watson Promotions,1,1,0,1,1.0
+RXMMA,1,1,1,1,1.0
+MMA Uncaged FC,1,1,0,0,0.0
+DRAGON'S FIGHT MMA,1,1,0,0,0.0
+Acesso Show,1,1,0,0,0.0
+Glorious Fight Events,1,1,0,0,0.0
+Invictus Fight,1,1,0,1,1.0
+MNA MMA Circuit,1,1,0,1,1.0
+SCI,1,1,0,1,1.0
+YFN,1,1,0,1,1.0
+SMMAAS,1,1,0,1,1.0
+Driller Promotions / SEG,1,1,0,1,1.0
+Gigantes Fight Combat,1,1,0,1,1.0
+SUF,1,1,0,0,0.0
+FEMMAESP,1,1,0,0,0.0
+Maximum Midway,1,1,0,0,0.0
+Socam Fight,1,1,0,0,0.0
+SN,1,1,0,0,0.0
+Cage Club,1,1,0,1,1.0
+UGB MMA,1,1,0,1,1.0
+MP,1,1,0,1,1.0
+Mongol FC,1,1,0,0,0.0
+Nanbudo Bih,1,1,0,0,0.0
+UFB,1,1,0,0,0.0
+Trboulje,1,1,0,0,0.0
+Slovakian Thaiboxing Association,1,1,0,0,0.0
+WC,1,1,0,1,1.0
+Samurai FC,1,1,0,1,1.0
+StudSport,1,1,0,0,0.0
+Adrenalina MMA,1,1,0,1,1.0
+WhiteApe MMA,1,1,0,1,1.0
+Blueblood MMA,1,1,0,1,1.0
+Iowa Challenge,1,1,0,1,1.0
+DE,1,1,0,1,1.0
+AP,1,1,0,1,1.0
+Fightchallenge,1,1,0,1,1.0
+Eagles Fighting Championship,1,1,0,1,1.0
+Donetsk People's Republic MMA Federation,1,1,0,1,1.0
+STA,1,1,0,1,1.0
+DC,1,1,0,1,1.0
+IFN,1,1,0,0,0.0
+Top Fighting Zone,1,1,0,0,0.0
+WFF MX,1,1,0,0,0.0
+Genesis Desert Combat Legion,1,1,0,0,0.0
+NPMMA,1,1,0,1,1.0
+C3,1,1,0,1,1.0
+Stateline Warriors,1,1,0,1,1.0
+PCE,1,1,0,0,0.0
+EWMMA,1,1,0,0,0.0
+A1WCC,1,1,0,0,0.0
+R3,1,1,0,1,1.0
+PLMMA 68 / 3F,1,1,0,1,1.0
+MMAtaleo Slupsk,1,1,0,1,1.0
+Mineira MMA Federation,1,1,0,0,0.0
+CBAM,1,1,0,0,0.0
+RS,1,1,0,1,1.0
+IMMAC,1,1,0,1,1.0
+Rudis FC,1,1,0,0,0.0
+Xtreme Promotions,1,1,0,0,0.0
+BJFC,1,1,0,0,0.0
+PACF,1,1,0,1,1.0
+FightForce,1,1,0,0,0.0
+Nxt Gen Entertainment,1,1,0,0,0.0
+Hard Knocks Fight Promotions,1,1,0,0,0.0
+Star Striker,1,1,0,0,0.0
+K2S Combat,1,1,0,0,0.0
+XFE MMA,1,1,0,1,1.0
+VFE,1,1,0,1,1.0
+FCM,1,1,0,1,1.0
+HKC,1,1,0,1,1.0
+VFE / Brave CF,1,1,0,1,1.0
+KARMMA,1,1,0,1,1.0
+C.S FIGHT,1,1,0,1,1.0
+Acesso MMA,1,1,0,1,1.0
+Money Moicano MMA,1,1,0,1,1.0
+Arene des Sacres,1,1,0,1,1.0
+Explosive Fight Promotions,1,1,0,1,1.0
+Prodigy MMA,1,1,0,1,1.0
+PBSC,1,1,1,1,1.0
+CBC,1,1,1,1,1.0
+EP,1,1,1,1,1.0
+Strikeforce-EliteXC,1,1,1,1,1.0
+PWP,1,1,1,1,1.0
+Nemesis Fighting,1,1,1,1,1.0
+KTK,1,1,0,1,1.0
+Yuzhniy Rubezh,1,1,0,1,1.0
+Gala Sportow Walki,1,1,0,0,0.0
+Fightsport Matchmaking / M Sports,1,1,0,0,0.0
+Brave CF X GFC,1,1,0,0,0.0
+ECF,1,1,0,1,1.0
+KA,1,1,0,1,1.0
+Extravaganza,1,1,0,1,1.0
+RPA,1,1,0,1,1.0
+Lux Combat,1,1,0,1,1.0
+G-Force Fights,1,1,0,1,1.0
+Champ Enterprises,1,1,0,1,1.0
+Atlas Fights,1,1,0,1,1.0
+PCB MMA,1,1,0,1,1.0
+UAF,1,1,0,1,1.0
+PA Caged Combat,1,1,0,1,1.0
+Charity Fight,1,1,0,1,1.0
+OG2F,1,1,0,1,1.0
+AGF,1,1,0,1,1.0
+Stone MMA,1,1,0,0,0.0
+50Fifty,1,1,0,0,0.0
+Showcase MMA,1,1,0,0,0.0
+GCS,1,1,1,1,1.0
+Bonecrunch Fighting,1,1,0,1,1.0
+Reality Combat,1,1,0,1,1.0
+AE,1,1,0,1,1.0
+Leal Combat,1,1,0,1,1.0
+PFB,1,1,0,1,1.0
+Spartans Fight,1,1,0,0,0.0
+MMA Pit Bull Team,1,1,0,0,0.0
+Kaliningrad MMA Federation,1,1,0,0,0.0
+Knights Of Moscow Oblast Ring,1,1,0,0,0.0
+WXCF,1,1,0,1,1.0
+Colombia Fighting Championship,1,1,0,1,1.0
+V Combat,1,1,0,0,0.0
+Citadel,1,1,0,0,0.0
+GFS,1,1,0,0,0.0
+Osimas,1,1,0,1,1.0
+Imperium,1,1,0,1,1.0
+CPMMAF,1,1,0,1,1.0
+Brawlers Ball MMA,1,1,0,0,0.0
+Era VIP Promotion,1,1,0,0,0.0
+SLMMA,1,1,0,0,0.0
+OSE,1,1,0,0,0.0
+KMMAC,1,1,0,1,1.0
+Masurian Fighting Championship,1,1,0,1,1.0
+Underdog Xtreme Championships,1,1,0,0,0.0
+Supreme FC,1,1,0,0,0.0
+TFA MMA International,1,1,0,0,0.0
+Heroes,1,1,0,0,0.0
+Explosion,1,1,0,0,0.0
+SSF,1,1,0,0,0.0
+Victorious,1,1,0,0,0.0
+XG,1,1,0,1,1.0
+Capital Fights,1,1,0,1,1.0
+Striker MMA,1,1,0,1,1.0
+Maktub Fight Pro,1,1,0,0,0.0
+X-Combat Ultra,1,1,0,1,1.0
+Conviction,1,1,0,1,1.0
+Infinity MMA,1,1,0,1,1.0
+Campeonato Villeta,1,1,0,1,1.0
+CTT,1,1,0,1,1.0
+AKAMMF Pro,1,1,0,1,1.0
+Feria Santa Rita,1,1,0,1,1.0
+Integracion MMA,1,1,0,1,1.0
+Copa Brasil MMA,1,1,0,0,0.0
+Real Fights,1,1,0,1,1.0
+Gladiators Fight,1,1,0,0,0.0
+RMR Productions,1,1,0,1,1.0
+ICE Fighter,1,1,0,1,1.0
+NBF,1,1,0,1,1.0
+OFC 57 X MFP,1,1,0,1,1.0
+OFC 64 X MFP,1,1,0,1,1.0
+Legends of Combat,1,1,0,1,1.0
+Combate,1,1,0,0,0.0
+TEF,1,1,0,0,0.0
+Royal Combat,1,1,0,0,0.0
+Bakersfield Combat Promotions,1,1,0,0,0.0
+Las Vegas MMA,1,1,0,1,1.0
+808 Battleground,1,1,0,1,1.0
+Vendetta,1,1,0,0,0.0
+Emir Fighting Championship,1,1,0,1,1.0
+Xtreme Fight Fitness,1,1,0,1,1.0
+DFS,1,1,0,0,0.0
+Evolve,1,1,0,0,0.0
+MCM,1,1,0,0,0.0
+TCMMAC,1,1,0,0,0.0
+Beazt Fight Night,1,1,0,0,0.0
+MFB,1,1,0,1,1.0
+Fight for Glory,1,1,0,1,1.0
+Maxline League,1,1,0,0,0.0
+Mega Fight 5.0,1,1,0,1,1.0
+Shooto Switzerland,1,1,0,1,1.0
+Night of Warriors,1,1,0,1,1.0
+Kombat League,1,1,0,1,1.0
+TWEF,1,1,0,0,0.0
+Superfly Promotions,1,1,0,0,0.0
+Revista Combate,1,1,0,1,1.0
+NDT,1,1,0,1,1.0
+Arena Games,1,1,0,1,1.0
+Villavo Fight Strong,1,1,0,1,1.0
+Dominion Warrior,1,1,0,0,0.0
+EMFNL,1,1,0,1,1.0
+United Glory,1,1,0,1,1.0
+KFS,1,1,0,1,1.0
+IWFC,1,1,0,1,1.0
+Barbarian Fight Club,1,1,0,1,1.0
+Northeast MMA,1,1,0,1,1.0
+AMMAFL,1,1,0,1,1.0
+OO,1,1,0,1,1.0
+CDMMA,1,1,0,1,1.0
+Fightor,1,1,0,1,1.0
+MMA Espana,1,1,0,1,1.0
+360,1,1,0,0,0.0
+Mafra Fight Kickboxing MMA,1,1,0,0,0.0
+Paulista Fight,1,1,0,1,1.0
+Fight Quest Show,1,1,0,0,0.0
+Qualify Combat,1,1,0,1,1.0
+Copa Norte de MMA,1,1,0,0,0.0
+ITFS,1,1,0,0,0.0
+Armageddon MMA,1,1,0,1,1.0
+Medulin Fight Night,1,1,0,0,0.0
+Shoot Challenge,1,1,1,1,1.0
+IPC,1,1,0,1,1.0
+CIS,1,1,0,1,1.0
+Mix Fighter,1,1,0,1,1.0
+Clan Wars,1,1,0,0,0.0
+Gorilla Fight Club,1,1,0,0,0.0
+Dominance FC,1,1,0,0,0.0
+Reality,1,1,0,0,0.0
+Warriors Combat,1,1,0,0,0.0
+DEK,1,1,0,0,0.0
+Xtreme Combat Productions,1,1,1,1,1.0
+CFH,1,1,0,0,0.0
+Extreme Fighters MMA,1,1,0,1,1.0
+BVC,1,1,0,0,0.0
+Jorge Velho Team,1,1,0,1,1.0
+K1 Empress League,1,1,0,1,1.0
+WiTo Sport Events,1,1,0,0,0.0
+GB,1,1,0,0,0.0
+CR,1,1,1,1,1.0
+NLF,1,1,1,1,1.0
+NW,1,1,0,0,0.0
+HF,1,1,1,1,1.0
+OFF,1,1,1,1,1.0
+BKF,1,1,0,1,1.0
+GOC,1,1,0,0,0.0
+FightPro,1,1,0,0,0.0
+RFCH,1,1,0,0,0.0
+PIK,1,1,0,0,0.0
+Bator Fighting Championship,1,1,0,0,0.0
+Brave CF 70 / WFC,1,1,1,1,1.0
+Nordeste Jiu-Jitsu Association,1,1,0,1,1.0
+Philippine Encuentro Championship,1,1,0,0,0.0
+One Pride MMA Fight Night,1,1,0,0,0.0
+Big3 MMA Productions,1,1,0,0,0.0
+UGB MMA Championship,1,1,0,0,0.0
+Island Fighters League,1,1,0,0,0.0
+Zeus Fight Night,1,1,0,0,0.0
+Aikol,1,1,0,0,0.0
+IK,1,1,0,0,0.0
+Fighters of Gold MMA,1,1,0,0,0.0
+Impacto Fight,1,1,0,0,0.0
+MMA Pro League,1,1,0,0,0.0
+Champions Challenging Champions,1,1,0,0,0.0
+GR Promotion,1,1,0,0,0.0
+BCC,1,1,0,1,1.0
+SF Combat,1,1,0,0,0.0
+Central Coast Fighting Championship,1,1,0,0,0.0
+VFS 19 /,1,1,0,0,0.0
+Ringside Ticket / HD MMA,1,1,0,0,0.0
+FTW,1,1,0,1,1.0
+GOAT,1,1,0,1,1.0
+PRO,1,1,0,1,1.0
+GCMMA,1,1,1,1,1.0
+SEFC,1,1,1,1,1.0
+LeLeo Code,1,1,0,1,1.0
+Heroes Fight,1,1,0,1,1.0
+BVN,1,1,0,1,1.0
+FITBOX Fighting Championship,1,1,0,0,0.0
+Elite,1,1,0,0,0.0
+Horsepower Promotions,1,1,0,0,0.0
+Say Uncle Promotions,1,1,0,1,1.0
+CPL,1,1,0,1,1.0
+IASA,1,1,0,1,1.0
+MMAX FC,1,1,0,1,1.0
+Peak,1,1,0,1,1.0
+SECC,1,1,0,1,1.0
+Titan Combat,1,1,0,1,1.0
+RCWC,1,1,0,1,1.0
+Southern border,1,1,0,0,0.0
+The Iron Fight 2.0,1,1,0,0,0.0
+Brutality MMA,1,1,0,0,0.0
+SAF Combat,1,1,0,0,0.0
+DSFN,1,1,0,0,0.0
+AMA,1,1,1,1,1.0
+ShoXC,1,1,0,1,1.0
+Global Knockout,1,1,0,1,1.0
+MFL x PCFC,1,1,0,0,0.0
+Vikings Fight Club,1,1,1,1,1.0
+The Iron Fight,1,1,0,0,0.0
+CageSport,1,1,0,1,1.0
+SCDMMA,1,1,0,1,1.0
+Minas Combat,1,1,0,1,1.0
+Fight Club Arena,1,1,0,1,1.0
+Danger,1,1,0,1,1.0
+LNDG,1,1,0,1,1.0
+SA,1,1,0,0,0.0
+First Coast Full Contact,1,1,0,0,0.0
+MAX,1,1,0,1,1.0
+All Star Boxing,1,1,0,0,0.0
+International Alliance of MMA,1,1,0,0,0.0
+BoB,1,1,0,1,1.0
+Tony G Presents,1,1,0,1,1.0
+Adrenalin Fight Nights,1,1,0,1,1.0
+WFT,1,1,0,1,1.0
+City Innovative Technologies / Sech Pro,1,1,0,1,1.0
+Mannheimer Hafenkeilerei,1,1,0,1,1.0
+Strike1,1,1,0,1,1.0
+Cannon Fight,1,1,0,0,0.0
+SFL 2018: Finals,1,1,0,1,1.0
+Double-Headed Eagle,1,1,0,1,1.0
+NOP,1,1,0,1,1.0
+EMS,1,1,0,1,1.0
+Titan Channel,1,1,0,1,1.0
+HFSL,1,1,0,0,0.0
+Gladiatus,1,1,0,0,0.0
+KOF,1,1,0,0,0.0
+CT,1,1,1,1,1.0
+Alternativa Fitness,1,1,0,0,0.0
+COH,1,1,0,1,1.0
+CFFAC,1,1,0,1,1.0
+TTP,1,1,0,1,1.0
+Rumble Time Promotions,1,1,0,1,1.0
+WSOR,1,1,0,0,0.0
+NOG,1,1,0,1,1.0
+RPC,1,1,0,0,0.0
+FEA Championship,1,1,0,0,0.0
+Revolution,1,1,0,0,0.0
+Tatya,1,1,1,1,1.0
+300 Sparta,1,1,1,1,1.0
+GWC,1,1,0,0,0.0
+FFC Global,1,1,0,1,1.0
+WGFC,1,1,0,1,1.0
+Fightway Challenge,1,1,0,1,1.0
+Lanzarote Arena,1,1,0,0,0.0
+SYWF,1,1,0,0,0.0
+Red Thunder Promotions,1,1,0,0,0.0
+PVF,1,1,0,1,1.0
+IBF Baltic Championship,1,1,0,1,1.0
+LOP,1,1,1,1,1.0
+CGC,1,1,0,0,0.0
+Torment,1,1,0,1,1.0
+Iron Fist Fight Club,1,1,0,1,1.0
+XFO FN,1,1,1,1,1.0
+Global Proving Ground / The Victorium,1,1,0,0,0.0
+AXF,1,1,0,0,0.0
+FLC,1,1,0,0,0.0
+Nomad MMA / N1 Pro / WFN,1,1,0,1,1.0
+FightersRep,1,1,0,0,0.0
+LLC,1,1,0,0,0.0
+MRWF,1,1,0,1,1.0
+Gladiador Fighting Championships,1,1,0,1,1.0
+Buryatia MMA Federation,1,1,0,0,0.0
+112 Fight Academy,1,1,0,0,0.0
+Primal Fighting Championship,1,1,0,0,0.0
+FCMT,1,1,0,1,1.0
+SFL 49 / CageSport,1,1,0,1,1.0
+UCE,1,1,1,1,1.0
+EVO MMA,1,1,1,1,1.0
+GMC Olympix,1,1,0,0,0.0
+Forza FC,1,1,0,0,0.0
+Celtic Gladiator Academy,1,1,0,0,0.0
+Baikal Fighting Championship,1,1,0,0,0.0
+Legends of Fight,1,1,0,1,1.0
+Black Combat,1,1,0,1,1.0
+Raw,1,1,0,0,0.0
+Battlequest,1,1,1,1,1.0
+Aries Fight Series,1,1,0,0,0.0
+USKO,1,1,0,0,0.0
+Invictus Promotions,1,1,0,1,1.0
+OF,1,1,0,1,1.0
+PEF,1,1,0,1,1.0
+Octagon Fight,1,1,0,1,1.0
+Extreme Fighter,1,1,0,1,1.0
+Vilsao Team,1,1,0,1,1.0
+Charge MMA,1,1,0,1,1.0
+Ichigeki,1,1,0,0,0.0
+Checkmate Entertainment,1,1,1,1,1.0
+Budo Fights,1,1,1,1,1.0
+WPCF,1,1,0,1,1.0
+CDL,1,1,0,0,0.0
+Fit Centrum,1,1,0,0,0.0
+Honor Fight League,1,1,0,0,0.0
+Counterattack-9,1,1,1,1,1.0
+Uzbekistan MMA Association,1,1,1,1,1.0
+Furya,1,1,0,0,0.0
+Professional Fighters Combat,1,1,0,1,1.0
+ESFA,1,1,0,0,0.0
+ICE,1,1,0,0,0.0
+DPP,1,1,0,1,1.0
+DPFS,1,1,0,0,0.0
+Esquilo Brothers,1,1,0,0,0.0
+South American Fight,1,1,0,0,0.0
+Benaltor Fighting Championship,1,1,0,0,0.0
+WFCA Czech Republic,1,1,0,1,1.0
+ITS,1,1,0,0,0.0
+FNS,1,1,0,1,1.0
+SFE,1,1,0,1,1.0
+Rise,1,1,0,1,1.0
+Midtown Productions,1,1,0,1,1.0
+FFI,1,1,1,1,1.0
+MCF Productions,1,1,1,1,1.0
+Rio MMA Fight,1,1,0,1,1.0
+Total MMA,1,1,0,0,0.0
+PSF,1,1,0,0,0.0
+MMA Cup Moscow,1,1,0,0,0.0
+Midwest Championship Fighting,1,1,1,1,1.0
+Westlake Productions,1,1,0,0,0.0
+Iron Tiger FS,1,1,0,0,0.0
+Southern Indiana Combat Production,1,1,0,0,0.0
+All In Promotions,1,1,1,1,1.0
+Palmetto Boxing Promotions,1,1,0,0,0.0
+Supreme Fighting,1,1,1,1,1.0
+AXS TV Fights,1,1,1,1,1.0
+The Lion Fight Series,1,1,0,1,1.0
+NOH,1,1,0,1,1.0
+M4TC,1,1,0,0,0.0
+MMA Big Show,1,1,0,1,1.0
+CBFC,1,1,0,1,1.0
+3FC,1,1,0,1,1.0
+VTRI,1,1,0,0,0.0
+MD,1,1,0,0,0.0
+WMMAF,1,1,0,1,1.0
+Rhinos,1,1,0,1,1.0
+Shootfighting Skagen,1,1,0,1,1.0
+Almeida Bros MMA,1,1,0,0,0.0
+Maximun Fight MMA,1,1,0,0,0.0
+TSE,1,1,0,1,1.0
+AMMA,1,1,1,1,1.0
+Ultimate Event Promotions,1,1,1,1,1.0
+K.O.,1,1,0,1,1.0
+Golden Fist Gym,1,1,0,0,0.0
+Games of the Future,1,1,0,1,1.0
+Double G,1,1,0,1,1.0
+ISKA,1,1,0,0,0.0
+DCE,1,1,0,0,0.0
+Savage Fight Night,1,1,0,1,1.0
+UXC,1,1,0,1,1.0
+Infinitus MMA,1,1,0,0,0.0
+Shoutout Fight League,1,1,0,0,0.0
+Thunder & Lightning,1,1,0,1,1.0
+RECU,1,1,0,1,1.0
+F4P Championship,1,1,0,1,1.0
+Sangai MMA,1,1,0,1,1.0
+COP,1,1,0,1,1.0
+M-1 Belarus,1,1,0,1,1.0
+Fury Fights,1,1,0,0,0.0
+K1EL3,1,1,0,0,0.0
+TFC Fight Night,1,1,0,0,0.0
+LC,1,1,0,0,0.0
+Deadgame Fight School,1,1,0,1,1.0
+Warfare,1,1,0,1,1.0
+United Fighting Series,1,1,0,1,1.0
+Cage Fighting Championships,1,1,0,1,1.0
+Fatality Arena vs. Gringo Super Fight,1,1,0,1,1.0
+Cruzeiro Fight MMA,1,1,0,1,1.0
+IKombat / Ichigeki,1,1,0,1,1.0
+PBT,1,1,0,1,1.0
+PAMMAA,1,1,0,1,1.0
+IFF,1,1,0,1,1.0
+MMAF,1,1,0,1,1.0
+Battlefield,1,1,0,1,1.0
+Caged Thunder,1,1,0,1,1.0
+Sunkin International Fight Club,1,1,0,0,0.0
+Huya FC,1,1,0,0,0.0
+JCK Night Cage Series,1,1,0,0,0.0
+QLFC,1,1,0,0,0.0
+CWFL,1,1,0,1,1.0
+TNP,1,1,0,1,1.0
+Fightstar Promotions,1,1,0,1,1.0
+ACFC,1,1,0,1,1.0
+LAMMQ,1,1,0,1,1.0
+NKF,1,1,0,0,0.0
+FK,1,1,0,0,0.0
+FIGMMA,1,1,0,1,1.0
+FederKombat,1,1,0,1,1.0
+Aura Fight Gala,1,1,0,1,1.0
+FG5,1,1,0,1,1.0
+Capitao Fight,1,1,0,1,1.0
+Revolta,1,1,0,1,1.0
+Crossroads In The Fight,1,1,0,1,1.0
+Heroic Battle,1,1,0,1,1.0
+Hybrid Combat,1,1,0,1,1.0
+Z Promotions,1,1,0,1,1.0
+TKO MMA,1,1,0,1,1.0
+Troia,1,1,0,1,1.0
+TS,1,1,0,1,1.0
+BW,1,1,1,1,1.0
+UA,1,1,1,1,1.0
+UCC Hawaii,1,1,1,1,1.0
+T2T,1,1,0,0,0.0
+Pride,1,1,1,1,1.0
+Omaha Fight Club,1,1,0,1,1.0
+NK,1,1,0,0,0.0
+Turku,1,1,0,0,0.0
+TFGA,1,1,0,0,0.0
+Fight Promotion Showdown Goes Ruissalo,1,1,0,0,0.0
+Browar Polnocny Fight Night,1,1,0,0,0.0
+MMAGP,1,1,0,0,0.0
+XCP,1,1,0,0,0.0
+WFA,1,1,1,1,1.0
+IE,1,1,1,1,1.0
+Cage Titans,1,1,0,1,1.0
+Blockbuster MMA,1,1,0,1,1.0
+Ultimate Warrior Challenge,1,1,0,1,1.0
+Superstar Fight,1,1,0,1,1.0
+SJW,1,1,0,1,1.0
+FMMMA,1,1,0,1,1.0
+Epic Fight Night,1,1,0,1,1.0
+UCL,1,1,0,1,1.0
+WNC,1,1,0,1,1.0
+AEC,1,1,0,1,1.0
+FTJO,1,1,0,0,0.0
+EB,1,1,0,1,1.0
+Phoenix Fight Night,1,1,0,1,1.0
+Dragon FC,1,1,0,1,1.0
+WMA,1,1,0,1,1.0
+Iran Fighting Championship,1,1,0,0,0.0
+Pahlevan SFC,1,1,0,0,0.0
+C4 Fighting,1,1,0,1,1.0
+Kuzbass MMA Federation,1,1,0,0,0.0
+Alash Pride FC,1,1,0,0,0.0
+KORE MMA,1,1,0,1,1.0
+Destiny MMA / Spirit MMA,1,1,0,0,0.0
+WCFC,1,1,0,1,1.0
+MX,1,1,1,1,1.0
+Tula MMA Federation,1,1,0,0,0.0
+HD,1,1,0,0,0.0
+Castagne,1,1,0,0,0.0
+Animalistic MMA,1,1,0,1,1.0
+UGB,1,1,0,0,0.0
+Warriors Fight Promotion,1,1,0,0,0.0
+LFC / LK,1,1,0,1,1.0
+DWTC,1,1,0,1,1.0
+MSZ,1,1,0,1,1.0
+Spartacus Fighting,1,1,0,1,1.0
+ECE,1,1,0,1,1.0
+Team Bushido,1,1,1,1,1.0
+Arena MMA Plovdiv,1,1,0,0,0.0
+SL,1,1,0,0,0.0
+PLMMA 17 Extra,1,1,0,1,1.0
+HOP,1,1,0,1,1.0
+Head to Head,1,1,0,1,1.0
+Real Warriors League,1,1,0,0,0.0
+SFL 30-31,1,1,0,0,0.0
+Ringlife Talents,1,1,0,0,0.0
+Fight Kingdom,1,1,0,0,0.0
+IRIC,1,1,0,0,0.0
+Crajubar Fight,1,1,0,1,1.0
+CSF,1,1,0,1,1.0
+Buffalo Combat,1,1,0,1,1.0
+Armored Wings,1,1,0,1,1.0
+OPP Presents,1,1,0,1,1.0
+VFS,1,1,0,1,1.0
+Core,1,1,0,0,0.0
+TZ,1,1,0,0,0.0
+Southern Combat Sports,1,1,0,0,0.0
+GEFC / FMMARC,1,1,0,0,0.0
+Martins Competition,1,1,0,1,1.0
+OctoFight France,1,1,0,1,1.0
+FPC,1,1,0,1,1.0
+Kingdom Fighting,1,1,0,1,1.0
+CDM Promotions,1,1,0,1,1.0
+Elevate FC,1,1,0,1,1.0
+Torneio Gladiador,1,1,0,0,0.0
+JF,1,1,0,0,0.0
+R2 Combat,1,1,0,0,0.0
+FFN,1,1,0,0,0.0
+RLFC MMA,1,1,0,1,1.0
+Strife Tube,1,1,0,1,1.0
+Liga Inmortal,1,1,0,0,0.0
+Reto MMA VZLA,1,1,0,0,0.0
+TKF,1,1,0,0,0.0
+Jungle Strike Championship,1,1,0,0,0.0
+Path to Hex,1,1,0,0,0.0
+IMMAFA,1,1,0,0,0.0
+Batyr Bashy,1,1,0,1,1.0
+Brave CF 81 / WFC,1,1,0,1,1.0
+WWFC / UAFC,1,1,0,1,1.0
+Leo Max Man's Club,1,1,0,1,1.0
+RXF 36 / Brave CF,1,1,0,0,0.0
+RMMAF Series,1,1,0,1,1.0
+Professional Fight Gym Mix Kombat,1,1,0,1,1.0
+CWB Fight League,1,1,0,0,0.0
+MaxPain,1,1,0,0,0.0
+Gordon Fight Nights,1,1,0,1,1.0
+GIC,1,1,0,0,0.0
+No Mercy Combat,1,1,0,1,1.0
+TTB,1,1,0,1,1.0
+O Rei da Luta,1,1,0,1,1.0
+AFG,1,1,0,1,1.0
+Collision Fight Champions,1,1,0,1,1.0
+Fight Leste,1,1,0,1,1.0
+RM,1,1,0,1,1.0
+Triple A,1,1,0,0,0.0
+Most Valuable Promotions,1,1,0,0,0.0
+Ox MMA,1,1,0,1,1.0
+Blue Corner Promotions,1,1,0,1,1.0
+Ludus Fight League,1,1,0,1,1.0
+LMS,1,1,0,0,0.0
+YBN,1,1,0,0,0.0
+Noc Valecniku,1,1,0,0,0.0
+WFC 24 / Brave CF,1,1,0,1,1.0
+R1 Uzbekistan,1,1,0,1,1.0
+PCT,1,1,0,1,1.0
+Free Fight MMA,1,1,0,1,1.0
+CDL Fight,1,1,0,0,0.0
+Guerra Campal,1,1,0,0,0.0
+Leon Cardenas,1,1,0,0,0.0
+Master Fighters Championship,1,1,0,0,0.0
+R2B Combat,1,1,0,0,0.0
+Voronezh Fight Club,1,1,0,0,0.0
+Valuyki Forpost,1,1,0,0,0.0
+Ultimate Sanda Fighter,1,1,0,1,1.0
+King of Kings,1,1,0,0,0.0
+Yakuza Fight,1,1,0,0,0.0
+Torres Fight,1,1,0,0,0.0
+Ronin MMA,1,1,0,0,0.0
+AT,1,1,0,0,0.0
+MSC,1,1,0,0,0.0
+Radio 96 FM,1,1,0,0,0.0
+NP Fight Brazil,1,1,0,0,0.0
+Brawl,1,1,0,1,1.0
+Imagine FC 3.0,1,1,0,0,0.0
+FCR 24 / BoB,1,1,0,0,0.0
+TR Fight,1,1,0,1,1.0
+CMMARO,1,1,0,1,1.0
+Full House,1,1,0,1,1.0
+CA Fight Syndicate,1,1,0,1,1.0
+Lords of Combat,1,1,0,1,1.0
+MMA by the Bay,1,1,0,0,0.0
+Qadya,1,1,0,1,1.0
+Rose,1,1,0,0,0.0
+Legion,1,1,0,0,0.0
+Ponte Nova Fight,1,1,0,1,1.0
+CGBS,1,1,0,0,0.0
+Crixus MMA,1,1,0,0,0.0
+Arena Fighting Garage,1,1,0,0,0.0
+Fight Music,1,1,0,0,0.0
+Braga Pro,1,1,0,1,1.0
+K1L,1,1,0,0,0.0
+Revolution Fighting Champion,1,1,0,0,0.0
+Octagon Promotion & U1,1,1,0,0,0.0
+MFN Brazil,1,1,0,1,1.0
+War of Champions,1,1,0,1,1.0
+CAMMA,1,1,0,0,0.0
+Sao Goncalo,1,1,0,0,0.0
+WTKA Italy,1,1,0,0,0.0
+King of the Ring,1,1,0,0,0.0
+Venator FC,1,1,0,0,0.0
+PNFC,1,1,0,0,0.0
+Blaze,1,1,0,0,0.0
+Bonito Eco Fight Combat,1,1,0,1,1.0
+CPW,1,1,0,1,1.0
+Arena Fight Combat,1,1,0,0,0.0
+RHMFN,1,1,0,1,1.0
+Local Legends,1,1,0,0,0.0
+GAMA,1,1,0,0,0.0
+Cage Warrior,1,1,1,1,1.0
+Magnum,1,1,1,1,1.0
+fightFORCE,1,1,0,1,1.0
+UOP,1,1,0,1,1.0
+SWG,1,1,0,1,1.0
+Kansas Combat Coalition,1,1,0,1,1.0
+SRP,1,1,0,1,1.0
+FHB,1,1,0,1,1.0
+Fox Fight Joacaba,1,1,0,1,1.0
+Challenge,1,1,0,0,0.0
+FIKBMS,1,1,1,1,1.0
+KV Arena Max,1,1,0,1,1.0
+NNB,1,1,0,1,1.0
+Tempel Fight School,1,1,0,1,1.0
+TCT,1,1,0,1,1.0
+2H2H,1,1,0,0,0.0
+UPC Unlimited,1,1,0,1,1.0
+Mosley Showdown Promotions,1,1,0,1,1.0
+Coliseum Gladiator MMA,1,1,0,1,1.0
+Gloria,1,1,0,0,0.0
+CINTHEC,1,1,0,0,0.0
+Campania Kombat,1,1,0,0,0.0
+CFB,1,1,0,0,0.0
+Coronel Fight,1,1,0,1,1.0
+Cowboy MMA,1,1,1,1,1.0
+CCA,1,1,0,0,0.0
+UFG,1,1,0,0,0.0
+CNP,1,1,0,0,0.0
+Rey del Tatami,1,1,0,0,0.0
+Backstreet Fights,1,1,0,0,0.0
+Savage Fight Club,1,1,0,0,0.0
+Camp Lejeune,1,1,0,1,1.0
+SFL 46 / CageSport,1,1,0,1,1.0
+Dominate FC,1,1,0,1,1.0
+APEX,1,1,1,1,1.0
+Dome Of War,1,1,0,1,1.0
+Combat Challenge,1,1,0,1,1.0
+GOCFC,1,1,0,1,1.0
+Lockdown FC,1,1,0,0,0.0
+CK,1,1,0,0,0.0
+Legacy Amateur Series,1,1,0,0,0.0
+NGFN,1,1,0,0,0.0
+Bilic-Eric Security,1,1,0,0,0.0
+Caged Warrior Combat,1,1,0,1,1.0
+OFN,1,1,0,0,0.0
+SJSF,1,1,0,0,0.0
+Blackout,1,1,0,0,0.0
+CP,1,1,0,0,0.0
+MMA Sanda Combat,1,1,0,0,0.0
+BPL,1,1,0,1,1.0
+CES MMA,1,1,0,1,1.0
+Supremacy Fighting Championship,1,1,0,0,0.0
+Danger-Fire Promotions,1,1,0,1,1.0
+Nitrix Fight Evolution,1,1,0,0,0.0
+UCW,1,1,0,1,1.0
+TMT MMA,1,1,0,1,1.0
+Europa MMA,1,1,0,0,0.0
+Aftershock,1,1,0,0,0.0
+Undisputed Fight Series,1,1,0,0,0.0
+SFL,1,1,0,0,0.0
+Real,1,1,0,1,1.0
+Shooto Germany,1,1,1,1,1.0
+Elite Boxing Germany,1,1,1,1,1.0
+SUW,1,1,0,1,1.0
+UMMAP,1,1,0,1,1.0
+GPG,1,1,0,1,1.0
+WDFC,1,1,0,0,0.0
+Cage Control,1,1,0,0,0.0
+ROD FC,1,1,0,0,0.0
+OSE Professional,1,1,0,0,0.0
+ProFC Ukraine,1,1,0,1,1.0
+F2F,1,1,1,1,1.0
+Wocs,1,1,0,1,1.0
+Union MMA Pro,1,1,0,1,1.0
