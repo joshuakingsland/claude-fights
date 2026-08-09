@@ -56,6 +56,10 @@
   .tag.stale{border:1px solid var(--warn);color:var(--warn)}.thresholds{margin-top:7px;font-family:'IBM Plex Mono',monospace;
     font-size:10.5px;color:var(--muted);line-height:1.7}.props{margin-top:6px;font-family:'IBM Plex Mono',monospace;
     font-size:10px;color:var(--faint);line-height:1.6}
+  .props .pc{color:var(--muted)}
+  /* These markets have no book quote to compare against, so the card must
+     never let a fair price read like an edge the way the moneyline does. */
+  .unpriced{margin-top:3px;font-size:9px;color:var(--faint);opacity:.75;font-style:italic}
   table.ledger{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
   .ledger th{color:var(--faint);font-weight:500;text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);font-size:11px}
   .ledger td{padding:9px 8px;border-bottom:1px solid var(--line);color:var(--muted)}.ledger td.pick{color:var(--text)}
@@ -131,7 +135,10 @@ function row(f){
     ${ladder["1u"]!==undefined?`1U through <span style="color:var(--text)">${signed(ladder["1u"])}</span><br>`:""}
     ${ladder["2u_candidate"]!==undefined?`2U research at <span style="color:var(--faint)">${signed(ladder["2u_candidate"])}</span><br>`:""}
     ${f.eligibility_reason||"pass"}</div>${f.props?`<div class="props">fair pick: DEC ${signed(f.props.pick_DEC)} | KO ${signed(f.props.pick_KO)} | SUB ${signed(f.props.pick_SUB)}<br>
-    fair opp: DEC ${signed(f.props.opp_DEC)} | KO ${signed(f.props.opp_KO)} | SUB ${signed(f.props.opp_SUB)}</div>`:""}</div></div>`;
+    fair opp: DEC ${signed(f.props.opp_DEC)} | KO ${signed(f.props.opp_KO)} | SUB ${signed(f.props.opp_SUB)}</div>`:""}${f.rounds?`<div class="props">
+    distance ${signed(f.rounds.distance)} <span class="pc">${f.rounds.distance_pct.toFixed(0)}%</span> | finish ${signed(f.rounds.finish)}<br>
+    ${f.rounds.totals.map(t=>`O${t.line} ${signed(t.over)} / U ${signed(t.under)}`).join(" | ")}
+    <div class="unpriced">fair prices only &mdash; no book quotes these markets${f.rounds.baseline_only?"; division baseline, fighter unresolved":""}</div></div>`:""}</div></div>`;
 }
 const bets=upcoming.filter(activeSignal).sort((a,b)=>b.net-a.net);
 document.getElementById("bets").innerHTML=bets.length?bets.map(row).join(""):

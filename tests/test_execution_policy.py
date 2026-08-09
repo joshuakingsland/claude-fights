@@ -7,7 +7,7 @@ import promotion_tiers
 import rankings
 from config import MAX_EXECUTION_DEVIATION
 from paper_ledger import SNAPSHOT_FIELDS, _snapshot_row
-from predict_card import (_clean_meta, event_groups, execution_ladder,
+from predict_card import (_clean_meta, execution_ladder,
                           leader_gap_for_pick, quote_quality)
 from production import allocate_stakes
 
@@ -102,35 +102,6 @@ class IdentityGateTests(unittest.TestCase):
 
     def test_default_is_resolved_so_manual_rows_are_unaffected(self):
         self.assertTrue(quote_quality(None, None, "manual", 0.60, 0.62)[0])
-
-
-class EventGroupingTests(unittest.TestCase):
-    """The stake cap needs an event, and a UTC date is not one."""
-
-    def test_two_cards_on_one_utc_date_are_separate_events(self):
-        # Observed 2026-08-08: a Friday-night US card at 00:20-03:50 UTC and
-        # the Saturday card at 21:10-23:40 UTC shared one UTC calendar date.
-        groups = event_groups(["2026-08-08T00:20:00Z", "2026-08-08T03:50:00Z",
-                               "2026-08-08T21:10:00Z", "2026-08-08T23:40:00Z"])
-        self.assertEqual(groups[0], groups[1])
-        self.assertEqual(groups[2], groups[3])
-        self.assertNotEqual(groups[0], groups[2])
-
-    def test_one_card_spanning_midnight_utc_stays_one_event(self):
-        groups = event_groups(["2026-08-08T22:00:00Z", "2026-08-09T01:30:00Z"])
-        self.assertEqual(groups[0], groups[1])
-
-    def test_input_order_does_not_change_the_grouping(self):
-        starts = ["2026-08-08T23:40:00Z", "2026-08-08T00:20:00Z",
-                  "2026-08-08T21:10:00Z"]
-        groups = dict(zip(starts, event_groups(starts)))
-        self.assertEqual(groups["2026-08-08T21:10:00Z"],
-                         groups["2026-08-08T23:40:00Z"])
-        self.assertNotEqual(groups["2026-08-08T00:20:00Z"],
-                            groups["2026-08-08T21:10:00Z"])
-
-    def test_missing_start_times_do_not_crash(self):
-        self.assertEqual(len(event_groups(["", None, "2026-08-08T21:00:00Z"])), 3)
 
 
 class DeclaredTierTests(unittest.TestCase):

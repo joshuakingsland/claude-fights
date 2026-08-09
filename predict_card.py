@@ -20,6 +20,7 @@ from scipy.special import logit as slogit
 
 from adapter import parse_height, parse_reach
 from backtest import american_to_prob, american_payout
+from cards import EVENT_GAP_HOURS, event_groups  # noqa: F401
 from data_quality import assert_clean, identity_warnings
 from features_v3 import build_features_v3
 from identity import assign_fighter_identities, fighter_registry
@@ -108,41 +109,6 @@ def leader_gap_for_pick(leader_prob_a, follower_prob_a, pick_a):
     gap = (None if leader is None or follower is None
            else round((leader - follower) * 100, 2))
     return leader, follower, gap
-
-
-# Bouts on one card start within a few hours of each other; separate cards are
-# separated by the better part of a day. Eight hours splits them cleanly and
-# does not depend on a UTC calendar boundary that falls mid-evening in the US.
-EVENT_GAP_HOURS = 8.0
-
-
-def event_groups(starts):
-    """Cluster scheduled start times into cards.
-
-    The event-day stake cap needs to know what an event is. Using the UTC date
-    made a card starting 00:20 UTC and one starting 21:10 UTC the same "day",
-    so two separate shows shared one 2-unit cap - which happened on
-    2026-08-08, where a Friday-night US card and the Saturday card both landed
-    on UTC 08-08.
-    """
-    order = sorted(range(len(starts)), key=lambda i: (starts[i] or ""))
-    groups = [0] * len(starts)
-    label, previous = 0, None
-    for position in order:
-        current = starts[position]
-        moment = None
-        if current:
-            try:
-                moment = pd.Timestamp(str(current).replace("Z", "+00:00"))
-            except (TypeError, ValueError):
-                moment = None
-        if moment is not None and previous is not None:
-            if (moment - previous).total_seconds() / 3600.0 > EVENT_GAP_HOURS:
-                label += 1
-        groups[position] = label
-        if moment is not None:
-            previous = moment
-    return [f"event-{g}" for g in groups]
 
 
 def quote_quality(books, age_minutes, source, market_pick, execution_pick,
@@ -267,6 +233,7 @@ def predict_upcoming(up):
             books, age_minutes, source, market_pick, execution_pick,
             identity_resolved=resolved_a and resolved_b,
         )
+        neutral_identity = not (resolved_a and resolved_b)
         leader_prob, follower_prob, leader_gap = leader_gap_for_pick(
             _optional_number(r.get("leader_prob_a")),
             _optional_number(r.get("follower_prob_a")),
@@ -275,6 +242,7 @@ def predict_upcoming(up):
         out.append({
             "_p_a": p, "_row_idx": int(row.index[0]), "_pick_a": bool(pick_a),
             "_net_raw": net, "_quality_ok": quality_ok,
+            "_neutral_identity": neutral_identity,
             "ladder": ladder,
             "pick": r["display_a"] if pick_a else r["display_b"],
             "opp": r["display_b"] if pick_a else r["display_a"],
@@ -350,9 +318,32 @@ def predict_upcoming(up):
                               for k, v in pr.items()}
     except Exception as exc:
         print("props skipped:", exc)
+    # totals and distance (fair prices only; see rounds_model for why these
+    # are not tradable). Trained inline rather than from a pickle: the fit
+    # costs about three seconds, and no job refreshes a committed one, so a
+    # stored model would quietly serve a stale fit against fresh careers.
+    try:
+        import rounds_model as RM
+        allf = pd.concat([fights, hyp], ignore_index=True)
+        allf["date"] = pd.to_datetime(allf["date"])
+        priced = RM.card_prices(RM.train(fights), allf)
+        if len(priced) == len(out):
+            for o, rounds in zip(out, priced):
+                if rounds:
+                    # With no resolved identity the career rates are all
+                    # zeros, so these collapse to the division baseline. Say
+                    # so rather than letting a lookup read as a read on the
+                    # fighters.
+                    rounds["baseline_only"] = bool(o["_neutral_identity"])
+                    o["rounds"] = rounds
+        else:
+            print(f"rounds skipped: priced {len(priced)} of {len(out)} fights")
+    except Exception as exc:
+        print("rounds skipped:", exc)
     for o in out:
         o.pop("_p_a", None); o.pop("_row_idx", None); o.pop("_pick_a", None)
         o.pop("_net_raw", None); o.pop("_quality_ok", None)
+        o.pop("_neutral_identity", None)
     return out
 
 

@@ -233,3 +233,40 @@ def fair_american(p):
     p = min(max(float(p), 0.005), 0.995)
     return int(round(-100 * p / (1 - p))) if p >= 0.5 else \
         int(round(100 * (1 - p) / p))
+
+
+def card_prices(model, fights_all, tag="UPCOMING"):
+    """Fair prices for the rows tagged as upcoming.
+
+    Features come from the whole table so an upcoming fight sees each corner's
+    full career to date, then only the tagged rows are scored. Scheduled
+    fights carry no result, so `_usable` is not applied here; it gates
+    training, where an outcome is required, not serving.
+    """
+    featured = prepare(fights_all)
+    selected = featured[featured["event"] == tag].reset_index(drop=True)
+    if not len(selected):
+        return []
+    priced = totals_and_distance(model, selected)
+    out = []
+    for row in priced:
+        distance = row["distance"]
+        if not np.isfinite(distance):
+            out.append(None)
+            continue
+        out.append({
+            "distance_pct": round(float(distance) * 100, 1),
+            "distance": fair_american(distance),
+            "finish": fair_american(1.0 - distance),
+            "totals": [
+                {
+                    "line": float(key.split("_")[1]),
+                    "over": fair_american(probability),
+                    "under": fair_american(1.0 - probability),
+                    "over_pct": round(float(probability) * 100, 1),
+                }
+                for key, probability in sorted(
+                    row["lines"].items(), key=lambda kv: float(kv[0].split("_")[1]))
+            ],
+        })
+    return out

@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-09T08:19:50Z",
+  "created_at": "2026-08-09T08:52:46Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -19,9 +19,9 @@
   "event_day_stake_cap": 2,
   "research_two_unit_rule": 0.1,
   "bootstrap_models": 30,
-  "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
-  "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
-  "git_commit": "2e19f680d3527e7637734957b3098ba0de493691",
+  "python": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
+  "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39",
+  "git_commit": "dd593438973d1bf5c599406a5796603e62e0ac54",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -32,7 +32,7 @@
   "inputs": {
     "fights_v2.csv": "e609ffde8c575bb8912d0e848b8e90278c2e5536dffb46a4e7db1b48b12ceee4",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "315fb6ce078927eb697c807e2d52f5ac516af3ed95bffb9fc91b8de165563b7d",
+    "odds_upcoming.csv": "3ac80a0ffaa60454441aedc047db8bdca59a225f0ebb5d4d553a03247f653af6",
     "odds_log.csv": "29de5dc0421086df5405be31c749da9d02b00b62750a0ef7b19c716472371a60",
     "method_model.pkl": "a1f0f6c06b49c6855bfe24bdc3a3f92eb0dd75650b0a7a1151d7e067a592d957",
     "config.py": "497b3d20c781e5ab28f5f10286b32a0521efa3f5f4f10e7eb74b4fcea0bea0fb",
@@ -43,10 +43,10 @@
     "elo.py": "37fb77e27cb6eb5c50d48260098198a2efcecfb6b3060d181df8ec6d5e54a818",
     "adapter.py": "1dcd9711b5ed9f6048b613acd0591c3fb5b4f71c86c0482c86cb3a7a55d30879",
     "pipeline.py": "ef579124957c954a9942b1628794424719f2877bb2ce0bf6fb10cac7bd53b591",
-    "predict_card.py": "b7958535eda7ea4a0e990490ff6b98a0baf97a78562baaede750bb3d7803fbbe",
+    "predict_card.py": "d0a990f17c09bc93aef5efb9e705557083d8f626541dadde4bb57310aa9fa637",
     "paper_ledger.py": "9da03e54b31030e7c345cb1d65f987a3e57b2fe8068d0deb8498511b8c5f1d41",
-    "fetch_odds.py": "012514fa1fea29fe0a322d92a6b8cdf3e5f2ccaa5f0e33e7e753ca69ed88f2c0",
-    "site_template.html": "9c4479f00263ed5e79f638003eefc89a207e2b911df2b0a7fef2de62b1baa4bc",
+    "fetch_odds.py": "ca35491fbcd8356faaac08db67f19892d2ee81a2c99a3e6835990c682a6d892d",
+    "site_template.html": "5fac6627f56370e5bf2df6bcee533a2ad3e2c157742e205d30296caf50993373",
     "requirements.txt": "52c20d17a069ed0c738ea7eb78088b36ca360ea995e09da48639af1293043ad8",
     "identity.py": "dec21893641429c5f8993c68477640f405370e384d1aa5ccbe990f096e87193b",
     "data_quality.py": "0c0260f7f10ad7f8fd280f9be64d7fcb1cdb7eaeca04cb4325e4cef1dce0d7c4",

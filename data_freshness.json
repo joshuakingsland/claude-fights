@@ -1,10 +1,16 @@
 {
-  "checked_at": "2026-08-05T18:50:19Z",
+  "checked_at": "2026-08-09T08:52:46Z",
   "results_through": "2026-08-01",
-  "days_since_latest_result": 4,
-  "status": "current",
-  "message": "no completed tracked fights are missing",
-  "known_completed_missing": [],
+  "days_since_latest_result": 8,
+  "status": "lagging",
+  "message": "1 completed tracked fight(s) await results",
+  "known_completed_missing": [
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Louie Sutherland",
+      "fighter_b": "Jose Montanha"
+    }
+  ],
   "known_cancelled": [
     {
       "date": "2026-07-25",
@@ -147,6 +153,101 @@
       "date": "2026-07-31",
       "fighter_a": "Aristides Vinicius Dias",
       "fighter_b": "Alexsandro Cangaty"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Joshua Silveira",
+      "fighter_b": "Aaron Jeffery"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Lewis McGrillen",
+      "fighter_b": "Brandon Lewis"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Valentin Moldavsky",
+      "fighter_b": "Bruno Cappelozza"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Bryan Battle",
+      "fighter_b": "Dalton Rosta"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Cheyanne Bowers",
+      "fighter_b": "Elora Dana"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Cheyden Leialoha",
+      "fighter_b": "Robbie Ring"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Dovletdzhan Yagshimuradov",
+      "fighter_b": "Simeon Powell"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Eduardo Neves",
+      "fighter_b": "Maxwell Djantou Nana"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Josh Fremd",
+      "fighter_b": "Jhony Gregory"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Denis Goltsov",
+      "fighter_b": "Hasan Mezhiev"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Jonathan Martin",
+      "fighter_b": "Wilson Lopshire"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Michael Boylan",
+      "fighter_b": "Landry Ward"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Trukon Carson",
+      "fighter_b": "Trey Waters"
+    },
+    {
+      "date": "2026-08-07",
+      "fighter_a": "Denis Goltsov",
+      "fighter_b": "Hasan Mezhiev"
+    },
+    {
+      "date": "2026-08-07",
+      "fighter_a": "Lewis McGrillen",
+      "fighter_b": "Brandon Lewis"
+    },
+    {
+      "date": "2026-08-07",
+      "fighter_a": "Trukon Carson",
+      "fighter_b": "Trey Waters"
+    },
+    {
+      "date": "2026-08-07",
+      "fighter_a": "Eduardo Neves",
+      "fighter_b": "Maxwell Djantou Nana"
+    },
+    {
+      "date": "2026-08-07",
+      "fighter_a": "Jonathan Martin",
+      "fighter_b": "Wilson Lopshire"
+    },
+    {
+      "date": "2026-08-07",
+      "fighter_a": "Valentin Moldavsky",
+      "fighter_b": "Bruno Cappelozza"
     }
   ]
 }

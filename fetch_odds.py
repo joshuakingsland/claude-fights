@@ -16,6 +16,8 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+from cards import infer_five_rounds
+
 from config import (LEADER_BOOK_KEYS, ODDS_CONSENSUS_VERSION, ODDS_REGIONS,
                     PRICED_ODDS_REGIONS)
 
@@ -357,6 +359,14 @@ def main(argv=None):
             "fetched_at": stamp,
         })
         all_quotes.extend(_quote_rows(event, paired, stamp))
+
+    # The feed never says how many rounds a fight is scheduled for, and this
+    # was left hardcoded at 0, so every main event was priced as a three
+    # rounder. That is wrong for the moneyline's `five_rd` feature and badly
+    # wrong for totals, where a five-round fight has two extra lines and a
+    # structurally lower chance of going the distance.
+    for row, five in zip(rows, infer_five_rounds([r["commence_time"] for r in rows])):
+        row["five_rounds"] = str(five)
 
     _write_atomic("odds_upcoming.csv", UPCOMING_FIELDS, rows)
     log_rows = [{field: row.get(field, "") for field in LOG_FIELDS} for row in rows]
