@@ -1,17 +1,39 @@
-"""Capped discovery of event-specific MMA prop market keys."""
+"""Capped discovery of event-specific MMA market keys.
+
+This used to record only keys matching a list of prop-sounding terms, and
+report an empty list as "no props offered". The filter could not see the two
+markets most worth knowing about. `totals` - the over/under on rounds, and a
+standard market rather than a prop - contains none of the terms. Neither does
+a distance market such as `fight_to_go_distance`; the previous test fixture
+included that exact key and asserted it was discarded.
+
+So an empty catalogue meant "no key matched seven guessed substrings", not
+"no market exists", and the difference matters because the whole point of the
+catalogue is to answer whether a market can be priced at all.
+
+Every key is recorded now, with the number of books offering it. The book
+count is the part that decides anything: the moneyline already loses most
+fights to the three-paired-book minimum, and a market quoted by one book is
+not tradable no matter how attractive the model finds it.
+"""
 
 import argparse
 import json
 import os
 import urllib.parse
 import urllib.request
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
 
 SPORT = "mma_mixed_martial_arts"
 BASE = "https://api.the-odds-api.com/v4"
-PROP_TERMS = ("method", "victory", "finish", "round", "decision", "submission", "ko")
+
+# Kept only to label the catalogue for a human reader. Nothing is dropped on
+# the strength of it.
+PROP_TERMS = ("method", "victory", "finish", "round", "decision", "submission",
+              "ko", "distance", "total")
 
 
 def _fetch(path, key, **params):
@@ -23,14 +45,19 @@ def _fetch(path, key, **params):
         return json.load(response)
 
 
-def prop_keys(payload):
-    found = set()
+def market_book_counts(payload):
+    """Every market key offered for an event, and how many books offer it."""
+    counts = Counter()
     for bookmaker in payload.get("bookmakers", []):
-        for market in bookmaker.get("markets", []):
-            key = str(market.get("key", ""))
-            if any(term in key.lower() for term in PROP_TERMS):
-                found.add(key)
-    return sorted(found)
+        for key in {str(m.get("key", "")) for m in bookmaker.get("markets", [])}:
+            if key:
+                counts[key] += 1
+    return dict(sorted(counts.items()))
+
+
+def prop_keys(payload):
+    """Non-moneyline keys. A label over market_book_counts, not a filter."""
+    return sorted(k for k in market_book_counts(payload) if k != "h2h")
 
 
 def run(key, max_requests=0, output="prop_market_catalog.json", fetcher=_fetch):
@@ -39,24 +66,42 @@ def run(key, max_requests=0, output="prop_market_catalog.json", fetcher=_fetch):
     events = fetcher(f"/sports/{SPORT}/events", key)
     cap = max(0, min(int(max_requests), len(events)))
     discoveries = []
+    offered = Counter()
+    depth = Counter()
     for event in events[:cap]:
         payload = fetcher(
             f"/sports/{SPORT}/events/{event['id']}/markets", key, regions="us"
         )
+        counts = market_book_counts(payload)
+        for market, books in counts.items():
+            offered[market] += 1
+            depth[market] = max(depth[market], books)
         discoveries.append({
             "event_id": event["id"],
             "commence_time": event.get("commence_time"),
             "fighter_a": event.get("home_team"),
             "fighter_b": event.get("away_team"),
+            "market_book_counts": counts,
             "prop_market_keys": prop_keys(payload),
         })
+    summary = [
+        {
+            "market": market,
+            "events_offering": offered[market],
+            "events_share": round(offered[market] / cap, 3) if cap else 0.0,
+            "max_books_on_one_event": depth[market],
+        }
+        for market in sorted(offered, key=lambda m: (-offered[m], m))
+    ]
     report = {
         "captured_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "available_events": len(events),
         "discovery_requests": cap,
         "request_cap": int(max_requests),
+        "market_summary": summary,
         "events": discoveries,
-        "note": "Market-key discovery only; no prop prices are fetched.",
+        "note": ("Market-key discovery only; no prices are fetched. Every key "
+                 "offered is recorded, not a term-matched subset."),
     }
     Path(output).write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))

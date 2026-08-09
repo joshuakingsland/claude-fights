@@ -8,7 +8,7 @@ import pandas as pd
 import adapter
 from capture_close import due_events, run as run_close
 from data_quality import audit_fights
-from discover_prop_markets import prop_keys
+from discover_prop_markets import market_book_counts, prop_keys
 from features import build_features
 from freshness import assess_freshness
 from identity import canonical_name, fighter_registry, resolve_fighter
@@ -369,7 +369,27 @@ class FreshnessAndCaptureTests(unittest.TestCase):
             {"key": "h2h"}, {"key": "method_of_victory"},
             {"key": "fight_to_go_distance"},
         ]}]}
-        self.assertEqual(prop_keys(payload), ["method_of_victory"])
+        # Everything but the moneyline. The old filter kept only
+        # method_of_victory and silently dropped the distance market, so an
+        # empty catalogue could not be read as "nothing is offered".
+        self.assertEqual(prop_keys(payload),
+                         ["fight_to_go_distance", "method_of_victory"])
+
+    def test_catalogue_records_totals_which_no_term_filter_would_match(self):
+        payload = {"bookmakers": [
+            {"markets": [{"key": "h2h"}, {"key": "totals"}]},
+            {"markets": [{"key": "totals"}]},
+        ]}
+        self.assertEqual(market_book_counts(payload), {"h2h": 1, "totals": 2})
+        self.assertIn("totals", prop_keys(payload))
+
+    def test_book_depth_counts_books_not_market_entries(self):
+        # One book quoting several lines of the same market is still one book,
+        # and the three-paired-book minimum counts books.
+        payload = {"bookmakers": [
+            {"markets": [{"key": "totals"}, {"key": "totals"}]},
+        ]}
+        self.assertEqual(market_book_counts(payload)["totals"], 1)
 
 
 if __name__ == "__main__":
