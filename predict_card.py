@@ -110,7 +110,43 @@ def leader_gap_for_pick(leader_prob_a, follower_prob_a, pick_a):
     return leader, follower, gap
 
 
-def quote_quality(books, age_minutes, source, market_pick, execution_pick):
+# Bouts on one card start within a few hours of each other; separate cards are
+# separated by the better part of a day. Eight hours splits them cleanly and
+# does not depend on a UTC calendar boundary that falls mid-evening in the US.
+EVENT_GAP_HOURS = 8.0
+
+
+def event_groups(starts):
+    """Cluster scheduled start times into cards.
+
+    The event-day stake cap needs to know what an event is. Using the UTC date
+    made a card starting 00:20 UTC and one starting 21:10 UTC the same "day",
+    so two separate shows shared one 2-unit cap - which happened on
+    2026-08-08, where a Friday-night US card and the Saturday card both landed
+    on UTC 08-08.
+    """
+    order = sorted(range(len(starts)), key=lambda i: (starts[i] or ""))
+    groups = [0] * len(starts)
+    label, previous = 0, None
+    for position in order:
+        current = starts[position]
+        moment = None
+        if current:
+            try:
+                moment = pd.Timestamp(str(current).replace("Z", "+00:00"))
+            except (TypeError, ValueError):
+                moment = None
+        if moment is not None and previous is not None:
+            if (moment - previous).total_seconds() / 3600.0 > EVENT_GAP_HOURS:
+                label += 1
+        groups[position] = label
+        if moment is not None:
+            previous = moment
+    return [f"event-{g}" for g in groups]
+
+
+def quote_quality(books, age_minutes, source, market_pick, execution_pick,
+                  identity_resolved=True):
     """Return ``(ok, reason)`` for a live quote, before the edge rule applies.
 
     ``market_pick`` is the de-vigged paired-book consensus for the picked side
@@ -119,6 +155,14 @@ def quote_quality(books, age_minutes, source, market_pick, execution_pick):
     more probability than the consensus. A price implying materially less is a
     broken quote at one book rather than a line-shopping gain.
     """
+    # A fighter with no UFCStats identity gets neutral career features, which
+    # is the model saying "I know nothing" - and a fight priced on that is a
+    # fight priced as though both corners were debutants. 29% of scored
+    # snapshots involve one. None has ever become a trade, but only because
+    # non-UFC bouts usually draw fewer than three books, which is incidental
+    # rather than a control. This makes it a control.
+    if not identity_resolved:
+        return False, "unresolved fighter identity"
     stale = (age_minutes is not None and age_minutes > MAX_ODDS_AGE_MINUTES
              and str(source).startswith("the-odds-api"))
     if stale:
@@ -217,8 +261,11 @@ def predict_upcoming(up):
         consensus_opp_price = ob if pick_a else oa
         market_pick = p_line if pick_a else 1.0 - p_line
         execution_pick = execution_pa if pick_a else execution_pb
+        resolved_a = not str(r.get("fighter_a_id", "")).startswith("unresolved:")
+        resolved_b = not str(r.get("fighter_b_id", "")).startswith("unresolved:")
         quality_ok, quality_reason = quote_quality(
-            books, age_minutes, source, market_pick, execution_pick
+            books, age_minutes, source, market_pick, execution_pick,
+            identity_resolved=resolved_a and resolved_b,
         )
         leader_prob, follower_prob, leader_gap = leader_gap_for_pick(
             _optional_number(r.get("leader_prob_a")),
@@ -267,13 +314,19 @@ def predict_upcoming(up):
             "meta": f"{_clean_meta(r.get('weightclass'))} | {r['date']}",
         })
     if out:
+        for item, group in zip(out, event_groups(
+                [item.get("scheduled_start") or item.get("date") for item in out])):
+            item["event_group"] = group
         allocation_net = np.array([
             item["_net_raw"] if item["_quality_ok"] else -np.inf
             for item in out
         ])
         stakes = allocate_stakes(
             allocation_net,
-            groups=np.array([item["date"] for item in out]),
+            # Group by event, not by UTC date. A card starting 00:20 UTC and
+            # one starting 21:10 UTC are different events on the same UTC day,
+            # and grouping them shared one 2-unit cap between two shows.
+            groups=np.array([item["event_group"] for item in out]),
             group_cap=EVENT_DAY_STAKE_CAP,
         )
         for item, stake in zip(out, stakes):

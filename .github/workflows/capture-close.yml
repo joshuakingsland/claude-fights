@@ -19,6 +19,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
+        with:
+          # The rebase before pushing needs a merge base, which a
+          # depth-1 checkout does not have.
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12.13"
@@ -32,4 +36,5 @@ jobs:
           git config user.email "actions@github.com"
           if [ -f close_snapshots.csv ]; then git add close_snapshots.csv; fi
           git diff --cached --quiet || git commit -m "capture standardized pre-fight odds"
+          git pull --rebase --autostash origin main
           git push

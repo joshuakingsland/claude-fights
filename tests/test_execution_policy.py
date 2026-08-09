@@ -3,10 +3,12 @@ import unittest
 import numpy as np
 import pandas as pd
 
+import promotion_tiers
+import rankings
 from config import MAX_EXECUTION_DEVIATION
 from paper_ledger import SNAPSHOT_FIELDS, _snapshot_row
-from predict_card import (_clean_meta, execution_ladder, leader_gap_for_pick,
-                          quote_quality)
+from predict_card import (_clean_meta, event_groups, execution_ladder,
+                          leader_gap_for_pick, quote_quality)
 from production import allocate_stakes
 
 
@@ -68,6 +70,135 @@ class QuoteQualityTests(unittest.TestCase):
         ok, reason = quote_quality(None, 999.0, "manual_or_unknown", 0.60, 0.62)
         self.assertTrue(ok)
         self.assertEqual(reason, "")
+
+
+class IdentityGateTests(unittest.TestCase):
+    """A fighter with no UFCStats identity gets neutral career features.
+
+    Pricing a bout on that is pricing it as though both corners were
+    debutants. 29% of scored snapshots involve one; none became a trade only
+    because non-UFC bouts usually draw fewer than three books, which is
+    incidental rather than a control.
+    """
+
+    SOURCE = "the-odds-api-paired-book-devig-v1"
+
+    def test_unresolved_identity_is_rejected_outright(self):
+        ok, reason = quote_quality(8, 1.0, self.SOURCE, 0.60, 0.62,
+                                   identity_resolved=False)
+        self.assertFalse(ok)
+        self.assertEqual(reason, "unresolved fighter identity")
+
+    def test_identity_outranks_the_other_quality_reasons(self):
+        # Thin books AND unresolved: the identity problem is the real one.
+        self.assertEqual(
+            quote_quality(1, 1.0, self.SOURCE, 0.60, 0.62,
+                          identity_resolved=False)[1],
+            "unresolved fighter identity")
+
+    def test_resolved_identity_still_passes(self):
+        self.assertTrue(quote_quality(8, 1.0, self.SOURCE, 0.60, 0.62,
+                                      identity_resolved=True)[0])
+
+    def test_default_is_resolved_so_manual_rows_are_unaffected(self):
+        self.assertTrue(quote_quality(None, None, "manual", 0.60, 0.62)[0])
+
+
+class EventGroupingTests(unittest.TestCase):
+    """The stake cap needs an event, and a UTC date is not one."""
+
+    def test_two_cards_on_one_utc_date_are_separate_events(self):
+        # Observed 2026-08-08: a Friday-night US card at 00:20-03:50 UTC and
+        # the Saturday card at 21:10-23:40 UTC shared one UTC calendar date.
+        groups = event_groups(["2026-08-08T00:20:00Z", "2026-08-08T03:50:00Z",
+                               "2026-08-08T21:10:00Z", "2026-08-08T23:40:00Z"])
+        self.assertEqual(groups[0], groups[1])
+        self.assertEqual(groups[2], groups[3])
+        self.assertNotEqual(groups[0], groups[2])
+
+    def test_one_card_spanning_midnight_utc_stays_one_event(self):
+        groups = event_groups(["2026-08-08T22:00:00Z", "2026-08-09T01:30:00Z"])
+        self.assertEqual(groups[0], groups[1])
+
+    def test_input_order_does_not_change_the_grouping(self):
+        starts = ["2026-08-08T23:40:00Z", "2026-08-08T00:20:00Z",
+                  "2026-08-08T21:10:00Z"]
+        groups = dict(zip(starts, event_groups(starts)))
+        self.assertEqual(groups["2026-08-08T21:10:00Z"],
+                         groups["2026-08-08T23:40:00Z"])
+        self.assertNotEqual(groups["2026-08-08T00:20:00Z"],
+                            groups["2026-08-08T21:10:00Z"])
+
+    def test_missing_start_times_do_not_crash(self):
+        self.assertEqual(len(event_groups(["", None, "2026-08-08T21:00:00Z"])), 3)
+
+
+class DeclaredTierTests(unittest.TestCase):
+    """Supplied letter grades stay supplied.
+
+    The premise is the operator's: UFC alone at the top, PFL and Bellator a
+    tier down, KSW and Rizin named below them, everything else unranked. The
+    risk is that a declared letter and a measured gap get confused for one
+    another later, so the test pins that they never touch.
+    """
+
+    def test_supplied_ladder_is_returned_verbatim(self):
+        self.assertEqual(promotion_tiers.declared_tier("UFC"), "S")
+        self.assertEqual(promotion_tiers.declared_tier("PFL"), "A")
+        self.assertEqual(promotion_tiers.declared_tier("Bellator"), "A")
+        self.assertEqual(promotion_tiers.declared_tier("KSW"), "C")
+        self.assertEqual(promotion_tiers.declared_tier("Rizin"), "C")
+
+    def test_everything_else_falls_to_the_default(self):
+        self.assertEqual(promotion_tiers.declared_tier("KOTC"), "D")
+        self.assertEqual(promotion_tiers.declared_tier("Oktagon MMA"), "D")
+        self.assertEqual(promotion_tiers.declared_tier(""), "D")
+        self.assertEqual(promotion_tiers.declared_tier(None), "D")
+
+    def test_tier_does_not_track_the_measured_gap(self):
+        # Rizin is declared C and measures softer than PFL's A; LFA is
+        # declared D and measures harder than KOTC's D. A letter must never
+        # be back-solved from a gap, so ordering by one must not order the
+        # other.
+        bouts = [("a", "b", "UFC"), ("b", "a", "UFC"),
+                 ("a", "c", "KOTC"), ("a", "d", "KOTC")]
+        frame = promotion_tiers.compare(bouts, min_shared=1, min_bouts=2)
+        row = frame[frame["promotion"] == "KOTC"].iloc[0]
+        self.assertEqual(row["declared_tier"], "D")
+        self.assertGreater(row["mean_gap_vs_ufc"], 0.0)
+
+
+class PromotionFamilyTests(unittest.TestCase):
+    """Sherdog names one promotion many ways; a split promotion vanishes.
+
+    Rizin's 65 bouts were spread over four event-family names, none of which
+    reached the five-shared-fighter minimum, so it never appeared in the tier
+    table at all despite being one of the two the operator named at C.
+    """
+
+    def test_event_families_fold_into_one_organisation(self):
+        for name in ("Rizin", "Rizin FF", "Rizin Fighting Federation",
+                     "Rizin Fighting World Grand Prix"):
+            self.assertEqual(rankings.collapse_promotion(name), "Rizin")
+        self.assertEqual(rankings.collapse_promotion("PFL Super Fights"), "PFL")
+        self.assertEqual(
+            rankings.collapse_promotion("Professional Fighters League"), "PFL")
+        self.assertEqual(rankings.collapse_promotion("KSW Epic"), "KSW")
+        self.assertEqual(rankings.collapse_promotion("UFC Fight Night"), "UFC")
+
+    def test_similar_names_from_other_promotions_are_left_alone(self):
+        # Real entries in the crawl that a loose substring match would eat.
+        self.assertEqual(
+            rankings.collapse_promotion("Professional Fighters Combat"),
+            "Professional Fighters Combat")
+        self.assertEqual(rankings.collapse_promotion("Alash Pride"),
+                         "Alash Pride")
+        self.assertEqual(rankings.collapse_promotion("One Pride MMA Fight Night"),
+                         "One Pride MMA Fight Night")
+
+    def test_blank_promotion_does_not_crash(self):
+        self.assertEqual(rankings.collapse_promotion(None), "")
+        self.assertEqual(rankings.collapse_promotion(""), "")
 
 
 class ExecutionPolicyTests(unittest.TestCase):

@@ -45,10 +45,19 @@ import pandas as pd
 
 from identity import norm_name
 
-# Sherdog splits the UFC across event families. Left uncollapsed they become
-# separate promotions and the strongest anchor is fragmented three ways.
-UFC_PATTERN = re.compile(r"^ufc\b|ultimate fighting championship", re.I)
-BELLATOR_PATTERN = re.compile(r"^bellator\b", re.I)
+# Sherdog splits promotions across event families. Left uncollapsed they become
+# separate organisations and the strongest anchor is fragmented three ways.
+# Rizin is the worst case: 65 bouts split four ways, none of which clears the
+# shared-fighter minimum alone, so the promotion silently disappears from the
+# tier table. The patterns are anchored to avoid false folds - "Professional
+# Fighters Combat" is not the PFL, and "Alash Pride" is not Pride.
+FAMILY_PATTERNS = (
+    ("UFC", re.compile(r"^ufc\b|ultimate fighting championship", re.I)),
+    ("Bellator", re.compile(r"^bellator\b", re.I)),
+    ("PFL", re.compile(r"^pfl\b|^professional fighters league\b", re.I)),
+    ("Rizin", re.compile(r"^rizin\b", re.I)),
+    ("KSW", re.compile(r"^ksw\b", re.I)),
+)
 DECISIVE = {"win", "loss"}
 
 # Pseudo-bouts against an average opponent. Higher values pull short records
@@ -60,10 +69,9 @@ MIN_BOUTS_FOR_TIER = 25
 def collapse_promotion(name):
     """Fold event families into one organisation."""
     text = str(name or "").strip()
-    if UFC_PATTERN.search(text):
-        return "UFC"
-    if BELLATOR_PATTERN.search(text):
-        return "Bellator"
+    for canonical, pattern in FAMILY_PATTERNS:
+        if pattern.search(text):
+            return canonical
     return text
 
 

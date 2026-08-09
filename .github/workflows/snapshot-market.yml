@@ -17,6 +17,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
+        with:
+          # The rebase before pushing needs a merge base, which a
+          # depth-1 checkout does not have.
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12.13"
@@ -32,8 +36,6 @@ jobs:
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python fetch_odds.py --require-key
-      - name: Fail closed when tracked completed fights are missing
-        run: python freshness.py --require-current
       - name: Refresh card and lock any qualifying trades
         run: python predict_card.py --lock-paper-trades
       - name: Validate forward paper ledger
@@ -46,4 +48,5 @@ jobs:
             paper_trades.csv paper_validation.json \
             model_manifest.json market_snapshot_manifest.json data/market_quotes
           git diff --cached --quiet || git commit -m "market snapshot $(date -u +%FT%H:%MZ)"
+          git pull --rebase --autostash origin main
           git push

@@ -1,9 +1,22 @@
 {
   "bouts": 22672,
-  "promotions_sharing_a_fighter": 182,
-  "promotions_reportable": 6,
+  "promotions_sharing_a_fighter": 180,
+  "promotions_reportable": 7,
   "min_shared_fighters": 5,
   "anchor": "UFC",
   "reading": "Positive gap means the same fighter wins more often in that promotion than in the UFC, i.e. softer opposition.",
-  "caveat": "Whole-career, not point-in-time. Descriptive only; not a model feature in this form."
+  "caveat": "Whole-career, not point-in-time. Descriptive only; not a model feature in this form.",
+  "declared_tiers": {
+    "UFC": "S",
+    "PFL": "A",
+    "Bellator": "A",
+    "KSW": "C",
+    "Rizin": "C"
+  },
+  "default_tier": "D",
+  "tier_source": "operator-declared",
+  "tier_caveat": "Tiers are supplied, not estimated. No letter is derived from mean_gap_vs_ufc and no gap is adjusted to match a letter.",
+  "declared_without_measurement": [
+    "KSW"
+  ]
 }

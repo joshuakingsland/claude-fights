@@ -17,6 +17,10 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
+        with:
+          # The rebase before pushing needs a merge base, which a
+          # depth-1 checkout does not have.
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12.13"
@@ -59,4 +63,5 @@ jobs:
           if [ -f drift_report.json ]; then git add drift_report.json; fi
           if [ -f staking_validation.json ]; then git add staking_validation.json; fi
           git diff --cached --quiet || git commit -m "auto-update $(date -u +%F)"
+          git pull --rebase --autostash origin main
           git push
