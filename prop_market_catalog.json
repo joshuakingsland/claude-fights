@@ -1,14 +1,33 @@
 {
-  "captured_at": "2026-08-09T08:37:24Z",
+  "captured_at": "2026-08-09T08:40:06Z",
   "available_events": 40,
-  "discovery_requests": 12,
-  "request_cap": 12,
+  "discovery_requests": 10,
+  "request_cap": 10,
+  "regions": "eu,uk,au",
   "market_summary": [
     {
       "market": "h2h",
-      "events_offering": 12,
+      "events_offering": 10,
       "events_share": 1.0,
-      "max_books_on_one_event": 7
+      "max_books_on_one_event": 24
+    },
+    {
+      "market": "h2h_3_way",
+      "events_offering": 9,
+      "events_share": 0.9,
+      "max_books_on_one_event": 1
+    },
+    {
+      "market": "totals",
+      "events_offering": 7,
+      "events_share": 0.7,
+      "max_books_on_one_event": 1
+    },
+    {
+      "market": "double_chance",
+      "events_offering": 1,
+      "events_share": 0.1,
+      "max_books_on_one_event": 1
     }
   ],
   "events": [
@@ -18,7 +37,7 @@
       "fighter_a": "Tom Pagliarulo",
       "fighter_b": "Ananias Mulumba",
       "market_book_counts": {
-        "h2h": 1
+        "h2h": 4
       },
       "prop_market_keys": []
     },
@@ -28,9 +47,14 @@
       "fighter_a": "Charles Johnson",
       "fighter_b": "Jose Ochoa",
       "market_book_counts": {
-        "h2h": 5
+        "double_chance": 1,
+        "h2h": 15,
+        "h2h_3_way": 1
       },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "double_chance",
+        "h2h_3_way"
+      ]
     },
     {
       "event_id": "40af566aa397915b97bb548306e7705f",
@@ -38,9 +62,14 @@
       "fighter_a": "Chidi Njokuani",
       "fighter_b": "Joel Alvarez",
       "market_book_counts": {
-        "h2h": 7
+        "h2h": 20,
+        "h2h_3_way": 1,
+        "totals": 1
       },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "h2h_3_way",
+        "totals"
+      ]
     },
     {
       "event_id": "805976a72d1093dd27badd8e8a3253b6",
@@ -48,9 +77,14 @@
       "fighter_a": "Donte Johnson",
       "fighter_b": "Eric McConico",
       "market_book_counts": {
-        "h2h": 7
+        "h2h": 19,
+        "h2h_3_way": 1,
+        "totals": 1
       },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "h2h_3_way",
+        "totals"
+      ]
     },
     {
       "event_id": "d89d78ff55589a34462231b601272171",
@@ -58,9 +92,14 @@
       "fighter_a": "Mansur Abdul-Malik",
       "fighter_b": "Dustin Stoltzfus",
       "market_book_counts": {
-        "h2h": 6
+        "h2h": 23,
+        "h2h_3_way": 1,
+        "totals": 1
       },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "h2h_3_way",
+        "totals"
+      ]
     },
     {
       "event_id": "e0b0c90b1be12f3b4eed7fc6d03378b2",
@@ -68,9 +107,14 @@
       "fighter_a": "Edson Barboza",
       "fighter_b": "Esteban Ribovics",
       "market_book_counts": {
-        "h2h": 7
+        "h2h": 24,
+        "h2h_3_way": 1,
+        "totals": 1
       },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "h2h_3_way",
+        "totals"
+      ]
     },
     {
       "event_id": "8cde6c248e3ef2cf491263061d0eab51",
@@ -78,9 +122,12 @@
       "fighter_a": "Jalin Turner",
       "fighter_b": "Kau\u00ea Fernandes",
       "market_book_counts": {
-        "h2h": 6
+        "h2h": 20,
+        "h2h_3_way": 1
       },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "h2h_3_way"
+      ]
     },
     {
       "event_id": "254a3851cc1b6715f5139de1d38c744a",
@@ -88,9 +135,14 @@
       "fighter_a": "Jeremiah Wells",
       "fighter_b": "Myktybek Orolbai",
       "market_book_counts": {
-        "h2h": 7
+        "h2h": 20,
+        "h2h_3_way": 1,
+        "totals": 1
       },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "h2h_3_way",
+        "totals"
+      ]
     },
     {
       "event_id": "139d4c369a7daf9ab5253a4b37336d84",
@@ -98,9 +150,14 @@
       "fighter_a": "Rafael Tobias",
       "fighter_b": "Lucas Fernando",
       "market_book_counts": {
-        "h2h": 6
+        "h2h": 18,
+        "h2h_3_way": 1,
+        "totals": 1
       },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "h2h_3_way",
+        "totals"
+      ]
     },
     {
       "event_id": "fe1b44a73c88b5e32f186f3225ebb173",
@@ -108,29 +165,14 @@
       "fighter_a": "Neil Magny",
       "fighter_b": "Ramiz Brahimaj",
       "market_book_counts": {
-        "h2h": 7
+        "h2h": 23,
+        "h2h_3_way": 1,
+        "totals": 1
       },
-      "prop_market_keys": []
-    },
-    {
-      "event_id": "0d0fc8fe27c5269b38ff657f8a5daff9",
-      "commence_time": "2026-08-16T02:00:00Z",
-      "fighter_a": "Vicente Luque",
-      "fighter_b": "Tresean Gore",
-      "market_book_counts": {
-        "h2h": 7
-      },
-      "prop_market_keys": []
-    },
-    {
-      "event_id": "c402e0bce0b73aabf9601b453bfd0725",
-      "commence_time": "2026-08-16T02:45:00Z",
-      "fighter_a": "Mackenzie Dern",
-      "fighter_b": "Gillian Robertson",
-      "market_book_counts": {
-        "h2h": 7
-      },
-      "prop_market_keys": []
+      "prop_market_keys": [
+        "h2h_3_way",
+        "totals"
+      ]
     }
   ],
   "note": "Market-key discovery only; no prices are fetched. Every key offered is recorded, not a term-matched subset."
