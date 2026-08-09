@@ -15,6 +15,14 @@ Every key is recorded now, with the number of books offering it. The book
 count is the part that decides anything: the moneyline already loses most
 fights to the three-paired-book minimum, and a market quoted by one book is
 not tradable no matter how attractive the model finds it.
+
+The first run of the fixed version, over 12 events in the `us` region on
+2026-08-09, found exactly one key: `h2h`, on up to 7 books. So the blind spot
+was real but was not concealing anything - no US book exposes a method,
+distance, or totals market for MMA through this API. Region is a parameter
+now rather than a hardcoded "us", because that is the remaining thing worth
+testing before concluding the markets are unreachable rather than just
+unreachable from one region.
 """
 
 import argparse
@@ -60,7 +68,8 @@ def prop_keys(payload):
     return sorted(k for k in market_book_counts(payload) if k != "h2h")
 
 
-def run(key, max_requests=0, output="prop_market_catalog.json", fetcher=_fetch):
+def run(key, max_requests=0, output="prop_market_catalog.json", fetcher=_fetch,
+        regions="us"):
     if not key:
         raise SystemExit("ODDS_API_KEY is required for prop discovery.")
     events = fetcher(f"/sports/{SPORT}/events", key)
@@ -70,7 +79,7 @@ def run(key, max_requests=0, output="prop_market_catalog.json", fetcher=_fetch):
     depth = Counter()
     for event in events[:cap]:
         payload = fetcher(
-            f"/sports/{SPORT}/events/{event['id']}/markets", key, regions="us"
+            f"/sports/{SPORT}/events/{event['id']}/markets", key, regions=regions
         )
         counts = market_book_counts(payload)
         for market, books in counts.items():
@@ -98,6 +107,7 @@ def run(key, max_requests=0, output="prop_market_catalog.json", fetcher=_fetch):
         "available_events": len(events),
         "discovery_requests": cap,
         "request_cap": int(max_requests),
+        "regions": regions,
         "market_summary": summary,
         "events": discoveries,
         "note": ("Market-key discovery only; no prices are fetched. Every key "
@@ -112,8 +122,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--max-requests", type=int, default=0)
     parser.add_argument("--output", default="prop_market_catalog.json")
+    parser.add_argument("--regions", default="us",
+                        help="comma-separated Odds API regions; each region "
+                             "billed separately per request")
     args = parser.parse_args()
-    run(os.environ.get("ODDS_API_KEY"), args.max_requests, args.output)
+    run(os.environ.get("ODDS_API_KEY"), args.max_requests, args.output,
+        regions=args.regions)
 
 
 if __name__ == "__main__":

@@ -7,6 +7,10 @@ on:
         description: "Maximum event-market discovery requests (0 spends none)"
         required: true
         default: "0"
+      regions:
+        description: "Odds API regions, comma separated. Each region is billed separately per request."
+        required: false
+        default: "us"
 
 permissions:
   contents: write
@@ -31,7 +35,10 @@ jobs:
       - name: Discover capped event market keys
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-        run: python discover_prop_markets.py --max-requests "${{ inputs.max_requests }}"
+        run: |
+          python discover_prop_markets.py \
+            --max-requests "${{ inputs.max_requests }}" \
+            --regions "${{ inputs.regions }}"
       - name: Commit aggregate market catalog
         run: |
           git config user.name "fight-ledger-bot"
