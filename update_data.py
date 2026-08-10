@@ -66,14 +66,17 @@ def _fighter_ids(frame):
 
 
 def _fight_keys(frame):
-    required = {"event", "fighter_a_id", "fighter_b_id"}
+    required = {"date", "fighter_a_id", "fighter_b_id"}
     if not required.issubset(frame.columns):
         return set()
+    dates = pd.to_datetime(frame["date"], errors="coerce")
     keys = set()
-    for event, fighter_a_id, fighter_b_id in zip(
-            frame["event"], frame["fighter_a_id"], frame["fighter_b_id"]):
+    for date, fighter_a_id, fighter_b_id in zip(
+            dates, frame["fighter_a_id"], frame["fighter_b_id"]):
+        if pd.isna(date):
+            continue
         fighters = sorted((str(fighter_a_id).strip(), str(fighter_b_id).strip()))
-        keys.add(f"{str(event).strip()}|{fighters[0]}|{fighters[1]}")
+        keys.add(f"{date.date()}|{fighters[0]}|{fighters[1]}")
     return keys
 
 

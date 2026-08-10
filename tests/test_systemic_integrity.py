@@ -160,7 +160,7 @@ class FreshnessAndCaptureTests(unittest.TestCase):
         new = pd.DataFrame([
             {"date": "2025-01-01", "event": "Card One",
              "fighter_a_id": "a", "fighter_b_id": "b"},
-            {"date": "2025-02-01", "event": "Different Card",
+            {"date": "2025-02-02", "event": "Card Two",
              "fighter_a_id": "a", "fighter_b_id": "c"},
         ])
         errors = _regression_errors(new, old)

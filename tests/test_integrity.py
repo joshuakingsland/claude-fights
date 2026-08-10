@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from freshness import assess_freshness
-from update_data import _dedupe_event_aliases
+from update_data import _dedupe_event_aliases, _regression_errors
 from paper_ledger import (lock_paper_trades, record_prediction_snapshots,
                           settle_completed)
 from production import (DIFF_FEATURES, MODEL_FEATURES, event_seed, fit_ensemble,
@@ -257,6 +257,17 @@ class DataRefreshTests(unittest.TestCase):
         ])
         with self.assertRaises(ValueError):
             _dedupe_event_aliases(frame)
+
+    def test_event_alias_rename_is_not_a_dropped_historical_fight(self):
+        old = pd.DataFrame([{
+            "date": "2026-08-08", "event": "UFC Fight Night: Lopes vs. Silva",
+            "fighter_a_id": "a", "fighter_b_id": "b",
+        }])
+        new = pd.DataFrame([{
+            "date": "2026-08-08", "event": "Noche UFC: Lopes vs. Silva",
+            "fighter_a_id": "b", "fighter_b_id": "a",
+        }])
+        self.assertEqual(_regression_errors(new, old), [])
 
 
 class FreshnessTests(unittest.TestCase):
