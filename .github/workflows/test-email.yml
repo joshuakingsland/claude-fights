@@ -1,5 +1,7 @@
 name: Test email notification
 
+# New commit loads the latest repository secrets.
+
 on:
   workflow_dispatch:
   push:
