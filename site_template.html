@@ -108,8 +108,9 @@ const summary=__SUMMARY__;
 const maxOddsAgeMinutes=__MAX_ODDS_AGE__;
 const productionChips=[["rule","net edge > 4 pts"],["staking","paper 1u | max 2u/day"],
   ["pricing","consensus model | best-book execution"],["last 120d",`${summary.n||0} bets | ${(summary.pnl>=0?"+":"")}${summary.pnl||0}u`]];
+function esc(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 document.getElementById("chips").innerHTML=productionChips.map(([k,v],i)=>
-  `<div class="chip ${i===0||i===3?"gold":""}">${k} <b>${v}</b></div>`).join("");
+  `<div class="chip ${i===0||i===3?"gold":""}">${esc(k)} <b>${esc(v)}</b></div>`).join("");
 function signed(value){return Number(value)>0?`+${value}`:`${value}`}
 function oddsAgeMinutes(f){const time=Date.parse(f.odds_fetched_at||"");return Number.isFinite(time)?Math.max(0,(Date.now()-time)/60000):null}
 function fresh(f){const age=oddsAgeMinutes(f);return age===null||age<=maxOddsAgeMinutes}
@@ -119,14 +120,14 @@ function row(f){
   const tag=active?`<span class="tag yes">PAPER | ${f.stake||1}U</span>`:
     isStale?`<span class="tag stale">STALE PRICE</span>`:
     f.qualified?`<span class="tag no">DAY CAP</span>`:`<span class="tag no">PASS</span>`;
-  const books=f.market_books?`${f.market_books} books`:"books unknown";
+  const books=f.market_books?`${esc(f.market_books)} books`:"books unknown";
   const spread=f.market_spread!==null&&f.market_spread!==undefined?` | spread ${Number(f.market_spread).toFixed(1)} pts${f.market_warning?" WIDE":""}`:"";
-  const fetched=f.odds_fetched_at?` | ${f.odds_fetched_at.replace("T"," ").replace("Z"," UTC")}`:"";
+  const fetched=f.odds_fetched_at?` | ${esc(String(f.odds_fetched_at).replace("T"," ").replace("Z"," UTC"))}`:"";
   const ladder=f.ladder||{};
   return `<div class="fight ${active?"bet":""}"><div class="who">
-    <div class="name pick">${f.pick} <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">${f.execution_price||f.price}</span></div>
-    <div class="vs">vs</div><div class="name" style="font-weight:500;color:var(--muted)">${f.opp}</div>
-    <div class="meta">${f.meta}</div><div class="quote">${f.execution_book||"consensus"} best | consensus ${f.consensus_price||f.price}/${f.consensus_opp_price||"?"} | ${books}${spread}${fetched}</div></div>
+    <div class="name pick">${esc(f.pick)} <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">${esc(f.execution_price||f.price)}</span></div>
+    <div class="vs">vs</div><div class="name" style="font-weight:500;color:var(--muted)">${esc(f.opp)}</div>
+    <div class="meta">${esc(f.meta)}</div><div class="quote">${esc(f.execution_book||"consensus")} best | consensus ${esc(f.consensus_price||f.price)}/${esc(f.consensus_opp_price||"?")} | ${books}${spread}${fetched}</div></div>
     <div class="gauge"><div class="rail"></div><div class="mid"></div><div class="edgeband" style="left:${lo}%;width:0%" data-w="${hi-lo}"></div>
     <div class="mark" style="left:${f.market}%"></div><div class="mark model" style="left:${f.market}%" data-x="${f.model}"></div>
     <div class="glabel top" style="left:${f.market}%">mkt <span class="v">${f.market.toFixed(0)}%</span></div>
@@ -134,7 +135,7 @@ function row(f){
     <div class="verdict"><div class="edge">${f.net>0?"+":""}${f.net.toFixed(1)} net</div>${tag}<div class="thresholds">
     ${ladder["1u"]!==undefined?`1U through <span style="color:var(--text)">${signed(ladder["1u"])}</span><br>`:""}
     ${ladder["2u_candidate"]!==undefined?`2U research at <span style="color:var(--faint)">${signed(ladder["2u_candidate"])}</span><br>`:""}
-    ${f.eligibility_reason||"pass"}</div>${f.props?`<div class="props">fair pick: DEC ${signed(f.props.pick_DEC)} | KO ${signed(f.props.pick_KO)} | SUB ${signed(f.props.pick_SUB)}<br>
+    ${esc(f.eligibility_reason||"pass")}</div>${f.props?`<div class="props">fair pick: DEC ${signed(f.props.pick_DEC)} | KO ${signed(f.props.pick_KO)} | SUB ${signed(f.props.pick_SUB)}<br>
     fair opp: DEC ${signed(f.props.opp_DEC)} | KO ${signed(f.props.opp_KO)} | SUB ${signed(f.props.opp_SUB)}</div>`:""}${f.rounds?`<div class="props">
     distance ${signed(f.rounds.distance)} <span class="pc">${f.rounds.distance_pct.toFixed(0)}%</span> | finish ${signed(f.rounds.finish)}<br>
     ${f.rounds.totals.map(t=>`O${t.line} ${signed(t.over)} / U ${signed(t.under)}`).join(" | ")}
@@ -145,8 +146,8 @@ document.getElementById("bets").innerHTML=bets.length?bets.map(row).join(""):
   `<div style="padding:24px 14px;color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:13px">No fresh price clears the allocation policy.</div>`;
 document.getElementById("nbets").textContent=`${bets.length} of ${upcoming.length} | ${bets.reduce((n,f)=>n+(f.stake||0),0)}u allocated`;
 document.getElementById("passes").innerHTML=upcoming.filter(f=>!activeSignal(f)).sort((a,b)=>b.net-a.net).map(row).join("");
-document.getElementById("recent").innerHTML=recent.map(r=>`<tr class="${r.bet?"wasbet":""}"><td>${r.date}</td>
-  <td class="pick">${r.pick}</td><td>${r.model}%</td><td>${r.edge>0?"+":""}${r.edge}</td>
+document.getElementById("recent").innerHTML=recent.map(r=>`<tr class="${r.bet?"wasbet":""}"><td>${esc(r.date)}</td>
+  <td class="pick">${esc(r.pick)}</td><td>${r.model}%</td><td>${r.edge>0?"+":""}${r.edge}</td>
   <td class="${r.won?"w":"l"}">${r.won?"WIN":"LOSS"}</td></tr>`).join("");
 document.getElementById("recsum").textContent=summary.n?`${summary.n} paper bets | ${summary.pnl>=0?"+":""}${summary.pnl}u | ${summary.roi}% ROI`:"no settled paper bets";
 requestAnimationFrame(()=>{document.querySelectorAll(".mark.model").forEach(el=>el.style.left=el.dataset.x+"%");
