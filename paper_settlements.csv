@@ -1,3 +1,5 @@
 trade_id,settled_at,result,pnl,closing_price,closing_market,clv_prob,closing_source
 8a2b94943b105e3f024f,2026-08-05T18:49:31Z,WIN,0.510204,,,,
 274a675dd68df56262fb,2026-08-05T18:49:31Z,LOSS,-1.0,+130,41.858771,2.058771,standardized-t30
+28cc78f42e8f0cd44592,2026-08-10T18:10:09Z,LOSS,-1.0,+275,25.681459,-1.818541,standardized-t30
+4433e0cb0d4d1e05c7f8,2026-08-10T18:10:09Z,WIN,0.662252,-155,58.756423,-0.643577,standardized-t30

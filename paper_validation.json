@@ -1,11 +1,11 @@
 {
   "official_trades": 4,
-  "settled": 2,
-  "staked": 2.0,
-  "pnl": -0.4898,
-  "roi": -0.244898,
-  "mean_clv_prob_points": 2.0588,
-  "positive_clv_rate": 0.5,
+  "settled": 4,
+  "staked": 4.0,
+  "pnl": -0.8275,
+  "roi": -0.206886,
+  "mean_clv_prob_points": -0.1344,
+  "positive_clv_rate": 0.25,
   "by_staking_policy": {
     "paper-flat-1u-day-cap2-v1": {
       "official_trades": 2,
@@ -18,12 +18,12 @@
     },
     "paper-flat-1u-first-touch-cap2-v2": {
       "official_trades": 2,
-      "settled": 0,
-      "staked": 0.0,
-      "pnl": 0.0,
-      "roi": null,
-      "mean_clv_prob_points": null,
-      "positive_clv_rate": null
+      "settled": 2,
+      "staked": 2.0,
+      "pnl": -0.3377,
+      "roi": -0.168874,
+      "mean_clv_prob_points": -1.2311,
+      "positive_clv_rate": 0.0
     }
   },
   "status": "paper_only",

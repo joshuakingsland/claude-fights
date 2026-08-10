@@ -1,21 +1,20 @@
 {
-  "checked_at": "2026-08-09T08:52:46Z",
-  "results_through": "2026-08-01",
-  "days_since_latest_result": 8,
-  "status": "lagging",
-  "message": "1 completed tracked fight(s) await results",
-  "known_completed_missing": [
-    {
-      "date": "2026-08-08",
-      "fighter_a": "Louie Sutherland",
-      "fighter_b": "Jose Montanha"
-    }
-  ],
+  "checked_at": "2026-08-10T18:11:03Z",
+  "results_through": "2026-08-08",
+  "days_since_latest_result": 2,
+  "status": "current",
+  "message": "no completed tracked fights are missing",
+  "known_completed_missing": [],
   "known_cancelled": [
     {
       "date": "2026-07-25",
       "fighter_a": "Islam Dulatov",
       "fighter_b": "Wellington Turman"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Miles Johns",
+      "fighter_b": "Jessie Rosas"
     }
   ],
   "known_out_of_scope": [
@@ -128,6 +127,21 @@
       "date": "2026-08-01",
       "fighter_a": "Usman Nurmagomedov",
       "fighter_b": "Archie Colgan"
+    },
+    {
+      "date": "2026-08-09",
+      "fighter_a": "Ty Miller",
+      "fighter_b": "Billy Goff"
+    },
+    {
+      "date": "2026-08-09",
+      "fighter_a": "Carlos Diego Ferreira",
+      "fighter_b": "Billy Quarantillo"
+    },
+    {
+      "date": "2026-08-09",
+      "fighter_a": "Darren Elkins",
+      "fighter_b": "Yadier DelValle"
     },
     {
       "date": "2026-07-31",
@@ -248,6 +262,11 @@
       "date": "2026-08-07",
       "fighter_a": "Valentin Moldavsky",
       "fighter_b": "Bruno Cappelozza"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Giovanna Canuto",
+      "fighter_b": "Carol Foro"
     }
   ]
 }

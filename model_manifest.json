@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-10T13:44:02Z",
+  "created_at": "2026-08-10T18:11:03Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -21,7 +21,7 @@
   "bootstrap_models": 30,
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
-  "git_commit": "2b3133c444a7ad0fbbefe9fc779067c4bb02c75c",
+  "git_commit": "98cbcdc229473e575f08c808f57b2bd43cad68ad",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -30,10 +30,10 @@
     "scikit_learn": "1.8.0"
   },
   "inputs": {
-    "fights_v2.csv": "e609ffde8c575bb8912d0e848b8e90278c2e5536dffb46a4e7db1b48b12ceee4",
+    "fights_v2.csv": "36da1a7cf3feb4dd5aaffdeadbbc75feb96d6ff21bb7b03f3dc0077953caea93",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "0da16cf4ca50786f57586a17e44523ff1211df302158e63a90fecac91c3f709b",
-    "odds_log.csv": "0e90a415f0157b2927fd479b294c81639672667129037adffa49b049eda3d51a",
+    "odds_upcoming.csv": "f182bf0b25b81b0b1d33d18cf17616a324646aca201c1f4088c0aa3696a44033",
+    "odds_log.csv": "178c130863e493aa9c2ab525b950dd0f27c31a5790600d89121e367da857e800",
     "method_model.pkl": "a1f0f6c06b49c6855bfe24bdc3a3f92eb0dd75650b0a7a1151d7e067a592d957",
     "config.py": "497b3d20c781e5ab28f5f10286b32a0521efa3f5f4f10e7eb74b4fcea0bea0fb",
     "production.py": "69574c24b293d94113e82fd9fb1b1b7cd3b55383d61fcd75bdcc2c98904b8ea8",
@@ -43,27 +43,27 @@
     "elo.py": "37fb77e27cb6eb5c50d48260098198a2efcecfb6b3060d181df8ec6d5e54a818",
     "adapter.py": "1dcd9711b5ed9f6048b613acd0591c3fb5b4f71c86c0482c86cb3a7a55d30879",
     "pipeline.py": "ef579124957c954a9942b1628794424719f2877bb2ce0bf6fb10cac7bd53b591",
-    "predict_card.py": "d0a990f17c09bc93aef5efb9e705557083d8f626541dadde4bb57310aa9fa637",
+    "predict_card.py": "4d78269877f1ca53964e6b56eb54d3245da3a6e989fb1fb2c2c6dd82c91f50ef",
     "paper_ledger.py": "9da03e54b31030e7c345cb1d65f987a3e57b2fe8068d0deb8498511b8c5f1d41",
     "fetch_odds.py": "ca35491fbcd8356faaac08db67f19892d2ee81a2c99a3e6835990c682a6d892d",
-    "site_template.html": "5fac6627f56370e5bf2df6bcee533a2ad3e2c157742e205d30296caf50993373",
+    "site_template.html": "35e3e782a9c96edce076da59903820d722a0ac7054cc858a35bfd5697c5db1d1",
     "requirements.txt": "52c20d17a069ed0c738ea7eb78088b36ca360ea995e09da48639af1293043ad8",
     "identity.py": "dec21893641429c5f8993c68477640f405370e384d1aa5ccbe990f096e87193b",
     "data_quality.py": "0c0260f7f10ad7f8fd280f9be64d7fcb1cdb7eaeca04cb4325e4cef1dce0d7c4",
-    "freshness.py": "e416329dc251920d1f018d4b91b2e68bf576258b06b633cfb66c931ce89c4ff7",
-    "cancelled_fights.csv": "42ac320277a1f4018e9aef05f17ede9fd0895db7eb64c4023aea71677d2b2855",
+    "freshness.py": "e4015c11620642bd84d0a3a2c20c0c45810f73276daebefcb7439a7da5c6fc2e",
+    "cancelled_fights.csv": "71d1bb15fccbfd67b9ab29da039c62c2a471ddf26c92df4eab4a8495a18e5798",
     "capture_close.py": "deb45799e223e97e06547dab61ee68674ec47ec0f5d89ce72572df82089b75d1",
     "method_model.py": "dcef15fe84ce5876a542e9fa97d28f6a1773645bbc36679a6e023b303bf2dcde",
     "method_validation.json": "b257b9474f201986046218de0e6a0ee82c5a6e8ca771980f9697586f34b6ea6d",
     "close_snapshots.csv": "263979709d4514d9b355e2af7712946b4b131d1b55ee0116b18431c2bc239d49",
-    "data_source_manifest.json": "326193bd1177b17fda3acb52679df36265be22e419f8393be4bad9beb89aa8a6",
-    "raw/ufc_fighter_details.csv": "d0b6ad28591dff90e42ceb482e252ac517b20a4c9f4f05999800fe42934c9c29",
-    "market_snapshot_manifest.json": "c3504cef369e3af6d356944485dbe0f2059da1e1afba3ac0282b5b31148d8bb1",
+    "data_source_manifest.json": "7428fa2f744a977670771ff857fa2d59e79ffd4ba93f8308e8c6b582afe47a64",
+    "raw/ufc_fighter_details.csv": "a840de0c77f705d9b7d7326a7d0a7d1f6b5083466006a04f1cf02da3211a5183",
+    "market_snapshot_manifest.json": "5f3332efc92d5f6d975e27884339a8115cced0a1be1faca264e3e42cf59a5a63",
     "staking_validation.json": "6ad46231e2cfe3253a35af4c8695fbd75891545930778f1fbf209c102e2bd49c",
     "validate_staking.py": "00a38c45f20c58433ff03248071b1ccfd471c1297e2b75d2cfb563748b69f15b"
   },
   "rows": {
-    "fights": 8720,
-    "fight_date_max": "2026-08-01"
+    "fights": 8732,
+    "fight_date_max": "2026-08-08"
   }
 }
