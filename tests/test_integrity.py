@@ -5,6 +5,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from freshness import assess_freshness
+from update_data import _dedupe_event_aliases
 from paper_ledger import (lock_paper_trades, record_prediction_snapshots,
                           settle_completed)
 from production import (DIFF_FEATURES, MODEL_FEATURES, event_seed, fit_ensemble,
@@ -232,6 +234,49 @@ class LedgerIntegrityTests(unittest.TestCase):
             self.assertEqual(row["closing_source"], "standardized-t30")
             self.assertAlmostEqual(row["closing_market"], 60.0)
             self.assertAlmostEqual(row["clv_prob"], 16.0)
+
+
+class DataRefreshTests(unittest.TestCase):
+    def test_event_alias_duplicates_are_collapsed_when_result_matches(self):
+        frame = pd.DataFrame([
+            {"date": "2026-08-08", "event": "Noche UFC: Lopes vs. Silva",
+             "fighter_a_id": "a", "fighter_b_id": "b", "winner": "A"},
+            {"date": "2026-08-08", "event": "UFC Fight Night: Lopes vs. Silva",
+             "fighter_a_id": "b", "fighter_b_id": "a", "winner": "A"},
+        ])
+        out, count = _dedupe_event_aliases(frame)
+        self.assertEqual(count, 1)
+        self.assertEqual(len(out), 1)
+
+    def test_event_alias_conflicting_winner_is_rejected(self):
+        frame = pd.DataFrame([
+            {"date": "2026-08-08", "fighter_a_id": "a", "fighter_b_id": "b",
+             "winner": "A"},
+            {"date": "2026-08-08", "fighter_a_id": "b", "fighter_b_id": "a",
+             "winner": "B"},
+        ])
+        with self.assertRaises(ValueError):
+            _dedupe_event_aliases(frame)
+
+
+class FreshnessTests(unittest.TestCase):
+    def test_result_matches_when_utc_commence_date_crosses_midnight(self):
+        fights = pd.DataFrame([{
+            "date": "2025-01-01", "fighter_a": "Fighter A",
+            "fighter_b": "Fighter B",
+        }])
+        with tempfile.TemporaryDirectory() as td:
+            odds = Path(td) / "odds.csv"
+            odds.write_text(
+                "fighter_a,fighter_b,commence_time\n"
+                "Fighter A,Fighter B,2025-01-02T03:00:00Z\n",
+                encoding="utf-8",
+            )
+            report = assess_freshness(
+                fights, odds_log=odds, now="2025-01-03T00:00:00Z",
+                fighter_roster=Path(td) / "missing.csv",
+            )
+        self.assertEqual(report["known_completed_missing"], [])
 
 
 if __name__ == "__main__":

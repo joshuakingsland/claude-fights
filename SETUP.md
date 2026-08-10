@@ -32,9 +32,9 @@ python -m pip install -r requirements.txt
 python -m py_compile *.py
 python -m unittest discover -s tests
 python predict_card.py
-python validate_production.py --start 2025-01-01 --models 3 --event-bootstrap 200
+python validate_production.py --start 2025-01-01 --models 3 --event-bootstrap 200 --predictions smoke_production_validation.csv --report smoke_production_validation.json
 python validate_paper.py
-python monitor_drift.py
+python monitor_drift.py --predictions production_validation.csv
 python freshness.py --require-current
 python validate_method.py
 python validate_staking.py

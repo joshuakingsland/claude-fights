@@ -25,6 +25,14 @@ def run(args):
     df["date"] = pd.to_datetime(df["date"])
     reference = df[df["date"] < args.reference_end]
     recent = df[df["date"] >= args.reference_end]
+    if not len(reference):
+        raise SystemExit(
+            f"No reference rows before {args.reference_end}; use a wider validation file."
+        )
+    if not len(recent):
+        raise SystemExit(
+            f"No recent rows on or after {args.reference_end}; use a wider validation file."
+        )
     report = {"reference_end": args.reference_end,
               "reference": _summary(reference), "recent": _summary(recent),
               "warnings": []}

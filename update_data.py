@@ -77,6 +77,34 @@ def _fight_keys(frame):
     return keys
 
 
+def _dedupe_event_aliases(frame):
+    """Collapse duplicate rows caused by upstream event-name aliases."""
+    required = {"date", "fighter_a_id", "fighter_b_id", "winner"}
+    if not required.issubset(frame.columns):
+        return frame, 0
+    out = frame.copy()
+    out["_date_key"] = pd.to_datetime(out["date"], errors="coerce").dt.date
+    out["_pair_key"] = [
+        "|".join(sorted((str(a).strip(), str(b).strip())))
+        for a, b in zip(out["fighter_a_id"], out["fighter_b_id"])
+    ]
+    duplicate_groups = out.duplicated(["_date_key", "_pair_key"], keep=False)
+    if duplicate_groups.any():
+        conflicts = (
+            out[duplicate_groups]
+            .groupby(["_date_key", "_pair_key"])["winner"]
+            .nunique(dropna=False)
+        )
+        conflicts = conflicts[conflicts > 1]
+        if len(conflicts):
+            raise ValueError(
+                "Data refresh rejected:\n- duplicate event aliases disagree on winners"
+            )
+    before = len(out)
+    out = out.drop_duplicates(["_date_key", "_pair_key"], keep="first")
+    return out.drop(columns=["_date_key", "_pair_key"]), before - len(out)
+
+
 def _historical_event_dates(previous):
     if previous is None or not {"event", "date"}.issubset(previous.columns):
         return {}
@@ -169,6 +197,7 @@ def run(raw_dir="raw", output="fights_v2.csv", manifest="data_source_manifest.js
         rebuilt = adapter.build(
             str(staging), fallback_event_dates=recovered_dates
         )
+        rebuilt, deduped_alias_rows = _dedupe_event_aliases(rebuilt)
         errors = audit_fights(rebuilt) + _regression_errors(rebuilt, previous)
         if errors:
             raise ValueError("Data refresh rejected:\n- " + "\n- ".join(errors))
@@ -186,6 +215,7 @@ def run(raw_dir="raw", output="fights_v2.csv", manifest="data_source_manifest.js
                 {"event": event, "date": str(pd.Timestamp(date).date())}
                 for event, date in recovered_dates.items()
             ],
+            "deduped_event_alias_rows": int(deduped_alias_rows),
             "files": sources,
         }
         staged_manifest = staging / "data_source_manifest.json"
@@ -201,6 +231,8 @@ def run(raw_dir="raw", output="fights_v2.csv", manifest="data_source_manifest.js
     for event, date in recovered_dates.items():
         print(f"recovered missing upstream event date from prior validated data: "
               f"{event} ({pd.Timestamp(date).date()})")
+    if report["deduped_event_alias_rows"]:
+        print(f"deduped {report['deduped_event_alias_rows']} upstream event alias rows")
     for cache in glob.glob("cache_*.pkl"):
         os.remove(cache)
         print(f"cleared {cache}")

@@ -90,6 +90,20 @@ def _cancelled_keys(path):
     return set(zip(dates.dt.date, _pairs(cancellations)))
 
 
+def _result_pair_dates(fights, dates):
+    result_dates = {}
+    for date, pair in zip(dates.dt.date, _pairs(fights)):
+        result_dates.setdefault(pair, set()).add(date)
+    return result_dates
+
+
+def _result_matches(result_dates, fight_date, pair, tolerance_days=1):
+    for result_date in result_dates.get(pair, set()):
+        if abs((pd.Timestamp(fight_date) - pd.Timestamp(result_date)).days) <= tolerance_days:
+            return True
+    return False
+
+
 def assess_freshness(
     fights,
     odds_log="odds_log.csv",
@@ -121,7 +135,7 @@ def assess_freshness(
                 odds["commence_time"], errors="coerce", utc=True
             )
             odds["pair"] = _pairs(odds)
-            result_pairs = set(zip(dates.dt.date, _pairs(fights)))
+            result_dates = _result_pair_dates(fights, dates)
             completed = odds[odds["commence_time"] < now - pd.Timedelta(hours=12)]
             completed = completed.dropna(subset=["commence_time"]).copy()
             completed["fight_date"] = completed["commence_time"].dt.date
@@ -133,7 +147,7 @@ def assess_freshness(
                     "fighter_a": row.fighter_a,
                     "fighter_b": row.fighter_b,
                 }
-                if key in result_pairs:
+                if _result_matches(result_dates, row.commence_time.date(), row.pair):
                     continue
                 if key in cancelled_keys:
                     known_cancelled.append(item)

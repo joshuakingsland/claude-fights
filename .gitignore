@@ -10,3 +10,8 @@ cache_v*.pkl
 
 # Cached Sherdog HTML; re-fetchable and large. The parsed CSV is tracked.
 raw/sherdog/
+
+# Local smoke-test outputs should not replace canonical validation artifacts.
+smoke_production_validation.csv
+smoke_production_validation.json
+smoke_drift_report.json

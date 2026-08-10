@@ -50,3 +50,15 @@ jobs:
           git diff --cached --quiet || git commit -m "market snapshot $(date -u +%FT%H:%MZ)"
           git pull --rebase --autostash origin main
           git push
+      - name: Email failure notification
+        if: failure()
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          BET_EMAIL_TO: ${{ secrets.BET_EMAIL_TO }}
+        run: >
+          python notify_email.py
+          "claude-fights market snapshot failed"
+          "The Snapshot MMA Market workflow failed before publishing fresh prices. Check the GitHub Actions run for details."

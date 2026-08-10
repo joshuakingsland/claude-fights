@@ -10,6 +10,7 @@ Usage: python predict_card.py [--lock-paper-trades]
 """
 
 import argparse
+import html
 import json
 import math
 from datetime import datetime, timezone
@@ -434,14 +435,19 @@ def build_site(upcoming, recent, summary, freshness=None):
         tpl = f.read()
     stamp = datetime.now(timezone.utc).strftime("%b %d, %Y %H:%M UTC")
     freshness = freshness or {}
+    status = html.escape(str(freshness.get("status", "check")), quote=True)
+    results_through = html.escape(str(freshness.get("results_through", "unknown")))
+    message = html.escape(str(freshness.get("message", "freshness not checked")))
     freshness_banner = (
-        f'<div class="freshness {freshness.get("status", "check")}">'
-        f'Results through <b>{freshness.get("results_through", "unknown")}</b> | '
-        f'{freshness.get("message", "freshness not checked")}</div>'
+        f'<div class="freshness {status}">'
+        f'Results through <b>{results_through}</b> | '
+        f'{message}</div>'
     )
-    html = (tpl.replace("__UPCOMING__", json.dumps(upcoming))
-               .replace("__RECENT__", json.dumps(recent))
-               .replace("__SUMMARY__", json.dumps(summary))
+    def safe_json(value):
+        return json.dumps(value).replace("</", "<\\/")
+    html = (tpl.replace("__UPCOMING__", safe_json(upcoming))
+               .replace("__RECENT__", safe_json(recent))
+               .replace("__SUMMARY__", safe_json(summary))
                .replace("__MAX_ODDS_AGE__", str(MAX_ODDS_AGE_MINUTES))
                .replace("__FRESHNESS_BANNER__", freshness_banner)
                .replace("__STAMP__", stamp))
