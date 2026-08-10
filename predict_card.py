@@ -21,10 +21,12 @@ from scipy.special import logit as slogit
 
 from adapter import parse_height, parse_reach
 from backtest import american_to_prob, american_payout
-from cards import EVENT_GAP_HOURS, event_groups  # noqa: F401
+from cards import (EVENT_GAP_HOURS, card_ufc_experience,  # noqa: F401
+                   event_groups)
 from data_quality import assert_clean, identity_warnings
 from features_v3 import build_features_v3
-from identity import assign_fighter_identities, fighter_registry
+from identity import (assign_fighter_identities, canonical_name,
+                      fighter_registry)
 from pipeline import load_matched_cached
 from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP, FOCUS,
                     MARKET_DISAGREEMENT_WARNING, MAX_EXECUTION_DEVIATION,
@@ -38,8 +40,14 @@ PROMOTION_CHOICES = ("ufc", "dwcs", "all")
 
 
 def _promotion_value(row):
+    """The promotion a row actually claims, from provider metadata only.
+
+    `capture_promotion` is deliberately not consulted: it records which
+    capture was requested, not what the event is, and reading it back here is
+    how a `--promotion ufc` run came to assert UFC over a card of debutants.
+    """
     text = " ".join(str(row.get(column, "")) for column in (
-        "promotion", "event_title", "odds_source",
+        "promotion", "event_title",
     )).lower()
     if "contender series" in text or "dwcs" in text:
         return "dwcs"
@@ -48,17 +56,58 @@ def _promotion_value(row):
     return ""
 
 
-def filter_upcoming_promotion(upcoming, promotion):
-    """Filter an upcoming card by promotion metadata when it is present."""
+def ufc_experience(upcoming, fights):
+    """Share of each card's fighters holding a prior UFC bout.
+
+    The provider names no promotion, so this is the measurable stand-in: a
+    UFC card is fighters who have fought in the UFC. Cards are grouped by
+    start time because the feed's event_id is per bout, not per card - all 44
+    rows on the 2026-08-10 board carried 44 distinct event_ids.
+    """
+    veterans = set()
+    for column in ("fighter_a", "fighter_b"):
+        veterans |= set(fights[column].dropna().map(canonical_name))
+    pairs = [(canonical_name(row.get("fighter_a", "")) in veterans,
+              canonical_name(row.get("fighter_b", "")) in veterans)
+             for _, row in upcoming.iterrows()]
+    groups = event_groups(upcoming["commence_time"].tolist()
+                          if "commence_time" in upcoming
+                          else [""] * len(upcoming))
+    return card_ufc_experience(groups, pairs)
+
+
+# A card on which nobody has ever fought in the UFC is not a UFC card. The
+# threshold is loose because a real UFC card occasionally features a debutant
+# or two; it is the all-debutant card this is meant to catch.
+NO_UFC_HISTORY = 0.10
+
+
+def filter_upcoming_promotion(upcoming, promotion, fights=None):
+    """Filter an upcoming card by promotion, measuring when metadata is absent.
+
+    The feed labels every event "MMA", so the provider label is empty in
+    practice and a metadata-only filter could never select a Contender Series
+    card. When `fights` is supplied the roster is measured instead.
+    """
     if promotion == "all" or not len(upcoming):
         return upcoming.copy()
-    mask = upcoming.apply(lambda row: _promotion_value(row), axis=1)
+    mask = upcoming.apply(_promotion_value, axis=1)
+    if fights is not None and (mask == "").any():
+        share = pd.Series(ufc_experience(upcoming, fights), index=upcoming.index)
+        mask = mask.where(mask != "",
+                          share.map(lambda s: "" if s > NO_UFC_HISTORY
+                                    else "no-ufc-history"))
     if promotion == "ufc":
-        # Existing manual/API rows predate explicit promotion metadata. Keep
-        # unlabeled rows in the production UFC path so old workflows do not
-        # silently drop the whole card.
-        return upcoming[(mask == "ufc") | (mask == "")].copy()
+        # Measured-non-UFC cards are kept here on purpose. Labelling them
+        # correctly is one decision; dropping them from the snapshot record
+        # is another, and this filter is not the place to make the second one
+        # quietly. They are still gated from trading by the unresolved
+        # identity rule, and now carry an honest label instead of "UFC".
+        return upcoming[mask.isin(["ufc", "", "no-ufc-history"])].copy()
+    if promotion == "dwcs":
+        return upcoming[mask.isin(["dwcs", "no-ufc-history"])].copy()
     return upcoming[mask == promotion].copy()
+
 
 # --------------------------------------------------------------- modeling
 def resolve_identities(up, physicals, details=None):
@@ -513,7 +562,9 @@ def main():
     args = ap.parse_args()
 
     up = pd.read_csv("odds_upcoming.csv")
-    up = filter_upcoming_promotion(up, args.promotion)
+    up = filter_upcoming_promotion(
+        up, args.promotion, pd.read_csv("fights_v2.csv", usecols=[
+            "fighter_a", "fighter_b"]))
     from paper_ledger import (assert_pre_event, lock_paper_trades,
                               record_prediction_snapshots)
     if len(up):

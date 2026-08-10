@@ -29,7 +29,7 @@ UPCOMING_FIELDS = [
     "fighter_a", "fighter_b", "odds_a", "odds_b", "market_prob_a",
     "market_books", "market_spread", "best_odds_a", "best_book_a",
     "best_odds_b", "best_book_b", "weightclass", "five_rounds",
-    "odds_source", "fetched_at",
+    "odds_source", "capture_promotion", "fetched_at",
     "leader_prob_a", "leader_books", "follower_prob_a", "follower_books",
 ]
 LOG_FIELDS = [
@@ -400,9 +400,14 @@ def main(argv=None):
         rows.append({
             "date": commence[:10],
             "commence_time": commence,
-            "promotion": classify_promotion(event) or (
-                "MMA" if args.promotion == "all" else args.promotion.upper()
-            ),
+            # Only ever what the provider said. This used to fall back to
+            # the CLI flag, so every row recorded the request rather than
+            # the event: a default `--promotion ufc` run stamped UFC onto
+            # all 44 fights including a five-bout card where not one
+            # fighter had ever had a UFC bout. An empty string is the
+            # honest answer when the feed says nothing.
+            "promotion": classify_promotion(event),
+            "capture_promotion": args.promotion,
             "event_title": event_label(event),
             "event_id": event.get("id", ""),
             "fighter_a": event.get("home_team", ""),

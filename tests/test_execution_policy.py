@@ -8,7 +8,8 @@ import rankings
 from config import MAX_EXECUTION_DEVIATION
 from paper_ledger import SNAPSHOT_FIELDS, _snapshot_row
 from predict_card import (_clean_meta, execution_ladder,
-                          leader_gap_for_pick, quote_quality)
+                          filter_upcoming_promotion, leader_gap_for_pick,
+                          quote_quality)
 from production import allocate_stakes
 
 
@@ -170,6 +171,58 @@ class PromotionFamilyTests(unittest.TestCase):
     def test_blank_promotion_does_not_crash(self):
         self.assertEqual(rankings.collapse_promotion(None), "")
         self.assertEqual(rankings.collapse_promotion(""), "")
+
+
+class PromotionFilterTests(unittest.TestCase):
+    """The provider labels every event "MMA", so the label cannot filter.
+
+    `promotion` used to be backfilled from the CLI flag, which made the column
+    circular - it recorded the request, so a `--promotion ufc` run proved
+    itself right about a card of debutants. With the column honest and empty,
+    the roster is what separates the cards.
+    """
+
+    @staticmethod
+    def _card():
+        return pd.DataFrame([
+            {"commence_time": "2026-08-12T00:00:00Z", "promotion": "",
+             "event_title": "MMA", "fighter_a": "Rookie One",
+             "fighter_b": "Rookie Two"},
+            {"commence_time": "2026-08-12T00:30:00Z", "promotion": "",
+             "event_title": "MMA", "fighter_a": "Rookie Three",
+             "fighter_b": "Rookie Four"},
+            {"commence_time": "2026-08-16T02:00:00Z", "promotion": "",
+             "event_title": "MMA", "fighter_a": "Veteran One",
+             "fighter_b": "Veteran Two"},
+        ])
+
+    @staticmethod
+    def _history():
+        return pd.DataFrame([{"fighter_a": "Veteran One",
+                              "fighter_b": "Veteran Two"}])
+
+    def test_a_card_of_debutants_is_selectable_without_provider_metadata(self):
+        picked = filter_upcoming_promotion(self._card(), "dwcs", self._history())
+        self.assertEqual(len(picked), 2)
+        self.assertTrue(picked["fighter_a"].str.startswith("Rookie").all())
+
+    def test_the_production_path_still_keeps_every_fight(self):
+        # Labelling a card correctly and dropping it from the record are two
+        # separate decisions; this filter only makes the first.
+        card = self._card()
+        self.assertEqual(
+            len(filter_upcoming_promotion(card, "ufc", self._history())),
+            len(card))
+
+    def test_without_history_the_measurement_is_simply_not_made(self):
+        self.assertEqual(
+            len(filter_upcoming_promotion(self._card(), "dwcs")), 0)
+
+    def test_an_explicit_provider_label_still_wins(self):
+        card = self._card()
+        card.loc[0, "event_title"] = "Dana White's Contender Series 12"
+        picked = filter_upcoming_promotion(card, "dwcs", self._history())
+        self.assertIn("Rookie One", picked["fighter_a"].tolist())
 
 
 class ExecutionPolicyTests(unittest.TestCase):

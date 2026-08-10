@@ -1,6 +1,6 @@
 import unittest
 
-from cards import event_groups, infer_five_rounds
+from cards import card_ufc_experience, event_groups, infer_five_rounds
 
 
 class EventGroupingTests(unittest.TestCase):
@@ -72,6 +72,42 @@ class FiveRoundInferenceTests(unittest.TestCase):
     def test_result_length_always_matches_the_input(self):
         for starts in ([], [""], ["a", "b"], ["2026-08-16T02:00:00Z"] * 3):
             self.assertEqual(len(infer_five_rounds(starts)), len(starts))
+
+
+class CardExperienceTests(unittest.TestCase):
+    """The feed names no promotion, so what a card is has to be measured.
+
+    Every event arrives labelled "MMA". The previous code filled the gap with
+    the CLI flag, so a default `--promotion ufc` run stamped UFC onto a
+    five-bout card where not one of the ten fighters had ever had a UFC bout.
+    """
+
+    def test_an_all_debut_card_scores_zero(self):
+        groups = ["event-0"] * 3
+        share = card_ufc_experience(groups, [(False, False)] * 3)
+        self.assertEqual(share, [0.0, 0.0, 0.0])
+
+    def test_a_veteran_card_scores_one(self):
+        share = card_ufc_experience(["event-1"] * 2, [(True, True)] * 2)
+        self.assertEqual(share, [1.0, 1.0])
+
+    def test_each_card_is_scored_on_its_own_fighters(self):
+        groups = ["event-0", "event-0", "event-1", "event-1"]
+        pairs = [(False, False), (False, False), (True, True), (True, False)]
+        share = card_ufc_experience(groups, pairs)
+        self.assertEqual(share[:2], [0.0, 0.0])
+        self.assertAlmostEqual(share[2], 0.75)
+        self.assertAlmostEqual(share[3], 0.75)
+
+    def test_one_debutant_does_not_sink_a_real_card(self):
+        # Real UFC cards carry a newcomer or two; the all-debut card is the
+        # thing worth catching, so the score has to stay near the top here.
+        pairs = [(True, True)] * 5 + [(True, False)]
+        share = card_ufc_experience(["event-1"] * 6, pairs)
+        self.assertGreater(share[0], 0.9)
+
+    def test_an_empty_card_does_not_divide_by_zero(self):
+        self.assertEqual(card_ufc_experience([], []), [])
 
 
 if __name__ == "__main__":

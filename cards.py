@@ -49,6 +49,30 @@ def event_groups(starts):
     return [f"event-{g}" for g in groups]
 
 
+def card_ufc_experience(groups, experienced):
+    """Per row, the share of that card's fighters with a prior UFC bout.
+
+    The odds feed labels every event "MMA" and names no promotion, so what
+    kind of card this is cannot be read off the provider. It can be measured.
+    A UFC card is made of fighters who have fought in the UFC; a Contender
+    Series or regional card is made of fighters who have not.
+
+    On 2026-08-10 that separated cleanly: the five-bout 2026-08-12 card scored
+    0.00 with not one of its ten fighters holding a UFC bout, and every other
+    card on the board scored 0.96 to 1.00.
+
+    `experienced` is one boolean per fight per corner, as (a, b) pairs, so the
+    caller owns the definition of "has fought in the UFC" and this stays a
+    pure count.
+    """
+    totals, seen = {}, {}
+    for group, (a, b) in zip(groups, experienced):
+        totals[group] = totals.get(group, 0) + int(bool(a)) + int(bool(b))
+        seen[group] = seen.get(group, 0) + 2
+    return [totals[group] / seen[group] if seen.get(group) else 0.0
+            for group in groups]
+
+
 def infer_five_rounds(starts):
     """1 for each group's main event, 0 elsewhere, 0 when order is unknown.
 
