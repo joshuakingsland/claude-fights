@@ -17,33 +17,47 @@ jobs:
     steps:
       - name: Send test email
         env:
-          GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          MAIL_TO: ${{ secrets.MAIL_TO }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          BET_EMAIL_TO: ${{ secrets.BET_EMAIL_TO }}
         run: |
           python - <<'PY'
           import os
           import smtplib
           from email.message import EmailMessage
 
-          required = ("GMAIL_USERNAME", "GMAIL_APP_PASSWORD", "MAIL_TO")
+          required = (
+              "SMTP_HOST",
+              "SMTP_PORT",
+              "SMTP_USER",
+              "SMTP_PASSWORD",
+              "BET_EMAIL_TO",
+          )
           missing = [name for name in required if not os.environ.get(name)]
           if missing:
-              raise RuntimeError("Missing required GitHub Actions secrets: " + ", ".join(missing))
+              raise RuntimeError(
+                  "Missing required GitHub Actions secrets: " + ", ".join(missing)
+              )
 
           message = EmailMessage()
           message["Subject"] = "claude-fights GitHub Actions email test"
-          message["From"] = os.environ["GMAIL_USERNAME"]
-          message["To"] = os.environ["MAIL_TO"]
+          message["From"] = os.environ["SMTP_USER"]
+          message["To"] = os.environ["BET_EMAIL_TO"]
           message.set_content(
               "Success: Gmail SMTP authentication from GitHub Actions is working."
           )
 
-          with smtplib.SMTP("smtp.gmail.com", 587, timeout=30) as smtp:
+          with smtplib.SMTP(
+              os.environ["SMTP_HOST"],
+              int(os.environ["SMTP_PORT"]),
+              timeout=30,
+          ) as smtp:
               smtp.starttls()
               smtp.login(
-                  os.environ["GMAIL_USERNAME"],
-                  os.environ["GMAIL_APP_PASSWORD"],
+                  os.environ["SMTP_USER"],
+                  os.environ["SMTP_PASSWORD"],
               )
               smtp.send_message(message)
           PY
