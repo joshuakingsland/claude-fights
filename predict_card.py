@@ -445,16 +445,16 @@ def build_site(upcoming, recent, summary, freshness=None):
     )
     def safe_json(value):
         return json.dumps(value).replace("</", "<\\/")
-    html = (tpl.replace("__UPCOMING__", safe_json(upcoming))
-               .replace("__RECENT__", safe_json(recent))
-               .replace("__SUMMARY__", safe_json(summary))
-               .replace("__MAX_ODDS_AGE__", str(MAX_ODDS_AGE_MINUTES))
-               .replace("__FRESHNESS_BANNER__", freshness_banner)
-               .replace("__STAMP__", stamp))
+    page_html = (tpl.replace("__UPCOMING__", safe_json(upcoming))
+                    .replace("__RECENT__", safe_json(recent))
+                    .replace("__SUMMARY__", safe_json(summary))
+                    .replace("__MAX_ODDS_AGE__", str(MAX_ODDS_AGE_MINUTES))
+                    .replace("__FRESHNESS_BANNER__", freshness_banner)
+                    .replace("__STAMP__", stamp))
     import os
     os.makedirs("docs", exist_ok=True)
     with open("docs/index.html", "w") as f:
-        f.write(html)
+        f.write(page_html)
     print(f"docs/index.html written "
           f"({len(upcoming)} upcoming, {len(recent)} recent)")
 
