@@ -26,6 +26,12 @@ FILES = [
 ]
 BASE = "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/"
 MAX_RECOVERED_EVENT_DATES = 5
+SOURCE_BACKED_EVENT_DATE_FALLBACKS = {
+    # UFC.com event pages/results pages. These aliases periodically appear in
+    # fight results while the upstream event table has no valid DATE value.
+    "UFC Fight Night: Grasso vs. Shevchenko 2": "2023-09-16",
+    "UFC Fight Night: Lopes vs. Silva": "2025-09-13",
+}
 
 
 def _sha256(path):
@@ -122,8 +128,9 @@ def _historical_event_dates(previous):
 
 
 def _event_date_recovery(previous, event_details, fight_results):
-    """Recover a missing event date only from the prior validated fight table."""
+    """Recover a missing event date from validated history or source fallbacks."""
     fallback = _historical_event_dates(previous)
+    fallback.update(SOURCE_BACKED_EVENT_DATE_FALLBACKS)
     events = event_details.copy()
     events["EVENT"] = events["EVENT"].fillna("").astype(str).str.strip()
     events["date"] = pd.to_datetime(events["DATE"], format="mixed", errors="coerce")

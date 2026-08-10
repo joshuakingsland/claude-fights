@@ -182,6 +182,23 @@ class FreshnessAndCaptureTests(unittest.TestCase):
         self.assertEqual(str(recovered["Known Missing Card"].date()), "2025-08-22")
         self.assertEqual(unresolved, ["Unknown Card"])
 
+    def test_source_backed_event_date_fallbacks_cover_deduped_aliases(self):
+        previous = pd.DataFrame({
+            "event": ["Noche UFC: Lopes vs. Silva"], "date": ["2025-09-13"]
+        })
+        event_details = pd.DataFrame({
+            "EVENT": ["Noche UFC: Lopes vs. Silva"], "DATE": ["September 13, 2025"]
+        })
+        results = pd.DataFrame({
+            "EVENT": ["UFC Fight Night: Lopes vs. Silva"]
+        })
+        recovered, unresolved = _event_date_recovery(
+            previous, event_details, results
+        )
+        self.assertEqual(str(pd.Timestamp(
+            recovered["UFC Fight Night: Lopes vs. Silva"]).date()), "2025-09-13")
+        self.assertEqual(unresolved, [])
+
     def test_completed_tracked_fight_marks_results_lagging(self):
         fights = pd.DataFrame([{
             "date": "2025-01-01", "fighter_a": "A", "fighter_b": "B"
