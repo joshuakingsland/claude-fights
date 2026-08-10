@@ -34,6 +34,32 @@ from production import (MODEL_FEATURES, allocate_stakes, event_pnl, event_seed,
                         fit_ensemble, predict_probabilities, score_bets)
 import method_model as MM
 
+PROMOTION_CHOICES = ("ufc", "dwcs", "all")
+
+
+def _promotion_value(row):
+    text = " ".join(str(row.get(column, "")) for column in (
+        "promotion", "event_title", "odds_source",
+    )).lower()
+    if "contender series" in text or "dwcs" in text:
+        return "dwcs"
+    if "ufc" in text or "ultimate fighting championship" in text:
+        return "ufc"
+    return ""
+
+
+def filter_upcoming_promotion(upcoming, promotion):
+    """Filter an upcoming card by promotion metadata when it is present."""
+    if promotion == "all" or not len(upcoming):
+        return upcoming.copy()
+    mask = upcoming.apply(lambda row: _promotion_value(row), axis=1)
+    if promotion == "ufc":
+        # Existing manual/API rows predate explicit promotion metadata. Keep
+        # unlabeled rows in the production UFC path so old workflows do not
+        # silently drop the whole card.
+        return upcoming[(mask == "ufc") | (mask == "")].copy()
+    return upcoming[mask == promotion].copy()
+
 # --------------------------------------------------------------- modeling
 def resolve_identities(up, physicals, details=None):
     """Attach stable IDs; unresolved sportsbook names receive neutral history."""
@@ -280,7 +306,12 @@ def predict_upcoming(up):
                                    and spread > MARKET_DISAGREEMENT_WARNING),
             "eligibility_reason": ("eligible" if net >= EDGE_RULE and quality_ok
                                    else quality_reason or "below edge rule"),
-            "meta": f"{_clean_meta(r.get('weightclass'))} | {r['date']}",
+            "meta": " | ".join(part for part in (
+                _clean_meta(r.get("promotion"), ""),
+                _clean_meta(r.get("event_title"), ""),
+                _clean_meta(r.get("weightclass"), ""),
+                str(r["date"]),
+            ) if part),
         })
     if out:
         for item, group in zip(out, event_groups(
@@ -430,7 +461,7 @@ def _legacy_sizing_ladder(lr, cols, feat_row, imp_now, vig, se_sub=0.0):
     return ths
 
 # --------------------------------------------------------------- site
-def build_site(upcoming, recent, summary, freshness=None):
+def build_site(upcoming, recent, summary, freshness=None, card_context=None):
     with open("site_template.html") as f:
         tpl = f.read()
     stamp = datetime.now(timezone.utc).strftime("%b %d, %Y %H:%M UTC")
@@ -443,6 +474,15 @@ def build_site(upcoming, recent, summary, freshness=None):
         f'Results through <b>{results_through}</b> | '
         f'{message}</div>'
     )
+    card_context = card_context or {
+        "eyebrow": "Fight Ledger | walk-forward model v3",
+        "headline": "Model<br>Card Read",
+        "subcopy": ("Every upcoming fight, priced by a model trained on "
+                    "<b>8,600+ UFC fights</b> and benchmarked against closing "
+                    "lines since 2019. Consensus prices inform the prediction; "
+                    "the best captured sportsbook price determines whether a "
+                    "fight clears <b>4 net points</b>."),
+    }
     def safe_json(value):
         return json.dumps(value).replace("</", "<\\/")
     page_html = (tpl.replace("__UPCOMING__", safe_json(upcoming))
@@ -450,6 +490,9 @@ def build_site(upcoming, recent, summary, freshness=None):
                     .replace("__SUMMARY__", safe_json(summary))
                     .replace("__MAX_ODDS_AGE__", str(MAX_ODDS_AGE_MINUTES))
                     .replace("__FRESHNESS_BANNER__", freshness_banner)
+                    .replace("__EYEBROW__", card_context["eyebrow"])
+                    .replace("__HEADLINE__", card_context["headline"])
+                    .replace("__SUBCOPY__", card_context["subcopy"])
                     .replace("__STAMP__", stamp))
     import os
     os.makedirs("docs", exist_ok=True)
@@ -463,9 +506,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--lock-paper-trades", action="store_true",
                     help="lock one official qualifying paper wager per fight")
+    ap.add_argument(
+        "--promotion", choices=PROMOTION_CHOICES, default="ufc",
+        help="score ufc, dwcs, or all tagged rows from odds_upcoming.csv",
+    )
     args = ap.parse_args()
 
     up = pd.read_csv("odds_upcoming.csv")
+    up = filter_upcoming_promotion(up, args.promotion)
     from paper_ledger import (assert_pre_event, lock_paper_trades,
                               record_prediction_snapshots)
     if len(up):
@@ -481,7 +529,35 @@ def main():
     freshness = assess_freshness(pd.read_csv("fights_v2.csv"))
     with open("data_freshness.json", "w", encoding="utf-8") as output:
         json.dump(freshness, output, indent=2)
-    build_site(upcoming, recent, summary, freshness)
+    contexts = {
+        "ufc": {
+            "eyebrow": "Fight Ledger | walk-forward model v3",
+            "headline": "Model<br>Card Read",
+            "subcopy": ("Every upcoming fight, priced by a model trained on "
+                        "<b>8,600+ UFC fights</b> and benchmarked against "
+                        "closing lines since 2019. Consensus prices inform "
+                        "the prediction; the best captured sportsbook price "
+                        "determines whether a fight clears <b>4 net points</b>."),
+        },
+        "dwcs": {
+            "eyebrow": "Fight Ledger | DWCS model read | walk-forward model v3",
+            "headline": "DWCS<br>Card Read",
+            "subcopy": ("Dana White's Contender Series fights, priced through "
+                        "the UFC-trained moneyline model. Many DWCS fighters "
+                        "lack UFCStats identities, so neutral-history reads "
+                        "are expected and paper-trade quality gates remain "
+                        "strict."),
+        },
+        "all": {
+            "eyebrow": "Fight Ledger | MMA model read | walk-forward model v3",
+            "headline": "MMA<br>Card Read",
+            "subcopy": ("Tagged upcoming MMA fights, priced through the "
+                        "UFC-trained moneyline model. Non-UFC fighters often "
+                        "use neutral career features, so this is exploratory "
+                        "unless identity and market quality gates clear."),
+        },
+    }
+    build_site(upcoming, recent, summary, freshness, contexts[args.promotion])
 
     from model_manifest import sha256, write_manifest
     write_manifest()

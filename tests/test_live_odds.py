@@ -11,12 +11,14 @@ from unittest.mock import patch
 from config import PRICED_ODDS_REGIONS
 from fetch_odds import (LOG_FIELDS, MARKET_QUOTE_FIELDS, UPCOMING_FIELDS,
                         _american_to_prob, _is_future, append_log,
-                        append_quote_log, collect_events, consensus_quote,
-                        main, leader_split, paired_book_quotes, priced_quotes)
-from predict_card import execution_ladder, market_probability, quote_age_minutes
+                        append_quote_log, classify_promotion, collect_events,
+                        consensus_quote, main, leader_split, paired_book_quotes,
+                        priced_quotes, promotion_matches)
+from predict_card import (execution_ladder, filter_upcoming_promotion,
+                          market_probability, quote_age_minutes)
 
 
-def _event(event_id, books):
+def _event(event_id, books, **extra):
     return {
         "id": event_id, "commence_time": "2099-01-02T00:00:00Z",
         "home_team": "A", "away_team": "B",
@@ -28,6 +30,7 @@ def _event(event_id, books):
                 {"name": "B", "price": odds_b},
             ]}],
         } for key, title, odds_a, odds_b in books],
+        **extra,
     }
 
 
@@ -218,6 +221,38 @@ class LiveOddsConsensusTests(unittest.TestCase):
             self.assertEqual(rows[0]["market_prob_a"], "")
             self.assertEqual(rows[1]["market_books"], "8")
 
+    def test_dwcs_promotion_is_detected_from_event_metadata(self):
+        dwcs = _event(
+            "dwcs-1", [("fd", "FanDuel", -120, 100)],
+            event_title="Dana White's Contender Series: Week 1",
+        )
+        ufc = _event("ufc-1", [("fd", "FanDuel", -120, 100)],
+                     sport_title="UFC")
+        unlabeled = _event("mma-1", [("fd", "FanDuel", -120, 100)],
+                           sport_title="MMA")
+        self.assertEqual(classify_promotion(dwcs), "DWCS")
+        self.assertEqual(classify_promotion(ufc), "UFC")
+        self.assertTrue(promotion_matches(dwcs, "dwcs"))
+        self.assertFalse(promotion_matches(ufc, "dwcs"))
+        self.assertTrue(promotion_matches(unlabeled, "ufc"))
+
+    def test_prediction_filter_accepts_tagged_dwcs_rows(self):
+        rows = [
+            {"date": "2099-01-01", "promotion": "DWCS",
+             "event_title": "Dana White's Contender Series", "fighter_a": "A",
+             "fighter_b": "B", "odds_a": -120, "odds_b": 100},
+            {"date": "2099-01-01", "promotion": "UFC",
+             "event_title": "UFC Fight Night", "fighter_a": "C",
+             "fighter_b": "D", "odds_a": -140, "odds_b": 120},
+            {"date": "2099-01-02", "fighter_a": "E", "fighter_b": "F",
+             "odds_a": -110, "odds_b": -110},
+        ]
+        import pandas as pd
+        frame = pd.DataFrame(rows)
+        self.assertEqual(len(filter_upcoming_promotion(frame, "dwcs")), 1)
+        self.assertEqual(len(filter_upcoming_promotion(frame, "ufc")), 2)
+        self.assertEqual(len(filter_upcoming_promotion(frame, "all")), 3)
+
     def test_full_book_quote_log_is_deduplicated(self):
         event = {
             "id": "event-1", "commence_time": "2026-01-02T00:00:00Z",
@@ -281,7 +316,7 @@ class LiveOddsConsensusTests(unittest.TestCase):
             try:
                 with patch.dict(os.environ, {"ODDS_API_KEY": "k"}, clear=True):
                     with patch("fetch_odds.fetch_region", fetch):
-                        main(["--require-key"])
+                        main(["--require-key", "--promotion", "all"])
                 with open("odds_upcoming.csv", newline="", encoding="utf-8") as src:
                     card = list(csv.DictReader(src))
                 self.assertEqual(len(card), 1)
@@ -303,8 +338,34 @@ class LiveOddsConsensusTests(unittest.TestCase):
                 )
                 self.assertEqual(manifest["regions_requested"], ["us", "eu"])
                 self.assertEqual(manifest["regions_priced"], ["us"])
+                self.assertEqual(manifest["promotion"], "all")
                 self.assertEqual(manifest["paired_book_quotes"], 4)
                 self.assertEqual(manifest["priced_book_quotes"], 3)
+            finally:
+                os.chdir(previous)
+
+    def test_dwcs_run_filters_to_dwcs_events(self):
+        priced = [("dk", "DraftKings", -200, 170),
+                  ("fd", "FanDuel", -210, 175),
+                  ("betonlineag", "BetOnline.ag", -205, 180)]
+
+        def fetch(key, region, timeout=30):
+            return [_event("dwcs", priced,
+                           event_title="Dana White's Contender Series: Week 1"),
+                    _event("ufc", priced, event_title="UFC Fight Night")]
+
+        with tempfile.TemporaryDirectory() as directory:
+            previous = os.getcwd()
+            os.chdir(directory)
+            try:
+                with patch.dict(os.environ, {"ODDS_API_KEY": "k"}, clear=True):
+                    with patch("fetch_odds.fetch_region", fetch):
+                        main(["--require-key", "--promotion", "dwcs"])
+                with open("odds_upcoming.csv", newline="", encoding="utf-8") as src:
+                    card = list(csv.DictReader(src))
+                self.assertEqual(len(card), 1)
+                self.assertEqual(card[0]["promotion"], "DWCS")
+                self.assertIn("Contender Series", card[0]["event_title"])
             finally:
                 os.chdir(previous)
 

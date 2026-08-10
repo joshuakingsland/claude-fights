@@ -62,6 +62,17 @@ python fetch_odds.py --require-key
 python predict_card.py
 ```
 
+To score a tagged Dana White's Contender Series card:
+
+```bash
+python fetch_odds.py --promotion dwcs
+python predict_card.py --promotion dwcs
+```
+
+If the odds feed does not label the event, maintain `odds_upcoming.csv`
+manually with `promotion=DWCS` or an `event_title` containing `Contender
+Series`, then run the same `predict_card.py --promotion dwcs` command.
+
 For historical entry-price and CLV research:
 
 ```bash

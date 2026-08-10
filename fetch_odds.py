@@ -1,4 +1,4 @@
-"""Fetch upcoming UFC fights and auditable market consensus prices.
+"""Fetch upcoming MMA fights and auditable market consensus prices.
 
 Automatic mode requires ``ODDS_API_KEY``. The GitHub workflow also passes
 ``--require-key`` so a missing secret cannot silently reuse a stale card.
@@ -23,23 +23,26 @@ from config import (LEADER_BOOK_KEYS, ODDS_CONSENSUS_VERSION, ODDS_REGIONS,
 
 
 API = "https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds"
+PROMOTION_CHOICES = ("ufc", "dwcs", "all")
 UPCOMING_FIELDS = [
-    "date", "commence_time", "fighter_a", "fighter_b", "odds_a", "odds_b",
-    "market_prob_a", "market_books", "market_spread", "best_odds_a",
-    "best_book_a", "best_odds_b", "best_book_b", "weightclass",
-    "five_rounds", "odds_source", "fetched_at",
+    "date", "commence_time", "promotion", "event_title", "event_id",
+    "fighter_a", "fighter_b", "odds_a", "odds_b", "market_prob_a",
+    "market_books", "market_spread", "best_odds_a", "best_book_a",
+    "best_odds_b", "best_book_b", "weightclass", "five_rounds",
+    "odds_source", "fetched_at",
     "leader_prob_a", "leader_books", "follower_prob_a", "follower_books",
 ]
 LOG_FIELDS = [
-    "fetched_at", "commence_time", "date", "fighter_a", "fighter_b",
-    "odds_a", "odds_b", "market_prob_a", "market_books", "market_spread",
-    "best_odds_a", "best_book_a", "best_odds_b", "best_book_b",
-    "odds_source",
+    "fetched_at", "commence_time", "date", "promotion", "event_title",
+    "event_id", "fighter_a", "fighter_b", "odds_a", "odds_b",
+    "market_prob_a", "market_books", "market_spread", "best_odds_a",
+    "best_book_a", "best_odds_b", "best_book_b", "odds_source",
 ]
 MARKET_QUOTE_FIELDS = [
     "snapshot_id", "fetched_at", "event_id", "commence_time", "date",
-    "fighter_a", "fighter_b", "book_key", "book_title", "region", "priced",
-    "book_updated_at", "odds_a", "odds_b", "devig_prob_a",
+    "promotion", "event_title", "fighter_a", "fighter_b", "book_key",
+    "book_title", "region", "priced", "book_updated_at", "odds_a",
+    "odds_b", "devig_prob_a",
 ]
 
 
@@ -69,6 +72,42 @@ def _american_to_prob(odds):
 def _upper_median(values):
     values = sorted(values)
     return values[len(values) // 2]
+
+
+def event_label(event):
+    """Best available promotion/card label from an odds-provider event."""
+    candidates = (
+        event.get("event_title"), event.get("event_name"), event.get("name"),
+        event.get("description"), event.get("league"), event.get("tournament"),
+        event.get("competition"), event.get("sport_title"),
+    )
+    return next((str(value).strip() for value in candidates
+                 if str(value or "").strip()), "")
+
+
+def classify_promotion(event):
+    """Return the promotion bucket when provider metadata makes it knowable."""
+    text = " ".join(str(event.get(key, "")) for key in (
+        "event_title", "event_name", "name", "description", "league",
+        "tournament", "competition", "sport_title", "sport_key",
+    )).lower()
+    if "contender series" in text or "dwcs" in text:
+        return "DWCS"
+    if "ufc" in text or "ultimate fighting championship" in text:
+        return "UFC"
+    return ""
+
+
+def promotion_matches(event, promotion):
+    """Whether an event belongs in the requested promotion capture."""
+    if promotion == "all":
+        return True
+    classified = classify_promotion(event)
+    if promotion == "dwcs":
+        return classified == "DWCS"
+    # Keep the production default compatible with providers that only label
+    # the endpoint as MMA and omit card-level promotion metadata.
+    return classified in ("", "UFC")
 
 
 def paired_book_quotes(event, region="us"):
@@ -226,6 +265,8 @@ def _quote_rows(event, paired, stamp):
             "snapshot_id": hashlib.sha256(raw.encode()).hexdigest()[:20],
             "fetched_at": stamp,
             "event_id": event.get("id", ""),
+            "event_title": event_label(event),
+            "promotion": classify_promotion(event),
             "commence_time": commence,
             "date": commence[:10],
             "fighter_a": event.get("home_team", ""),
@@ -277,7 +318,8 @@ def collect_events(key, regions=ODDS_REGIONS, fetch=None):
     return [(slot["event"], slot["paired"]) for slot in merged.values()]
 
 
-def _write_snapshot_manifest(path, stamp, rows, quote_rows, quote_path):
+def _write_snapshot_manifest(path, stamp, rows, quote_rows, quote_path,
+                             promotion="ufc"):
     payload = {
         "fetched_at": stamp,
         "events": len(rows),
@@ -285,6 +327,7 @@ def _write_snapshot_manifest(path, stamp, rows, quote_rows, quote_path):
         "priced_book_quotes": sum(int(row.get("priced", 1)) for row in quote_rows),
         "regions_requested": list(ODDS_REGIONS),
         "regions_priced": list(PRICED_ODDS_REGIONS),
+        "promotion": promotion,
         "quote_file": str(quote_path).replace("\\", "/"),
         "first_event_date": min((row["date"] for row in rows), default=None),
         "last_event_date": max((row["date"] for row in rows), default=None),
@@ -301,6 +344,12 @@ def main(argv=None):
     parser.add_argument(
         "--require-key", action="store_true",
         help="fail instead of entering manual mode when ODDS_API_KEY is absent",
+    )
+    parser.add_argument(
+        "--promotion", choices=PROMOTION_CHOICES, default="ufc",
+        help=("promotion/card bucket to write: ufc keeps provider-unlabeled "
+              "MMA rows for production compatibility; dwcs requires a DWCS "
+              "label from the provider; all writes every upcoming MMA row"),
     )
     args = parser.parse_args(argv)
 
@@ -325,6 +374,8 @@ def main(argv=None):
     all_quotes = []
     in_play = 0
     for event, paired in collected:
+        if not promotion_matches(event, args.promotion):
+            continue
         commence = event.get("commence_time", "")
         # Drop anything already under way. The odds endpoint keeps returning a
         # fight after it starts, and those are in-play prices reflecting what
@@ -349,6 +400,11 @@ def main(argv=None):
         rows.append({
             "date": commence[:10],
             "commence_time": commence,
+            "promotion": classify_promotion(event) or (
+                "MMA" if args.promotion == "all" else args.promotion.upper()
+            ),
+            "event_title": event_label(event),
+            "event_id": event.get("id", ""),
             "fighter_a": event.get("home_team", ""),
             "fighter_b": event.get("away_team", ""),
             **quote,
@@ -375,7 +431,8 @@ def main(argv=None):
     quote_path.parent.mkdir(parents=True, exist_ok=True)
     append_quote_log(quote_path, all_quotes)
     _write_snapshot_manifest(
-        "market_snapshot_manifest.json", stamp, rows, all_quotes, quote_path
+        "market_snapshot_manifest.json", stamp, rows, all_quotes, quote_path,
+        args.promotion,
     )
     priced = sum(int(row.get("priced", 1)) for row in all_quotes)
     print(

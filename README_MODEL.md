@@ -59,16 +59,39 @@ Automatic odds capture now stores the exact API `commence_time`, source, and
 fetch timestamp. Manual rows should use these columns:
 
 ```text
-date,commence_time,fighter_a,fighter_b,odds_a,odds_b,market_prob_a,market_books,market_spread,best_odds_a,best_book_a,best_odds_b,best_book_b,weightclass,five_rounds,odds_source,fetched_at
+date,commence_time,promotion,event_title,event_id,fighter_a,fighter_b,odds_a,odds_b,market_prob_a,market_books,market_spread,best_odds_a,best_book_a,best_odds_b,best_book_b,weightclass,five_rounds,odds_source,fetched_at
 ```
 
-`market_prob_a` and `market_books` are optional for manual rows. Automatic
-capture pairs both fighters within each book, de-vigs each paired quote, and
-uses the median per-book probability as the model's market input. Median
-American prices remain consensus provenance. The best captured price on each
-side is stored separately and is the only price used for execution edge and
-payout calculations. A better sportsbook quote never changes the model's
-consensus input.
+`promotion`, `event_title`, `event_id`, `market_prob_a`, and `market_books`
+are optional for manual rows. Automatic capture pairs both fighters within
+each book, de-vigs each paired quote, and uses the median per-book probability
+as the model's market input. Median American prices remain consensus
+provenance. The best captured price on each side is stored separately and is
+the only price used for execution edge and payout calculations. A better
+sportsbook quote never changes the model's consensus input.
+
+## DWCS and other MMA cards
+
+The production workflow remains UFC-first:
+
+```bash
+python fetch_odds.py --require-key
+python predict_card.py --lock-paper-trades
+```
+
+DWCS can be scored as an explicit card mode:
+
+```bash
+python fetch_odds.py --promotion dwcs
+python predict_card.py --promotion dwcs
+```
+
+If the odds provider does not include card-level promotion metadata, tag
+manual rows with `promotion=DWCS` or `event_title=Dana White's Contender
+Series...`, then run `python predict_card.py --promotion dwcs`. The model is
+still trained on UFC history. DWCS fighters often lack UFCStats identities, so
+neutral-history predictions are expected and the paper-trade quality gates
+remain strict.
 
 A best price is only accepted when it is consistent with the consensus it was
 drawn from. If the executable price implies more than `MAX_EXECUTION_DEVIATION`
