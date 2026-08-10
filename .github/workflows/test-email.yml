@@ -1,6 +1,6 @@
 name: Test email notification
 
-# New commit loads the latest repository secrets.
+# Credential test attempt 3.
 
 on:
   workflow_dispatch:
