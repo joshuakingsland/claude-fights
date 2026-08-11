@@ -7,9 +7,9 @@ import promotion_tiers
 import rankings
 from config import MAX_EXECUTION_DEVIATION
 from paper_ledger import SNAPSHOT_FIELDS, _snapshot_row
-from predict_card import (_clean_meta, execution_ladder,
-                          filter_upcoming_promotion, leader_gap_for_pick,
-                          quote_quality)
+from predict_card import (_base_division, _clean_meta, execution_ladder,
+                          filter_upcoming_promotion, infer_weightclass,
+                          leader_gap_for_pick, quote_quality)
 from production import allocate_stakes
 
 
@@ -223,6 +223,85 @@ class PromotionFilterTests(unittest.TestCase):
         card.loc[0, "event_title"] = "Dana White's Contender Series 12"
         picked = filter_upcoming_promotion(card, "dwcs", self._history())
         self.assertIn("Rookie One", picked["fighter_a"].tolist())
+
+
+class WeightclassInferenceTests(unittest.TestCase):
+    """The feed sends no weight class; every training row has one.
+
+    `weightclass` was captured as a hardcoded "" for every fight, so the
+    division flags were zero at serve and populated in training. On held-out
+    data that moved distance probabilities +14 points at heavyweight and -15
+    at women's flyweight, costing more than the rounds model had gained over a
+    division lookup table. It also broke identity: two fighters named Jean
+    Silva are separated only by division.
+    """
+
+    @staticmethod
+    def _history():
+        return pd.DataFrame([
+            {"date": pd.Timestamp("2025-01-01"), "fighter_a": "Heavy One",
+             "fighter_b": "Heavy Two", "weightclass": "Heavyweight Bout"},
+            {"date": pd.Timestamp("2025-06-01"), "fighter_a": "Mover",
+             "fighter_b": "Other Guy", "weightclass": "Light Heavyweight Bout"},
+            {"date": pd.Timestamp("2024-01-01"), "fighter_a": "Mover",
+             "fighter_b": "Old Foe", "weightclass": "UFC Middleweight Title Bout"},
+        ])
+
+    def _infer(self, a, b, supplied=None):
+        row = {"fighter_a": a, "fighter_b": b}
+        if supplied is not None:
+            row["weightclass"] = supplied
+        return infer_weightclass(pd.DataFrame([row]), self._history())
+
+    def test_agreeing_corners_give_their_shared_division(self):
+        values, sources = self._infer("Heavy One", "Heavy Two")
+        self.assertEqual(values[0], "Heavyweight Bout")
+        self.assertEqual(sources[0], "history-agree")
+
+    def test_disagreeing_corners_take_the_more_recent_bout(self):
+        # Mover last fought at light heavyweight (2025-06) and Old Foe at
+        # middleweight (2024-01); the later bout is the better guide.
+        values, sources = self._infer("Mover", "Old Foe")
+        self.assertEqual(values[0], "Light Heavyweight Bout")
+        self.assertEqual(sources[0], "history-recent")
+
+    def test_one_known_corner_is_still_better_than_nothing(self):
+        values, sources = self._infer("Heavy One", "Complete Unknown")
+        self.assertEqual(values[0], "Heavyweight Bout")
+        self.assertEqual(sources[0], "history-one-corner")
+
+    def test_two_debutants_stay_blank_rather_than_guessed(self):
+        values, sources = self._infer("Nobody A", "Nobody B")
+        self.assertEqual(values[0], "")
+        self.assertEqual(sources[0], "")
+
+    def test_a_supplied_division_is_never_overwritten(self):
+        values, sources = self._infer("Heavy One", "Heavy Two", "Catchweight Bout")
+        self.assertEqual(values[0], "Catchweight Bout")
+        self.assertEqual(sources[0], "provider")
+
+    def test_a_missing_cell_reads_as_missing_not_as_the_word_nan(self):
+        # `NaN or ""` returns the NaN because a nan float is truthy, and
+        # str(nan) is "nan", which is not falsy either. Read naively, every
+        # fight looks provider-supplied with a division called "nan".
+        values, sources = self._infer("Heavy One", "Heavy Two", float("nan"))
+        self.assertEqual(values[0], "Heavyweight Bout")
+        self.assertEqual(sources[0], "history-agree")
+
+    def test_title_wording_reduces_to_the_plain_division(self):
+        self.assertEqual(_base_division("UFC Middleweight Title Bout"),
+                         "Middleweight Bout")
+        self.assertEqual(_base_division("UFC Interim Heavyweight Title Bout"),
+                         "Heavyweight Bout")
+        self.assertEqual(_base_division("Light Heavyweight Bout"),
+                         "Light Heavyweight Bout")
+        self.assertEqual(_base_division(""), "")
+
+    def test_output_length_always_matches_the_card(self):
+        card = pd.DataFrame([{"fighter_a": "Heavy One", "fighter_b": "Heavy Two"},
+                             {"fighter_a": "X", "fighter_b": "Y"}])
+        values, sources = infer_weightclass(card, self._history())
+        self.assertEqual((len(values), len(sources)), (2, 2))
 
 
 class ExecutionPolicyTests(unittest.TestCase):

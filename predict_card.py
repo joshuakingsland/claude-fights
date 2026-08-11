@@ -13,6 +13,7 @@ import argparse
 import html
 import json
 import math
+import re
 from datetime import datetime, timezone
 
 import numpy as np
@@ -187,6 +188,74 @@ def leader_gap_for_pick(leader_prob_a, follower_prob_a, pick_a):
     return leader, follower, gap
 
 
+_TITLE_NOISE = re.compile(r"\bufc\b|\binterim\b|\btitle\b|\btournament\b", re.I)
+
+
+def _base_division(value):
+    """Strip title/interim wording down to the plain division."""
+    text = _TITLE_NOISE.sub(" ", str(value or ""))
+    return " ".join(text.split()).strip()
+
+
+def infer_weightclass(upcoming, fights):
+    """Fill each fight's division from the two fighters' most recent bouts.
+
+    The odds feed carries no weight class - the column was written as a
+    hardcoded "" for every fight ever captured - while every training row has
+    one. That skew is expensive twice over. It zeroes the division flags at
+    serve time, which moved held-out distance probabilities by +14 points at
+    heavyweight and -15 at women's flyweight and cost more accuracy than the
+    rounds model had over a division lookup table in the first place. And it
+    breaks identity: two fighters named Jean Silva are separated only by
+    division, so with none supplied the bout resolves to neither and is gated
+    out of trading entirely.
+
+    Both corners usually agree. Where they do not, the more recent bout wins,
+    on the grounds that the fighter who competed last is the better guide to
+    where this one is being made. On the 2026-08-10 board 15 of 38 disagreed
+    and 14 of those were cosmetic - the divisions differed but mapped to the
+    same model flags - leaving one fight where the choice mattered at all.
+
+    Returns (values, sources); the source column keeps the inference legible
+    rather than letting it pass as something the feed supplied.
+    """
+    seen = fights.dropna(subset=["weightclass"]).sort_values("date")
+    latest, when = {}, {}
+    for row in seen.itertuples():
+        for name in (row.fighter_a, row.fighter_b):
+            key = canonical_name(name)
+            latest[key] = row.weightclass
+            when[key] = row.date
+
+    values, sources = [], []
+    for _, row in upcoming.iterrows():
+        # `NaN or ""` returns the NaN, because a nan float is truthy, and
+        # str() of it is the word "nan" - which is not falsy either. An
+        # explicit null check is the only safe read of a missing cell.
+        raw = row.get("weightclass", "")
+        supplied = "" if raw is None or pd.isna(raw) else str(raw).strip()
+        if supplied:
+            values.append(supplied)
+            sources.append("provider")
+            continue
+        a, b = (canonical_name(row.get("fighter_a", "")),
+                canonical_name(row.get("fighter_b", "")))
+        known = [(latest[k], when[k]) for k in (a, b) if k in latest]
+        if not known:
+            values.append("")
+            sources.append("")
+        elif len(known) == 1:
+            values.append(_base_division(known[0][0]))
+            sources.append("history-one-corner")
+        elif _base_division(known[0][0]) == _base_division(known[1][0]):
+            values.append(_base_division(known[0][0]))
+            sources.append("history-agree")
+        else:
+            values.append(_base_division(max(known, key=lambda k: k[1])[0]))
+            sources.append("history-recent")
+    return values, sources
+
+
 def quote_quality(books, age_minutes, source, market_pick, execution_pick,
                   identity_resolved=True):
     """Return ``(ok, reason)`` for a live quote, before the edge rule applies.
@@ -244,6 +313,13 @@ def predict_upcoming(up):
     up = up.copy()
     up["display_a"] = up["fighter_a"]
     up["display_b"] = up["fighter_b"]
+    # Must precede identity resolution: that is what disambiguates two
+    # fighters sharing a name, and it needs the division to do it.
+    up["weightclass"], up["weightclass_source"] = infer_weightclass(up, fights)
+    filled = sum(1 for s in up["weightclass_source"] if s.startswith("history"))
+    if filled:
+        print(f"  weightclass inferred from fighter history for {filled} "
+              f"of {len(up)} fights")
     phys = pd.read_csv("raw/ufc_fighter_tott.csv")
     details = pd.read_csv("raw/ufc_fighter_details.csv")
     up, registry = resolve_identities(up.copy(), phys, details)
