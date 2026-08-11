@@ -126,20 +126,32 @@ def fair_american(p):
 
 
 def method_props(clf, fights_all, fight_rows, p_win_a):
-    """Fair method odds for both sides of each fight in fight_rows.
-    fights_all must contain fight_rows; features computed on the full
-    table then selected by index."""
+    """Fair method odds for both sides of each fight, in the caller's order.
+
+    fights_all must contain fight_rows; features are computed on the full
+    table then selected by index.
+
+    The sort is required for the career-rate join but must not leak into the
+    result: the caller zips this list against their own fights, and returning
+    date order silently rebound six of a 44-fight card onto the wrong fights
+    when the input was not already date-sorted. Rows come back in arrival
+    order, each carrying its two fighter names so the caller can check.
+    """
+    fights_all = fights_all.copy()
+    fights_all["_source_order"] = np.arange(len(fights_all))
     fights_all = fights_all.sort_values("date", kind="stable").reset_index(drop=True)
     L = career_method_rates(fights_all)
     F = attach_side_features(fights_all, L)
-    sel = F[F["event"] == "UPCOMING"].reset_index(drop=True)
+    sel = F[F["event"] == "UPCOMING"].sort_values("_source_order")
+    sel = sel.reset_index(drop=True)
     Pa = clf.predict_proba(build_X(sel, np.array(["a"] * len(sel))))
     Pb = clf.predict_proba(build_X(sel, np.array(["b"] * len(sel))))
     classes = list(clf[-1].classes_)
     out = []
     for i in range(len(sel)):
         pw = p_win_a[i]
-        props = {}
+        props = {"fighter_a": sel.at[i, "fighter_a"],
+                 "fighter_b": sel.at[i, "fighter_b"]}
         for tag, P, w in (("a", Pa, pw), ("b", Pb, 1 - pw)):
             for c in classes:
                 props[f"{tag}_{c}"] = round(

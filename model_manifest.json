@@ -1,5 +1,9 @@
 {
+<<<<<<< Updated upstream
   "created_at": "2026-08-11T02:28:04Z",
+=======
+  "created_at": "2026-08-11T06:20:44Z",
+>>>>>>> Stashed changes
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -19,8 +23,13 @@
   "event_day_stake_cap": 2,
   "research_two_unit_rule": 0.1,
   "bootstrap_models": 30,
+<<<<<<< Updated upstream
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+=======
+  "python": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
+  "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39",
+>>>>>>> Stashed changes
   "git_commit": "97cd3bfd8bf1f1cfcea83a8704aeb5841edf1512",
   "scikit_learn": "1.8.0",
   "dependencies": {
@@ -43,7 +52,7 @@
     "elo.py": "37fb77e27cb6eb5c50d48260098198a2efcecfb6b3060d181df8ec6d5e54a818",
     "adapter.py": "1dcd9711b5ed9f6048b613acd0591c3fb5b4f71c86c0482c86cb3a7a55d30879",
     "pipeline.py": "ef579124957c954a9942b1628794424719f2877bb2ce0bf6fb10cac7bd53b591",
-    "predict_card.py": "58ddf9ec5a508ac4853e3dbe95e6906bf27eb1bbe327b33be62ee61165ef6c1a",
+    "predict_card.py": "b809434eb48e35517c45e217134df72115fe3d39d8b5fc26ae48abd3e034fcce",
     "paper_ledger.py": "9da03e54b31030e7c345cb1d65f987a3e57b2fe8068d0deb8498511b8c5f1d41",
     "fetch_odds.py": "4674d33c25f793cd7cf0925825c95ab03d290ba1329fb31fff3d22f4f300719c",
     "site_template.html": "6a54580fc3e8e1fb7e07f6967e02534ea207bfcda92c1cdad2182a6e08c36280",
@@ -53,7 +62,7 @@
     "freshness.py": "e4015c11620642bd84d0a3a2c20c0c45810f73276daebefcb7439a7da5c6fc2e",
     "cancelled_fights.csv": "71d1bb15fccbfd67b9ab29da039c62c2a471ddf26c92df4eab4a8495a18e5798",
     "capture_close.py": "deb45799e223e97e06547dab61ee68674ec47ec0f5d89ce72572df82089b75d1",
-    "method_model.py": "dcef15fe84ce5876a542e9fa97d28f6a1773645bbc36679a6e023b303bf2dcde",
+    "method_model.py": "cbf44e10eedfff890d43a017f42b2cf67e3bc1009d9ce8c5a0f1516b23b86e0d",
     "method_validation.json": "b257b9474f201986046218de0e6a0ee82c5a6e8ca771980f9697586f34b6ea6d",
     "close_snapshots.csv": "263979709d4514d9b355e2af7712946b4b131d1b55ee0116b18431c2bc239d49",
     "data_source_manifest.json": "8b639c09cd98fe2dc225959a6141f1710f80a02b19b6477ba2ffefc6230ac525",

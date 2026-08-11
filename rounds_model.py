@@ -147,7 +147,16 @@ def _hazard_rows(featured, X):
 
 
 def prepare(fights):
-    """Point-in-time features for every fight, in the caller's order."""
+    """Point-in-time features for every fight.
+
+    Sorting by date is required: the career-rate join downstream depends on
+    it. `_source_order` remembers where each row came in so callers can put
+    the rows they care about back into their own order, which matters because
+    a caller holding a list of fights has no way to notice that the answers
+    came back shuffled.
+    """
+    fights = fights.copy()
+    fights["_source_order"] = np.arange(len(fights))
     fights = fights.sort_values("date", kind="stable").reset_index(drop=True)
     featured = attach_side_features(fights, career_method_rates(fights))
     method = featured["method"].astype(str).str.upper()
@@ -236,25 +245,36 @@ def fair_american(p):
 
 
 def card_prices(model, fights_all, tag="UPCOMING"):
-    """Fair prices for the rows tagged as upcoming.
+    """Fair prices for the rows tagged as upcoming, in the caller's order.
 
     Features come from the whole table so an upcoming fight sees each corner's
     full career to date, then only the tagged rows are scored. Scheduled
     fights carry no result, so `_usable` is not applied here; it gates
     training, where an outcome is required, not serving.
+
+    Results are restored to the order the rows arrived in. `prepare` sorts by
+    date, so returning its order handed the caller a list that only lined up
+    with their fights when the input happened to be date-sorted already.
+    Reversing a 44-fight card moved six of them onto the wrong fight - a main
+    event priced as three rounds and a prelim priced as five - with no error,
+    because the lengths still matched. Each row also carries the two fighter
+    names so the caller can assert the pairing rather than trust it.
     """
     featured = prepare(fights_all)
-    selected = featured[featured["event"] == tag].reset_index(drop=True)
+    selected = featured[featured["event"] == tag]
+    selected = selected.sort_values("_source_order").reset_index(drop=True)
     if not len(selected):
         return []
     priced = totals_and_distance(model, selected)
     out = []
-    for row in priced:
+    for position, row in enumerate(priced):
         distance = row["distance"]
         if not np.isfinite(distance):
             out.append(None)
             continue
         out.append({
+            "fighter_a": selected.at[position, "fighter_a"],
+            "fighter_b": selected.at[position, "fighter_b"],
             "distance_pct": round(float(distance) * 100, 1),
             "distance": fair_american(distance),
             "finish": fair_american(1.0 - distance),

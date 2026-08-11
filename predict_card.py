@@ -216,6 +216,26 @@ def quote_quality(books, age_minutes, source, market_pick, execution_pick,
     return True, ""
 
 
+def _assert_aligned(label, priced, hyp):
+    """Fail loudly if a prop list came back bound to the wrong fights.
+
+    Both prop models sort internally and used to return date order, which
+    lined up with the caller's fights only because the odds feed happens to
+    write them date-sorted. A hand-edited CSV was one step from pricing a
+    main event as a prelim, and the length check could not see it. Names are
+    compared because they are the thing that must match.
+    """
+    for position, row in enumerate(priced):
+        if not row:
+            continue
+        expected = (hyp.at[position, "fighter_a"], hyp.at[position, "fighter_b"])
+        got = (row.get("fighter_a"), row.get("fighter_b"))
+        if got != expected:
+            raise ValueError(
+                f"{label} misaligned at row {position}: "
+                f"expected {expected}, got {got}")
+
+
 def predict_upcoming(up):
     fights = pd.read_csv("fights_v2.csv", parse_dates=["date"])
     assert_clean(fights, up)
@@ -392,11 +412,13 @@ def predict_upcoming(up):
         fr = allf[allf["event"] == "UPCOMING"]
         if len(fr) == len(out):
             props = MM.method_props(clf, allf, fr, [o["_p_a"] for o in out])
-            for o, pr, (_, r) in zip(out, props, fr.iterrows()):
+            _assert_aligned("method props", props, hyp)
+            for o, pr in zip(out, props):
                 pick_is_a = o["_pick_a"]
                 o["props"] = {("pick_" if (k[0] == "a") == pick_is_a
                                else "opp_") + k[2:]: v
-                              for k, v in pr.items()}
+                              for k, v in pr.items()
+                              if k not in ("fighter_a", "fighter_b")}
     except Exception as exc:
         print("props skipped:", exc)
     # totals and distance (fair prices only; see rounds_model for why these
@@ -409,6 +431,7 @@ def predict_upcoming(up):
         allf["date"] = pd.to_datetime(allf["date"])
         priced = RM.card_prices(RM.train(fights), allf)
         if len(priced) == len(out):
+            _assert_aligned("rounds prices", priced, hyp)
             for o, rounds in zip(out, priced):
                 if rounds:
                     # With no resolved identity the career rates are all
@@ -416,6 +439,8 @@ def predict_upcoming(up):
                     # so rather than letting a lookup read as a read on the
                     # fighters.
                     rounds["baseline_only"] = bool(o["_neutral_identity"])
+                    rounds.pop("fighter_a", None)
+                    rounds.pop("fighter_b", None)
                     o["rounds"] = rounds
         else:
             print(f"rounds skipped: priced {len(priced)} of {len(out)} fights")
