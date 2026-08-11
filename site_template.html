@@ -60,6 +60,10 @@
   /* These markets have no book quote to compare against, so the card must
      never let a fair price read like an edge the way the moneyline does. */
   .unpriced{margin-top:3px;font-size:9px;color:var(--faint);opacity:.75;font-style:italic}
+  /* Loud on purpose: a flat card reads as a huge edge if you only look at
+     the gap to the book, and these prices carry no other gate. */
+  .noread{margin-top:4px;font-size:9.5px;color:var(--warn);border:1px solid var(--warn);
+    border-radius:3px;padding:3px 5px;line-height:1.4}
   table.ledger{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
   .ledger th{color:var(--faint);font-weight:500;text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);font-size:11px}
   .ledger td{padding:9px 8px;border-bottom:1px solid var(--line);color:var(--muted)}.ledger td.pick{color:var(--text)}
@@ -137,7 +141,7 @@ function row(f){
     fair opp: DEC ${signed(f.props.opp_DEC)} | KO ${signed(f.props.opp_KO)} | SUB ${signed(f.props.opp_SUB)}</div>`:""}${f.rounds?`<div class="props">
     distance ${signed(f.rounds.distance)} <span class="pc">${f.rounds.distance_pct.toFixed(0)}%</span> | finish ${signed(f.rounds.finish)}<br>
     ${f.rounds.totals.map(t=>`O${t.line} ${signed(t.over)} / U ${signed(t.under)}`).join(" | ")}
-    <div class="unpriced">fair prices only &mdash; no book quotes these markets${f.rounds.baseline_only?"; division baseline, fighter unresolved":""}</div></div>`:""}</div></div>`;
+    <div class="unpriced">fair prices only &mdash; no book quotes these markets${f.rounds.baseline_only?`; base rate only, ${f.rounds.career_bouts===0?"no career record":"unresolved fighter"}`:""}</div>${f.rounds.uninformative_card?`<div class="noread">no read on this card &mdash; totals sit at the base rate across every fight</div>`:""}</div>`:""}</div></div>`;
 }
 const bets=upcoming.filter(activeSignal).sort((a,b)=>b.net-a.net);
 document.getElementById("bets").innerHTML=bets.length?bets.map(row).join(""):

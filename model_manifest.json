@@ -1,5 +1,9 @@
 {
+<<<<<<< Updated upstream
   "created_at": "2026-08-11T13:42:58Z",
+=======
+  "created_at": "2026-08-11T18:51:11Z",
+>>>>>>> Stashed changes
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -19,8 +23,13 @@
   "event_day_stake_cap": 2,
   "research_two_unit_rule": 0.1,
   "bootstrap_models": 30,
+<<<<<<< Updated upstream
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+=======
+  "python": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
+  "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39",
+>>>>>>> Stashed changes
   "git_commit": "99a471ff4aaa2d788527fd2d811810b957612b68",
   "scikit_learn": "1.8.0",
   "dependencies": {
@@ -43,10 +52,10 @@
     "elo.py": "37fb77e27cb6eb5c50d48260098198a2efcecfb6b3060d181df8ec6d5e54a818",
     "adapter.py": "1dcd9711b5ed9f6048b613acd0591c3fb5b4f71c86c0482c86cb3a7a55d30879",
     "pipeline.py": "ef579124957c954a9942b1628794424719f2877bb2ce0bf6fb10cac7bd53b591",
-    "predict_card.py": "006990f3ad84e5e3ec0040e6d3222c78e807d990e7ec085081f417a5e1608f20",
+    "predict_card.py": "1dd9c03a019fbfad3be75dfd3789dc710aa03dd085195e9bf26b7c10f3493e14",
     "paper_ledger.py": "9da03e54b31030e7c345cb1d65f987a3e57b2fe8068d0deb8498511b8c5f1d41",
     "fetch_odds.py": "4674d33c25f793cd7cf0925825c95ab03d290ba1329fb31fff3d22f4f300719c",
-    "site_template.html": "6a54580fc3e8e1fb7e07f6967e02534ea207bfcda92c1cdad2182a6e08c36280",
+    "site_template.html": "109e1dd26dbf650b96d1a97e283b1b6cf47e9ee64fe84750461dd7cfb7e92c05",
     "requirements.txt": "52c20d17a069ed0c738ea7eb78088b36ca360ea995e09da48639af1293043ad8",
     "identity.py": "dec21893641429c5f8993c68477640f405370e384d1aa5ccbe990f096e87193b",
     "data_quality.py": "0c0260f7f10ad7f8fd280f9be64d7fcb1cdb7eaeca04cb4325e4cef1dce0d7c4",

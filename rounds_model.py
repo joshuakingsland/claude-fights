@@ -244,6 +244,34 @@ def fair_american(p):
         int(round(100 * (1 - p) / p))
 
 
+# Below this within-card spread the model is repeating its prior rather than
+# reading the fights. Set from data: across 110 held-out cards of six or more
+# bouts the smallest standard deviation was 0.0567, so 0.05 has never fired on
+# a real card. It is a warning and not a gate, because on a five-fight card
+# five fights drawn from a genuine card look this flat 11.2% of the time.
+FLAT_CARD_SD = 0.05
+FLAT_CARD_MIN_FIGHTS = 4
+
+
+def flat_card(probabilities, base_rate, tolerance=0.05):
+    """True when a card's prices carry no information beyond the base rate.
+
+    The failure this catches is specific and was observed live. On the
+    2026-08-11 Contender Series card every fighter had zero recorded bouts, so
+    every career feature was zero and the model returned 69% over 1.5 rounds
+    for all five fights - the unconditional base rate. The market, which could
+    see that one fighter was a -3500 favourite, ranged from 20% to 54%. Read
+    naively that is a 49-point edge on every fight; it is really a model with
+    nothing to say, and nothing else in the pipeline would have noticed,
+    because these prices carry no book count and no identity gate.
+    """
+    values = np.asarray([p for p in probabilities if np.isfinite(p)], dtype=float)
+    if len(values) < FLAT_CARD_MIN_FIGHTS:
+        return False
+    return bool(values.std() < FLAT_CARD_SD
+                and abs(values.mean() - base_rate) < tolerance)
+
+
 def card_prices(model, fights_all, tag="UPCOMING"):
     """Fair prices for the rows tagged as upcoming, in the caller's order.
 
@@ -272,9 +300,19 @@ def card_prices(model, fights_all, tag="UPCOMING"):
         if not np.isfinite(distance):
             out.append(None)
             continue
+        # Every career feature is built from the two corners' prior bouts, so
+        # a fighter with none contributes zeros and the model falls back to
+        # its prior. The identity gate does not catch this: a Contender
+        # Series fighter resolves cleanly against the UFCStats registry and
+        # still has never fought, which is how five fights priced at the base
+        # rate came to look like a 49-point edge.
+        career = min(int(selected.at[position, "n_pre_a"] or 0),
+                     int(selected.at[position, "n_pre_b"] or 0))
         out.append({
             "fighter_a": selected.at[position, "fighter_a"],
             "fighter_b": selected.at[position, "fighter_b"],
+            "career_bouts": career,
+            "no_career_data": career == 0,
             "distance_pct": round(float(distance) * 100, 1),
             "distance": fair_american(distance),
             "finish": fair_american(1.0 - distance),

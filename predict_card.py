@@ -285,6 +285,30 @@ def quote_quality(books, age_minutes, source, market_pick, execution_pick,
     return True, ""
 
 
+def _flag_flat_cards(out, fights):
+    """Mark whole cards whose totals carry no information beyond the prior.
+
+    Checked per card rather than per fight, because the signature is a card
+    of prices that agree with each other and with the base rate. A warning,
+    not a gate: on a short card five real fights look this flat 11% of the
+    time, so blocking on it would throw away genuine prices.
+    """
+    import rounds_model as RM
+    base = float(fights["method"].astype(str).str.contains("DEC", case=False).mean())
+    groups = event_groups([str(o.get("scheduled_start") or o.get("date", ""))
+                           for o in out])
+    for group in set(groups):
+        members = [o for o, g in zip(out, groups) if g == group and o.get("rounds")]
+        if not RM.flat_card([o["rounds"]["distance_pct"] / 100.0
+                             for o in members], base):
+            continue
+        for o in members:
+            o["rounds"]["uninformative_card"] = True
+        print(f"  WARNING: totals for {len(members)} fights on {members[0]['date']} "
+              f"sit at the base rate with no spread; the model has no read on "
+              f"this card")
+
+
 def _assert_aligned(label, priced, hyp):
     """Fail loudly if a prop list came back bound to the wrong fights.
 
@@ -510,14 +534,16 @@ def predict_upcoming(up):
             _assert_aligned("rounds prices", priced, hyp)
             for o, rounds in zip(out, priced):
                 if rounds:
-                    # With no resolved identity the career rates are all
-                    # zeros, so these collapse to the division baseline. Say
-                    # so rather than letting a lookup read as a read on the
-                    # fighters.
-                    rounds["baseline_only"] = bool(o["_neutral_identity"])
+                    # Two ways to have nothing to say: no resolved identity,
+                    # or a resolved fighter who has simply never fought. The
+                    # second is the one that bit - a Contender Series fighter
+                    # resolves fine and still has zero career features.
+                    rounds["baseline_only"] = bool(
+                        o["_neutral_identity"] or rounds["no_career_data"])
                     rounds.pop("fighter_a", None)
                     rounds.pop("fighter_b", None)
                     o["rounds"] = rounds
+            _flag_flat_cards(out, fights)
         else:
             print(f"rounds skipped: priced {len(priced)} of {len(out)} fights")
     except Exception as exc:

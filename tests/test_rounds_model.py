@@ -185,6 +185,93 @@ class OrderAlignmentTests(unittest.TestCase):
         self.assertEqual([r["fighter_b"] for r in priced], ["Rival 0", "Rival 1"])
 
 
+class NoReadGuardTests(unittest.TestCase):
+    """Two ways the totals model can have nothing to say, both observed live.
+
+    On the 2026-08-11 Contender Series card every fighter had zero recorded
+    bouts, so every career feature was zero and the model returned the
+    unconditional base rate - 69% over 1.5 rounds - for all five fights. The
+    books, which could see one fighter was a -3500 favourite, ranged from 20%
+    to 54%. Naively that reads as a 49-point edge on every fight. Nothing else
+    in the pipeline would have caught it: these prices carry no book count,
+    and the identity gate passes because a Contender Series fighter resolves
+    against the UFCStats registry perfectly well - he has simply never fought.
+    """
+
+    def setUp(self):
+        self.fights = _fights()
+        self.model = rm.train(self.fights)
+
+    def test_a_debutant_pairing_is_marked_as_having_no_career_data(self):
+        card = pd.concat([self.fights, pd.DataFrame([{
+            "date": pd.Timestamp("2026-08-16"), "event": "UPCOMING",
+            "time_format": "3 Rnd (5-5-5)", "weightclass": "Lightweight Bout",
+            "fighter_a": "Debut One", "fighter_b": "Debut Two",
+            "winner": "A", "method": "", "fight_time_min": float("nan"),
+            "dob_a": pd.Timestamp("1995-01-01"), "dob_b": pd.Timestamp("1996-01-01"),
+        }])], ignore_index=True)
+        row = rm.card_prices(self.model, card)[0]
+        self.assertTrue(row["no_career_data"])
+        self.assertEqual(row["career_bouts"], 0)
+
+    def test_an_experienced_pairing_is_not_marked(self):
+        card = pd.concat([self.fights, pd.DataFrame([{
+            "date": pd.Timestamp("2026-08-16"), "event": "UPCOMING",
+            "time_format": "3 Rnd (5-5-5)", "weightclass": "Lightweight Bout",
+            "fighter_a": "Banger 0", "fighter_b": "Grinder 0",
+            "winner": "A", "method": "", "fight_time_min": float("nan"),
+            "dob_a": pd.Timestamp("1992-01-01"), "dob_b": pd.Timestamp("1990-01-01"),
+        }])], ignore_index=True)
+        row = rm.card_prices(self.model, card)[0]
+        self.assertFalse(row["no_career_data"])
+        self.assertGreater(row["career_bouts"], 0)
+
+    def test_one_debutant_does_not_condemn_the_rest_of_a_card(self):
+        # A real card carries newcomers; the flag is per fight, not per card.
+        rows = [{"date": pd.Timestamp("2026-08-16"), "event": "UPCOMING",
+                 "time_format": "3 Rnd (5-5-5)", "weightclass": "Lightweight Bout",
+                 "fighter_a": a, "fighter_b": b, "winner": "A", "method": "",
+                 "fight_time_min": float("nan"),
+                 "dob_a": pd.Timestamp("1992-01-01"),
+                 "dob_b": pd.Timestamp("1990-01-01")}
+                for a, b in [("Banger 0", "Grinder 0"), ("Debut One", "Debut Two")]]
+        priced = rm.card_prices(self.model,
+                                pd.concat([self.fights, pd.DataFrame(rows)],
+                                          ignore_index=True))
+        self.assertEqual([r["no_career_data"] for r in priced], [False, True])
+
+
+class FlatCardTests(unittest.TestCase):
+    """A card of prices that agree with each other and with the prior."""
+
+    BASE = 0.47
+
+    def test_a_card_stuck_on_the_base_rate_is_flagged(self):
+        self.assertTrue(rm.flat_card([0.47, 0.48, 0.46, 0.47, 0.48], self.BASE))
+
+    def test_a_card_with_real_spread_is_not_flagged(self):
+        self.assertFalse(rm.flat_card([0.20, 0.38, 0.55, 0.61, 0.36], self.BASE))
+
+    def test_flat_but_far_from_the_prior_is_not_this_failure(self):
+        # Tight agreement well away from the base rate is a claim, not a
+        # shrug, so it is not what this check is looking for.
+        self.assertFalse(rm.flat_card([0.80, 0.81, 0.79, 0.80, 0.81], self.BASE))
+
+    def test_a_short_card_is_never_flagged(self):
+        # Measured: five fights drawn from a genuine card look this flat 11%
+        # of the time, so the check needs enough fights to mean anything and
+        # is a warning rather than a gate even then.
+        self.assertFalse(rm.flat_card([0.47, 0.47, 0.47], self.BASE))
+
+    def test_missing_prices_do_not_break_the_check(self):
+        self.assertFalse(rm.flat_card([float("nan")] * 6, self.BASE))
+
+    def test_the_threshold_sits_below_every_real_card_measured(self):
+        # 110 held-out cards of six or more bouts had a minimum spread of
+        # 0.0567; the threshold is 0.05 so it has never fired on a real card.
+        self.assertLess(rm.FLAT_CARD_SD, 0.0567)
+
+
 class FairPriceTests(unittest.TestCase):
     def test_favourite_and_underdog_prices_straddle_even_money(self):
         self.assertLess(rm.fair_american(0.75), 0)
