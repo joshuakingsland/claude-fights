@@ -13,6 +13,7 @@ from pathlib import Path
 
 import pandas as pd
 
+import historical_odds
 from backtest import american_to_prob
 from identity import norm_name
 
@@ -22,10 +23,22 @@ def _pair(a, b):
 
 
 def _file_sha256(path):
+    """Content hash of a quotes file, or of every partition under a root.
+
+    The archive is gzipped year partitions now, so the provenance hash has to
+    cover a set of files rather than one. Parts are hashed in sorted order with
+    their names included, which keeps the digest stable and makes a renamed or
+    dropped partition change it.
+    """
+    path = Path(path)
     digest = hashlib.sha256()
-    with Path(path).open("rb") as source:
-        for block in iter(lambda: source.read(1024 * 1024), b""):
-            digest.update(block)
+    parts = (sorted((path / "quotes").glob("quotes_*.csv.gz")) +
+             sorted(path.glob("historical_h2h_quotes.csv"))) if path.is_dir() else [path]
+    for part in parts:
+        digest.update(part.name.encode())
+        with part.open("rb") as source:
+            for block in iter(lambda: source.read(1024 * 1024), b""):
+                digest.update(block)
     return digest.hexdigest()
 
 
@@ -36,7 +49,10 @@ def _devig_prob_a(odds_a, odds_b):
 
 
 def _read_quotes(path):
-    quotes = pd.read_csv(path)
+    # Accepts the archive root (gzipped year partitions) or a single CSV, so
+    # this keeps working against both the new layout and any one-off export.
+    quotes = (historical_odds.load_quotes(path) if Path(path).is_dir()
+              else pd.read_csv(path))
     needed = {
         "event_uid", "event_name", "event_date", "snapshot_kind",
         "actual_snapshot", "event_start_utc", "api_event_id",
@@ -290,7 +306,7 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--quotes", default="raw/odds_api_historical/historical_h2h_quotes.csv")
+    parser.add_argument("--quotes", default="raw/odds_api_historical")
     parser.add_argument("--fights", default="fights_v2.csv")
     parser.add_argument("--output", default="data/odds_history/odds_history_api_entry_close.csv")
     parser.add_argument(

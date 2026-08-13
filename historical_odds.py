@@ -62,17 +62,58 @@ def pair_key(a, b):
     return "|".join(sorted((norm_name(a), norm_name(b))))
 
 
+def _open_append(path):
+    """Append handle, transparently gzipped when the name says so."""
+    if str(path).endswith(".gz"):
+        return gzip.open(path, "at", newline="", encoding="utf-8")
+    return open(path, "a", newline="", encoding="utf-8")
+
+
 def _append_csv(path, fields, rows):
     if not rows:
         return
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     write_header = not path.exists()
-    with path.open("a", newline="", encoding="utf-8") as f:
+    with _open_append(path) as f:
         writer = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
         if write_header:
             writer.writeheader()
         writer.writerows(rows)
+
+
+def quote_partition(root, event_date):
+    """One gzipped file per event year.
+
+    A single flat CSV projects to 436 MB for one region of the dense sweep and
+    1.7 GB for four, against a 100 MB hard limit and a 50 MB warning - and the
+    entry/close pull alone already reached 27 MB. Gzip measured 26x on the real
+    file (27.4 MB to 1.0 MB), and splitting by year keeps any one part small
+    even if a year is sampled far more heavily than the rest.
+    """
+    year = str(pd.Timestamp(event_date).year)
+    return Path(root) / "quotes" / f"quotes_{year}.csv.gz"
+
+
+def load_quotes(root="raw/odds_api_historical"):
+    """Every archived quote, across year partitions and the legacy flat file.
+
+    The flat CSV predates partitioning and is still read so nothing already
+    collected is orphaned by the layout change.
+    """
+    root = Path(root)
+    parts = sorted((root / "quotes").glob("quotes_*.csv.gz"))
+    legacy = root / "historical_h2h_quotes.csv"
+    frames = [pd.read_csv(part) for part in parts]
+    if legacy.exists():
+        frames.append(pd.read_csv(legacy))
+    if not frames:
+        return pd.DataFrame(columns=QUOTE_FIELDS)
+    out = pd.concat(frames, ignore_index=True)
+    # Deduplicate on the whole row. A narrower key looked reasonable and
+    # silently dropped 110 genuine quotes, because one response legitimately
+    # carries several rows sharing its hash, event, book and kind.
+    return out.drop_duplicates(ignore_index=True)
 
 
 def _read_manifest(path):
@@ -202,7 +243,7 @@ def _save_used_response(directory, event, kind, requested, payload, events):
     return path, hashlib.sha256(encoded).hexdigest()
 
 
-def _record(manifest_path, quote_path, response_dir, event, kind, requested,
+def _record(manifest_path, quote_root, response_dir, event, kind, requested,
             payload, headers, matched, card_start):
     actual = pd.to_datetime(payload.get("timestamp"), utc=True, errors="coerce")
     valid_time = card_start is not None and not pd.isna(actual) and actual < card_start
@@ -217,7 +258,8 @@ def _record(manifest_path, quote_path, response_dir, event, kind, requested,
                                                     payload, matched)
         quotes = _quotes(matched, event, kind, requested, str(actual), card_start, digest)
         status = "ok" if quotes else "no_quotes"
-    _append_csv(quote_path, QUOTE_FIELDS, quotes)
+    _append_csv(quote_partition(quote_root, event['event_date']),
+                QUOTE_FIELDS, quotes)
     _append_csv(manifest_path, MANIFEST_FIELDS, [{
         "event_uid": event["event_uid"], "event_name": event["event_name"],
         "event_date": event["event_date"], "snapshot_kind": kind,
@@ -238,7 +280,7 @@ def run(args):
     events = _schedule(args.fights, start, end)
     root = Path(args.output_dir)
     manifest_path = root / "snapshot_manifest.csv"
-    quote_path = root / "historical_h2h_quotes.csv"
+    quote_root = root
     if args.force:
         attempted, cached_starts = set(), {}
     else:
@@ -268,9 +310,18 @@ def run(args):
         raise SystemExit("Set ODDS_API_KEY in the environment; do not put it in a file or command line.")
     requests, quote_count, completed = 0, 0, 0
 
+    # A GitHub job is killed at six hours and the commit step never runs, so
+    # everything the run fetched is lost. Stopping ourselves with time to spare
+    # turns that into a normal partial run the manifest can resume from.
+    deadline = (time.monotonic() + args.max_runtime_minutes * 60.0
+                if args.max_runtime_minutes else None)
+
+    def out_of_time():
+        return deadline is not None and time.monotonic() >= deadline
+
     def fetch(query_time):
         nonlocal requests
-        if requests >= args.max_requests:
+        if requests >= args.max_requests or out_of_time():
             return None, None
         payload, headers = _request(key, query_time, args.regions)
         requests += 1
@@ -299,14 +350,14 @@ def run(args):
                 if candidate is not None:
                     card_start = candidate
                     discovered = True
-                    _record(manifest_path, quote_path, root / "responses", event,
+                    _record(manifest_path, quote_root, root / "responses", event,
                             kind, requested, payload, headers, matched, card_start)
                     break
-                _record(manifest_path, quote_path, root / "responses", event,
+                _record(manifest_path, quote_root, root / "responses", event,
                         kind, requested, payload, headers, matched,
                         day + pd.Timedelta(days=1))
         if not discovered:
-            if requests >= args.max_requests:
+            if requests >= args.max_requests or out_of_time():
                 break
             continue
 
@@ -320,13 +371,16 @@ def run(args):
             if payload is None:
                 break
             matched = _matched_events(payload, event["pairs"])
-            status, n = _record(manifest_path, quote_path, root / "responses", event,
+            status, n = _record(manifest_path, quote_root, root / "responses", event,
                                 kind, requested, payload, headers, matched, card_start)
             quote_count += n
             if status == "ok":
                 completed += 1
-        if requests >= args.max_requests:
+        if requests >= args.max_requests or out_of_time():
             break
+    if out_of_time():
+        print("  stopped on the runtime budget with work remaining; "
+              "re-dispatch to resume from the manifest")
     print(f"completed snapshot kinds: {completed}; quote rows: {quote_count}; requests: {requests}")
     print(f"raw inputs and manifest: {root}")
     return {"requests": requests, "quote_rows": quote_count, "completed": completed}
@@ -343,6 +397,9 @@ def main():
     parser.add_argument("--max-requests", type=int, default=30,
                         help="safety cap; run repeated batches after checking coverage")
     parser.add_argument("--credits-per-request", type=int, default=10)
+    parser.add_argument("--max-runtime-minutes", type=float, default=300.0,
+                        help="stop fetching after this long so the caller can "
+                             "still commit; 0 disables the budget")
     parser.add_argument("--output-dir", default="raw/odds_api_historical")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true", help="re-fetch completed snapshot kinds")

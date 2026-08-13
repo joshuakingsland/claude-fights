@@ -756,7 +756,7 @@ def main():
     parser.add_argument("--entry-predictions", default="historical_entry_validation.csv")
     parser.add_argument(
         "--api-quotes",
-        default="raw/odds_api_historical/historical_h2h_quotes.csv",
+        default="raw/odds_api_historical",
     )
     parser.add_argument("--bootstrap", type=int, default=5000)
     parser.add_argument("--timing-min-train", type=int, default=200)
