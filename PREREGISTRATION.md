@@ -311,3 +311,106 @@ event-clustered lower bound above zero, n >= 200. And then the holdout.
 Prior, recorded before running: I expect zero survivors after correction. If
 one survives, the most likely explanation is still that it is the tail of a
 family of twelve, which is what the holdout exists to adjudicate.
+
+---
+
+# Addendum 5, 2026-08-13: the H9-H20 result
+
+Development set only, n=990 fights, 2022-06-18 to 2025-08-23. Holdout never
+opened. Reproducible via `market_residual.py`; the code is under test.
+
+## Every candidate, not only the survivor
+
+Coefficients are probability points of market error per unit of the feature.
+
+| candidate | n | coefficient | 90% CI | Bonferroni CI |
+|---|---|---|---|---|
+| H9 layoff gap | 990 | -0.00009 | [-0.00020, +0.00002] | [-0.00026, +0.00010] |
+| H10 age gap | 990 | **-0.00730** | [-0.01168, -0.00276] | [-0.01422, -0.00023] |
+| H11 stance edge | 990 | +0.05709 | [+0.01291, +0.10142] | [-0.01181, +0.12709] |
+| H12 reach gap | 990 | +0.00132 | [-0.00505, +0.00800] | [-0.00987, +0.01268] |
+| H13 recent form | 990 | -0.02647 | [-0.08692, +0.04027] | [-0.13217, +0.08293] |
+| H14 experience gap | 990 | -0.00363 | [-0.00671, -0.00054] | [-0.00776, +0.00160] |
+| H15 heavyweight | 990 | +0.04655 | [-0.02752, +0.11680] | [-0.05724, +0.15796] |
+| H16 five-round bout | 990 | -0.07135 | [-0.18313, +0.03862] | [-0.25905, +0.09016] |
+| H17 ko-loss history | 990 | -0.01115 | [-0.02580, +0.00671] | [-0.03737, +0.02011] |
+| H18 book disagreement | 990 | +0.00115 | [-0.00622, +0.00799] | [-0.00976, +0.01102] |
+| H19 line movement | 972 | +1.07108 | [-0.33472, +2.47791] | [-1.15592, +3.29678] |
+| H20 favourite size | 990 | +0.03181 | [-0.00972, +0.07070] | [-0.02714, +0.09787] |
+
+Two cleared zero uncorrected (H10, H11, and H14 marginally). That is exactly
+what the correction predicts from noise: at 90% across twelve tests you expect
+roughly one, and we got three. Only H10 survived Bonferroni.
+
+## H10 does not survive either
+
+Its Bonferroni upper bound was **-0.00023**. The bound is on zero, and a
+family-wise bound across twelve candidates is the 0.42nd percentile of the
+bootstrap - the third or fourth order statistic even at 5,000 draws. So the
+sign of that bound is partly a property of the random seed.
+
+Re-run across eight seeds at 5,000 draws each, the coefficient is rock stable
+(-0.00724 to -0.00736) and the bound is a coin flip:
+
+| seeds where the Bonferroni interval excludes zero | 4 of 8 |
+|---|---|
+
+A finding that depends on the seed is not a finding. `seed_stability` in
+`market_residual.py` exists so this check is never skipped again.
+
+## And it fails the second gate regardless
+
+Betting the younger fighter at real entry prices, event-clustered:
+
+| age gap | n | win rate | implied (with vig) | ROI | 90% CI |
+|---|---|---|---|---|---|
+| any | 990 | 60.00% | 59.44% | +9.09% | [-4.21%, +28.76%] |
+| 2+ years | 694 | 62.25% | 61.99% | +11.10% | [-7.24%, +41.18%] |
+| 4+ years | 450 | 64.89% | 64.90% | +18.79% | [-8.11%, +64.06%] |
+| 6+ years | 273 | 71.79% | 68.48% | +2.61% | [-4.27%, +9.37%] |
+| 8+ years | 135 | 74.81% | 70.68% | +3.77% | [-5.80%, +13.11%] |
+
+Every interval spans zero, so the pre-registered bar - lower bound above zero
+on n >= 200 - fails at every threshold. Three things say the ROI is noise:
+
+- **The win rate is the implied probability.** At 4+ years, 64.89% actual
+  against 64.90% implied, vig included. The market has already priced age.
+- **ROI is non-monotone in the signal**, peaking at +18.79% on 4+ and
+  collapsing to +2.61% on 6+. A real edge strengthens as the signal does.
+  This is the same shape that discredited H1's 10+ bucket.
+- **The intervals are enormous**, up to +64%. A mean and a median that far
+  apart means a handful of longshots landed, not that a rule paid.
+
+The last two are the tell. A rule can only post +18.79% ROI while winning at
+exactly its implied rate if the winners happened to be the long prices, which
+is variance wearing an edge's clothing.
+
+## Where this leaves the moneyline
+
+Twenty hypotheses. H1 and H2 killed the model's own claimed edge, H3 and H4
+found no lead-lag across 34 books and 1.68M observations, H5 could not predict
+line movement, H6 found a real favourite-longshot bias too small and too
+threshold-fragile to bet, H7 showed every fundamental feature makes the
+forecast monotonically worse, H8 was confounded by the book choosing which
+total to hang, and H9-H20 found nothing in the market's own residual that
+survives correction.
+
+The instruction was twenty before giving up on the moneyline. That is twenty,
+and the answer is consistent at every granularity we can reach: **this market
+is efficient against everything in this dataset.** The stop rule from the
+original pre-registration applies - keep the pipeline as an instrument, do not
+bet.
+
+The holdout is still sealed. Nothing has earned the right to open it, and that
+is the correct outcome rather than a wasted one: we now know the edge is not
+there, which is worth considerably more than the ~360,000 credits it cost to
+establish.
+
+## What would change this answer
+
+Not more features, and not more hypotheses of this shape - H7 settled the
+first and this family settled the second. The two things genuinely untried are
+different in kind rather than degree: prices from books that move slower than
+the ones archived here, and markets with fewer participants than the moneyline
+where a model has something to price that the crowd has not. Both are data
+acquisition problems, not modelling ones.
