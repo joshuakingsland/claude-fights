@@ -250,3 +250,64 @@ Prior, recorded before pulling: totals are thinly modelled and I think the
 first criterion has a real chance. I doubt the second, because thin markets
 carry wide margins and the vig hurdle on a -130/+100 pair is steeper than
 the moneyline's.
+
+---
+
+# Addendum 4, 2026-08-13: H9-H20 as one corrected family
+
+The operator wants at least twenty hypotheses before the moneyline is
+abandoned, and is right that the totals result is weak - the book chooses
+which line to hang, so fights it expects to be short get 1.5 and long get
+2.5. The O/U 2.5 subset is therefore selected, and "the over hits 62% against
+58% implied" is partly line assignment rather than mispricing. Combined with
+the 3-round subset's interval already spanning zero, that is parked.
+
+## Why these run together
+
+Twelve hypotheses tested one at a time, stopping when one passes, is a
+procedure that returns a false positive with near certainty. Across twenty
+independent tests at 90% confidence, roughly seven will clear zero by chance.
+Running them as a family with a correction is both faster and the only way a
+survivor means anything.
+
+## The framework
+
+The market's error on a fight is `y - p_market`, using the de-vigged entry
+consensus. If the market is efficient that residual is unpredictable. If any
+candidate feature predicts it, that feature is an edge, and its size is
+directly the probability points we would be capturing.
+
+This subsumes the individual hypotheses. Each candidate below is a claim that
+the market misprices a particular kind of fight, and each becomes a
+coefficient in the same regression against the same residual:
+
+- H9 layoff: the market misprices fighters returning from long absences
+- H10 age: the market misprices old or young fighters beyond the line
+- H11 stance: southpaw/orthodox mismatches
+- H12 reach: extreme reach advantages
+- H13 form: fighters on winning or losing runs
+- H14 experience: debutants and very green fighters
+- H15 division: heavyweight, women's divisions
+- H16 championship rounds: five-round bouts
+- H17 knockout history: fighters with recent knockout losses
+- H18 book disagreement: fights where books disagree most
+- H19 line movement: fights whose price moved most between entry and close
+- H20 favourite size: how far the price sits from even
+
+## The bar
+
+Reported for every candidate, not only survivors: coefficient, 90%
+event-clustered interval, and a Bonferroni-adjusted interval at family-wise
+90% across the number of candidates actually tested.
+
+A candidate is a real finding only if its **Bonferroni-adjusted** interval
+excludes zero. An uncorrected interval clearing zero in a family this size is
+the expected behaviour of noise, not evidence.
+
+Any survivor then has to clear the same second gate as every hypothesis
+before it: a flat-stake rule at real prices, positive ROI, 90%
+event-clustered lower bound above zero, n >= 200. And then the holdout.
+
+Prior, recorded before running: I expect zero survivors after correction. If
+one survives, the most likely explanation is still that it is the tail of a
+family of twelve, which is what the holdout exists to adjudicate.
