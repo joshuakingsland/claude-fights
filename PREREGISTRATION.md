@@ -760,3 +760,82 @@ an interval spanning zero, because a +1.4 point bias plus shopping is real and
 roughly this size, and one year of cards is too few fights to resolve it. If it
 returns clearly negative, H22 is dead and the answer to the whole programme is
 the one from Addendum 5.
+
+---
+
+# Addendum 10, 2026-08-13: the holdout, opened
+
+Opened once, on operator authorisation, against the specification fixed in
+Addendum 8 and never altered: favourite at the best price across real books,
+selected by Pinnacle's de-vigged line at 0.70, snapshot t_minus_12h.
+`sealed_access.log` is now tracked in git rather than ignored, so the record
+is checkable rather than merely asserted.
+
+**397 fights, 2025-09-06 to 2026-08-08. 166 qualifying bets.**
+
+| | development | holdout |
+|---|---|---|
+| n | 574 | 166 |
+| win rate | 81.88% | **82.53%** |
+| implied by price paid | 78.7% | **78.58%** |
+| ROI | +3.59% | **+4.26%** |
+| 90% CI | [+0.26%, +6.75%] | **[-1.39%, +9.46%]** |
+
+## What replicated, and what did not
+
+The effect replicated in direction and size. Win rate came back within
+0.7 points, the price paid within 0.1 points, and ROI slightly higher than
+development rather than lower - which is the opposite of what a fitted result
+does out of sample, where the usual signature is a large positive collapsing
+toward zero.
+
+The interval spans zero. n=166 against a pre-registered floor of 200, because
+406 fights is all the archive holds past the seal and 29% of them qualify.
+That is a limit of how much data exists, not a choice.
+
+**The prior recorded before opening was: "positive but with an interval
+spanning zero." That is exactly what came back.** Being right about that is
+worth less than it sounds - it was a prediction that the test would be
+inconclusive, and an inconclusive test is the easiest thing to predict - but it
+does mean the result is not a surprise being rationalised after the fact.
+
+## The decomposition holds too
+
+The same 166 bets, repriced. This required a second read of already-opened
+data and is logged as such; it introduces no new selection, specification or
+decision rule, and it is descriptive rather than a second test.
+
+| price taken | development | holdout |
+|---|---|---|
+| best of ~16 books | +3.59% | +4.26% |
+| median book | +1.41% | +2.05% |
+| worst book | -0.65% | -0.59% |
+
+The shape is identical: roughly half the return is line shopping, the rest is
+the favourite-longshot bias, and at a single average book the whole thing
+disappears into the margin. Nobody without a dozen-plus accounts has this.
+
+## The verdict
+
+H22 **does not confirm**. The pre-registered bar was a 90% lower bound above
+zero on n >= 200, and the holdout delivers neither. Under the stop rule from
+the original pre-registration, that means no bet.
+
+What it also is not, is dead. Twenty-one hypotheses died because the effect
+vanished. This one produced the same effect, the same size, in data it had
+never seen, and failed only because a year of cards is not enough fights to
+resolve a four-point edge on 166 bets. Those are different failures and
+conflating them would be the least honest thing in this document.
+
+The distinction has a consequence: H22 is the only candidate for which
+**collecting more data would change the answer**, and that is now a measurable
+question rather than a hope. At the observed effect size, resolving it at 90%
+needs roughly 500-700 bets, or about three more years of cards at the current
+qualifying rate. The archive cannot produce those retroactively - the seal is
+spent and the fights have not happened yet - so the only honest route is
+forward: log the bets it would make, at live prices, and settle them as the
+cards land.
+
+The holdout is now spent. Nothing further from it is out-of-sample, and no
+future result from this archive can be treated as a clean check. That was the
+price of asking the question, and asking it was right.
