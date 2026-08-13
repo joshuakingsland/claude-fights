@@ -668,3 +668,95 @@ different clocks rather than disagreeing. If H23 confirms, the honest next
 step is a forward test at live prices, not a bet.
 
 Holdout stays sealed for both.
+
+---
+
+# Addendum 9, 2026-08-13: H22 and H23 results
+
+Development only. Reproducible via `fair_line.py`, under test.
+
+## H23 first: underpowered, not dead
+
+| horizon | n | win rate | ROI | 90% CI |
+|---|---|---|---|---|
+| 1h | 146 | 41.78% | +23.91% | [-1.98%, +48.80%] |
+| 3h | 115 | 41.74% | +26.32% | [-6.58%, +56.32%] |
+| 6h | 101 | 41.58% | +28.02% | [-5.43%, +59.88%] |
+| 12h (primary) | 70 | 37.14% | +9.95% | [-24.50%, +47.81%] |
+| 24h | 53 | 35.85% | -3.08% | [-34.99%, +35.38%] |
+
+Fails the pre-registered n >= 200 at every horizon, so it does not confirm and
+nothing here authorises anything. It is the only hypothesis in twenty-three
+that failed on **sample size rather than on effect**, and the effect is large
+and consistent at the three short horizons where books disagree most. That is
+a reason to collect more, not a reason to bet.
+
+## H22: the pre-registered primary passes
+
+At fair >= 0.70, t_minus_12h, best price across ~16 real books:
+
+**n=574, win rate 81.88%, ROI +3.59%, 90% CI [+0.26%, +6.75%].**
+
+First pre-registered primary to pass in twenty-two hypotheses. Every stability
+check that killed the previous candidates, it survives:
+
+| check | H10 | H21 24h spike | H22 |
+|---|---|---|---|
+| seeds clearing zero | 4 of 8 | 0 of 8 | **8 of 8** |
+| behaviour across the sweep | n/a | one spike | positive at all 6 horizons |
+| monotone in the signal | no | no | yes, 0.55 to 0.75 |
+
+Buckets rise smoothly: +1.01%, +2.01%, +2.34%, **+3.59%**, +4.61%, then fall to
++1.38% and -0.91% where n collapses to 176 and 57. Horizons run +5.36%, +4.31%,
++4.08%, +3.59%, +3.72%, +3.26%, rising as the line sharpens toward the fight,
+which is the direction a real selection effect should move.
+
+## What it is not
+
+**It fails Bonferroni across the 19 cells swept, 0 of 8 seeds.** The primary
+was pre-specified and a sensitivity analysis run afterwards does not retro-
+actively correct it - but this is the twenty-second hypothesis on this data,
+and family-wise across twenty-two at 90% you expect roughly two false
+positives. Both readings are defensible and the second is why the holdout
+exists.
+
+**No individual year clears zero.** 2020 +0.96%, 2021 **-3.87%**, 2022 +6.08%,
+2023 +6.43%, 2024 +5.25%, 2025 +1.76%. Positive in five of six, both halves
+positive, none individually significant.
+
+**Most of it is shopping, not the bias.** Same 574 fights, same selection,
+priced three ways:
+
+| price taken | ROI | 90% CI |
+|---|---|---|
+| best of ~16 books | +3.59% | [+0.26%, +6.75%] |
+| median book | +1.41% | [-1.74%, +4.30%] |
+| worst book | -0.65% | [-3.73%, +2.19%] |
+
+The favourite-longshot bias contributes about **+1.4 points and does not clear
+zero on its own**. Line shopping contributes the other **+2.2**. So this is not
+a handicapping edge that H1-H20 missed; it is H6's bias, still too small to bet
+by itself, sitting on top of a much lower hurdle. Anyone without accounts at a
+dozen-plus books gets the median column, which is not a bet.
+
+## The practical objection, which is not small
+
+The rule stakes heavy favourites - mean payout 0.27, so about -370 - to earn
+3.6%. That is roughly fourteen units at risk per unit of expected profit, and
+the drawdowns are correspondingly ugly. It also requires taking the best price
+in the world repeatedly on short favourites, which is the single fastest way
+to get an account limited. A measured 3.6% that survives neither limiting nor a
+bad month is not income.
+
+## Status
+
+H22 has earned the one thing nothing else has: a holdout test. Per the
+original pre-registration the holdout is opened **once**, and `sealed.py`
+enforces it - `sealed_access.log` does not exist, so it has never been opened.
+Spending it is irreversible, so it is not being spent unilaterally.
+
+Recorded before opening: I expect the holdout to come back positive but with
+an interval spanning zero, because a +1.4 point bias plus shopping is real and
+roughly this size, and one year of cards is too few fights to resolve it. If it
+returns clearly negative, H22 is dead and the answer to the whole programme is
+the one from Addendum 5.
