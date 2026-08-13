@@ -198,8 +198,8 @@ def _schedule(fights_path, start, end):
     return events
 
 
-def _request(key, query_time, regions, attempts=http_retry.MAX_ATTEMPTS,
-             sleep=time.sleep):
+def _request(key, query_time, regions, markets="h2h",
+             attempts=http_retry.MAX_ATTEMPTS, sleep=time.sleep):
     """One historical snapshot, retrying transient failures.
 
     A rejected request costs no credit, so a retry is free in quota terms and
@@ -209,7 +209,7 @@ def _request(key, query_time, regions, attempts=http_retry.MAX_ATTEMPTS,
     into a permanent hole in the archive.
     """
     params = {
-        "apiKey": key, "regions": regions, "markets": "h2h",
+        "apiKey": key, "regions": regions, "markets": markets,
         "oddsFormat": "american", "date": query_time.strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
     url = "https://api.the-odds-api.com/v4/historical/sports/" + SPORT + "/odds?"
@@ -362,7 +362,8 @@ def run(args):
         nonlocal requests
         if requests >= args.max_requests or out_of_time():
             return None, None
-        payload, headers = _request(key, query_time, args.regions)
+        payload, headers = _request(key, query_time, args.regions,
+                                    markets=args.markets)
         requests += 1
         return payload, headers
 
@@ -438,6 +439,10 @@ def main():
     parser.add_argument("--max-requests", type=int, default=30,
                         help="safety cap; run repeated batches after checking coverage")
     parser.add_argument("--credits-per-request", type=int, default=10)
+    parser.add_argument("--markets", default="h2h",
+                        help="Odds API market keys. Method markets do not "
+                             "exist for MMA in this feed; totals do, on very "
+                             "few books. Each market is billed per region.")
     parser.add_argument("--cadence-hours", type=float, default=0.0,
                         help="sweep interval before each card; 0 keeps the "
                              "original entry/close pair only")
