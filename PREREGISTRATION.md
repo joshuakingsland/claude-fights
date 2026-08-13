@@ -579,3 +579,92 @@ below zero), which is the favourite-longshot bias from H6 showing up again and
 still not payable.
 
 That is twenty-one. Holdout still sealed.
+
+---
+
+# Addendum 8, 2026-08-13: H22 and H23, priced against the right hurdle
+
+Written before running either. H21's control changed what question is worth
+asking, and it is worth being explicit about why.
+
+## The reframing
+
+Every hypothesis from H1 to H20 tested a signal against the **consensus**
+price, which carries a margin near 4.5%. H21's control measured the margin at
+the **best available** price across ~17 real books: **-0.80%**. That is a
+different hurdle, and it is nearly four points lower.
+
+A signal worth two probability points is invisible against consensus and
+decisive against best price. So the honest reading of twenty-one failures is
+narrower than "the market is efficient": it is that no signal we found beats a
+4.5% margin. Two of those signals were real and merely too small - the
+favourite-longshot bias in H6, and the favourite side of H21's own control.
+Neither has ever been tested at the price you would actually take.
+
+That is not a new hypothesis dressed up. It is the same signals against a
+hurdle that is now measured rather than assumed.
+
+## H22: favourite-longshot bias, at the best price
+
+H6 found favourites beat their price and could not clear the margin. H21's
+control found favourites at best price return -0.80% pooled. The untested
+claim is that the bias is stronger in heavier favourites, which pooling hides.
+
+Test: bet the favourite at the best price in the world, bucketed by de-vigged
+consensus favourite probability. Primary bucket fixed in advance at
+**p >= 0.70**, because that is where H6 measured the bias largest and because
+picking the bucket afterwards is the failure mode this file exists to prevent.
+
+## H23: Pinnacle as the fair line, not as a bargain
+
+H21 found Pinnacle holds the sole best price on 4.5% of fights against ~10%
+by chance. It is systematically *not* the generous book. That is the wrong way
+to use it, and it is not how anyone who does this for a living uses it.
+
+The standard method is the opposite: treat the sharp book's de-vigged price as
+the best available estimate of the true probability, then bet anywhere that
+offers a price implying a probability meaningfully below it. The bet is not a
+disagreement with Pinnacle. It is agreement with Pinnacle against a slower
+book.
+
+Test: at each snapshot, de-vig Pinnacle's two-sided price to get `p_fair` for
+each side. Across all other real books, take the best price on each side and
+compute its implied probability `p_offered` (single-sided, vig included, since
+that is the actual cost). Edge is `p_fair - p_offered`. Bet where edge clears
+a threshold, fixed in advance at **2 probability points**.
+
+Pinnacle is excluded from the pool it is being compared against, for the same
+reason the H3 lead-lag test excluded the book from its own consensus:
+otherwise it predicts itself. Exchanges are excluded throughout.
+
+## The bar, and the correction
+
+Primary snapshot t_minus_12h for both, matching H21 so the horizon is not a
+free parameter. Each needs positive ROI, 90% event-clustered lower bound above
+zero, n >= 200.
+
+Sweeps over buckets, thresholds and horizons are reported as sensitivity, with
+a Bonferroni-adjusted interval across every cell actually swept, and a
+seed-stability check on anything that survives. H21's 24h spike cleared zero
+on its own and died at 0 of 8 seeds once corrected; that is the standard.
+
+## Priors
+
+**H22:** I expect it to fail, and to fail closer than anything so far. Heavy
+favourites at the best price should land within a point or two of break-even.
+The reason I doubt it clears: -110 style pricing on heavy favourites is where
+books hold their firmest margin, and the best price on a -400 shot varies less
+across books than the best price on a +300 dog, so shopping helps least
+exactly where the bias is largest.
+
+**H23:** the most likely of anything in twenty-three to work, and still
+probably a mirage. Two specific ways it fools you, both of which the test has
+to survive rather than assume away. First, a book quoting a price far from
+Pinnacle is often not stale but **gone** - the number is one nobody could
+take, already pulled, or attached to a limit of fifty dollars. The archive
+cannot see limits, so a measured edge here is an upper bound on a real one.
+Second, at a fixed hourly snapshot, some of that gap is books updating on
+different clocks rather than disagreeing. If H23 confirms, the honest next
+step is a forward test at live prices, not a bet.
+
+Holdout stays sealed for both.
