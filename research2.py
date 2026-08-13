@@ -1,7 +1,6 @@
 """Research round 2 — stress-test the residual edge on VALIDATION."""
 
 import numpy as np
-import pandas as pd
 
 from backtest import american_payout
 

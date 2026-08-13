@@ -21,9 +21,8 @@ import pandas as pd
 from scipy.special import logit as slogit
 
 from adapter import parse_height, parse_reach
-from backtest import american_to_prob, american_payout
-from cards import (EVENT_GAP_HOURS, card_ufc_experience,  # noqa: F401
-                   event_groups)
+from backtest import american_to_prob
+from cards import card_ufc_experience, event_groups
 from data_quality import assert_clean, identity_warnings
 from features_v3 import build_features_v3
 from identity import (assign_fighter_identities, canonical_name,

@@ -22,7 +22,6 @@ fighter is almost always waste.
 
 import argparse
 import csv
-import os
 import re
 import time
 import urllib.parse

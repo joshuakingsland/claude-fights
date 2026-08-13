@@ -338,9 +338,11 @@ Coefficients are probability points of market error per unit of the feature.
 | H19 line movement | 972 | +1.07108 | [-0.33472, +2.47791] | [-1.15592, +3.29678] |
 | H20 favourite size | 990 | +0.03181 | [-0.00972, +0.07070] | [-0.02714, +0.09787] |
 
-Two cleared zero uncorrected (H10, H11, and H14 marginally). That is exactly
-what the correction predicts from noise: at 90% across twelve tests you expect
-roughly one, and we got three. Only H10 survived Bonferroni.
+Three cleared zero uncorrected: H10, H11, and H14 marginally. That is exactly
+what the correction exists for. At 90% across twelve tests you expect about
+one by chance and the chance of at least one is 72%, so three uncorrected
+passes is noise behaving normally, not a signal. Only H10 survived Bonferroni,
+and only in some runs.
 
 ## H10 does not survive either
 
@@ -355,8 +357,11 @@ Re-run across eight seeds at 5,000 draws each, the coefficient is rock stable
 | seeds where the Bonferroni interval excludes zero | 4 of 8 |
 |---|---|
 
-A finding that depends on the seed is not a finding. `seed_stability` in
-`market_residual.py` exists so this check is never skipped again.
+Re-running the whole family through `market_residual.py` at a different draw
+count puts the bound at **+0.00019** and returns **zero survivors** - the table
+above is the run that produced one. Both runs are the same estimate; only the
+tail of the bootstrap moved. A finding that depends on the seed is not a
+finding, and `seed_stability` exists so this check is never skipped again.
 
 ## And it fails the second gate regardless
 
