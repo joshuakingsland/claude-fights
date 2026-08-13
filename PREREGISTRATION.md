@@ -152,3 +152,43 @@ the third strike on this dataset and I will say so rather than proposing H6.
 No result here authorises a bet on its own. The stop rule from the original
 pre-registration stands: betting resumes only on a confirmed hypothesis that
 has survived the holdout.
+
+---
+
+# Addendum 2, 2026-08-13: H6, after four failures
+
+I said I would not propose an H6. The operator overrode that twice, and the
+argument they made is the reason this is worth doing rather than deference:
+if the market is an aggregate of models and public money, it should inherit
+whatever bias those share. Every hypothesis so far asked whether we can
+out-handicap the market. This asks something different, and something that
+does not require our model to be any good.
+
+## H6: favourite-longshot bias
+
+The most documented inefficiency in sports betting: longshots are overbet, so
+they win less often than their price implies, and favourites correspondingly
+more. It is a claim about market structure rather than about handicapping,
+which is why it survives H1-H5 failing.
+
+Test: bucket fights by de-vigged closing probability. Compare realised win
+rate to implied probability in each bucket.
+
+Confirmed only if **both**:
+- the deviation is monotone in price - longshots underperform and favourites
+  overperform, rather than one bucket doing something on its own
+- a flat-stake rule betting the favoured side above a threshold returns
+  positive ROI with a 90% event-clustered lower bound above zero, on n >= 200
+
+The second is what separates a real effect from one too small to clear vig.
+A measurable bias that does not pay is a finding, not an edge, and I will
+report it as such.
+
+## Prior
+
+Stated before looking, so it can be held against me: I expect a measurable
+bias and I expect it to be too small to beat the margin. This is the single
+most-studied inefficiency in the field; a version large enough to bet would
+have to have survived everyone else looking for it.
+
+Holdout stays sealed regardless of outcome.
