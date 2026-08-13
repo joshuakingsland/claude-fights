@@ -22,6 +22,7 @@ import gzip
 import hashlib
 import json
 import os
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -30,6 +31,7 @@ from pathlib import Path
 
 import pandas as pd
 
+import http_retry
 from identity import norm_name
 
 
@@ -116,7 +118,16 @@ def _schedule(fights_path, start, end):
     return events
 
 
-def _request(key, query_time, regions):
+def _request(key, query_time, regions, attempts=http_retry.MAX_ATTEMPTS,
+             sleep=time.sleep):
+    """One historical snapshot, retrying transient failures.
+
+    A rejected request costs no credit, so a retry is free in quota terms and
+    only spends wall time. Failures are raised rather than recorded: the
+    manifest treats a recorded no-match as terminal and never retries it, so
+    writing a rate-limit response into it would turn a transient collision
+    into a permanent hole in the archive.
+    """
     params = {
         "apiKey": key, "regions": regions, "markets": "h2h",
         "oddsFormat": "american", "date": query_time.strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -124,14 +135,15 @@ def _request(key, query_time, regions):
     url = "https://api.the-odds-api.com/v4/historical/sports/" + SPORT + "/odds?"
     request = urllib.request.Request(url + urllib.parse.urlencode(params),
                                      headers={"Accept": "application/json"})
-    try:
+
+    def once():
         with urllib.request.urlopen(request, timeout=60) as response:
             body = response.read()
             headers = {k.lower(): v for k, v in response.headers.items()}
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"Odds API HTTP {exc.code}: {detail[:500]}") from exc
-    return json.loads(body), headers
+        return json.loads(body), headers
+
+    return http_retry.with_retry(once, describe="Odds API", attempts=attempts,
+                                 sleep=sleep)
 
 
 def _matched_events(payload, wanted_pairs):

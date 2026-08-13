@@ -16,6 +16,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+import http_retry
 from cards import infer_five_rounds
 
 from config import (LEADER_BOOK_KEYS, ODDS_CONSENSUS_VERSION, ODDS_REGIONS,
@@ -289,8 +290,15 @@ def fetch_region(key, region, timeout=30):
     request = urllib.request.Request(
         f"{API}?{query}", headers={"Accept": "application/json"}
     )
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        return json.load(response)
+
+    # The key is shared with another repository, and the historical backfill
+    # fires tens of thousands of requests against it. A rate limit here used
+    # to fail the scheduled workflow outright and leave the card stale.
+    def once():
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            return json.load(response)
+
+    return http_retry.with_retry(once, describe="Odds API")
 
 
 def collect_events(key, regions=ODDS_REGIONS, fetch=None):
