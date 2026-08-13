@@ -419,3 +419,83 @@ different in kind rather than degree: prices from books that move slower than
 the ones archived here, and markets with fewer participants than the moneyline
 where a model has something to price that the crowd has not. Both are data
 acquisition problems, not modelling ones.
+
+---
+
+# Addendum 6, 2026-08-13: H21, the sharp-book fade
+
+Written before computing a single outcome. The operator proposed this one and
+it is the first hypothesis in the sequence that uses **which book** a price
+came from, rather than treating the market as one aggregated number. That is a
+real gap in H1-H20 and worth closing.
+
+## The claim
+
+Books do not all mean the same thing by a price. Pinnacle and Circa take large
+limits, move on sharp money, and hold thin margins; a recreational book prices
+to balance action. So when the sharpest book in the world is the one offering
+the *most generous* price on a side - a higher payout than all forty-odd other
+books - that is not generosity. It is the sharp book saying that side is
+overvalued everywhere else.
+
+The rule the operator described, in their example: Circa has Gane at +135 and
+that is the best Gane price in the world, so bet **Jones**, at the best Jones
+price anywhere (DraftKings -148).
+
+## The rule, fixed now
+
+At one snapshot per fight:
+
+1. Find the best (highest payout) price on each side across every book quoting
+   that fight at that moment.
+2. If the best price on exactly one side comes from the trigger book, bet the
+   **other** side, at its best price anywhere.
+3. If the trigger book holds the best price on **both** sides, no bet. That is
+   a low-margin book being cheap on everything, which carries no directional
+   information, and counting it would let vig masquerade as signal.
+4. Flat one unit.
+
+Primary snapshot is **t_minus_12h**, fixed in advance so the horizon cannot be
+chosen after seeing which one pays. A sweep across other horizons is reported
+as sensitivity, not as the test.
+
+## What has to be true
+
+Confirmed only if, for a trigger book:
+- ROI is positive with a 90% event-clustered lower bound above zero, on
+  n >= 200 bets, **and**
+- it beats the two controls below by more than their intervals overlap.
+
+## The controls, and why they are the whole test
+
+**Circa cannot pass.** It quotes 33 development fights, against Pinnacle's
+2,028. This is known before running and is not a result. Circa is reported for
+completeness and is incapable of clearing n >= 200; only the Pinnacle arm is a
+live test.
+
+**Control 1, placebo triggers.** The identical rule fired on books nobody
+calls sharp - DraftKings, FanDuel, BetMGM, Bovada. If the fade pays the same
+when DraftKings triggers it, there is no sharp signal and something else is
+doing the work.
+
+**Control 2, best price with no trigger at all.** Bet the best price in the
+world on a side, chosen without reference to any book's identity. This is the
+control that matters most, and here is why: the best of forty noisy prices is
+a biased estimate of the fair price. Taking the maximum across a large book
+count systematically beats the consensus and can wipe out the margin on its
+own. Line shopping is genuinely valuable and entirely separate from the claim
+being tested. If the trigger rule does not beat this baseline, what we have
+measured is the value of having forty accounts, not the value of reading
+Pinnacle.
+
+## Prior
+
+Stated before looking. I expect Control 2 to look good on its own - possibly
+close to break-even or better - because taking a maximum over many books is
+a real effect and a well-known one. I expect the Pinnacle trigger to add
+little or nothing beyond it, and I expect the placebo books to perform
+similarly to Pinnacle. If Pinnacle separates cleanly from both controls on
+n >= 200, that is the first thing in twenty-one hypotheses to earn a holdout
+test.
+
+Holdout stays sealed either way.
