@@ -15,3 +15,4 @@ raw/sherdog/
 smoke_production_validation.csv
 smoke_production_validation.json
 smoke_drift_report.json
+sealed_access.log
