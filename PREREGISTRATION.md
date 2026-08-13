@@ -192,3 +192,61 @@ most-studied inefficiency in the field; a version large enough to bet would
 have to have survived everyone else looking for it.
 
 Holdout stays sealed regardless of outcome.
+
+---
+
+# Addendum 3, 2026-08-13: H7 result and H8
+
+Running count: this is the eighth hypothesis. A 90% interval clearing zero
+happens by chance roughly 57% of the time across eight independent tests, so
+the bar rises with the count and the sealed holdout is the only thing that
+settles anything. Recorded here so the multiplicity is visible rather than
+forgotten.
+
+## H7 result: the fundamentals family is exhausted
+
+Walk-forward on development, n=690, entry prices:
+
+| specification | log loss | vs market |
+|---|---|---|
+| line only | 0.57872 | -0.00488 |
+| line + 10 fundamentals | 0.58479 | +0.00120 |
+| line + all 39, boosting | 0.59071 | +0.00711 |
+| line + all 39, heavy shrinkage | 0.59787 | +0.01427 |
+| line + all 39 | 0.61143 | +0.02784 |
+
+Every fundamental feature makes it worse, monotonically, across three
+regularisation strengths and two model classes. This is not undertuning.
+Handicapping UFC from public career statistics does not work, and no further
+feature engineering on that family is worth the time.
+
+## H8: the totals market
+
+The first thing tested here that is not the moneyline. It matters because
+the reason given for the market beating us was aggregation, and totals are
+aggregated by far fewer participants. A 2024 probe returned Over/Under 1.5
+from eight books including DraftKings, so historical prices exist and were
+simply never requested - the puller hardcoded markets=h2h.
+
+rounds_model was validated before any price existed: held out on 2024+ it
+scored 0.67552 on distance against a division table's 0.68380, and beat the
+base rate at every totals line. That ordering matters. Testing it against
+prices now is checking a prediction made in advance, not fishing.
+
+Hypothesis: rounds_model's totals probabilities beat the de-vigged totals
+closing line.
+
+Test: for every fight with an archived totals price and a known outcome,
+compare the model's over/under probability at the quoted line against the
+de-vigged market probability. Walk-forward, event-clustered.
+
+Confirmed only if **both**:
+- the model's log loss beats the de-vigged totals line, with a 90%
+  event-clustered interval on the difference whose upper bound is below zero
+- a flat-stake rule on the model's disagreements returns positive ROI at the
+  real quoted prices, 90% event-clustered lower bound above zero, n >= 200
+
+Prior, recorded before pulling: totals are thinly modelled and I think the
+first criterion has a real chance. I doubt the second, because thin markets
+carry wide margins and the vig hurdle on a -130/+100 pair is steeper than
+the moneyline's.
