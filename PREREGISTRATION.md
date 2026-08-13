@@ -91,3 +91,64 @@ If H1 confirms cleanly on a large sample and survives the holdout, the caution
 here was expensive - we could have been betting sooner. I judge that risk
 smaller than the reverse. Four settled trades, an ROI interval spanning zero,
 and a CLV of -0.13 points is not a base from which to start believing.
+
+---
+
+# Addendum, 2026-08-13: after H1-H3 failed
+
+Written before looking at any movement data, for the same reason as the
+original: the instruction now is to find an edge, and that is precisely the
+instruction that manufactures one.
+
+## What the failures taught
+
+A diagnostic on the development set, walk-forward by card (n=690):
+
+| specification | log loss |
+|---|---|
+| market line only | 0.57872 |
+| model: line + 10 fundamentals | 0.58479 |
+| raw entry consensus | 0.58360 |
+| fundamentals only | 0.64443 |
+
+The fundamentals do not merely fail to help, they hurt: recalibrating the
+price alone beats the full model. Fundamentals alone are far behind the
+market. So the feature family is the problem, not the hyperparameters, and
+adding more career statistics is not a plan.
+
+This also explains H1 cleanly. A model whose best component is the price
+cannot beat the price.
+
+## H5: line movement, not fight outcomes
+
+The one thing the archive supports that has never been tried is predicting
+**where the line goes**, rather than who wins. That target is different in a
+way that matters: closing-line value is the thing itself, not a proxy for it,
+and being right about direction pays without ever being right about a fight.
+
+Hypothesis: the state of the market at time t - the dispersion across books,
+the recent drift, how far individual books sit from consensus - predicts the
+consensus move between t and the close.
+
+Test: walk-forward by card on development data only. Predict the sign and
+size of the consensus change from t to close. Reported as R^2 against the
+realised move and as accuracy on direction, with 90% event-clustered
+intervals.
+
+Confirmed only if **both** hold:
+- direction accuracy is above 55% with a 90% event-clustered lower bound
+  above 52.4%, which is the break-even rate at standard -110 vig
+- the R^2 on the size of the move has a lower bound above zero
+
+Anything less is a curiosity. Beating a coin flip on direction is not enough
+when the vig is 4.5%.
+
+## What is still off limits
+
+The holdout remains sealed and unopened. If H5 confirms on development, it
+gets exactly one holdout test, and the holdout decides. If H5 fails, that is
+the third strike on this dataset and I will say so rather than proposing H6.
+
+No result here authorises a bet on its own. The stop rule from the original
+pre-registration stands: betting resumes only on a confirmed hypothesis that
+has survived the holdout.
