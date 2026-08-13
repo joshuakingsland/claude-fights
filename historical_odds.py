@@ -42,7 +42,7 @@ QUOTE_FIELDS = [
     "requested_snapshot", "actual_snapshot", "event_start_utc",
     "api_event_id", "commence_time", "fighter_a", "fighter_b",
     "book_key", "book_title", "book_last_update", "market_last_update",
-    "odds_a", "odds_b", "response_sha256",
+    "market_key", "point", "odds_a", "odds_b", "response_sha256",
 ]
 MANIFEST_FIELDS = [
     "event_uid", "event_name", "event_date", "snapshot_kind",
@@ -244,12 +244,27 @@ def _quotes(events, event, kind, requested, actual, card_start, digest):
         a, b = ev.get("home_team", ""), ev.get("away_team", "")
         for book in ev.get("bookmakers", []):
             for market in book.get("markets", []):
-                if market.get("key") != "h2h":
+                key = market.get("key")
+                outcomes = market.get("outcomes", [])
+                if key == "h2h":
+                    prices = {o.get("name"): o.get("price") for o in outcomes}
+                    side_a, side_b, point = prices.get(a), prices.get(b), ""
+                elif key == "totals":
+                    # Over/Under on scheduled rounds. `point` is the line, and
+                    # it is not optional: two quotes at different lines are not
+                    # the same market, and pairing them would de-vig nonsense.
+                    over = next((o for o in outcomes if o.get("name") == "Over"), None)
+                    under = next((o for o in outcomes if o.get("name") == "Under"), None)
+                    if over is None or under is None or over.get("point") != under.get("point"):
+                        continue
+                    side_a, side_b = over.get("price"), under.get("price")
+                    point = over.get("point")
+                else:
                     continue
-                prices = {o.get("name"): o.get("price") for o in market.get("outcomes", [])}
-                if prices.get(a) is None or prices.get(b) is None:
+                if side_a is None or side_b is None:
                     continue
                 rows.append({
+                    "market_key": key, "point": point,
                     "event_uid": event["event_uid"], "event_name": event["event_name"],
                     "event_date": event["event_date"], "snapshot_kind": kind,
                     "requested_snapshot": requested.isoformat(), "actual_snapshot": actual,
@@ -259,7 +274,7 @@ def _quotes(events, event, kind, requested, actual, card_start, digest):
                     "book_key": book.get("key", ""), "book_title": book.get("title", ""),
                     "book_last_update": book.get("last_update", ""),
                     "market_last_update": market.get("last_update", ""),
-                    "odds_a": prices[a], "odds_b": prices[b], "response_sha256": digest,
+                    "odds_a": side_a, "odds_b": side_b, "response_sha256": digest,
                 })
     return rows
 
