@@ -12,6 +12,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import os
 from datetime import datetime, timezone
 from pathlib import Path
@@ -405,13 +406,20 @@ def settle_completed(trades_path="paper_trades.csv",
     fights = pd.read_csv(fights_path, parse_dates=["date"])
     fights["pair"] = [frozenset((norm_name(a), norm_name(b)))
                       for a, b in zip(fights["fighter_a"], fights["fighter_b"])]
-    fights = fights[fights["winner"].isin(["A", "B"])].copy()
+    # Draws are kept. A moneyline draw is a push, not a loss, and dropping
+    # those fights here left the trade permanently unsettled: it never matched,
+    # so it never entered the ledger and never aged out of the open list. It
+    # also biased ROI, which divides by money staked - a push contributes zero
+    # profit but a full stake, so excluding pushes inflates the magnitude of
+    # whatever ROI the ledger reports.
+    fights = fights[fights["winner"].isin(["A", "B", "draw"])].copy()
     by_key = {(str(pd.Timestamp(r.date).date()), r.pair): r
               for r in fights.itertuples()}
     closing = _closing_lookup(closing_path)
     captured_closing = _captured_closing_lookup(captured_closing_path)
     rows = []
     invalid = 0
+    unpriced = 0
     for row in trades.itertuples():
         if str(row.trade_id) in done:
             continue
@@ -424,14 +432,29 @@ def settle_completed(trades_path="paper_trades.csv",
         if fight is None:
             continue
         pick_is_a = norm_name(row.pick) == norm_name(fight.fighter_a)
-        won = (fight.winner == "A") == pick_is_a
+        drawn = fight.winner == "draw"
+        won = (not drawn) and ((fight.winner == "A") == pick_is_a)
         stake = float(row.stake)
-        try:
-            price = float(str(row.price).replace("+", ""))
-            pnl = stake * (float(american_payout(price)) if won else -1.0)
-        except (TypeError, ValueError):
+        if drawn:
             pnl = 0.0
-            won = False
+        else:
+            try:
+                price = float(str(row.price).replace("+", ""))
+            except (TypeError, ValueError):
+                price = float("nan")
+            # A blank or unreadable price arrives from the CSV as NaN, and
+            # float("nan") does not raise - so catching ValueError alone let a
+            # NaN price through and produced a NaN P&L. Check the value, not
+            # just the conversion.
+            if not math.isfinite(price):
+                # A price we cannot parse is a bookkeeping failure, not a
+                # losing bet. Recording it as a 0.00 LOSS quietly added a loss
+                # to the win rate while contributing nothing to P&L, so the two
+                # headline numbers disagreed about the same trade. Leave it
+                # open and say so; it settles once the price is fixed.
+                unpriced += 1
+                continue
+            pnl = stake * (float(american_payout(price)) if won else -1.0)
 
         closing_price = closing_market = clv = ""
         close = _near_date(captured_closing, date, pair)
@@ -463,7 +486,7 @@ def settle_completed(trades_path="paper_trades.csv",
         rows.append({
             "trade_id": row.trade_id,
             "settled_at": _now_stamp(),
-            "result": "WIN" if won else "LOSS",
+            "result": "PUSH" if drawn else ("WIN" if won else "LOSS"),
             "pnl": round(pnl, 6),
             "closing_price": closing_price,
             "closing_market": closing_market,
@@ -472,6 +495,8 @@ def settle_completed(trades_path="paper_trades.csv",
         })
     if invalid:
         print(f"skipped {invalid} trade(s) with unverifiable pre-event timing")
+    if unpriced:
+        print(f"left {unpriced} trade(s) open: price could not be parsed")
     return _append_rows(settlements_path, SETTLEMENT_FIELDS, rows)
 
 
