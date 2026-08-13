@@ -143,6 +143,45 @@ def _read_manifest(path):
     return attempted, card_starts
 
 
+def plan_kinds(cadence_hours=0.0, span_hours=0.0):
+    """Snapshot kind names for a card, without needing its start time.
+
+    Resume logic needs to know what a complete card looks like before it has
+    fetched anything, so the names have to be derivable from the schedule
+    alone. This must stay in step with snapshot_plan; a test pins that.
+    """
+    kinds = ["entry", "close"]
+    if cadence_hours and span_hours:
+        steps = int(span_hours / cadence_hours)
+        kinds += [f"t_minus_{step * cadence_hours:06.2f}h"
+                  for step in range(1, steps + 1)]
+    return kinds
+
+
+def snapshot_plan(card_start, entry_hours, close_minutes,
+                  cadence_hours=0.0, span_hours=0.0):
+    """(kind, timestamp) pairs to collect for one card.
+
+    Without a cadence this is the original pair: an entry snapshot a day out
+    and a close proxy minutes before the first bout. That answers what a price
+    was, which was enough for the closing-line question.
+
+    A cadence adds a regular sweep back from the card, which answers when a
+    price moved - the thing the lead-lag question needs and two snapshots a day
+    apart cannot show. Kinds are named by whole hours before the card so they
+    are stable across runs and the manifest can resume mid-sweep.
+    """
+    plan = [("entry", card_start - pd.Timedelta(hours=entry_hours)),
+            ("close", card_start - pd.Timedelta(minutes=close_minutes))]
+    if cadence_hours and span_hours:
+        steps = int(span_hours / cadence_hours)
+        for step in range(1, steps + 1):
+            hours = step * cadence_hours
+            plan.append((f"t_minus_{hours:06.2f}h",
+                         card_start - pd.Timedelta(hours=hours)))
+    return plan
+
+
 def _schedule(fights_path, start, end):
     fights = pd.read_csv(fights_path, parse_dates=["date"])
     fights = fights.dropna(subset=["date", "event", "fighter_a", "fighter_b"]).copy()
@@ -285,12 +324,12 @@ def run(args):
         attempted, cached_starts = set(), {}
     else:
         attempted, cached_starts = _read_manifest(manifest_path)
+    wanted_kinds = plan_kinds(args.cadence_hours, args.span_hours)
     worst_requests = 0
     for event in events:
         uid = event["event_uid"]
-        pending_snapshots = sum(
-            (uid, kind) not in attempted for kind in ("entry", "close")
-        )
+        pending_snapshots = sum((uid, kind) not in attempted
+                                for kind in wanted_kinds)
         if not pending_snapshots:
             continue
         if uid not in cached_starts:
@@ -329,7 +368,10 @@ def run(args):
 
     for event in events:
         uid = event["event_uid"]
-        if (uid, "entry") in attempted and (uid, "close") in attempted:
+        # A card is finished only when every planned kind is attempted.
+        # Checking entry/close alone would skip all 268 cards the moment the
+        # first pass completed, and the sweep would never run.
+        if all((uid, kind) in attempted for kind in wanted_kinds):
             continue
         day = pd.Timestamp(event["event_date"], tz="UTC")
         card_start = cached_starts.get(uid)
@@ -361,10 +403,9 @@ def run(args):
                 break
             continue
 
-        for kind, requested in (
-            ("entry", card_start - pd.Timedelta(hours=args.entry_hours)),
-            ("close", card_start - pd.Timedelta(minutes=args.close_minutes)),
-        ):
+        for kind, requested in snapshot_plan(
+                card_start, args.entry_hours, args.close_minutes,
+                args.cadence_hours, args.span_hours):
             if (uid, kind) in attempted:
                 continue
             payload, headers = fetch(requested)
@@ -397,6 +438,11 @@ def main():
     parser.add_argument("--max-requests", type=int, default=30,
                         help="safety cap; run repeated batches after checking coverage")
     parser.add_argument("--credits-per-request", type=int, default=10)
+    parser.add_argument("--cadence-hours", type=float, default=0.0,
+                        help="sweep interval before each card; 0 keeps the "
+                             "original entry/close pair only")
+    parser.add_argument("--span-hours", type=float, default=0.0,
+                        help="how far back the sweep runs from the card start")
     parser.add_argument("--max-runtime-minutes", type=float, default=300.0,
                         help="stop fetching after this long so the caller can "
                              "still commit; 0 disables the budget")

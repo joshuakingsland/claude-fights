@@ -19,6 +19,18 @@ on:
         description: "Earliest card date to backfill"
         required: false
         default: "2020-06-06"
+      cadence_hours:
+        description: "Sweep interval before each card (0 = entry/close only)"
+        required: false
+        default: "0"
+      span_hours:
+        description: "How far back the sweep runs from the card start"
+        required: false
+        default: "0"
+      credits_per_request:
+        description: "For the dry-run estimate: 10 per region (us,eu = 20)"
+        required: false
+        default: "10"
 
 permissions:
   contents: write
@@ -43,7 +55,10 @@ jobs:
       - name: Show what this run would cost before spending it
         run: |
           python historical_odds.py --dry-run \
-            --regions "${{ inputs.regions }}" --start "${{ inputs.start }}"
+            --regions "${{ inputs.regions }}" --start "${{ inputs.start }}" \
+            --cadence-hours "${{ inputs.cadence_hours }}" \
+            --span-hours "${{ inputs.span_hours }}" \
+            --credits-per-request "${{ inputs.credits_per_request }}"
       - name: Backfill
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
@@ -51,12 +66,16 @@ jobs:
           python historical_odds.py \
             --max-requests "${{ inputs.max_requests }}" \
             --regions "${{ inputs.regions }}" \
-            --start "${{ inputs.start }}"
+            --start "${{ inputs.start }}" \
+            --cadence-hours "${{ inputs.cadence_hours }}" \
+            --span-hours "${{ inputs.span_hours }}" \
+            --credits-per-request "${{ inputs.credits_per_request }}"
       - name: Commit archive progress
         run: |
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
           git add raw/odds_api_historical || true
+          git add -A raw/odds_api_historical/quotes || true
           git diff --cached --quiet || git commit -m "archive odds backfill $(date -u +%FT%H:%MZ)"
           git pull --rebase --autostash origin main
           git push
