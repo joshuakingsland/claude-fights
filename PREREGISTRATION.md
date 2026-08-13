@@ -839,3 +839,67 @@ cards land.
 The holdout is now spent. Nothing further from it is out-of-sample, and no
 future result from this archive can be treated as a clean check. That was the
 price of asking the question, and asking it was right.
+
+---
+
+# Addendum 11, 2026-08-13: the forward test, and what it will take
+
+The archive is finished as evidence. `forward_test.py` logs what H22 would bet
+on cards that have not happened, at prices captured before each fight, and
+settles them as results land. It runs on the existing six-hourly snapshot job,
+which already captures per-book quotes from 22 books including Pinnacle.
+
+## How many bets
+
+Turning "more data" into a number, from the holdout's own figures - ROI +4.26%,
+standard error 3.30% at n=166, error falling as 1/sqrt(n):
+
+**About 270 bets** to put a 90% lower bound above zero, *if the effect is
+really 4.26%*. At the development estimate of 3.59% it is roughly 390. At half
+the observed effect it is over a thousand, because the requirement grows with
+the square of how wrong the estimate is.
+
+At the qualifying rate seen in the archive - 166 bets from 397 fights, so about
+29% of cards with a Pinnacle line and a real pool - that is **two to three
+years** of UFC cards. This is a slow answer and there is no faster honest one.
+
+## What the log refuses to do
+
+Three guards, each pinned by tests, because each failure would look like
+progress:
+
+- **Fights on or before 2026-08-08 are refused.** That is the holdout's last
+  card. Re-logging them would present evidence already counted as if it were
+  new.
+- **A bet written after its fight is marked backfill and never pooled with the
+  headline.** The price is honest - the snapshot predates the bell - but the
+  decision was not made blind, and only blind decisions are evidence. The two
+  bets seeding the log are both backfill and are excluded from every number.
+- **A fight is logged once, ever, and never rewritten.** Re-logging as the line
+  moved would double-count one opinion; rewriting the price would replace what
+  was knowable then with what looks right now.
+
+`RULE_VERSION` is recorded on every row. If the rule is edited mid-flight the
+log stops being a forward test of the thing that was tested, and the version
+makes that visible instead of silent.
+
+## The pooled estimate, and why it is not a result
+
+Development and holdout combined give roughly **+3.7% on 740 bets**, and that
+interval does clear zero. It is the best point estimate we have of the effect
+size and it is the right number to plan around.
+
+It is **not** a confirmation, and it must never be reported as one. The
+holdout's whole value was independence; once pooled, that is gone and the
+combined interval is an in-sample interval on data the specification was chosen
+against. Anyone quoting +3.7% as a passed test has recreated the exact error
+this document was written to prevent.
+
+## The standing recommendation, unchanged
+
+No bet. The stop rule from the original pre-registration holds until the
+forward log clears the pre-registered bar on bets written before their fights.
+If it does, the remaining objections are practical rather than statistical -
+about fourteen units at risk per unit of profit, and heavy favourites at top
+price being the fastest route to a limited account - and those are the
+operator's call, not this document's.
