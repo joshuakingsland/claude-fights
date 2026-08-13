@@ -499,3 +499,83 @@ n >= 200, that is the first thing in twenty-one hypotheses to earn a holdout
 test.
 
 Holdout stays sealed either way.
+
+---
+
+# Addendum 7, 2026-08-13: the H21 result
+
+Development only, 2,008 fights with at least five books quoting at the primary
+snapshot. Reproducible via `sharp_fade.py`; the rule is under test, including
+the operator's worked Jones/Gane example.
+
+## A confound found before scoring, and worth stating on its own
+
+Betfair and Betfair EX EU held **2,377 of roughly 4,000 best-price slots**.
+They are exchanges: the price on screen is gross of 2-5% commission on
+winnings, so it is not a price anyone can take. Any "best price in the world"
+that includes them is overstated, and they win the slot *because* they quote a
+number nobody pays.
+
+This was not pre-registered - it was found by looking at which books held best
+prices, before any outcome was computed. Results below are reported with
+exchanges removed, and the pre-registered version including them is in the
+commit history. Removing them changes the sample, not the verdict.
+
+## Result: the pre-registered primary fails
+
+At t_minus_12h, real books only:
+
+| rule | n | win rate | ROI | 90% CI |
+|---|---|---|---|---|
+| **fade pinnacle** | 590 | 54.58% | **+3.63%** | [-4.35%, +11.74%] |
+| fade circasports | 12 | 25.00% | -65.33% | [-100%, -44.52%] |
+| placebo: fade draftkings | 185 | 42.70% | -22.14% | [-32.73%, -11.47%] |
+| placebo: fade fanduel | 427 | 51.29% | -4.82% | [-13.51%, +4.51%] |
+| placebo: fade betmgm | 137 | 54.01% | +2.21% | [-13.32%, +18.25%] |
+| placebo: fade bovada | 89 | 53.93% | -4.55% | [-23.50%, +13.80%] |
+| control: best price, favourite | 2008 | 66.38% | -0.80% | [-3.39%, +1.84%] |
+| control: best price, underdog | 2008 | 33.47% | -6.46% | [-11.58%, -1.04%] |
+
+Pinnacle is the best of the trigger arms and clears n >= 200, but its interval
+spans zero, and it does not separate from the controls - the pre-registration
+required both. The favourite/underdog mix does not explain the spread between
+arms: Pinnacle bets favourites 52% of the time, FanDuel 51%.
+
+## The horizon sweep settles it
+
+The primary was fixed at 12h precisely so this could not be chosen afterwards.
+Pinnacle across horizons:
+
+| horizon | n | ROI | 90% CI |
+|---|---|---|---|
+| 1h | 673 | +5.89% | [-1.22%, +13.24%] |
+| 3h | 625 | **-2.28%** | [-9.16%, +5.23%] |
+| 6h | 617 | **-0.18%** | [-7.91%, +8.01%] |
+| **12h (primary)** | 590 | +3.63% | [-4.35%, +11.74%] |
+| 24h | 551 | **+11.94%** | [+3.80%, +20.14%] |
+| 48h | 496 | **-0.42%** | [-8.71%, +7.52%] |
+
+It changes sign four times and spikes at exactly one horizon. That is the H6
+shape again: an effect that exists only at one setting and collapses either
+side of it is a coincidence with a good haircut.
+
+The 24h cell is the one that would tempt us, so it was tested rather than
+admired. Corrected across the 18 tests actually swept (6 horizons x 3 books),
+at 4,000 draws per seed, it excludes zero in **0 of 8 seeds**. Three of those
+18 cells cleared zero uncorrected - one positive, two negative - against 1.8
+expected by chance. Noise behaving exactly as advertised.
+
+## What is actually worth keeping
+
+The control is the durable finding, and it is not an edge. Taking the best
+price across ~17 real books returns **-0.80%** on the favourite, from a
+starting margin of roughly 4.5%. Line shopping recovers almost all of the vig
+and stops just short of clearing it. That is worth knowing and worth doing, and
+it is not a reason to bet: the interval [-3.39%, +1.84%] contains zero, and it
+excludes the exchange prices that would otherwise flatter it.
+
+Backing underdogs at the best price is clearly negative (-6.46%, upper bound
+below zero), which is the favourite-longshot bias from H6 showing up again and
+still not payable.
+
+That is twenty-one. Holdout still sealed.
