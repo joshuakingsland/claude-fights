@@ -895,7 +895,7 @@ combined interval is an in-sample interval on data the specification was chosen
 against. Anyone quoting +3.7% as a passed test has recreated the exact error
 this document was written to prevent.
 
-## The standing recommendation, unchanged
+## The standing recommendation, unchanged (superseded by Addendum 12)
 
 No bet. The stop rule from the original pre-registration holds until the
 forward log clears the pre-registered bar on bets written before their fights.
@@ -903,3 +903,108 @@ If it does, the remaining objections are practical rather than statistical -
 about fourteen units at risk per unit of profit, and heavy favourites at top
 price being the fastest route to a limited account - and those are the
 operator's call, not this document's.
+
+---
+
+# Addendum 12, 2026-08-14: H24, the mechanism on untouched data
+
+Written before computing a single win rate.
+
+The holdout is spent and H22 is unresolved. There is one source of evidence
+this programme has never touched: `raw/ufc-master.csv` carries closing prices
+for **4,211 fights between 2010-03-21 and 2020-05-30**, across 366 cards. The
+Odds API archive begins 2020-06-13, so every hypothesis from H1 to H23 was
+tested on data that starts after this ends. It is a different decade, and it
+has never been looked at.
+
+It cannot test H22's betting rule - there are no per-book prices, so there is
+no best-price-in-the-world to shop. That is fine, because the shopping half of
+H22 is mechanical and needs no proving. **What needs proving is the other
+half**: that heavy favourites win more often than their price implies. That is
+H22's mechanism, it is the uncertain component, and it is exactly what this
+data can test.
+
+## Why this is more powerful than another ROI test
+
+H22's problem was never the effect, it was the variance. ROI on a -370
+favourite is dominated by the 18% of bets that lose a whole unit, so 166 bets
+gave an interval five points wide. **Calibration does not have that problem.**
+Asking whether a win rate exceeds an implied probability on thousands of
+fights gives an interval a fraction of the width, because the quantity being
+estimated is a proportion rather than a payout-weighted mean.
+
+## The confound that could manufacture the whole thing
+
+Proportional de-vigging - dividing both implied probabilities by their sum -
+is **known to understate heavy favourites**. It removes margin in proportion
+to each side's probability, when the evidence is that books load more of their
+margin onto the longshot. So a proportional de-vig hands the favourite too low
+a fair probability, and "the favourite wins more often than implied" would
+follow from the arithmetic without the market being wrong at all.
+
+Every number in H22 used proportional de-vigging. If that is the explanation,
+H22's mechanism is an artefact and the +1.4 points attributed to the bias is
+mostly method. **This is the single most likely way everything above is wrong,
+and it has not been tested.**
+
+So the test runs under four de-vig methods, fixed now:
+
+- **proportional** - divide by the overround. The one used throughout, and the
+  most favourable to the hypothesis.
+- **additive** - subtract the margin equally from both sides.
+- **Shin** - the standard correction for insider-driven margin, solved
+  numerically per fight.
+- **power** - find k with `a^k + b^k = 1`, solved numerically per fight.
+
+The last three all assign the favourite a higher fair probability than
+proportional does, so they all make the hypothesis harder.
+
+## H24, primary
+
+Claim: in the bucket where de-vigged favourite probability is >= 0.70, the
+realised win rate exceeds the implied probability.
+
+Test: win rate minus mean implied probability, 90% bootstrap interval
+clustered on the card, n >= 200.
+
+**Confirmed only if the lower bound is above zero under all four de-vig
+methods.** Clearing under proportional alone is precisely the artefact
+described above and will be reported as such, not as support.
+
+## H24b, the de-vig-free check
+
+Claim: betting the favourite at the actual closing price returns positive ROI.
+
+This needs no de-vig for the return - the price paid is the price paid, vig
+included - only for choosing which fights qualify. It is the stricter bar and
+the one that matters for money. Positive ROI, 90% event-clustered lower bound
+above zero, n >= 200.
+
+## Secondary, reported either way
+
+- **Monotonicity** across buckets from 0.55 to 0.85. A bias that appears only
+  in one bucket is the H6 and H21 shape and will be called that.
+- **Era split**, 2010-2015 against 2015-2020. Markets have sharpened; if the
+  bias is decaying, a 2010s estimate overstates what is available now, and the
+  trend matters more than the pooled number.
+
+## Priors
+
+**H24 under proportional:** I expect it to clear comfortably. That is close to
+arithmetic and it is not evidence.
+
+**H24 under Shin and power:** genuinely uncertain, and this is the number the
+whole programme now rests on. If the bias survives all four, H22's mechanism is
+real and the remaining question is only whether it is large enough to bet. If
+it survives proportional and dies under Shin, then H22's bias component was
+mostly a de-vig artefact, the +1.4 points was never there, and what remains of
+H22 is line shopping - which is real, mechanical, and not a model.
+
+**H24b:** I expect it to fail. A 3.25% median margin is a lot to overcome, and
+H22's own median-book arm returned +1.41% with an interval spanning zero.
+
+**Era split:** I expect the effect smaller in 2015-2020 than 2010-2015.
+
+No result here authorises a bet on its own. H24 is a test of a mechanism, not
+of a strategy; confirming it removes the largest doubt about H22 without
+supplying the sample size H22 still lacks.
