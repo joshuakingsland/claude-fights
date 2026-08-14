@@ -40,6 +40,15 @@ class FightKeyTests(unittest.TestCase):
                                "fighter_b": "Ann Ace"})
         self.assertEqual(one, other)
 
+    def test_the_key_survives_a_revised_start_time(self):
+        """Observed live: one fight moved from 08-16 02:00 UTC to 08-15 21:45
+        between snapshots. With the date in the key that was two fights."""
+        one = ft._fight_key({"date": "2026-08-16", "fighter_a": "Jeremiah Wells",
+                             "fighter_b": "Myktybek Orolbai"})
+        other = ft._fight_key({"date": "2026-08-15", "fighter_a": "Jeremiah Wells",
+                               "fighter_b": "Myktybek Orolbai"})
+        self.assertEqual(one, other)
+
 
 class CandidateTests(unittest.TestCase):
     def test_a_heavy_favourite_is_selected_at_the_best_pool_price(self):
@@ -136,6 +145,27 @@ class LogTests(unittest.TestCase):
         ft.append_log(ft.candidates(_quotes(_heavy_favourite())), self.path)
         self.assertEqual(list(pd.read_csv(self.path).columns), ft.LOG_FIELDS)
 
+    def test_a_rescheduled_card_is_not_logged_a_second_time(self):
+        """The live bug: a start time revised across midnight UTC."""
+        ft.append_log(ft.candidates(_quotes(
+            _heavy_favourite(), commence=pd.Timestamp("2026-09-06T02:00:00Z"))),
+            self.path)
+        added = ft.append_log(ft.candidates(_quotes(
+            _heavy_favourite(), commence=pd.Timestamp("2026-09-05T21:45:00Z"))),
+            self.path)
+        self.assertEqual(added, 0)
+        self.assertEqual(len(pd.read_csv(self.path)), 1)
+
+    def test_a_genuine_rematch_months_later_is_logged(self):
+        ft.append_log(ft.candidates(_quotes(
+            _heavy_favourite(), commence=pd.Timestamp("2026-09-05T23:00:00Z"))),
+            self.path)
+        added = ft.append_log(ft.candidates(_quotes(
+            _heavy_favourite(), commence=pd.Timestamp("2027-03-05T23:00:00Z"))),
+            self.path)
+        self.assertEqual(added, 1)
+        self.assertEqual(len(pd.read_csv(self.path)), 2)
+
 
 class SettleTests(unittest.TestCase):
     def setUp(self):
@@ -162,6 +192,31 @@ class SettleTests(unittest.TestCase):
         self._write_fights("B")
         self.assertAlmostEqual(float(ft.settle(self.log, self.fights).iloc[0]["profit"]),
                                -1.0)
+
+    def test_a_result_recorded_a_day_either_side_still_settles(self):
+        """A card starting 22:00-02:00 UTC lands on either side of midnight.
+
+        Exact-string matching left those bets open forever - invisible in every
+        summary and silently missing from the ROI they belonged in.
+        """
+        for offset, label in ((1, "day after"), (-1, "day before")):
+            with self.subTest(label):
+                log = self.root / f"log{offset}.csv"
+                ft.append_log(ft.candidates(_quotes(_heavy_favourite())), log)
+                shifted = (pd.Timestamp("2026-09-05") + pd.Timedelta(days=offset))
+                pd.DataFrame({"date": [str(shifted.date())],
+                              "fighter_a": ["Ann Ace"], "fighter_b": ["Bea Bolt"],
+                              "winner": ["A"]}).to_csv(self.fights, index=False)
+                settled = ft.settle(log, self.fights)
+                self.assertEqual(len(settled), 1)
+                self.assertTrue(bool(settled.iloc[0]["won"]))
+
+    def test_a_different_fight_on_a_nearby_date_does_not_settle_it(self):
+        ft.append_log(ft.candidates(_quotes(_heavy_favourite())), self.log)
+        pd.DataFrame({"date": ["2026-09-06"], "fighter_a": ["Cal Cruz"],
+                      "fighter_b": ["Dee Dane"], "winner": ["A"]}
+                     ).to_csv(self.fights, index=False)
+        self.assertEqual(len(ft.settle(self.log, self.fights)), 0)
 
     def test_an_unfought_bet_stays_open(self):
         ft.append_log(ft.candidates(_quotes(_heavy_favourite())), self.log)

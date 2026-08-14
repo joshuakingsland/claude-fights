@@ -76,14 +76,27 @@ def load_quotes(pattern="data/market_quotes/quotes_*.csv"):
     return frame
 
 
-def _fight_key(row):
-    """Stable identity for a fight, independent of which corner is listed first.
+# A rematch inside this window does not happen; a rescheduled card inside it
+# happens constantly. So the pair identifies the fight and the window separates
+# genuine rematches.
+REMATCH_WINDOW_DAYS = 60
 
-    event_id would be simpler, but it is the API's and changes between pulls;
-    a fight logged under two ids would be bet twice.
+
+def _fight_key(row):
+    """Stable identity for a fight: the two fighters, corner order removed.
+
+    The date is deliberately *not* part of this. It used to be, and that was a
+    bug: the API refines a card's start time as it firms up, and one fight here
+    moved from 2026-08-16 02:00 UTC to 2026-08-15 21:45 UTC between snapshots.
+    That produced two keys for one fight, which would have been logged twice and
+    counted as two independent bets - the precise double-count the log exists to
+    prevent. event_id is no better; it is the API's and also changes.
+
+    Rematches are handled by `append_log`, which treats a repeat of the same
+    pair as new only when it is more than REMATCH_WINDOW_DAYS later.
     """
     pair = sorted((norm_name(row["fighter_a"]), norm_name(row["fighter_b"])))
-    return f"{str(row['date'])[:10]}|{pair[0]}|{pair[1]}"
+    return f"{pair[0]}|{pair[1]}"
 
 
 def candidates(quotes, target=TARGET_LEAD_HOURS, window=LEAD_WINDOW_HOURS,
@@ -172,8 +185,22 @@ def append_log(rows, path="h22_forward_log.csv"):
     """
     path = Path(path)
     existing = pd.read_csv(path) if path.exists() else pd.DataFrame(columns=LOG_FIELDS)
-    known = set(existing["fight_key"].astype(str)) if len(existing) else set()
-    fresh = rows[~rows["fight_key"].astype(str).isin(known)] if len(rows) else rows
+    if not len(rows):
+        return 0
+    if len(existing):
+        seen = {}
+        for _, row in existing.iterrows():
+            seen.setdefault(str(row["fight_key"]), []).append(
+                pd.Timestamp(row["commence_time"]))
+        # Same pair within the rematch window is the same fight, however its
+        # start time was revised between snapshots.
+        def already_logged(row):
+            when = pd.Timestamp(row["commence_time"])
+            return any(abs((when - prior).days) <= REMATCH_WINDOW_DAYS
+                       for prior in seen.get(str(row["fight_key"]), []))
+        fresh = rows[~rows.apply(already_logged, axis=1)]
+    else:
+        fresh = rows
     if not len(fresh):
         return 0
     write_header = not path.exists()
@@ -197,9 +224,20 @@ def settle(path="h22_forward_log.csv", fights_path="fights_v2.csv"):
     results = sf.outcomes(fights_path)
     winners = []
     for _, row in log.iterrows():
-        key = (str(row["date"])[:10],
-               frozenset((norm_name(row["fighter_a"]), norm_name(row["fighter_b"]))))
-        winners.append(results.get(key))
+        pair = frozenset((norm_name(row["fighter_a"]), norm_name(row["fighter_b"])))
+        stamp = pd.Timestamp(str(row["date"])[:10])
+        # A UFC card starting 22:00-02:00 UTC lands on either side of midnight,
+        # so the date the quote carried and the date the result carries differ
+        # by a day about as often as not. Matching only on the exact string
+        # left those bets permanently unsettled - open forever, invisible in
+        # every summary, and silently absent from the ROI they belonged in.
+        found = None
+        for offset in (0, -1, 1):
+            found = results.get(
+                (str((stamp + pd.Timedelta(days=offset)).date()), pair))
+            if found is not None:
+                break
+        winners.append(found)
     log["winner_name"] = winners
     settled = log.dropna(subset=["winner_name"]).copy()
     if not len(settled):
