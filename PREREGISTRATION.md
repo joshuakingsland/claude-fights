@@ -1008,3 +1008,114 @@ H22's own median-book arm returned +1.41% with an interval spanning zero.
 No result here authorises a bet on its own. H24 is a test of a mechanism, not
 of a strategy; confirming it removes the largest doubt about H22 without
 supplying the sample size H22 still lacks.
+
+---
+
+# Addendum 13, 2026-08-14: H24 fails. H22's bias was mostly a de-vig artefact
+
+4,211 fights, 366 cards, 2010-03-21 to 2020-05-30. Disjoint from H1-H20's
+2022-2025 frame and from the 2020-06+ archive that H21-H23 used.
+
+One honest qualification on "untouched": `pipeline.py` and `research.py` read
+this file, so it was present during the original model backtesting long before
+this programme. It is out-of-sample for the hypothesis and for the 0.70
+threshold, which were both fixed on 2020-2026 data. It is not pristine unseen
+data in the strictest sense, and saying otherwise would be overclaiming.
+
+## H24 primary: fails, exactly as the confound predicted
+
+| de-vig | n | mean implied | win rate | gap | 90% CI | clears |
+|---|---|---|---|---|---|---|
+| **proportional** | 1385 | 77.13% | 80.00% | **+2.87 pts** | [+0.94, +4.73] | **yes** |
+| additive | 1464 | 77.50% | 79.03% | +1.53 pts | [-0.39, +3.37] | no |
+| **power** | 1465 | 77.91% | 78.98% | **+1.06 pts** | [-0.85, +2.89] | no |
+| Shin | 1464 | 77.50% | 79.03% | +1.53 pts | [-0.39, +3.37] | no |
+
+The bar was: clears under **all** methods. It clears under **one** - the one
+recorded in advance as "precisely the artefact described above and will be
+reported as such, not as support."
+
+The gap decays monotonically as the de-vig gets less biased: **+2.87 to +1.53
+to +1.06**. That is the signature of the estimator, not of the market. Roughly
+**two-thirds of the apparent favourite-longshot bias is proportional de-vigging
+mis-allocating the margin.**
+
+## H24b: fails, and lands on nothing
+
+Flat-staking the favourite at the actual closing price, vig included, needing
+no de-vig at all for the return:
+
+| de-vig used for selection | n | ROI | 90% CI |
+|---|---|---|---|
+| proportional | 1385 | +0.83% | [-1.65%, +3.23%] |
+| additive | 1464 | +0.05% | [-2.42%, +2.42%] |
+| power | 1465 | **-0.02%** | [-2.48%, +2.35%] |
+
+Under the two honest de-vigs the return is zero to two decimal places. Prior
+recorded before running: "I expect it to fail." It did, and by landing on
+exactly nothing rather than by going negative.
+
+## The monotonicity check fails badly, and this is the real verdict
+
+A favourite-longshot bias is a claim about *shape*: the gap should grow with
+favourite strength. Under power de-vig:
+
+| bucket | n | implied | win rate | gap | 90% CI |
+|---|---|---|---|---|---|
+| 0.50-0.55 | 610 | 52.43% | 52.13% | -0.30 | [-3.69, +3.14] |
+| 0.55-0.60 | 690 | 57.51% | 54.78% | -2.73 | [-5.80, +0.36] |
+| 0.60-0.65 | 771 | 62.20% | 56.94% | **-5.26** | **[-8.08, -2.52]** |
+| 0.65-0.70 | 675 | 67.53% | 68.89% | +1.36 | [-1.69, +4.33] |
+| 0.70-0.75 | 522 | 72.50% | 71.46% | -1.04 | [-4.25, +2.20] |
+| 0.75-0.80 | 458 | 77.25% | 81.00% | **+3.75** | **[+0.40, +6.89]** |
+| 0.80-0.85 | 308 | 82.22% | 82.14% | -0.08 | [-3.64, +3.36] |
+| 0.85+ | 177 | 88.09% | 90.40% | +2.31 | [-1.40, +5.81] |
+
+There is no shape here. It goes negative, significantly negative, positive,
+negative, significantly positive, zero, positive. Two buckets clear zero in
+opposite directions on the same data. A real bias does not do this, and eight
+buckets producing two significant results in opposite directions is what noise
+produces at 90% confidence.
+
+**Era split** (power, fair>=0.70): 2010-2015 gives +1.76 pts [-1.18, +4.57];
+2015-2020 gives +0.49 pts [-2.04, +2.97]. Both span zero, and the direction of
+travel is toward nothing, as predicted.
+
+## What this does and does not overturn
+
+**It does not touch H22's measured return.** ROI is computed from prices paid
+and fights won; no de-vig enters it. +3.59% development and +4.26% holdout
+stand exactly as reported.
+
+**It overturns the explanation.** H22's decomposition attributed about +1.4
+points to the favourite-longshot bias and +2.2 to line shopping. H24 says the
+bias is somewhere between zero and +1.1 points and cannot be distinguished from
+zero on 1,465 fights with a de-vig that is not rigged in its favour. So the
+honest reading of H22 is now:
+
+> **H22 is line shopping.** There is no handicapping edge and no market bias
+> being harvested. Taking the best of ~16 prices instead of one is the entire
+> effect, and it is mechanical rather than predictive.
+
+That is consistent with everything else measured. H22's median-book arm gave
++1.41% development and +2.05% holdout, both spanning zero. H24b at a single
+closing price gives -0.02%. One price, no edge; sixteen prices, about three
+points. The three points come from the max, not from the fighters.
+
+**A correction to what was said earlier in this programme.** The observation
+that H22's archive bets "won 81.9% while Pinnacle's fair line said 77.4%" was
+computed with proportional de-vigging. Under power de-vig that gap shrinks by
+roughly two-thirds, and most of what looked like Pinnacle underpricing
+favourites was the estimator.
+
+## Standing recommendation
+
+**No bet, and now for a better-supported reason than before.** Not "the edge is
+unproven" but "the edge, as an edge, does not exist - what exists is a price
+comparison." The forward log keeps running because H22's *return* is still
+unresolved and worth measuring, but nobody should expect it to reveal a market
+inefficiency, because the mechanism has now been tested on 4,211 independent
+fights and is not there.
+
+Line shopping remains real, mechanical, and the only thing in twenty-four
+hypotheses that survived contact with the data.
