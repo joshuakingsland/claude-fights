@@ -16,3 +16,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-08T21:49:04Z,9a92d22531015bdd32db87afa9f9bee2,2026-08-08T22:25:00Z,35.92,Manoel Sousa,Richie Miranda,-340.0,270.0,0.7391033,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-08T22:49:54Z,ad126b3ecf486d325bb850307bffe242,2026-08-08T23:15:00Z,25.1,Diyar Nurgozhay,Bruno Lopes,-155.0,134.0,0.58756423,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-08T23:47:30Z,80edc29df676b726721b9e5685512452,2026-08-09T00:15:00Z,27.5,Ty Miller,Billy Goff,-450.0,350.0,0.78652765,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-15T21:02:05Z,254a3851cc1b6715f5139de1d38c744a,2026-08-15T21:45:00Z,42.91,Jeremiah Wells,Myktybek Orolbai,795.0,-1300.0,0.10740315,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
