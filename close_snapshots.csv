@@ -23,3 +23,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-15T23:01:20Z,805976a72d1093dd27badd8e8a3253b6,2026-08-15T23:45:00Z,43.66,Donte Johnson,Eric McConico,-325.0,270.0,0.73855062,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-15T23:38:03Z,99b1fdeb4ea07c43f5f852b69adfe26a,2026-08-16T00:10:00Z,31.93,Charles Johnson,Eduardo Chapolin,-116.0,-102.0,0.5153968,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-15T23:38:03Z,6d9093bc392e34155f0f79848263d33a,2026-08-16T00:15:00Z,36.93,Charles Johnson,Eduardo Henrique,-114.0,-102.0,0.51359121,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-15T23:59:42Z,40af566aa397915b97bb548306e7705f,2026-08-16T00:45:00Z,45.3,Chidi Njokuani,Joel Alvarez,270.0,-340.0,0.25912839,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
