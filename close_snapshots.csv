@@ -20,3 +20,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-15T21:38:52Z,fe1b44a73c88b5e32f186f3225ebb173,2026-08-15T22:15:00Z,36.13,Neil Magny,Ramiz Brahimaj,125.0,-150.0,0.42553191,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-15T21:59:53Z,139d4c369a7daf9ab5253a4b37336d84,2026-08-15T22:45:00Z,45.1,Rafael Tobias,Lucas Fernando,240.0,-300.0,0.28202948,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-15T22:42:04Z,0d0fc8fe27c5269b38ff657f8a5daff9,2026-08-15T23:15:00Z,32.93,Vicente Luque,Tresean Gore,-108.0,-112.0,0.49567025,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-15T23:01:20Z,805976a72d1093dd27badd8e8a3253b6,2026-08-15T23:45:00Z,43.66,Donte Johnson,Eric McConico,-325.0,270.0,0.73855062,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
