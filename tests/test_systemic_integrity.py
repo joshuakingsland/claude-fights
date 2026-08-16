@@ -1,6 +1,8 @@
+import os
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import numpy as np
 import pandas as pd
@@ -216,7 +218,8 @@ class FreshnessAndCaptureTests(unittest.TestCase):
                 {"FIRST": "D", "LAST": ""},
             ]).to_csv(roster, index=False)
             report = assess_freshness(
-                fights, odds, now="2025-01-11T20:00:00Z", fighter_roster=roster
+                fights, odds, now="2025-01-11T20:00:00Z", fighter_roster=roster,
+                grace_days=0,
             )
         self.assertEqual(report["status"], "lagging")
         self.assertEqual(len(report["known_completed_missing"]), 1)
@@ -255,6 +258,7 @@ class FreshnessAndCaptureTests(unittest.TestCase):
                 odds,
                 now="2026-07-26T20:00:00Z",
                 cancelled_fights=cancellations,
+                grace_days=0,
             )
         self.assertEqual(report["status"], "current")
         self.assertEqual(report["known_completed_missing"], [])
@@ -292,6 +296,7 @@ class FreshnessAndCaptureTests(unittest.TestCase):
                 odds,
                 now="2026-08-02T20:00:00Z",
                 fighter_roster=roster,
+                grace_days=0,
             )
         self.assertEqual(report["status"], "lagging")
         self.assertEqual(len(report["known_out_of_scope"]), 1)
@@ -324,7 +329,8 @@ class FreshnessAndCaptureTests(unittest.TestCase):
                 {"FIRST": "Newcomer", "LAST": "Prospect"},
             ]).to_csv(roster, index=False)
             report = assess_freshness(
-                fights, odds, now="2026-08-02T20:00:00Z", fighter_roster=roster
+                fights, odds, now="2026-08-02T20:00:00Z", fighter_roster=roster,
+                grace_days=0,
             )
         self.assertEqual(report["status"], "lagging")
         self.assertEqual(report["known_out_of_scope"], [])
@@ -346,6 +352,7 @@ class FreshnessAndCaptureTests(unittest.TestCase):
                 odds,
                 now="2025-01-11T20:00:00Z",
                 fighter_roster=root / "absent.csv",
+                grace_days=0,
             )
         self.assertEqual(report["status"], "lagging")
         self.assertEqual(len(report["known_completed_missing"]), 1)
@@ -411,3 +418,103 @@ class FreshnessAndCaptureTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ResultGracePeriodTests(unittest.TestCase):
+    """The results feed is a third-party scrape that publishes days late.
+
+    Failing closed the moment a card ended blocked odds capture and the card
+    refresh in the same job, so a normal upstream delay froze the published
+    page. On 2026-08-16 that took the whole workflow down while the upstream
+    repository's newest event was 2026-08-08 - exactly what ours had.
+    """
+
+    def _report(self, fight_time, now, grace_days=7):
+        fights = pd.DataFrame([{
+            "date": "2026-08-01", "fighter_a": "Ann Ace", "fighter_b": "Bea Bolt",
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds, roster = root / "odds.csv", root / "roster.csv"
+            pd.DataFrame([{
+                "commence_time": fight_time,
+                "fighter_a": "Ann Ace", "fighter_b": "Cal Cruz",
+            }]).to_csv(odds, index=False)
+            pd.DataFrame([
+                {"FIRST": "Ann", "LAST": "Ace"},
+                {"FIRST": "Bea", "LAST": "Bolt"},
+                {"FIRST": "Cal", "LAST": "Cruz"},
+            ]).to_csv(roster, index=False)
+            return assess_freshness(fights, odds, now=now, fighter_roster=roster,
+                                    grace_days=grace_days)
+
+    def test_a_fight_that_just_ran_waits_rather_than_failing(self):
+        report = self._report("2026-08-15T23:00:00Z", "2026-08-16T20:00:00Z")
+        self.assertEqual(report["status"], "pending")
+        self.assertEqual(report["known_completed_missing"], [])
+        self.assertEqual(len(report["known_awaiting_upstream"]), 1)
+
+    def test_a_fight_still_missing_after_the_window_is_a_fault(self):
+        report = self._report("2026-08-01T23:00:00Z", "2026-08-16T20:00:00Z")
+        self.assertEqual(report["status"], "lagging")
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+        self.assertEqual(report["known_awaiting_upstream"], [])
+
+    def test_the_boundary_falls_on_the_fault_side(self):
+        # Exactly at the window, the wait stops being routine.
+        self.assertEqual(
+            self._report("2026-08-09T20:00:00Z", "2026-08-16T20:00:00Z")["status"],
+            "lagging")
+        self.assertEqual(
+            self._report("2026-08-09T21:00:00Z", "2026-08-16T20:00:00Z")["status"],
+            "pending")
+
+    def test_how_long_each_fight_has_waited_is_reported(self):
+        report = self._report("2026-08-14T23:00:00Z", "2026-08-16T20:00:00Z")
+        self.assertEqual(report["known_awaiting_upstream"][0]["days_waiting"], 1)
+
+    def test_the_grace_window_is_recorded_in_the_report(self):
+        # So a reader can tell a tolerated wait from a suppressed failure.
+        self.assertEqual(self._report("2026-08-15T23:00:00Z",
+                                      "2026-08-16T20:00:00Z")["grace_days"], 7)
+
+    def test_a_stale_bundle_still_reports_check_regardless_of_grace(self):
+        fights = pd.DataFrame([{
+            "date": "2026-01-01", "fighter_a": "Ann Ace", "fighter_b": "Bea Bolt",
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            odds = Path(directory) / "odds.csv"
+            pd.DataFrame(columns=["commence_time", "fighter_a", "fighter_b"]
+                         ).to_csv(odds, index=False)
+            report = assess_freshness(fights, odds, now="2026-08-16T20:00:00Z")
+        self.assertEqual(report["status"], "check")
+
+
+class NotifyEmailTests(unittest.TestCase):
+    """The mailer runs as the `if: failure()` step, so it must not raise.
+
+    An expired Gmail app password on 2026-08-16 turned one red step into two,
+    and the top one was a stack trace about SMTP rather than the actual cause.
+    """
+
+    def _run(self, side_effect):
+        import notify_email
+        env = {"SMTP_USER": "u@example.com", "SMTP_PASSWORD": "p",
+               "BET_EMAIL_TO": "to@example.com"}
+        with mock.patch.dict(os.environ, env, clear=False):
+            with mock.patch("smtplib.SMTP", side_effect=side_effect):
+                return notify_email.main()
+
+    def test_a_rejected_login_does_not_mask_the_real_failure(self):
+        import smtplib
+        code = self._run(smtplib.SMTPAuthenticationError(535, b"BadCredentials"))
+        self.assertEqual(code, 0)
+
+    def test_an_unreachable_server_does_not_mask_the_real_failure(self):
+        self.assertEqual(self._run(OSError("connection refused")), 0)
+
+    def test_missing_secrets_are_skipped_quietly(self):
+        import notify_email
+        with mock.patch.dict(os.environ, {"SMTP_USER": "", "SMTP_PASSWORD": "",
+                                          "BET_EMAIL_TO": ""}, clear=False):
+            self.assertEqual(notify_email.main(), 0)
