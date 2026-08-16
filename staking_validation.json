@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-12T18:16:26Z",
+  "created_at": "2026-08-16T16:49:48Z",
   "active_policy": "paper-flat-1u-first-touch-cap2-v2",
   "active_status": "paper_only",
   "candidate_two_unit_threshold": 0.1,
@@ -12,7 +12,7 @@
     "entry_candidate_roi_ci_lower_positive": true,
     "production_candidate_policy_roi_ci_lower_positive": true,
     "entry_candidate_policy_roi_ci_lower_positive": false,
-    "entry_candidate_clv_ci_lower_positive": true
+    "entry_candidate_clv_ci_lower_positive": false
   },
   "production": {
     "rows": 3227,
@@ -91,101 +91,101 @@
     }
   },
   "entry_price": {
-    "rows": 1266,
+    "rows": 990,
     "policies": {
       "active_flat_1u_day_cap2": {
-        "bets": 178,
-        "staked": 178.0,
-        "pnl": 7.034225734054628,
-        "roi": 0.03951812210143049,
+        "bets": 134,
+        "staked": 134.0,
+        "pnl": 98.49091701962283,
+        "roi": 0.7350068434300211,
         "roi_ci90_event_clustered": [
-          -0.05288438905801076,
-          0.1313038224005191
+          -0.07624973057612278,
+          2.185484520827323
         ],
-        "max_drawdown_units": 9.501922549586038
+        "max_drawdown_units": 9.904229071974902
       },
       "legacy_2u_at_8_day_cap2": {
-        "bets": 146,
-        "staked": 187.0,
-        "pnl": 14.89327912305134,
-        "roi": 0.0796432038665847,
+        "bets": 111,
+        "staked": 142.0,
+        "pnl": 209.65684578775804,
+        "roi": 1.4764566604771694,
         "roi_ci90_event_clustered": [
-          -0.03927361893004215,
-          0.19713896435159362
+          -0.023665463564253045,
+          4.248159905810224
         ],
-        "max_drawdown_units": 10.123134670798159
+        "max_drawdown_units": 9.261972488626364
       },
       "candidate_2u_at_10_day_cap2": {
-        "bets": 163,
-        "staked": 182.0,
-        "pnl": 19.205650846288346,
-        "roi": 0.10552555410048542,
+        "bets": 119,
+        "staked": 138.0,
+        "pnl": 209.92116195535021,
+        "roi": 1.521167840256161,
         "roi_ci90_event_clustered": [
-          -0.004209371164984748,
-          0.21307862133542566
+          -0.014930577475494283,
+          4.370947118933741
         ],
-        "max_drawdown_units": 8.501922549586038
+        "max_drawdown_units": 8.388956615610493
       }
     },
     "edge_buckets": {
       "4_to_6": {
-        "bets": 107,
-        "pnl": 2.3484449517933896,
-        "roi": 0.021948083661620463,
+        "bets": 76,
+        "pnl": -4.9497306564448715,
+        "roi": -0.06512803495322199,
         "roi_ci90_event_clustered": [
-          -0.09118361444274604,
-          0.13507998091110635
+          -0.2042600474655584,
+          0.0779162194943445
         ],
-        "clv_bets": 46,
-        "mean_clv_prob_points": 0.7980715489591337,
+        "clv_bets": 76,
+        "mean_clv_prob_points": 0.21154339733253222,
         "mean_clv_prob_points_ci90_event_clustered": [
-          0.10655391667556519,
-          1.5179184359400621
+          -0.08519126398010078,
+          0.5025067272176728
         ]
       },
       "6_to_8": {
-        "bets": 44,
-        "pnl": -2.1727780108560806,
-        "roi": -0.04938131842854729,
+        "bets": 34,
+        "pnl": -6.526748077481615,
+        "roi": -0.19196317874945928,
         "roi_ci90_event_clustered": [
-          -0.23799794827584983,
-          0.1376242604179677
+          -0.43369703718900815,
+          0.04541699163126899
         ],
-        "clv_bets": 23,
-        "mean_clv_prob_points": 0.08859234073317201,
+        "clv_bets": 33,
+        "mean_clv_prob_points": 0.16659751089497693,
         "mean_clv_prob_points_ci90_event_clustered": [
-          -0.5696570002249669,
-          0.7489260452454823
+          -0.3380494851818015,
+          0.6290742998350776
         ]
       },
       "8_to_10": {
-        "bets": 29,
-        "pnl": -5.945804321431493,
-        "roi": -0.20502773522177561,
+        "bets": 20,
+        "pnl": -1.5194031863047899,
+        "roi": -0.0759701593152395,
         "roi_ci90_event_clustered": [
-          -0.43312725702726224,
-          0.02475361277800681
+          -0.32229316100000444,
+          0.16307595879314146
         ],
-        "clv_bets": 16,
-        "mean_clv_prob_points": 0.7196413235995781,
+        "clv_bets": 20,
+        "mean_clv_prob_points": -0.021083709590753997,
         "mean_clv_prob_points_ci90_event_clustered": [
-          -0.22819183122782274,
-          1.7721145772158717
+          -0.38179542859936516,
+          0.4305849697555471
         ]
       },
       "10_plus": {
         "bets": 23,
-        "pnl": 11.8123657771506,
-        "roi": 0.5135811207456783,
+        "pnl": 109.41644652281481,
+        "roi": 4.757236805339774,
         "roi_ci90_event_clustered": [
-          0.2709313546846392,
-          0.7650707956943573
+          0.253711635747011,
+          13.390538424556908
         ],
-        "clv_bets": 17,
-        "mean_clv_prob_points": 0.5717338732364718,
+        "clv_bets": 23,
+        "mean_clv_prob_points": 0.018942685474321357,
         "mean_clv_prob_points_ci90_event_clustered": [
-          0.011284311112113895,
-          1.0750032352395804
+          -0.5398925922999023,
+          0.5248618790660813
         ]
       }
     }
