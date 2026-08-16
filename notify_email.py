@@ -28,10 +28,21 @@ def main():
     message["To"] = _env("BET_EMAIL_TO")
     message.set_content(body)
 
-    with smtplib.SMTP(host, port, timeout=30) as smtp:
-        smtp.starttls()
-        smtp.login(_env("SMTP_USER"), _env("SMTP_PASSWORD"))
-        smtp.send_message(message)
+    try:
+        with smtplib.SMTP(host, port, timeout=30) as smtp:
+            smtp.starttls()
+            smtp.login(_env("SMTP_USER"), _env("SMTP_PASSWORD"))
+            smtp.send_message(message)
+    except (smtplib.SMTPException, OSError) as failure:
+        # This runs as the `if: failure()` step, so raising here replaces the
+        # error the operator needs to read with a stack trace about email. On
+        # 2026-08-16 an expired Gmail app password did exactly that: two red
+        # steps, and the top one was the mailer rather than the cause. Report
+        # loudly, exit clean, and leave the original failure as the story.
+        print(f"WARNING: could not send notification email: {failure}")
+        print(f"  undelivered subject: {subject}")
+        print(f"  undelivered body: {body}")
+        return 0
     print("email sent")
     return 0
 

@@ -1,10 +1,133 @@
 {
-  "checked_at": "2026-08-12T18:16:13Z",
+  "checked_at": "2026-08-16T16:43:41Z",
   "results_through": "2026-08-08",
-  "days_since_latest_result": 4,
-  "status": "current",
-  "message": "no completed tracked fights are missing",
+  "days_since_latest_result": 8,
+  "grace_days": 7,
+  "status": "pending",
+  "message": "20 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
+  "known_awaiting_upstream": [
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Mackenzie Dern",
+      "fighter_b": "Gillian Robertson",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Islam Makhachev",
+      "fighter_b": "Ian Garry",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Charles Johnson",
+      "fighter_b": "Jose Ochoa",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Donte Johnson",
+      "fighter_b": "Eric McConico",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Mansur Abdul-Malik",
+      "fighter_b": "Dustin Stoltzfus",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Edson Barboza",
+      "fighter_b": "Esteban Ribovics",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Jalin Turner",
+      "fighter_b": "Kau\u00ea Fernandes",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Jeremiah Wells",
+      "fighter_b": "Myktybek Orolbai",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Rafael Tobias",
+      "fighter_b": "Lucas Fernando",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Neil Magny",
+      "fighter_b": "Ramiz Brahimaj",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Vicente Luque",
+      "fighter_b": "Tresean Gore",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Chidi Njokuani",
+      "fighter_b": "Joel Alvarez",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Jeremiah Wells",
+      "fighter_b": "Myktybek Orolbai",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Neil Magny",
+      "fighter_b": "Ramiz Brahimaj",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Rafael Tobias",
+      "fighter_b": "Lucas Fernando",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Vicente Luque",
+      "fighter_b": "Tresean Gore",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Donte Johnson",
+      "fighter_b": "Eric McConico",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Chidi Njokuani",
+      "fighter_b": "Joel Alvarez",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Charles Johnson",
+      "fighter_b": "Eduardo Chapolin",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Charles Johnson",
+      "fighter_b": "Eduardo Chapolin",
+      "days_waiting": 0
+    }
+  ],
   "known_cancelled": [
     {
       "date": "2026-07-25",
@@ -292,6 +415,21 @@
       "date": "2026-08-12",
       "fighter_a": "Jon Kunneman",
       "fighter_b": "Joseph Kropschot"
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Richie Lewis",
+      "fighter_b": "Rolan Pruden"
+    },
+    {
+      "date": "2026-08-15",
+      "fighter_a": "Sidney Outlaw",
+      "fighter_b": "Rasul Magomedov"
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Charles Johnson",
+      "fighter_b": "Eduardo Henrique"
     }
   ]
 }
