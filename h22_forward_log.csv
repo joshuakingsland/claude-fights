@@ -1,3 +1,10 @@
 fight_key,rule_version,logged_at,snapshot_at,commence_time,date,fighter_a,fighter_b,side,pick,fair_prob,bet_odds,bet_book,pool_books,lead_hours,logged_before_event
 billy goff|ty miller,h22.1,2026-08-14T05:09:18Z,2026-08-08T13:11:35Z,2026-08-09T00:15:00Z,2026-08-09,Ty Miller,Billy Goff,a,Ty Miller,0.779187,-360.0,coolbet,17,11.06,False
 darren elkins|yadier delvalle,h22.1,2026-08-14T05:09:18Z,2026-08-08T13:11:35Z,2026-08-09T01:15:00Z,2026-08-09,Darren Elkins,Yadier DelValle,b,Yadier DelValle,0.863916,-750.0,fanduel,17,12.06,False
+chidi njokuani|joel alvarez,h22.1,2026-08-16T18:47:48Z,2026-08-15T12:58:30Z,2026-08-16T00:45:00Z,2026-08-16,Chidi Njokuani,Joel Alvarez,b,Joel Alvarez,0.742324,-286.0,coolbet,14,11.78,False
+donte johnson|eric mcconico,h22.1,2026-08-16T18:47:48Z,2026-08-15T12:58:30Z,2026-08-15T23:45:00Z,2026-08-15,Donte Johnson,Eric McConico,a,Donte Johnson,0.739424,-286.0,nordicbet,12,10.78,False
+dustin stoltzfus|mansur abdul malik,h22.1,2026-08-16T18:47:48Z,2026-08-15T12:58:30Z,2026-08-16T01:45:00Z,2026-08-16,Mansur Abdul-Malik,Dustin Stoltzfus,a,Mansur Abdul-Malik,0.846491,-556.0,coolbet,16,12.78,False
+edson barboza|esteban ribovics,h22.1,2026-08-16T18:47:48Z,2026-08-15T12:58:30Z,2026-08-16T01:15:00Z,2026-08-16,Edson Barboza,Esteban Ribovics,b,Esteban Ribovics,0.846466,-556.0,coolbet,18,12.28,False
+ian garry|islam makhachev,h22.1,2026-08-16T18:47:48Z,2026-08-15T12:58:30Z,2026-08-16T03:30:00Z,2026-08-16,Islam Makhachev,Ian Garry,a,Islam Makhachev,0.752661,-330.0,fanduel,16,14.53,False
+jeremiah wells|myktybek orolbai,h22.1,2026-08-16T18:47:48Z,2026-08-15T06:57:27Z,2026-08-15T21:45:00Z,2026-08-15,Jeremiah Wells,Myktybek Orolbai,b,Myktybek Orolbai,0.886728,-1000.0,fanduel,12,14.79,False
+lucas fernando|rafael tobias,h22.1,2026-08-16T18:47:48Z,2026-08-15T12:58:30Z,2026-08-15T22:45:00Z,2026-08-15,Rafael Tobias,Lucas Fernando,b,Lucas Fernando,0.717472,-265.0,betonlineag,12,9.78,False
