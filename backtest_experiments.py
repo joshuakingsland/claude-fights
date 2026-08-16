@@ -14,7 +14,7 @@ import json
 
 import numpy as np
 import pandas as pd
-from scipy.special import expit, logit
+from scipy.special import logit
 from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import brier_score_loss, log_loss

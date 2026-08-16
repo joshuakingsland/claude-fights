@@ -26,7 +26,6 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import timezone
 from pathlib import Path
 
 import pandas as pd

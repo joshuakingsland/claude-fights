@@ -63,10 +63,6 @@ def roi_grid(df, p_model, label, edges=(0.03, 0.05, 0.08, 0.12)):
     pay_r = american_payout(df["R_odds"])
     pay_b = american_payout(df["B_odds"])
     rows = []
-    segs = {
-        "all": np.ones(len(df), bool),
-        "dogs_only": None,  # filled per-bet below
-    }
     for edge in edges:
         for seg in ("all", "dogs"):
             bet_r = np.asarray(p_model > df["pr_raw"] + edge).copy()

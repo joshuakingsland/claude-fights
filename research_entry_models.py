@@ -16,7 +16,7 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.special import expit
 
-from config import BOOTSTRAP_MODELS, EDGE_RULE, MODEL_VERSION
+from config import BOOTSTRAP_MODELS, MODEL_VERSION
 from production import (DIFF_FEATURES, event_pnl, event_seed, fit_ensemble,
                         predict_probabilities, score_bets)
 from validate_entry_history import (clustered_ci, clustered_mean_ci,

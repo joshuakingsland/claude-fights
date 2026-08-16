@@ -31,7 +31,6 @@ import glob
 import json
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 # UFC weigh-ins run the morning before the card. A Saturday event beginning

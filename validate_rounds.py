@@ -7,8 +7,10 @@ strawweight. A model that only rediscovers that has learned nothing a
 sportsbook does not already price, so the number worth reporting is the one
 against a division-and-format lookup table fitted on the same training data.
 
-As with validate_method, no historical prices for these markets exist, so
-nothing here is an edge. It measures whether the probabilities are any good.
+Nothing here is an edge, and it is not trying to be. It measures whether the
+probabilities are any good. Historical totals prices do now exist in the
+archive and were tested separately as H8; that is a different question from
+this one and lives in PREREGISTRATION.md.
 """
 
 import argparse
@@ -95,10 +97,13 @@ def run(fights_path="fights_v2.csv", cutoff="2024-01-01",
         "totals": lines,
         "status": "probability_only",
         "prop_edge_validated": False,
-        "note": ("No historical prices exist for these markets. A 2026-08-09 "
-                 "sweep found totals quoted by a single book in eu/uk/au and "
-                 "no method or distance market in any region, so these are "
-                 "fair prices to shop by hand, not a tradable signal."),
+        "note": ("Probability quality only. Historical totals prices have "
+                 "since been archived and tested (H8 in PREREGISTRATION.md); "
+                 "that test was parked because the book chooses which total to "
+                 "hang, so the O/U 2.5 subset is selected rather than "
+                 "mispriced. No method or distance market was quoted in any "
+                 "region. These remain fair prices to shop by hand, not a "
+                 "tradable signal."),
     }
     Path(output).write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))

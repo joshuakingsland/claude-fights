@@ -40,12 +40,19 @@ jobs:
         run: python predict_card.py --lock-paper-trades
       - name: Validate forward paper ledger
         run: python validate_paper.py
+      # H22 replicated out of sample at the same size and failed only on
+      # sample: 166 bets cannot resolve a four-point edge. The holdout is
+      # spent, so the only remaining route to an answer is forward. This logs
+      # what the rule would bet, from a snapshot taken before the fight, and
+      # never rewrites a bet once written.
+      - name: Log H22 forward paper bets
+        run: python forward_test.py log
       - name: Commit market snapshot
         run: |
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
           git add docs/ odds_upcoming.csv odds_log.csv prediction_snapshots.csv \
-            paper_trades.csv paper_validation.json \
+            paper_trades.csv paper_validation.json h22_forward_log.csv \
             model_manifest.json market_snapshot_manifest.json data/market_quotes
           git diff --cached --quiet || git commit -m "market snapshot $(date -u +%FT%H:%MZ)"
           git pull --rebase --autostash origin main
