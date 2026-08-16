@@ -1,5 +1,5 @@
 {
-  "official_trades": 5,
+  "official_trades": 7,
   "settled": 4,
   "staked": 4.0,
   "pnl": -0.8275,
@@ -17,7 +17,7 @@
       "positive_clv_rate": 0.5
     },
     "paper-flat-1u-first-touch-cap2-v2": {
-      "official_trades": 3,
+      "official_trades": 5,
       "settled": 2,
       "staked": 2.0,
       "pnl": -0.3377,
