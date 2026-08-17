@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-17T13:06:13Z",
+  "created_at": "2026-08-17T14:37:15Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -21,7 +21,7 @@
   "bootstrap_models": 30,
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
-  "git_commit": "3f4f41823880963bef1092e2bfbd8e774b87aa53",
+  "git_commit": "884b81693734107f00b45191e7a2a93c133b6d8c",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -30,10 +30,10 @@
     "scikit_learn": "1.8.0"
   },
   "inputs": {
-    "fights_v2.csv": "36da1a7cf3feb4dd5aaffdeadbbc75feb96d6ff21bb7b03f3dc0077953caea93",
+    "fights_v2.csv": "50e991542f6339fe6e67ca8e0c83d4fa180f903ca1d0bbc03df488dfe3917f95",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "5d12ca669608d1bb09c321a18980b3477a375104ef0f2086067b020666bbf7df",
-    "odds_log.csv": "a2bb09a8a48d2a633f2a6f3052f1f6eff580c376f0e5c5e26c966807b3045927",
+    "odds_upcoming.csv": "3d6506992b7a9758f1b89fad2ee0177793899cd377525c6f3f3fc164b9a8b42f",
+    "odds_log.csv": "a7a67f8554024bb5762e5579856d5f41de818e2112807d8fdf35619137342013",
     "method_model.pkl": "a1f0f6c06b49c6855bfe24bdc3a3f92eb0dd75650b0a7a1151d7e067a592d957",
     "config.py": "497b3d20c781e5ab28f5f10286b32a0521efa3f5f4f10e7eb74b4fcea0bea0fb",
     "production.py": "69574c24b293d94113e82fd9fb1b1b7cd3b55383d61fcd75bdcc2c98904b8ea8",
@@ -56,14 +56,14 @@
     "method_model.py": "cbf44e10eedfff890d43a017f42b2cf67e3bc1009d9ce8c5a0f1516b23b86e0d",
     "method_validation.json": "a1b5d58aa746215106bff746bb067438ea36bd5fa91960fe8609ac0de7604fec",
     "close_snapshots.csv": "126addc4d0f16519f4aece61a89d03b09adba1dce12e4458f7e1f33903025f43",
-    "data_source_manifest.json": "923ed93001d325ed0a820849b7f2f68c5313cb091e152fa345d412453a351df0",
-    "raw/ufc_fighter_details.csv": "d0b6ad28591dff90e42ceb482e252ac517b20a4c9f4f05999800fe42934c9c29",
-    "market_snapshot_manifest.json": "fdd72e230c4c34125896de9cb89a7fe7da1fefa0c9f3632b652f74712e9ed383",
+    "data_source_manifest.json": "cd185b330b0d9ef14f0febdadc168fec7eeca24cfd6a5ea495523a40c5492983",
+    "raw/ufc_fighter_details.csv": "49a9badc9af0e63335735028949acedb36af7c0310e08bfa68186cee62517058",
+    "market_snapshot_manifest.json": "56a15af7de1880f2ed772fa2e95d88e5cd41736a25c9e367eef362aa85871d6b",
     "staking_validation.json": "cf9234fb2d38109859c26e36571541e3dfb33053bfae5f3d437d5629e2d6ed4c",
     "validate_staking.py": "00a38c45f20c58433ff03248071b1ccfd471c1297e2b75d2cfb563748b69f15b"
   },
   "rows": {
-    "fights": 8732,
-    "fight_date_max": "2026-08-08"
+    "fights": 8744,
+    "fight_date_max": "2026-08-15"
   }
 }
