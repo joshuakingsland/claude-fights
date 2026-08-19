@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-08-17T14:37:15Z",
+  "checked_at": "2026-08-19T14:42:14Z",
   "results_through": "2026-08-15",
-  "days_since_latest_result": 2,
+  "days_since_latest_result": 4,
   "grace_days": 7,
   "status": "pending",
   "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,7 +11,7 @@
       "date": "2026-08-16",
       "fighter_a": "Charles Johnson",
       "fighter_b": "Jose Ochoa",
-      "days_waiting": 1
+      "days_waiting": 3
     }
   ],
   "known_cancelled": [
@@ -316,6 +316,51 @@
       "date": "2026-08-16",
       "fighter_a": "Charles Johnson",
       "fighter_b": "Eduardo Henrique"
+    },
+    {
+      "date": "2026-08-19",
+      "fighter_a": "Alik Lorenz",
+      "fighter_b": "Mahamed Aly"
+    },
+    {
+      "date": "2026-08-19",
+      "fighter_a": "Roman Puga",
+      "fighter_b": "Taner Trembley"
+    },
+    {
+      "date": "2026-08-19",
+      "fighter_a": "Logan Paxton",
+      "fighter_b": "Cristian P\u00e9rez"
+    },
+    {
+      "date": "2026-08-19",
+      "fighter_a": "Douglas Rodrigues",
+      "fighter_b": "Trent Miller"
+    },
+    {
+      "date": "2026-08-19",
+      "fighter_a": "Namo Fazil",
+      "fighter_b": "Kaik Brito"
+    },
+    {
+      "date": "2026-08-18",
+      "fighter_a": "Mahamed Aly",
+      "fighter_b": "Alik Lorenz"
+    },
+    {
+      "date": "2026-08-18",
+      "fighter_a": "Douglas Rodrigues",
+      "fighter_b": "Trent Miller"
+    },
+    {
+      "date": "2026-08-18",
+      "fighter_a": "Namo Fazil",
+      "fighter_b": "Kaik Brito"
+    },
+    {
+      "date": "2026-08-18",
+      "fighter_a": "Taner Trembley",
+      "fighter_b": "Roman Puga"
     }
   ]
 }
