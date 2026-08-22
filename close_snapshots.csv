@@ -33,3 +33,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-22T21:03:11Z,038228122fc63c55832841739444063f,2026-08-22T21:45:00Z,41.8,Jackson McVey,Wes Schultz,-180.0,150.0,0.61713462,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-22T21:40:18Z,ee1e1cd5b51f58fdfcf54c37c895468a,2026-08-22T22:10:00Z,29.69,Gino van Steenis,Robert Watley,-170.0,152.0,0.61443941,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-22T21:40:18Z,5b18bbdd22533e90638a083a6e5939cd,2026-08-22T22:15:00Z,34.69,Gauge Young,Stan Dorsainvil,-190.0,160.0,0.62830044,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-22T22:00:44Z,b4e43089eb6b3a4806f094a746de61fb,2026-08-22T22:40:00Z,39.26,Natan Schulte,Makkasharip Zaynukov,142.0,-162.0,0.40360868,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-22T22:00:44Z,da9b4889587902d20f9bc83b06c759ab,2026-08-22T22:45:00Z,44.26,Márcio Barbosa,Ryan Kuse,-850.0,575.0,0.85794393,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
