@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-08-19T14:42:14Z",
+  "checked_at": "2026-08-22T17:59:00Z",
   "results_through": "2026-08-15",
-  "days_since_latest_result": 4,
+  "days_since_latest_result": 7,
   "grace_days": 7,
   "status": "pending",
   "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,7 +11,7 @@
       "date": "2026-08-16",
       "fighter_a": "Charles Johnson",
       "fighter_b": "Jose Ochoa",
-      "days_waiting": 3
+      "days_waiting": 6
     }
   ],
   "known_cancelled": [
@@ -361,6 +361,66 @@
       "date": "2026-08-18",
       "fighter_a": "Taner Trembley",
       "fighter_b": "Roman Puga"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Benny Orozco",
+      "fighter_b": "Dzhamal Mavliudov"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Chris Mecate",
+      "fighter_b": "Manuel Exposito"
+    },
+    {
+      "date": "2026-08-21",
+      "fighter_a": "Irakli Kuchukhidze",
+      "fighter_b": "Austin Clayton"
+    },
+    {
+      "date": "2026-08-21",
+      "fighter_a": "Marcos Breno",
+      "fighter_b": "Bektur Zhenishbek Uulu"
+    },
+    {
+      "date": "2026-08-21",
+      "fighter_a": "Daniel Frunza",
+      "fighter_b": "Jonathan Hanes"
+    },
+    {
+      "date": "2026-08-21",
+      "fighter_a": "Joaquin Garcia",
+      "fighter_b": "Orlando Sanders"
+    },
+    {
+      "date": "2026-08-21",
+      "fighter_a": "Sevak Khachatryan",
+      "fighter_b": "Aiden Ingram"
+    },
+    {
+      "date": "2026-08-21",
+      "fighter_a": "Nika Sabanashvili",
+      "fighter_b": "Artur Gadzhikhanov"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Nika Sabanashvili",
+      "fighter_b": "Artur Gadzhikhanov"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Irakli Kuchukhidze",
+      "fighter_b": "Austin Clayton"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Daniel Frunza",
+      "fighter_b": "Jonathan Hanes"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Joaquin Garcia",
+      "fighter_b": "Orlando Sanders"
     }
   ]
 }
