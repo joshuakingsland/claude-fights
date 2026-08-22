@@ -27,3 +27,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-16T01:58:27Z,8cde6c248e3ef2cf491263061d0eab51,2026-08-16T02:30:00Z,31.54,Jalin Turner,Kauê Fernandes,-116.0,-102.0,0.51601883,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-16T01:58:27Z,c402e0bce0b73aabf9601b453bfd0725,2026-08-16T02:45:00Z,46.54,Mackenzie Dern,Gillian Robertson,-215.0,180.0,0.65747523,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-16T03:13:00Z,e1ae0688f10d4fcdab848fbb0aa4db28,2026-08-16T03:30:00Z,17.0,Islam Makhachev,Ian Garry,-340.0,275.0,0.74344023,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-22T20:43:18Z,a164f5a2e45bec9a6f6caae1911ee32b,2026-08-22T21:15:00Z,31.7,Shanelle Dyer,Elise Reed,-900.0,600.0,0.8630137,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-22T20:43:18Z,2a5f52a6a7d33606f861f3d4489d5cca,2026-08-22T21:30:00Z,46.7,Dakota Bush,Morquez Forest,-240.0,200.0,0.67990042,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
