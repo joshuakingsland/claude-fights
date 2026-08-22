@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-22T13:00:54Z",
+  "created_at": "2026-08-22T18:09:19Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -19,9 +19,9 @@
   "event_day_stake_cap": 2,
   "research_two_unit_rule": 0.1,
   "bootstrap_models": 30,
-  "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
-  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
-  "git_commit": "2a63659b4e422c55f0bd4aa8e5ca5cfc0651d326",
+  "python": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
+  "platform": "Linux-6.18.44-fc-v21-x86_64-with-glibc2.39",
+  "git_commit": "16644955097031eae6d9fe3f6657f0ba8d46cc12",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -43,10 +43,10 @@
     "elo.py": "37fb77e27cb6eb5c50d48260098198a2efcecfb6b3060d181df8ec6d5e54a818",
     "adapter.py": "1dcd9711b5ed9f6048b613acd0591c3fb5b4f71c86c0482c86cb3a7a55d30879",
     "pipeline.py": "fd1429416c63f06233332f7be3425468cb86d4f019007ba43ceaf8eaad84c24d",
-    "predict_card.py": "333a4c21b1c95a835060a6343e38b390f1a9afefd3b56039323dfc14ace77bd7",
+    "predict_card.py": "db3692a2614cb3c7ba8f90a5d5ab84004971c894df565624a9f79011df115310",
     "paper_ledger.py": "2741bb888ffbdcae95659e777c3d98f828ac9b997c35e8605d6894b652533620",
     "fetch_odds.py": "dbb2668a31e866e7e50f9260553babaafae8d8372c57eee1cbb20c39a8311b3d",
-    "site_template.html": "109e1dd26dbf650b96d1a97e283b1b6cf47e9ee64fe84750461dd7cfb7e92c05",
+    "site_template.html": "c3bcbf4891f1310abcde09d122bbcc427dc0b7844df9caef766d77d848011441",
     "requirements.txt": "52c20d17a069ed0c738ea7eb78088b36ca360ea995e09da48639af1293043ad8",
     "identity.py": "dec21893641429c5f8993c68477640f405370e384d1aa5ccbe990f096e87193b",
     "data_quality.py": "0c0260f7f10ad7f8fd280f9be64d7fcb1cdb7eaeca04cb4325e4cef1dce0d7c4",

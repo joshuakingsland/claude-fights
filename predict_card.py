@@ -35,6 +35,7 @@ from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP, FOCUS,
 from production import (MODEL_FEATURES, allocate_stakes, event_pnl, event_seed,
                         fit_ensemble, predict_probabilities, score_bets)
 import method_model as MM
+import shopping
 
 PROMOTION_CHOICES = ("ufc", "dwcs", "all")
 
@@ -434,7 +435,24 @@ def predict_upcoming(up):
             _optional_number(r.get("follower_prob_a")),
             pick_a,
         )
+        # Line shopping is the one effect in this repository that survived
+        # testing, and it was invisible on the page: the card named the book
+        # holding the best price for whichever side the model preferred, never
+        # said what that price saved, and never showed the other fighter at
+        # all. Both sides are carried now, because the reader may back either
+        # and the model is not betting.
+        shop = shopping.fight(
+            pick_name=r["display_a"] if pick_a else r["display_b"],
+            opp_name=r["display_b"] if pick_a else r["display_a"],
+            pick_consensus=consensus_price, opp_consensus=consensus_opp_price,
+            pick_best=execution_price,
+            pick_book=r.get("best_book_a" if pick_a else "best_book_b", ""),
+            opp_best=execution_b if pick_a else execution_a,
+            opp_book=r.get("best_book_b" if pick_a else "best_book_a", ""),
+            books=books,
+        )
         out.append({
+            "shop": shop,
             "_p_a": p, "_row_idx": int(row.index[0]), "_pick_a": bool(pick_a),
             "_net_raw": net, "_quality_ok": quality_ok,
             "_neutral_identity": neutral_identity,
