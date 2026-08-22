@@ -31,3 +31,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-22T20:43:18Z,2a5f52a6a7d33606f861f3d4489d5cca,2026-08-22T21:30:00Z,46.7,Dakota Bush,Morquez Forest,-240.0,200.0,0.67990042,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-22T21:03:11Z,f3a279eb29a937d3e77d29d3a546c2d3,2026-08-22T21:40:00Z,36.8,Eoin Sheridan,James Vake,-610.0,460.0,0.82705258,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-22T21:03:11Z,038228122fc63c55832841739444063f,2026-08-22T21:45:00Z,41.8,Jackson McVey,Wes Schultz,-180.0,150.0,0.61713462,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-22T21:40:18Z,ee1e1cd5b51f58fdfcf54c37c895468a,2026-08-22T22:10:00Z,29.69,Gino van Steenis,Robert Watley,-170.0,152.0,0.61443941,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-22T21:40:18Z,5b18bbdd22533e90638a083a6e5939cd,2026-08-22T22:15:00Z,34.69,Gauge Young,Stan Dorsainvil,-190.0,160.0,0.62830044,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
