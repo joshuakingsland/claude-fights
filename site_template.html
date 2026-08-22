@@ -57,6 +57,18 @@
     font-size:10.5px;color:var(--muted);line-height:1.7}.props{margin-top:6px;font-family:'IBM Plex Mono',monospace;
     font-size:10px;color:var(--faint);line-height:1.6}
   .props .pc{color:var(--muted)}
+  /* Line shopping. This is the only effect in the research programme that
+     survived testing, so it gets its own block rather than a footnote on the
+     quote line: best price and book for BOTH fighters, and what taking it
+     saves. Styled as information rather than as a signal - it is not a bet
+     recommendation, it is the price you should be paying either way. */
+  .shop{margin-top:7px;padding-top:6px;border-top:1px dashed var(--line);
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);line-height:1.65}
+  .shop .lbl{color:var(--faint);letter-spacing:.06em;font-size:9px}
+  .shop .bk{color:var(--text)}
+  .shop .save{color:var(--gold)}
+  .shop .flat{color:var(--faint);font-style:italic}
+  .shop .cross{color:var(--warn)}
   /* These markets have no book quote to compare against, so the card must
      never let a fair price read like an edge the way the moneyline does. */
   .unpriced{margin-top:3px;font-size:9px;color:var(--faint);opacity:.75;font-style:italic}
@@ -117,6 +129,26 @@ function signed(value){return Number(value)>0?`+${value}`:`${value}`}
 function oddsAgeMinutes(f){const time=Date.parse(f.odds_fetched_at||"");return Number.isFinite(time)?Math.max(0,(Date.now()-time)/60000):null}
 function fresh(f){const age=oddsAgeMinutes(f);return age===null||age<=maxOddsAgeMinutes}
 function activeSignal(f){return Boolean(f.bet)&&fresh(f)}
+// Best price and book for both fighters, plus what shopping saves. Rendered
+// for every fight, bet or pass, because the reader may back either side and
+// the saving applies whether or not the model has an opinion.
+function shopSide(s){
+  if(!s||!s.price)return `<div><span class="lbl">${esc(s&&s.name||"")}</span> <span class="flat">not quoted</span></div>`;
+  const save=s.worth_shopping?` <span class="save">saves ${Number(s.gain_pts).toFixed(1)} pts</span> vs ${esc(s.consensus||"?")}`:
+    ` <span class="flat">= consensus</span>`;
+  return `<div>${esc(s.name)} <b>${esc(s.price)}</b> at <span class="bk">${esc(s.book||"?")}</span>${save}</div>`;
+}
+function shopBlock(f){
+  const s=f.shop;if(!s)return"";
+  const books=s.books?`${esc(s.books)} books`:"books unknown";
+  const margin=(s.best_margin_pts!==null&&s.best_margin_pts!==undefined&&
+                s.consensus_margin_pts!==null&&s.consensus_margin_pts!==undefined)
+    ? ` | margin ${Number(s.consensus_margin_pts).toFixed(1)} &rarr; <span class="save">${Number(s.best_margin_pts).toFixed(1)} pts</span>`:"";
+  const crossed=s.crossed?` <span class="cross">| CROSSED &mdash; both sides win; limits are small and it closes accounts</span>`:"";
+  return `<div class="shop"><div class="lbl">BEST PRICE</div>
+    ${shopSide(s.pick)}${shopSide(s.opp)}
+    <div class="lbl">${books}${margin}${crossed}</div></div>`;
+}
 function row(f){
   const lo=Math.min(f.market,f.model),hi=Math.max(f.market,f.model),active=activeSignal(f),isStale=!fresh(f);
   const tag=active?`<span class="tag yes">PAPER | ${f.stake||1}U</span>`:
@@ -129,7 +161,8 @@ function row(f){
   return `<div class="fight ${active?"bet":""}"><div class="who">
     <div class="name pick">${esc(f.pick)} <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">${esc(f.execution_price||f.price)}</span></div>
     <div class="vs">vs</div><div class="name" style="font-weight:500;color:var(--muted)">${esc(f.opp)}</div>
-    <div class="meta">${esc(f.meta)}</div><div class="quote">${esc(f.execution_book||"consensus")} best | consensus ${esc(f.consensus_price||f.price)}/${esc(f.consensus_opp_price||"?")} | ${books}${spread}${fetched}</div></div>
+    <div class="meta">${esc(f.meta)}</div><div class="quote">consensus ${esc(f.consensus_price||f.price)}/${esc(f.consensus_opp_price||"?")} | ${books}${spread}${fetched}</div>
+    ${shopBlock(f)}</div>
     <div class="gauge"><div class="rail"></div><div class="mid"></div><div class="edgeband" style="left:${lo}%;width:0%" data-w="${hi-lo}"></div>
     <div class="mark" style="left:${f.market}%"></div><div class="mark model" style="left:${f.market}%" data-x="${f.model}"></div>
     <div class="glabel top" style="left:${f.market}%">mkt <span class="v">${f.market.toFixed(0)}%</span></div>
