@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-23T13:01:45Z",
+  "created_at": "2026-08-23T14:42:24Z",
   "model_version": "production-v3",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -21,7 +21,7 @@
   "bootstrap_models": 30,
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
-  "git_commit": "cbcc5a8e510f350d2c5fe1c23489b81e1782ab7b",
+  "git_commit": "6bb934af0a2ff94aefe2e819229be3e25d9ad401",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -32,8 +32,8 @@
   "inputs": {
     "fights_v2.csv": "50e991542f6339fe6e67ca8e0c83d4fa180f903ca1d0bbc03df488dfe3917f95",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "e0425ee091ae49b5406602daa9cd68f9bf7265f624f2deec4080ec0213c93088",
-    "odds_log.csv": "0d7b02418578aa07666e4e0479782c12a03481c8c85d80d65250bde47fb15480",
+    "odds_upcoming.csv": "5f7bae6076656b88ad9c8fd2a5950e22247e9a60029cd401982b7028390c7744",
+    "odds_log.csv": "d45a2ef4cb20b5cfe7e4a653246787e472f0cd820b7d7066fa8672185974cddc",
     "method_model.pkl": "a1f0f6c06b49c6855bfe24bdc3a3f92eb0dd75650b0a7a1151d7e067a592d957",
     "config.py": "497b3d20c781e5ab28f5f10286b32a0521efa3f5f4f10e7eb74b4fcea0bea0fb",
     "production.py": "69574c24b293d94113e82fd9fb1b1b7cd3b55383d61fcd75bdcc2c98904b8ea8",
@@ -50,15 +50,15 @@
     "requirements.txt": "52c20d17a069ed0c738ea7eb78088b36ca360ea995e09da48639af1293043ad8",
     "identity.py": "dec21893641429c5f8993c68477640f405370e384d1aa5ccbe990f096e87193b",
     "data_quality.py": "0c0260f7f10ad7f8fd280f9be64d7fcb1cdb7eaeca04cb4325e4cef1dce0d7c4",
-    "freshness.py": "989601bbcc4c334c263c01a5a2329d9f9ac7240619b561dfd3f4e8b0eca6bf9b",
+    "freshness.py": "e4b3f12f09e667a0ecec2087feb81194c6857c9f49a394389f34c4c7ae1ca15b",
     "cancelled_fights.csv": "71d1bb15fccbfd67b9ab29da039c62c2a471ddf26c92df4eab4a8495a18e5798",
     "capture_close.py": "deb45799e223e97e06547dab61ee68674ec47ec0f5d89ce72572df82089b75d1",
     "method_model.py": "cbf44e10eedfff890d43a017f42b2cf67e3bc1009d9ce8c5a0f1516b23b86e0d",
     "method_validation.json": "a1b5d58aa746215106bff746bb067438ea36bd5fa91960fe8609ac0de7604fec",
     "close_snapshots.csv": "1e4f2ef1992145ba4f382e884013f9a67eb625730cab4b64903494f795a09a52",
-    "data_source_manifest.json": "36cfa57ad6c8268c434e8da682e4109edabb239b8e976c3912c4ded358f595e5",
-    "raw/ufc_fighter_details.csv": "d0b6ad28591dff90e42ceb482e252ac517b20a4c9f4f05999800fe42934c9c29",
-    "market_snapshot_manifest.json": "83d0751ffe8905fa0c6661827d0f6176599f17a8408ef1c3e4c7dcb2528e71d8",
+    "data_source_manifest.json": "45a450968a3ac79612fa4dfc923cd9853836472ad13c11f6794b51b867e9b560",
+    "raw/ufc_fighter_details.csv": "555acc631f9612db33a106fbe5cb7fdf2cacb9e56d78ebf1252b92b6eaac5cc6",
+    "market_snapshot_manifest.json": "7d7dc4e258056aeac425d082fed8c90714a964cac6665149f9d028cbc531ba46",
     "staking_validation.json": "2522a9ef0a935bdee9ac1c5c2f429e7508cac6ef11db6ae11e79e739134fbc43",
     "validate_staking.py": "00a38c45f20c58433ff03248071b1ccfd471c1297e2b75d2cfb563748b69f15b"
   },

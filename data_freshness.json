@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-08-23T14:39:55Z",
+  "checked_at": "2026-08-23T14:42:24Z",
   "results_through": "2026-08-15",
   "days_since_latest_result": 8,
   "grace_days": 7,
   "status": "pending",
-  "message": "17 recent fight(s) await results, within the 7-day upstream publishing window",
+  "message": "19 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
     {
@@ -80,6 +80,12 @@
       "days_waiting": 0
     },
     {
+      "date": "2026-08-22",
+      "fighter_a": "M\u00e1rcio Barbosa",
+      "fighter_b": "Ryan Kuse",
+      "days_waiting": 0
+    },
+    {
       "date": "2026-08-23",
       "fighter_a": "Shanelle Dyer",
       "fighter_b": "Elise Reed",
@@ -95,6 +101,12 @@
       "date": "2026-08-22",
       "fighter_a": "Shamil Gaziev",
       "fighter_b": "Kennedy Nzechukwu",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Gauge Young",
+      "fighter_b": "Stan Dorsainvil",
       "days_waiting": 0
     },
     {
@@ -436,11 +448,6 @@
       "fighter_b": "Taner Trembley"
     },
     {
-      "date": "2026-08-22",
-      "fighter_a": "M\u00e1rcio Barbosa",
-      "fighter_b": "Ryan Kuse"
-    },
-    {
       "date": "2026-08-19",
       "fighter_a": "Logan Paxton",
       "fighter_b": "Cristian P\u00e9rez"
@@ -479,11 +486,6 @@
       "date": "2026-08-22",
       "fighter_a": "Anthony Wint",
       "fighter_b": "Terrance Chatman"
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Gauge Young",
-      "fighter_b": "Stan Dorsainvil"
     },
     {
       "date": "2026-08-23",

@@ -1,5 +1,5 @@
 {
-  "downloaded_at": "2026-08-19T14:41:39Z",
+  "downloaded_at": "2026-08-23T14:41:36Z",
   "source": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/",
   "rows": 8744,
   "result_date_min": "1994-03-11",
@@ -45,16 +45,16 @@
     "ufc_fighter_tott.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fighter_tott.csv",
       "last_modified": null,
-      "etag": "\"af884380882bb1d339ee9103dfcfcf2f529487fa40bc06487f8796a775e2d86d\"",
-      "sha256": "43ebc0ccf5cebd45dc5ac32385e8eeba3d8079ab448b478d2d7dc84cde720ac1",
-      "bytes": 505586
+      "etag": "\"f806dae05b7c4c542993dbe67a16be78fb8f16912de4cde05d8c3550a7d09331\"",
+      "sha256": "86d89bb84cdea8838db9cb631abb83d4518b3fc2739eb8fa11451bc7cecbb373",
+      "bytes": 506195
     },
     "ufc_fighter_details.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fighter_details.csv",
       "last_modified": null,
-      "etag": "\"53e5ab3be131a44e992d3ca268a878f1383f644b5adbd2bf599bf93bd553534a\"",
-      "sha256": "03640cc1c6f1afab8cb84f5666d5873f8a7438bdc31c066146451d2ae53f5c54",
-      "bytes": 338178
+      "etag": "\"48ef01070bffb576c5e2ab5d6829543c88fec498671b24456a4beff99c742093\"",
+      "sha256": "555acc631f9612db33a106fbe5cb7fdf2cacb9e56d78ebf1252b92b6eaac5cc6",
+      "bytes": 338709
     }
   }
 }
