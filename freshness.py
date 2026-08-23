@@ -104,6 +104,45 @@ def _result_matches(result_dates, fight_date, pair, tolerance_days=1):
     return False
 
 
+def _result_name_dates(fights, dates):
+    """When each fighter last has a recorded result, by canonical name."""
+    seen = {}
+    for date, frame_name in zip(dates.dt.date, _names_by_row(fights)):
+        for name in frame_name:
+            if name:
+                seen.setdefault(name, set()).add(date)
+    return seen
+
+
+def _names_by_row(fights):
+    for a, b in zip(fights["fighter_a"], fights["fighter_b"]):
+        yield canonical_name(a), canonical_name(b)
+
+
+def _fought_someone_else(name_dates, fight_date, fighter_a, fighter_b,
+                         tolerance_days=1):
+    """Did either fighter compete that night, against somebody else?
+
+    The odds feed carries bookings that never happen. A fighter is announced
+    against one opponent, the opponent changes, and the dead pairing keeps
+    being quoted; books also spell the same man differently, so one bout can
+    appear under several names. On 2026-08-16 the feed held Charles Johnson
+    against Jose Ochoa, Eduardo Henrique and Eduardo Chapolin - one fight, and
+    only the last name matched the result.
+
+    Those unmatched pairings are not missing results, and waiting for them is
+    waiting forever. But if the fighter has a result that night against
+    anybody, the bout was resolved and the other pairings were superseded.
+    A fighter competes once per card, so this cannot hide a genuine gap.
+    """
+    for name in (canonical_name(fighter_a), canonical_name(fighter_b)):
+        for result_date in name_dates.get(name, set()):
+            if abs((pd.Timestamp(fight_date)
+                    - pd.Timestamp(result_date)).days) <= tolerance_days:
+                return True
+    return False
+
+
 # How long a completed fight may sit without a result before it is a fault
 # rather than a wait. The results feed is a third-party scrape that publishes
 # some days after a card; on 2026-08-16 its newest event was 2026-08-08, which
@@ -135,6 +174,7 @@ def assess_freshness(
     known_missing = []
     known_pending = []
     known_cancelled = []
+    known_superseded = []
     known_out_of_scope = []
     cancelled_keys = _cancelled_keys(cancelled_fights)
     tracked = _tracked_universe(fights, fighter_roster)
@@ -148,6 +188,7 @@ def assess_freshness(
             )
             odds["pair"] = _pairs(odds)
             result_dates = _result_pair_dates(fights, dates)
+            name_dates = _result_name_dates(fights, dates)
             completed = odds[odds["commence_time"] < now - pd.Timedelta(hours=12)]
             completed = completed.dropna(subset=["commence_time"]).copy()
             completed["fight_date"] = completed["commence_time"].dt.date
@@ -163,6 +204,9 @@ def assess_freshness(
                     continue
                 if key in cancelled_keys:
                     known_cancelled.append(item)
+                elif _fought_someone_else(name_dates, row.commence_time.date(),
+                                          row.fighter_a, row.fighter_b):
+                    known_superseded.append(item)
                 elif tracked is not None and not _in_ufc_scope(
                     row.fighter_a, row.fighter_b, tracked
                 ):
@@ -203,6 +247,7 @@ def assess_freshness(
         "known_completed_missing": known_missing,
         "known_awaiting_upstream": known_pending,
         "known_cancelled": known_cancelled,
+        "known_superseded": known_superseded,
         "known_out_of_scope": known_out_of_scope,
     }
 

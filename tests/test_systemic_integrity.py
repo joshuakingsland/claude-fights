@@ -430,8 +430,13 @@ class ResultGracePeriodTests(unittest.TestCase):
     """
 
     def _report(self, fight_time, now, grace_days=7):
+        # The prior bout sits on its own date, threading two constraints: it
+        # must make both fighters UFC veterans (so the bout is in scope) and
+        # give neither a result on the night being judged (which would make
+        # the booking superseded rather than awaited), while staying inside
+        # 21 days of `now` so the stale-bundle check does not fire first.
         fights = pd.DataFrame([{
-            "date": "2026-08-01", "fighter_a": "Ann Ace", "fighter_b": "Bea Bolt",
+            "date": "2026-08-04", "fighter_a": "Ann Ace", "fighter_b": "Bea Bolt",
         }])
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -518,3 +523,113 @@ class NotifyEmailTests(unittest.TestCase):
         with mock.patch.dict(os.environ, {"SMTP_USER": "", "SMTP_PASSWORD": "",
                                           "BET_EMAIL_TO": ""}, clear=False):
             self.assertEqual(notify_email.main(), 0)
+
+
+class SupersededBookingTests(unittest.TestCase):
+    """The odds feed quotes bookings that never happen.
+
+    A fighter is announced against one opponent, the opponent changes, and the
+    dead pairing keeps being quoted. Books also spell the same man differently.
+    On 2026-08-16 the feed held Charles Johnson against Jose Ochoa, Eduardo
+    Henrique and Eduardo Chapolin - one bout, three names, and only the last
+    matched the result. The other two would have waited for a result that was
+    never coming, and failed the workflow seven days later.
+    """
+
+    def _report(self, booked_opponent, now="2026-08-23T20:00:00Z", **kwargs):
+        # The result on record: Johnson beat Chapolin on the 15th.
+        fights = pd.DataFrame([{
+            "date": "2026-08-15", "fighter_a": "Charles Johnson",
+            "fighter_b": "Eduardo Chapolin", "winner": "A",
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds, roster = root / "odds.csv", root / "roster.csv"
+            pd.DataFrame([{
+                "commence_time": "2026-08-16T02:00:00Z",
+                "fighter_a": "Charles Johnson", "fighter_b": booked_opponent,
+            }]).to_csv(odds, index=False)
+            pd.DataFrame([
+                {"FIRST": "Charles", "LAST": "Johnson"},
+                {"FIRST": "Eduardo", "LAST": "Chapolin"},
+                {"FIRST": "Jose", "LAST": "Ochoa"},
+            ]).to_csv(roster, index=False)
+            return assess_freshness(fights, odds, now=now,
+                                    fighter_roster=roster, **kwargs)
+
+    def test_a_replaced_opponent_does_not_wait_forever(self):
+        report = self._report("Jose Ochoa", grace_days=0)
+        self.assertEqual(report["known_completed_missing"], [])
+        self.assertEqual(len(report["known_superseded"]), 1)
+
+    def test_the_same_man_under_another_name_is_not_a_missing_result(self):
+        report = self._report("Eduardo Henrique", grace_days=0)
+        self.assertEqual(report["known_completed_missing"], [])
+        self.assertEqual(len(report["known_superseded"]), 1)
+
+    def test_a_superseded_booking_does_not_fail_the_workflow(self):
+        self.assertNotEqual(self._report("Jose Ochoa", grace_days=0)["status"],
+                            "lagging")
+
+    def test_a_fighter_who_did_not_compete_is_still_awaited(self):
+        """The guard must not excuse everything it cannot match.
+
+        Neither of these two has a result that night, so this is a real gap
+        and has to survive the new check.
+        """
+        fights = pd.DataFrame([
+            {"date": "2026-08-15", "fighter_a": "Charles Johnson",
+             "fighter_b": "Eduardo Chapolin", "winner": "A"},
+            # An earlier bout, so Ann Ace counts as a UFC veteran and the
+            # booking is in scope. Without it the pair is excused as a bout
+            # the result source never covers, and the test would pass for
+            # the wrong reason.
+            {"date": "2026-08-10", "fighter_a": "Ann Ace",
+             "fighter_b": "Bea Bolt", "winner": "A"},
+        ])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds, roster = root / "odds.csv", root / "roster.csv"
+            pd.DataFrame([{
+                "commence_time": "2026-08-16T02:00:00Z",
+                "fighter_a": "Ann Ace", "fighter_b": "Bea Bolt",
+            }]).to_csv(odds, index=False)
+            pd.DataFrame([
+                {"FIRST": "Charles", "LAST": "Johnson"},
+                {"FIRST": "Eduardo", "LAST": "Chapolin"},
+                {"FIRST": "Ann", "LAST": "Ace"},
+                {"FIRST": "Bea", "LAST": "Bolt"},
+            ]).to_csv(roster, index=False)
+            report = assess_freshness(fights, odds, now="2026-08-30T20:00:00Z",
+                                      fighter_roster=roster, grace_days=0)
+        self.assertEqual(report["known_superseded"], [])
+        self.assertEqual(report["status"], "lagging")
+
+    def test_a_matched_pairing_is_never_called_superseded(self):
+        report = self._report("Eduardo Chapolin", grace_days=0)
+        self.assertEqual(report["known_superseded"], [])
+        self.assertEqual(report["known_completed_missing"], [])
+
+    def test_a_result_a_week_away_does_not_excuse_the_booking(self):
+        # Only the same night counts; a fighter's bout last month says
+        # nothing about whether tonight's happened.
+        fights = pd.DataFrame([{
+            "date": "2026-07-04", "fighter_a": "Charles Johnson",
+            "fighter_b": "Someone Else", "winner": "A",
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds, roster = root / "odds.csv", root / "roster.csv"
+            pd.DataFrame([{
+                "commence_time": "2026-08-16T02:00:00Z",
+                "fighter_a": "Charles Johnson", "fighter_b": "Jose Ochoa",
+            }]).to_csv(odds, index=False)
+            pd.DataFrame([
+                {"FIRST": "Charles", "LAST": "Johnson"},
+                {"FIRST": "Someone", "LAST": "Else"},
+                {"FIRST": "Jose", "LAST": "Ochoa"},
+            ]).to_csv(roster, index=False)
+            report = assess_freshness(fights, odds, now="2026-08-30T20:00:00Z",
+                                      fighter_roster=roster, grace_days=0)
+        self.assertEqual(report["known_superseded"], [])
+        self.assertEqual(len(report["known_completed_missing"]), 1)

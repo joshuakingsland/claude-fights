@@ -1,17 +1,113 @@
 {
-  "checked_at": "2026-08-22T18:09:19Z",
+  "checked_at": "2026-08-23T14:39:55Z",
   "results_through": "2026-08-15",
-  "days_since_latest_result": 7,
+  "days_since_latest_result": 8,
   "grace_days": 7,
   "status": "pending",
-  "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
+  "message": "17 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
     {
-      "date": "2026-08-16",
-      "fighter_a": "Charles Johnson",
-      "fighter_b": "Jose Ochoa",
-      "days_waiting": 6
+      "date": "2026-08-23",
+      "fighter_a": "Anthony Hernandez",
+      "fighter_b": "Gregory Rodrigues",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Carli Judice",
+      "fighter_b": "Jeisla Chaves",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Nasrat Haqparast",
+      "fighter_b": "Chris Padilla",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Wes Schultz",
+      "fighter_b": "Jackson McVey",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Jamall Emmers",
+      "fighter_b": "Lerryan Douglas",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Kennedy Nzechukwu",
+      "fighter_b": "Shamil Gaziev",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Marquel Mederos",
+      "fighter_b": "Mason Jones",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Roman Dolidze",
+      "fighter_b": "Reinier de Ridder",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Nasrat Haqparast",
+      "fighter_b": "Chris Padilla",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Jackson McVey",
+      "fighter_b": "Wes Schultz",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Jamall Emmers",
+      "fighter_b": "Lerryan Douglas",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Marquel Mederos",
+      "fighter_b": "Mason Jones",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Shanelle Dyer",
+      "fighter_b": "Elise Reed",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Shanelle Dyer",
+      "fighter_b": "Elise Reed",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Shamil Gaziev",
+      "fighter_b": "Kennedy Nzechukwu",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Merab Dvalishvili",
+      "fighter_b": "Henry Cejudo",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Tyron Woodley",
+      "fighter_b": "Joaquin Buckley",
+      "days_waiting": 0
     }
   ],
   "known_cancelled": [
@@ -24,6 +120,38 @@
       "date": "2026-08-08",
       "fighter_a": "Miles Johns",
       "fighter_b": "Jessie Rosas"
+    }
+  ],
+  "known_superseded": [
+    {
+      "date": "2026-08-09",
+      "fighter_a": "Ty Miller",
+      "fighter_b": "Billy Goff"
+    },
+    {
+      "date": "2026-08-09",
+      "fighter_a": "Carlos Diego Ferreira",
+      "fighter_b": "Billy Quarantillo"
+    },
+    {
+      "date": "2026-08-09",
+      "fighter_a": "Darren Elkins",
+      "fighter_b": "Yadier DelValle"
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Charles Johnson",
+      "fighter_b": "Jose Ochoa"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Giovanna Canuto",
+      "fighter_b": "Carol Foro"
+    },
+    {
+      "date": "2026-08-16",
+      "fighter_a": "Charles Johnson",
+      "fighter_b": "Eduardo Henrique"
     }
   ],
   "known_out_of_scope": [
@@ -136,21 +264,6 @@
       "date": "2026-08-01",
       "fighter_a": "Usman Nurmagomedov",
       "fighter_b": "Archie Colgan"
-    },
-    {
-      "date": "2026-08-09",
-      "fighter_a": "Ty Miller",
-      "fighter_b": "Billy Goff"
-    },
-    {
-      "date": "2026-08-09",
-      "fighter_a": "Carlos Diego Ferreira",
-      "fighter_b": "Billy Quarantillo"
-    },
-    {
-      "date": "2026-08-09",
-      "fighter_a": "Darren Elkins",
-      "fighter_b": "Yadier DelValle"
     },
     {
       "date": "2026-07-31",
@@ -273,11 +386,6 @@
       "fighter_b": "Bruno Cappelozza"
     },
     {
-      "date": "2026-08-08",
-      "fighter_a": "Giovanna Canuto",
-      "fighter_b": "Carol Foro"
-    },
-    {
       "date": "2026-08-12",
       "fighter_a": "Tom Pagliarulo",
       "fighter_b": "Ananias Mulumba"
@@ -303,6 +411,11 @@
       "fighter_b": "Joseph Kropschot"
     },
     {
+      "date": "2026-08-23",
+      "fighter_a": "Sergey Spivak",
+      "fighter_b": "Vitor Petrino"
+    },
+    {
       "date": "2026-08-15",
       "fighter_a": "Richie Lewis",
       "fighter_b": "Rolan Pruden"
@@ -313,11 +426,6 @@
       "fighter_b": "Rasul Magomedov"
     },
     {
-      "date": "2026-08-16",
-      "fighter_a": "Charles Johnson",
-      "fighter_b": "Eduardo Henrique"
-    },
-    {
       "date": "2026-08-19",
       "fighter_a": "Alik Lorenz",
       "fighter_b": "Mahamed Aly"
@@ -326,6 +434,11 @@
       "date": "2026-08-19",
       "fighter_a": "Roman Puga",
       "fighter_b": "Taner Trembley"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "M\u00e1rcio Barbosa",
+      "fighter_b": "Ryan Kuse"
     },
     {
       "date": "2026-08-19",
@@ -364,6 +477,21 @@
     },
     {
       "date": "2026-08-22",
+      "fighter_a": "Anthony Wint",
+      "fighter_b": "Terrance Chatman"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Gauge Young",
+      "fighter_b": "Stan Dorsainvil"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Anthony Wint",
+      "fighter_b": "Terrance Chatman"
+    },
+    {
+      "date": "2026-08-22",
       "fighter_a": "Benny Orozco",
       "fighter_b": "Dzhamal Mavliudov"
     },
@@ -371,6 +499,51 @@
       "date": "2026-08-22",
       "fighter_a": "Chris Mecate",
       "fighter_b": "Manuel Exposito"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Cris Cyborg",
+      "fighter_b": "Ketlen Vieira"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Magomed Magomedov",
+      "fighter_b": "Daniel Marcos"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Eoin Sheridan",
+      "fighter_b": "James Vake"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Florim Zendeli",
+      "fighter_b": "Omran Chaaban"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Gino van Steenis",
+      "fighter_b": "Robert Watley"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Movsar Ibragimov",
+      "fighter_b": "Javid Basharat"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Natan Schulte",
+      "fighter_b": "Makkasharip Zaynukov"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Marcirley Alves da Silva",
+      "fighter_b": "Nkosi Ndebele"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Taila Santos",
+      "fighter_b": "Sabrinna de Sousa"
     },
     {
       "date": "2026-08-21",
@@ -391,6 +564,21 @@
       "date": "2026-08-21",
       "fighter_a": "Joaquin Garcia",
       "fighter_b": "Orlando Sanders"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Dakota Bush",
+      "fighter_b": "Morquez Forest"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Gadzhi Rabadanov",
+      "fighter_b": "Tracy Reeder"
+    },
+    {
+      "date": "2026-08-22",
+      "fighter_a": "Luke Trainer",
+      "fighter_b": "Roland Dunlap"
     },
     {
       "date": "2026-08-21",
@@ -421,6 +609,16 @@
       "date": "2026-08-22",
       "fighter_a": "Joaquin Garcia",
       "fighter_b": "Orlando Sanders"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Luke Trainer",
+      "fighter_b": "Roland Dunlap"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Gadzhi Rabadanov",
+      "fighter_b": "Tracy Reeder"
     }
   ]
 }
