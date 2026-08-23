@@ -42,3 +42,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-22T23:38:26Z,37dd01661c351a2d01f5c0a1c703e96a,2026-08-23T00:00:00Z,21.56,Tyron Woodley,Joaquin Buckley,-121.0,101.0,0.52392236,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-22T23:38:26Z,d55e2963b6b311659d26a93397b1ce93,2026-08-23T00:10:00Z,31.56,Magomed Magomedov,Daniel Marcos,130.0,-150.0,0.41889692,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-22T23:38:26Z,84ce25a06c07939a9152fcfb93693541,2026-08-23T00:15:00Z,36.56,Anthony Wint,Terrance Chatman,-1100.0,700.0,0.87657009,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-23T00:00:14Z,e30873760eee92b484a4cd4e20694f94,2026-08-23T00:35:00Z,34.76,Marcirley Alves da Silva,Nkosi Ndebele,-150.0,150.0,0.59766147,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-23T00:00:14Z,0e0e14fd9105a24d4a6e8d2d68b00d39,2026-08-23T00:45:00Z,44.76,Carli Judice,Jeisla Chaves,-625.0,450.0,0.82416505,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
