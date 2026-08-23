@@ -166,7 +166,13 @@ def send_test():
     }]
     body = ("TEST NOTIFICATION - no trade was locked.\n\n"
             + compose(sample, _ledger_line()))
-    channel = notify_email.deliver("claude-fights: test notification", body)
+    # A test that dies with a traceback tells you less than one that prints
+    # what the provider said. The point of this path is diagnosis.
+    try:
+        channel = notify_email.deliver("claude-fights: test notification", body)
+    except Exception as failure:
+        print(f"FAILED to send: {failure}")
+        return 1
     if channel is None:
         print("no channel configured; set RESEND_API_KEY and BET_EMAIL_TO")
         return 1

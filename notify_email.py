@@ -54,11 +54,26 @@ def _env(name, default=""):
 
 
 def _post(url, payload, headers):
+    """POST JSON, raising with the provider's own explanation on failure.
+
+    urllib's HTTPError stringifies to bare "HTTP Error 403: Forbidden" and
+    discards the body, which is where every one of these APIs puts the actual
+    reason - Resend's 403 names the sending restriction outright. Losing that
+    turns a two-minute fix into guesswork, so the body is read and attached.
+    """
     request = urllib.request.Request(
         url, data=json.dumps(payload).encode(), method="POST",
         headers={"Content-Type": "application/json", **headers})
-    with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
-        return response.status
+    try:
+        with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
+            return response.status
+    except urllib.error.HTTPError as failure:
+        try:
+            detail = failure.read().decode("utf-8", "replace").strip()
+        except Exception:
+            detail = ""
+        raise urllib.error.URLError(
+            f"HTTP {failure.code} from {url}: {detail or failure.reason}") from None
 
 
 def send_resend(subject, body, api_key, to_address, sender=None):

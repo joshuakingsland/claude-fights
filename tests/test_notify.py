@@ -136,5 +136,44 @@ class FailureTests(unittest.TestCase):
             self.assertEqual(notify_email.main(), 0)
 
 
+
+
+class ErrorDetailTests(unittest.TestCase):
+    """A provider's explanation must survive into the message.
+
+    urllib's HTTPError stringifies to "HTTP Error 403: Forbidden" and throws
+    the body away, but the body is where Resend explains the sending
+    restriction. Without it a live failure is unguessable.
+    """
+
+    def _raise_http(self, code, body):
+        import io
+        return urllib.error.HTTPError(
+            "https://api.resend.com/emails", code, "Forbidden", {},
+            io.BytesIO(body.encode()))
+
+    def test_the_response_body_is_carried_into_the_error(self):
+        with mock.patch("urllib.request.urlopen",
+                        side_effect=self._raise_http(
+                            403, '{"message":"only send to your own address"}')):
+            with self.assertRaises(urllib.error.URLError) as caught:
+                notify_email._post("https://api.resend.com/emails", {}, {})
+        self.assertIn("403", str(caught.exception))
+        self.assertIn("only send to your own address", str(caught.exception))
+
+    def test_an_empty_body_falls_back_to_the_reason(self):
+        with mock.patch("urllib.request.urlopen",
+                        side_effect=self._raise_http(403, "")):
+            with self.assertRaises(urllib.error.URLError) as caught:
+                notify_email._post("https://api.resend.com/emails", {}, {})
+        self.assertIn("Forbidden", str(caught.exception))
+
+    def test_main_still_exits_clean_on_an_http_error(self):
+        with _env(RESEND_API_KEY="re_1", BET_EMAIL_TO="me@example.com"):
+            with mock.patch("urllib.request.urlopen",
+                            side_effect=self._raise_http(403, "nope")):
+                self.assertEqual(notify_email.main(), 0)
+
+
 if __name__ == "__main__":
     unittest.main()
