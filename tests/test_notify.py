@@ -175,5 +175,38 @@ class ErrorDetailTests(unittest.TestCase):
                 self.assertEqual(notify_email.main(), 0)
 
 
+
+
+class UserAgentTests(unittest.TestCase):
+    """Resend sits behind Cloudflare, which bans urllib's default agent.
+
+    The first live test came back "HTTP 403 ... error code: 1010" - a
+    Cloudflare browser-signature ban rather than anything to do with the key.
+    """
+
+    def test_a_user_agent_is_always_sent(self):
+        seen = {}
+
+        class _Resp:
+            status = 200
+            def __enter__(self): return self
+            def __exit__(self, *exc): return False
+
+        def fake(request, timeout=None):
+            seen.update(request.headers)
+            return _Resp()
+
+        with mock.patch("urllib.request.urlopen", side_effect=fake):
+            notify_email._post("https://api.resend.com/emails", {"a": 1},
+                               {"Authorization": "Bearer k"})
+        # urllib title-cases header keys.
+        self.assertEqual(seen.get("User-agent"), notify_email.USER_AGENT)
+        self.assertEqual(seen.get("Authorization"), "Bearer k")
+
+    def test_the_default_python_agent_is_never_used(self):
+        self.assertNotIn("urllib", notify_email.USER_AGENT.lower())
+        self.assertNotIn("python", notify_email.USER_AGENT.lower())
+
+
 if __name__ == "__main__":
     unittest.main()

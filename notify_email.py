@@ -35,6 +35,13 @@ import urllib.request
 from email.message import EmailMessage
 
 RESEND_ENDPOINT = "https://api.resend.com/emails"
+# urllib identifies itself as "Python-urllib/3.12", which Cloudflare
+# fingerprints as a bot and rejects before the request reaches the API. Resend
+# sits behind Cloudflare, so the first live test came back "HTTP 403 ... error
+# code: 1010" - a Cloudflare browser-signature ban, not an authentication
+# problem, and nothing to do with the key. update_data.py already sets a
+# User-Agent for the same reason.
+USER_AGENT = "fight-ledger/1"
 # Resend accepts this sender with no domain set up, delivering only to the
 # address that owns the account. That makes the whole thing one secret.
 DEFAULT_RESEND_SENDER = "onboarding@resend.dev"
@@ -63,7 +70,9 @@ def _post(url, payload, headers):
     """
     request = urllib.request.Request(
         url, data=json.dumps(payload).encode(), method="POST",
-        headers={"Content-Type": "application/json", **headers})
+        headers={"Content-Type": "application/json",
+                 "User-Agent": USER_AGENT, "Accept": "application/json",
+                 **headers})
     try:
         with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
             return response.status
