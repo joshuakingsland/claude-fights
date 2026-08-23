@@ -1,0 +1,44 @@
+name: Test Notification
+
+# Fires the notice a locked paper trade would produce, on demand, so a newly
+# configured channel can be verified without waiting for a fight to qualify or
+# deliberately breaking a workflow to trigger the failure path.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "sample = a fake bet notice; failure = the workflow-failure notice"
+        required: true
+        default: "sample"
+        type: choice
+        options: ["sample", "failure"]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12.13"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Send the test notification
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_FROM: ${{ secrets.NOTIFY_FROM }}
+          NOTIFY_WEBHOOK_URL: ${{ secrets.NOTIFY_WEBHOOK_URL }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          BET_EMAIL_TO: ${{ secrets.BET_EMAIL_TO }}
+        run: |
+          if [ "${{ inputs.mode }}" = "failure" ]; then
+            python notify_email.py \
+              "claude-fights: test of the failure notice" \
+              "This is a test. No workflow actually failed."
+          else
+            python notify_card.py --test
+          fi

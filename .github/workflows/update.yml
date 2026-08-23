@@ -50,6 +50,20 @@ jobs:
       - name: Audit staking gates when validation data is present
         run: |
           if [ -f production_validation.csv ] && [ -f historical_entry_validation.csv ]; then python validate_staking.py; fi
+      # A fight clearing the edge rule used to happen silently; only broken
+      # workflows sent mail. Runs before the commit so the de-dupe log is
+      # committed with the trade that produced it.
+      - name: Announce newly locked paper trades
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_FROM: ${{ secrets.NOTIFY_FROM }}
+          NOTIFY_WEBHOOK_URL: ${{ secrets.NOTIFY_WEBHOOK_URL }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          BET_EMAIL_TO: ${{ secrets.BET_EMAIL_TO }}
+        run: python notify_card.py
       - name: Commit generated artifacts
         run: |
           git config user.name "fight-ledger-bot"
@@ -58,6 +72,8 @@ jobs:
             paper_trades.csv paper_settlements.csv paper_validation.json \
             model_manifest.json data_source_manifest.json data_freshness.json
           if [ -f odds_log.csv ]; then git add odds_log.csv; fi
+          if [ -f notified_trades.csv ]; then git add notified_trades.csv; fi
+          if [ -f h22_forward_log.csv ]; then git add h22_forward_log.csv; fi
           if [ -d data/market_quotes ]; then git add data/market_quotes; fi
           if [ -f market_snapshot_manifest.json ]; then git add market_snapshot_manifest.json; fi
           if [ -f drift_report.json ]; then git add drift_report.json; fi
