@@ -430,13 +430,15 @@ class ResultGracePeriodTests(unittest.TestCase):
     """
 
     def _report(self, fight_time, now, grace_days=7):
-        # The prior bout sits on its own date, threading two constraints: it
+        # The prior bout sits on its own date, threading three constraints: it
         # must make both fighters UFC veterans (so the bout is in scope) and
         # give neither a result on the night being judged (which would make
-        # the booking superseded rather than awaited), while staying inside
-        # 21 days of `now` so the stale-bundle check does not fire first.
+        # the booking superseded rather than awaited), predate every booking
+        # tested here (scope is judged as of the fight date, so a debut after
+        # the bout would put it out of scope), and stay inside 21 days of
+        # `now` so the stale-bundle check does not fire first.
         fights = pd.DataFrame([{
-            "date": "2026-08-04", "fighter_a": "Ann Ace", "fighter_b": "Bea Bolt",
+            "date": "2026-07-28", "fighter_a": "Ann Ace", "fighter_b": "Bea Bolt",
         }])
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -633,3 +635,54 @@ class SupersededBookingTests(unittest.TestCase):
                                       fighter_roster=roster, grace_days=0)
         self.assertEqual(report["known_superseded"], [])
         self.assertEqual(len(report["known_completed_missing"]), 1)
+
+
+class ScopeAsOfFightDateTests(unittest.TestCase):
+    """Scope must be judged as of the bout, not as of today.
+
+    Matt Adams vs Anthony Wint was a Contender Series bout on 2026-08-12, a
+    card UFCStats does not carry. It sat correctly out of scope until Wint
+    made his UFC debut on the 22nd - which retroactively made him a "veteran"
+    and flipped the older bout into scope, already twelve days past the grace
+    window, failing the run on a result that was never going to exist.
+    """
+
+    def _report(self, booking_date, debut_date, now="2026-08-24T20:00:00Z"):
+        fights = pd.DataFrame([{
+            "date": debut_date, "fighter_a": "Anthony Wint",
+            "fighter_b": "Terrance Chatman", "winner": "A",
+        }])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds, roster = root / "odds.csv", root / "roster.csv"
+            pd.DataFrame([{
+                "commence_time": f"{booking_date}T02:00:00Z",
+                "fighter_a": "Matt Adams", "fighter_b": "Anthony Wint",
+            }]).to_csv(odds, index=False)
+            pd.DataFrame([
+                {"FIRST": "Matt", "LAST": "Adams"},
+                {"FIRST": "Anthony", "LAST": "Wint"},
+                {"FIRST": "Terrance", "LAST": "Chatman"},
+            ]).to_csv(roster, index=False)
+            return assess_freshness(fights, odds, now=now,
+                                    fighter_roster=roster, grace_days=7)
+
+    def test_a_bout_before_either_fighters_ufc_debut_stays_out_of_scope(self):
+        report = self._report(booking_date="2026-08-12", debut_date="2026-08-22")
+        self.assertEqual(report["known_completed_missing"], [])
+        self.assertEqual(len(report["known_out_of_scope"]), 1)
+
+    def test_a_later_debut_does_not_retroactively_pull_it_in(self):
+        self.assertNotEqual(
+            self._report("2026-08-12", "2026-08-22")["status"], "lagging")
+
+    def test_a_bout_after_a_ufc_debut_is_still_tracked(self):
+        # The guard must keep working: once a fighter is a UFC veteran, their
+        # later bouts are genuinely trackable and a missing result is a fault.
+        report = self._report(booking_date="2026-08-12", debut_date="2026-07-04")
+        self.assertEqual(report["known_out_of_scope"], [])
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+
+    def test_a_debut_on_the_same_day_counts_as_in_scope(self):
+        report = self._report(booking_date="2026-08-12", debut_date="2026-08-12")
+        self.assertEqual(report["known_out_of_scope"], [])

@@ -35,34 +35,58 @@ def _roster_names(path):
     return {name for name in full.map(canonical_name) if name}
 
 
-def _tracked_universe(fights, fighter_roster):
-    """Return ``(listed, veterans)`` for judging whether a bout is UFC scope.
+def _debut_dates(fights):
+    """Earliest recorded UFC bout per fighter, by canonical name."""
+    dates = pd.to_datetime(fights["date"], errors="coerce", utc=True)
+    debuts = {}
+    for date, pair in zip(dates.dt.date, _names_by_row(fights)):
+        if pd.isna(date):
+            continue
+        for name in pair:
+            if name and (name not in debuts or date < debuts[name]):
+                debuts[name] = date
+    return debuts
 
-    ``listed`` is everyone UFCStats knows of and ``veterans`` is the subset
-    with a completed UFC bout. Returns ``None`` when the roster is missing,
+
+def _tracked_universe(fights, fighter_roster):
+    """Return ``(listed, debuts)`` for judging whether a bout is UFC scope.
+
+    ``listed`` is everyone UFCStats knows of; ``debuts`` maps each fighter to
+    their first recorded UFC bout. Returns ``None`` when the roster is missing,
     which keeps the check failing closed: scope cannot be judged, so nothing
     is excused.
     """
     roster = _roster_names(fighter_roster)
     if not roster:
         return None
-    veterans = set(_names(fights))
-    return roster | veterans, veterans
+    debuts = _debut_dates(fights)
+    return roster | set(debuts), debuts
 
 
-def _in_ufc_scope(fighter_a, fighter_b, tracked):
+def _in_ufc_scope(fighter_a, fighter_b, tracked, fight_date=None):
     """Report whether UFCStats could ever carry a result for this bout.
 
     The odds feed covers every MMA promotion while results come from UFCStats
     alone, so a bout only counts as trackable when both fighters are known to
-    UFCStats and at least one has already fought there. That keeps genuine
-    debuts in scope, since a debutant is always matched against the roster.
+    UFCStats and at least one had already fought there **by the date of the
+    bout**. That keeps genuine UFC debuts in scope, since a debutant is
+    matched against somebody with prior UFC bouts.
+
+    The date is what makes this correct, and leaving it out was a real bug.
+    Scope used to be judged against today's veteran list, so a fighter's
+    Contender Series bout became retroactively "trackable" the moment they
+    later debuted in the UFC - for a result UFCStats was never going to carry.
+    Matt Adams vs Anthony Wint on 2026-08-12 sat quietly out of scope until
+    Wint's UFC debut on the 22nd flipped it in, whereupon it was already
+    twelve days past the grace window and failed the run immediately.
     """
-    listed, veterans = tracked
+    listed, debuts = tracked
     names = [canonical_name(fighter_a), canonical_name(fighter_b)]
     if not all(name in listed for name in names):
         return False
-    return any(name in veterans for name in names)
+    if fight_date is None:
+        return any(name in debuts for name in names)
+    return any(name in debuts and debuts[name] <= fight_date for name in names)
 
 
 def _names(frame):
@@ -208,7 +232,8 @@ def assess_freshness(
                                           row.fighter_a, row.fighter_b):
                     known_superseded.append(item)
                 elif tracked is not None and not _in_ufc_scope(
-                    row.fighter_a, row.fighter_b, tracked
+                    row.fighter_a, row.fighter_b, tracked,
+                    row.commence_time.date()
                 ):
                     known_out_of_scope.append(item)
                 elif (now - row.commence_time).days < grace_days:
