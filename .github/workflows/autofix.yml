@@ -1,0 +1,105 @@
+name: Autofix Failed Workflow
+
+# Diagnoses a failed scheduled run and opens a pull request with a fix.
+#
+# Deliberately opens a PR rather than pushing to main. These workflows write to
+# the official ledger and the published card, and an unreviewed automated commit
+# to that is a worse failure mode than a workflow staying red for a few hours.
+on:
+  workflow_run:
+    workflows:
+      # Only the jobs that write the ledger and card. This workflow is not in
+      # its own trigger list, so a failure here cannot start a loop.
+      - "Update Fight Ledger"
+      - "Snapshot MMA Market"
+      - "Capture Standardized T-30 Odds"
+      - "Refresh Canonical Validation"
+    types: [completed]
+
+# One diagnosis at a time. Three scheduled jobs can fail on the same cause
+# within minutes of each other, and three agents opening three PRs for one bug
+# is worse than one taking a little longer.
+concurrency:
+  group: autofix
+  cancel-in-progress: false
+
+jobs:
+  autofix:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12.13"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --max-turns 40
+            --allowedTools "Bash,Read,Edit,Write,Glob,Grep,mcp__github__get_job_logs,mcp__github__actions_list,mcp__github__actions_get,mcp__github__create_pull_request,mcp__github__create_branch"
+          prompt: |
+            The GitHub Actions workflow "${{ github.event.workflow_run.name }}"
+            failed on ${{ github.repository }}. Run id: ${{ github.event.workflow_run.id }}.
+
+            Diagnose it and, if you are confident, open a pull request with a fix.
+
+            HOW TO WORK
+            1. Read the failed job's logs to find the actual error. Get the run's
+               job id first rather than guessing it.
+            2. Reproduce it locally. Several of these failures only appear after
+               `python update_data.py` refreshes results, because the committed
+               data predates the problem. Run it if the failure involves
+               freshness, settlement or results.
+            3. Fix the cause, not the symptom.
+            4. Run `python -m unittest discover -s tests` and make it pass.
+            5. Add a test that fails before your fix and passes after it.
+            6. Open a pull request against main on a new branch. Never push to
+               main directly.
+
+            WHAT NOT TO DO - this matters more than fixing it
+            - Never make a check pass by weakening it. Do not widen a grace
+              window, lower a threshold, delete an assertion, add a
+              try/except that swallows the error, or mark a test skipped, in
+              order to turn the run green. Those guards protect a betting
+              ledger and a published page; a red workflow is cheap and a
+              silently wrong ledger is not.
+            - Never edit files under raw/, or any of fights_v2.csv,
+              paper_trades.csv, paper_settlements.csv, prediction_snapshots.csv,
+              h22_forward_log.csv, sealed_access.log. Those are data and audit
+              records, not code.
+            - Never change betting logic, model features, staking rules, or
+              anything in PREREGISTRATION.md. A workflow failure is not a reason
+              to alter what the model bets or how a hypothesis was tested.
+            - Do not delete or disable a workflow to stop it failing.
+
+            CONTEXT THAT WILL SAVE YOU TIME
+            Most failures here have come from freshness.py, and all of them from
+            one root cause: the guard cannot tell "the result is late" from "no
+            result is ever coming", and only the first is fixed by waiting. Three
+            variants so far - an upstream publishing lag, a booking whose
+            opponent was replaced, and a bout that became trackable only after a
+            fighter's later UFC debut. If this is a fourth variant, the right fix
+            is usually a new classification in assess_freshness (alongside
+            known_superseded, known_quarantined, known_out_of_scope), not a
+            longer grace window.
+
+            IF YOU CANNOT FIX IT CONFIDENTLY
+            Open a pull request that changes nothing but adds your diagnosis to
+            the body, or open no pull request and explain in your final message.
+            Do not guess. Say plainly what you found, what you ruled out, and
+            what you would need to be sure.
+
+            In the pull request body, state what failed, the root cause, what you
+            changed, and how you verified it. Say explicitly if you are unsure.
