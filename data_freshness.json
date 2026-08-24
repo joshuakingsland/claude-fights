@@ -1,125 +1,23 @@
 {
-  "checked_at": "2026-08-23T14:42:24Z",
-  "results_through": "2026-08-15",
-  "days_since_latest_result": 8,
+  "checked_at": "2026-08-24T15:03:19Z",
+  "results_through": "2026-08-22",
+  "days_since_latest_result": 2,
   "grace_days": 7,
   "status": "pending",
-  "message": "19 recent fight(s) await results, within the 7-day upstream publishing window",
+  "message": "2 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
     {
       "date": "2026-08-23",
-      "fighter_a": "Anthony Hernandez",
-      "fighter_b": "Gregory Rodrigues",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Carli Judice",
-      "fighter_b": "Jeisla Chaves",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Nasrat Haqparast",
-      "fighter_b": "Chris Padilla",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Wes Schultz",
-      "fighter_b": "Jackson McVey",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Jamall Emmers",
-      "fighter_b": "Lerryan Douglas",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Kennedy Nzechukwu",
-      "fighter_b": "Shamil Gaziev",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Marquel Mederos",
-      "fighter_b": "Mason Jones",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Roman Dolidze",
-      "fighter_b": "Reinier de Ridder",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Nasrat Haqparast",
-      "fighter_b": "Chris Padilla",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Jackson McVey",
-      "fighter_b": "Wes Schultz",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Jamall Emmers",
-      "fighter_b": "Lerryan Douglas",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Marquel Mederos",
-      "fighter_b": "Mason Jones",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "M\u00e1rcio Barbosa",
-      "fighter_b": "Ryan Kuse",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Shanelle Dyer",
-      "fighter_b": "Elise Reed",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Shanelle Dyer",
-      "fighter_b": "Elise Reed",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Shamil Gaziev",
-      "fighter_b": "Kennedy Nzechukwu",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Gauge Young",
-      "fighter_b": "Stan Dorsainvil",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-08-23",
       "fighter_a": "Merab Dvalishvili",
       "fighter_b": "Henry Cejudo",
-      "days_waiting": 0
+      "days_waiting": 1
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Tyron Woodley",
       "fighter_b": "Joaquin Buckley",
-      "days_waiting": 0
+      "days_waiting": 1
     }
   ],
   "known_cancelled": [
@@ -159,6 +57,11 @@
       "date": "2026-08-08",
       "fighter_a": "Giovanna Canuto",
       "fighter_b": "Carol Foro"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Sergey Spivak",
+      "fighter_b": "Vitor Petrino"
     },
     {
       "date": "2026-08-16",
@@ -423,11 +326,6 @@
       "fighter_b": "Joseph Kropschot"
     },
     {
-      "date": "2026-08-23",
-      "fighter_a": "Sergey Spivak",
-      "fighter_b": "Vitor Petrino"
-    },
-    {
       "date": "2026-08-15",
       "fighter_a": "Richie Lewis",
       "fighter_b": "Rolan Pruden"
@@ -481,16 +379,6 @@
       "date": "2026-08-18",
       "fighter_a": "Taner Trembley",
       "fighter_b": "Roman Puga"
-    },
-    {
-      "date": "2026-08-22",
-      "fighter_a": "Anthony Wint",
-      "fighter_b": "Terrance Chatman"
-    },
-    {
-      "date": "2026-08-23",
-      "fighter_a": "Anthony Wint",
-      "fighter_b": "Terrance Chatman"
     },
     {
       "date": "2026-08-22",
