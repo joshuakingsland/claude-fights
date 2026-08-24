@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-08-24T15:03:19Z",
+  "checked_at": "2026-08-24T15:19:38Z",
   "results_through": "2026-08-22",
   "days_since_latest_result": 2,
   "grace_days": 7,
@@ -69,6 +69,7 @@
       "fighter_b": "Eduardo Henrique"
     }
   ],
+  "known_quarantined": [],
   "known_out_of_scope": [
     {
       "date": "2026-07-31",
