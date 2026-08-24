@@ -12,6 +12,7 @@ from capture_close import due_events, run as run_close
 from data_quality import audit_fights
 from discover_prop_markets import market_book_counts, prop_keys
 from features import build_features
+import freshness
 from freshness import assess_freshness
 from identity import canonical_name, fighter_registry, resolve_fighter
 from update_data import _event_date_recovery, _regression_errors
@@ -686,3 +687,93 @@ class ScopeAsOfFightDateTests(unittest.TestCase):
     def test_a_debut_on_the_same_day_counts_as_in_scope(self):
         report = self._report(booking_date="2026-08-12", debut_date="2026-08-12")
         self.assertEqual(report["known_out_of_scope"], [])
+
+
+class QuarantineTests(unittest.TestCase):
+    """Bookings no result is coming for should stop failing every later run.
+
+    Three separate root causes have produced this same symptom - an upstream
+    publishing lag, a replaced opponent, and a bout that only became
+    "trackable" once a fighter later debuted - and each needed a code change
+    and a human to notice. The guard cannot tell "the result is late" from "no
+    result is ever coming", and only the first is fixed by waiting.
+    """
+
+    def setUp(self):
+        self.dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.dir.cleanup)
+        self.root = Path(self.dir.name)
+        self.quarantine = self.root / "quarantine.csv"
+
+    def _fixture(self, count=1):
+        fights = pd.DataFrame([{
+            "date": "2026-08-01", "fighter_a": "Vet One",
+            "fighter_b": "Vet Two", "winner": "A",
+        }])
+        odds = self.root / "odds.csv"
+        roster = self.root / "roster.csv"
+        rows, names = [], [{"FIRST": "Vet", "LAST": "One"},
+                           {"FIRST": "Vet", "LAST": "Two"}]
+        for i in range(count):
+            rows.append({"commence_time": "2026-08-05T02:00:00Z",
+                         "fighter_a": "Vet One", "fighter_b": f"Ghost {i}"})
+            names.append({"FIRST": "Ghost", "LAST": str(i)})
+        pd.DataFrame(rows).to_csv(odds, index=False)
+        pd.DataFrame(names).to_csv(roster, index=False)
+        return fights, odds, roster
+
+    def _assess(self, fights, odds, roster):
+        return assess_freshness(fights, odds, now="2026-08-20T20:00:00Z",
+                                fighter_roster=roster, grace_days=7,
+                                quarantine_log=self.quarantine)
+
+    def test_an_unmatchable_booking_is_a_fault_before_quarantine(self):
+        fights, odds, roster = self._fixture()
+        # Vet One has a result on 08-01, so the 08-05 booking is in scope and
+        # unmatched. Nothing excuses it yet.
+        report = self._assess(fights, odds, roster)
+        self.assertEqual(report["status"], "lagging")
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+
+    def test_quarantining_it_clears_the_fault(self):
+        fights, odds, roster = self._fixture()
+        stuck = self._assess(fights, odds, roster)["known_completed_missing"]
+        self.assertEqual(freshness.quarantine(stuck, self.quarantine), 1)
+        after = self._assess(fights, odds, roster)
+        self.assertEqual(after["known_completed_missing"], [])
+        self.assertEqual(len(after["known_quarantined"]), 1)
+        self.assertNotEqual(after["status"], "lagging")
+
+    def test_the_audit_trail_records_what_was_excused(self):
+        """Excusing is not ignoring: a wrong call has to stay visible."""
+        fights, odds, roster = self._fixture()
+        stuck = self._assess(fights, odds, roster)["known_completed_missing"]
+        freshness.quarantine(stuck, self.quarantine)
+        rows = pd.read_csv(self.quarantine)
+        self.assertEqual(list(rows.columns), freshness.QUARANTINE_FIELDS)
+        self.assertEqual(rows.iloc[0]["fighter_a"], "Vet One")
+        self.assertTrue(str(rows.iloc[0]["quarantined_at"]).endswith("Z"))
+        self.assertGreater(int(rows.iloc[0]["days_waited"]), 7)
+
+    def test_quarantining_twice_does_not_duplicate_a_row(self):
+        fights, odds, roster = self._fixture()
+        stuck = self._assess(fights, odds, roster)["known_completed_missing"]
+        freshness.quarantine(stuck, self.quarantine)
+        self.assertEqual(freshness.quarantine(stuck, self.quarantine), 0)
+        self.assertEqual(len(pd.read_csv(self.quarantine)), 1)
+
+    def test_a_pile_of_them_is_a_broken_feed_not_a_straggler(self):
+        # The lid. Writing these off would turn a broken pipeline into a
+        # clean-looking one, which is the whole risk of automating this.
+        fights, odds, roster = self._fixture(count=9)
+        stuck = self._assess(fights, odds, roster)["known_completed_missing"]
+        self.assertGreater(len(stuck), freshness.MAX_AUTO_QUARANTINE)
+
+    def test_a_quarantined_booking_never_becomes_a_fault_again(self):
+        fights, odds, roster = self._fixture()
+        stuck = self._assess(fights, odds, roster)["known_completed_missing"]
+        freshness.quarantine(stuck, self.quarantine)
+        later = assess_freshness(fights, odds, now="2027-01-01T00:00:00Z",
+                                 fighter_roster=roster, grace_days=7,
+                                 quarantine_log=self.quarantine)
+        self.assertEqual(later["known_completed_missing"], [])

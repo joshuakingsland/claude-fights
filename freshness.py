@@ -1,6 +1,7 @@
 """Assess and publish the freshness of completed fight results."""
 
 import argparse
+import csv
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -176,6 +177,66 @@ def _fought_someone_else(name_dates, fight_date, fighter_a, fighter_b,
 # this window the silence is no longer routine and should still stop the run.
 RESULT_GRACE_DAYS = 7
 
+# Bookings that stayed unmatchable past the grace window, recorded so they are
+# excused on later runs. Three separate root causes have now produced the same
+# symptom - an upstream publishing lag, a replaced opponent, and a bout that
+# only became "trackable" once a fighter later debuted in the UFC - and each
+# needed a code change and a human to notice. A fourth is a matter of time,
+# because the guard cannot tell "the result is late" from "no result is ever
+# coming", and only the second kind can be resolved by waiting.
+QUARANTINE_LOG = "unmatchable_bookings.csv"
+QUARANTINE_FIELDS = ["date", "fighter_a", "fighter_b", "quarantined_at",
+                     "days_waited", "reason"]
+# A handful of stragglers is the normal shape of this problem. A sudden pile is
+# not: it means results stopped ingesting, names stopped matching, or the feed
+# changed. That still deserves to stop the run, so the escape hatch has a lid.
+MAX_AUTO_QUARANTINE = 5
+
+
+def _quarantined_keys(path):
+    """(date, pair) for every booking already written off as unmatchable."""
+    path = Path(path)
+    if not path.exists():
+        return set()
+    frame = pd.read_csv(path)
+    if not {"date", "fighter_a", "fighter_b"}.issubset(frame.columns):
+        return set()
+    dates = pd.to_datetime(frame["date"], errors="coerce", utc=True)
+    return set(zip(dates.dt.date, _pairs(frame)))
+
+
+def quarantine(items, path=QUARANTINE_LOG, reason="unmatchable past grace"):
+    """Write off bookings no result is coming for, leaving an audit trail.
+
+    Excusing them is not the same as ignoring them: every row records what was
+    excused, when, and after how long, so a wrong call is visible rather than
+    silent.
+    """
+    if not items:
+        return 0
+    path = Path(path)
+    stamp = pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%dT%H:%M:%SZ")
+    known = _quarantined_keys(path)
+    fresh = [item for item in items
+             if (pd.Timestamp(item["date"]).date(),
+                 "|".join(sorted((canonical_name(item["fighter_a"]),
+                                  canonical_name(item["fighter_b"])))))
+             not in known]
+    if not fresh:
+        return 0
+    write_header = not path.exists()
+    with path.open("a", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=QUARANTINE_FIELDS)
+        if write_header:
+            writer.writeheader()
+        for item in fresh:
+            writer.writerow({
+                "date": item["date"], "fighter_a": item["fighter_a"],
+                "fighter_b": item["fighter_b"], "quarantined_at": stamp,
+                "days_waited": item.get("days_waiting", ""), "reason": reason,
+            })
+    return len(fresh)
+
 
 def assess_freshness(
     fights,
@@ -184,6 +245,7 @@ def assess_freshness(
     cancelled_fights="cancelled_fights.csv",
     fighter_roster="raw/ufc_fighter_details.csv",
     grace_days=RESULT_GRACE_DAYS,
+    quarantine_log=QUARANTINE_LOG,
 ):
     now = pd.Timestamp(now or datetime.now(timezone.utc))
     if now.tzinfo is None:
@@ -199,8 +261,10 @@ def assess_freshness(
     known_pending = []
     known_cancelled = []
     known_superseded = []
+    known_quarantined = []
     known_out_of_scope = []
     cancelled_keys = _cancelled_keys(cancelled_fights)
+    quarantined_keys = _quarantined_keys(quarantine_log)
     tracked = _tracked_universe(fights, fighter_roster)
     path = Path(odds_log)
     if path.exists():
@@ -228,6 +292,8 @@ def assess_freshness(
                     continue
                 if key in cancelled_keys:
                     known_cancelled.append(item)
+                elif key in quarantined_keys:
+                    known_quarantined.append(item)
                 elif _fought_someone_else(name_dates, row.commence_time.date(),
                                           row.fighter_a, row.fighter_b):
                     known_superseded.append(item)
@@ -273,6 +339,7 @@ def assess_freshness(
         "known_awaiting_upstream": known_pending,
         "known_cancelled": known_cancelled,
         "known_superseded": known_superseded,
+        "known_quarantined": known_quarantined,
         "known_out_of_scope": known_out_of_scope,
     }
 
@@ -288,15 +355,43 @@ def main():
     parser.add_argument("--grace-days", type=int, default=RESULT_GRACE_DAYS,
                         help="days a finished fight may await results before "
                              "the wait counts as a fault")
+    parser.add_argument("--quarantine", action="store_true",
+                        help="write off bookings no result is coming for, so "
+                             "they stop failing every later run")
+    parser.add_argument("--quarantine-log", default=QUARANTINE_LOG)
+    parser.add_argument("--max-quarantine", type=int, default=MAX_AUTO_QUARANTINE,
+                        help="refuse to auto-excuse more than this many at "
+                             "once; a pile means something systemic broke")
     args = parser.parse_args()
-    fights = pd.read_csv(args.fights)
-    report = assess_freshness(
-        fights,
-        args.odds_log,
-        cancelled_fights=args.cancelled_fights,
-        fighter_roster=args.fighter_roster,
-        grace_days=args.grace_days,
-    )
+
+    def assess():
+        return assess_freshness(
+            pd.read_csv(args.fights), args.odds_log,
+            cancelled_fights=args.cancelled_fights,
+            fighter_roster=args.fighter_roster,
+            grace_days=args.grace_days,
+            quarantine_log=args.quarantine_log,
+        )
+
+    report = assess()
+    if args.quarantine and report["known_completed_missing"]:
+        stuck = report["known_completed_missing"]
+        if len(stuck) > args.max_quarantine:
+            # Refusing here is the point of the lid. A handful of stragglers is
+            # this problem's normal shape; a pile means results stopped
+            # ingesting or names stopped matching, and quietly writing those
+            # off would turn a broken pipeline into a clean-looking one.
+            Path(args.output).write_text(json.dumps(report, indent=2),
+                                         encoding="utf-8")
+            raise SystemExit(
+                f"{len(stuck)} bookings are unmatchable at once, over the "
+                f"limit of {args.max_quarantine}. That is a broken feed rather "
+                f"than a few stragglers; refusing to write them off.")
+        written = quarantine(stuck, args.quarantine_log)
+        print(f"quarantined {written} unmatchable booking(s); "
+              f"they will not be awaited again")
+        report = assess()
+
     Path(args.output).write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))
     if args.require_current and report["status"] == "lagging":

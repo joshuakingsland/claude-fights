@@ -32,8 +32,13 @@ jobs:
           python -m unittest discover -s tests
       - name: Refresh fight results
         run: python update_data.py
-      - name: Fail closed when tracked completed fights are missing
-        run: python freshness.py --require-current
+      # Assess only. This used to fail the job outright, which also blocked
+      # odds capture and the card refresh below - neither of which depends on
+      # result freshness at all. Settlement settles whatever it can match, so
+      # a lagging feed means fewer settlements rather than wrong ones. The
+      # alarm now fires at the end, after the work is published.
+      - name: Assess result freshness, writing off unmatchable bookings
+        run: python freshness.py --quarantine
       - name: Settle prior official paper trades
         run: python paper_ledger.py settle
       - name: Fetch upcoming odds
@@ -73,6 +78,7 @@ jobs:
             model_manifest.json data_source_manifest.json data_freshness.json
           if [ -f odds_log.csv ]; then git add odds_log.csv; fi
           if [ -f notified_trades.csv ]; then git add notified_trades.csv; fi
+          if [ -f unmatchable_bookings.csv ]; then git add unmatchable_bookings.csv; fi
           if [ -f h22_forward_log.csv ]; then git add h22_forward_log.csv; fi
           if [ -d data/market_quotes ]; then git add data/market_quotes; fi
           if [ -f market_snapshot_manifest.json ]; then git add market_snapshot_manifest.json; fi
@@ -81,6 +87,10 @@ jobs:
           git diff --cached --quiet || git commit -m "auto-update $(date -u +%F)"
           git pull --rebase --autostash origin main
           git push
+      # Fires after everything is committed, so a genuine result-feed stall
+      # still raises an alert without costing a card refresh.
+      - name: Alert if results are genuinely stalled
+        run: python freshness.py --require-current
       - name: Email failure notification
         if: failure()
         env:
