@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-08-24T15:19:38Z",
+  "checked_at": "2026-08-26T14:54:55Z",
   "results_through": "2026-08-22",
-  "days_since_latest_result": 2,
+  "days_since_latest_result": 4,
   "grace_days": 7,
   "status": "pending",
   "message": "2 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,13 +11,13 @@
       "date": "2026-08-23",
       "fighter_a": "Merab Dvalishvili",
       "fighter_b": "Henry Cejudo",
-      "days_waiting": 1
+      "days_waiting": 3
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Tyron Woodley",
       "fighter_b": "Joaquin Buckley",
-      "days_waiting": 1
+      "days_waiting": 3
     }
   ],
   "known_cancelled": [
@@ -510,6 +510,41 @@
       "date": "2026-08-23",
       "fighter_a": "Gadzhi Rabadanov",
       "fighter_b": "Tracy Reeder"
+    },
+    {
+      "date": "2026-08-25",
+      "fighter_a": "Mario Piazzon",
+      "fighter_b": "Guilherme Uriel"
+    },
+    {
+      "date": "2026-08-25",
+      "fighter_a": "Bella Mir",
+      "fighter_b": "Alex Apodaca"
+    },
+    {
+      "date": "2026-08-25",
+      "fighter_a": "Ronald Humphrey",
+      "fighter_b": "Alexis Miranda"
+    },
+    {
+      "date": "2026-08-25",
+      "fighter_a": "Nick Galanti",
+      "fighter_b": "Carlos Petruzzella"
+    },
+    {
+      "date": "2026-08-25",
+      "fighter_a": "Sean Jr. Clancy",
+      "fighter_b": "Gary Balletto Jr."
+    },
+    {
+      "date": "2026-08-26",
+      "fighter_a": "Sean Jr. Clancy",
+      "fighter_b": "Gary Balletto Jr."
+    },
+    {
+      "date": "2026-08-26",
+      "fighter_a": "Bella Mir",
+      "fighter_b": "Alex Apodaca"
     }
   ]
 }
