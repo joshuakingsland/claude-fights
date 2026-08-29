@@ -46,3 +46,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-08-23T00:00:14Z,0e0e14fd9105a24d4a6e8d2d68b00d39,2026-08-23T00:45:00Z,44.76,Carli Judice,Jeisla Chaves,-625.0,450.0,0.82416505,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-23T02:00:51Z,c6715c3c940e05a817b305e6bde81e0f,2026-08-23T02:30:00Z,29.14,Anthony Hernandez,Gregory Rodrigues,-215.0,180.0,0.6573041,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-08-23T02:00:51Z,05ce55035aaf59ca97e0fae3c6833627,2026-08-23T02:40:00Z,39.14,Cris Cyborg,Ketlen Vieira,-500.0,500.0,0.82082645,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-08-29T21:19:25Z,eba1730e986d3ef78ed6c7c2fb092822,2026-08-29T22:00:00Z,40.57,Peter Barrett,Elijah Harris,-260.0,215.0,0.69107824,2,standardized_t30_window,the-odds-api-paired-book-devig-v1
