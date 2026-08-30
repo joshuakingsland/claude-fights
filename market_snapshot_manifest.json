@@ -1,8 +1,8 @@
 {
-  "fetched_at": "2026-08-30T11:54:19Z",
-  "events": 44,
-  "paired_book_quotes": 288,
-  "priced_book_quotes": 151,
+  "fetched_at": "2026-08-30T16:40:29Z",
+  "events": 43,
+  "paired_book_quotes": 286,
+  "priced_book_quotes": 150,
   "regions_requested": [
     "us",
     "eu"
