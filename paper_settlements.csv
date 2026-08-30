@@ -6,3 +6,4 @@ trade_id,settled_at,result,pnl,closing_price,closing_market,clv_prob,closing_sou
 6ddbf2c301d5ba1cc5d4,2026-08-24T15:02:24Z,WIN,0.60241,-180,61.713462,0.713462,standardized-t30
 b8cfb4555007268dad95,2026-08-24T15:02:24Z,WIN,0.555556,-180,61.713462,-0.486538,standardized-t30
 a08eaa5037c022238ab7,2026-08-24T15:02:24Z,WIN,1.18,,,,
+bfe4a0ddb392bb48a746,2026-08-30T18:01:36Z,WIN,1.26,,,,

@@ -1,23 +1,23 @@
 {
-  "checked_at": "2026-08-26T14:54:55Z",
-  "results_through": "2026-08-22",
-  "days_since_latest_result": 4,
+  "checked_at": "2026-08-30T18:02:19Z",
+  "results_through": "2026-08-29",
+  "days_since_latest_result": 1,
   "grace_days": 7,
   "status": "pending",
   "message": "2 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
     {
-      "date": "2026-08-23",
-      "fighter_a": "Merab Dvalishvili",
-      "fighter_b": "Henry Cejudo",
-      "days_waiting": 3
+      "date": "2026-08-28",
+      "fighter_a": "Yilizhati Maimaitijiang",
+      "fighter_b": "Tre'ston Vines",
+      "days_waiting": 2
     },
     {
-      "date": "2026-08-23",
-      "fighter_a": "Tyron Woodley",
-      "fighter_b": "Joaquin Buckley",
-      "days_waiting": 3
+      "date": "2026-08-29",
+      "fighter_a": "Mike Perry",
+      "fighter_b": "Brandon Jenkins",
+      "days_waiting": 0
     }
   ],
   "known_cancelled": [
@@ -67,9 +67,45 @@
       "date": "2026-08-16",
       "fighter_a": "Charles Johnson",
       "fighter_b": "Eduardo Henrique"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Alex Perez",
+      "fighter_b": "Su Mudaerji"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Aori Qileng",
+      "fighter_b": "Kai Asakura"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Long Xiao",
+      "fighter_b": "Francesco Nuzzi"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Jingnan Xiong",
+      "fighter_b": "Julia Polastri"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Levi Rodrigues",
+      "fighter_b": "Liu Ce"
     }
   ],
-  "known_quarantined": [],
+  "known_quarantined": [
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Merab Dvalishvili",
+      "fighter_b": "Henry Cejudo"
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Tyron Woodley",
+      "fighter_b": "Joaquin Buckley"
+    }
+  ],
   "known_out_of_scope": [
     {
       "date": "2026-07-31",
@@ -482,6 +518,11 @@
       "fighter_b": "Artur Gadzhikhanov"
     },
     {
+      "date": "2026-08-29",
+      "fighter_a": "Cameron Nelson",
+      "fighter_b": "Meng Ding"
+    },
+    {
       "date": "2026-08-22",
       "fighter_a": "Nika Sabanashvili",
       "fighter_b": "Artur Gadzhikhanov"
@@ -545,6 +586,106 @@
       "date": "2026-08-26",
       "fighter_a": "Bella Mir",
       "fighter_b": "Alex Apodaca"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Darrius Flowers",
+      "fighter_b": "Hayisaer Maheshate"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Elvis Silva",
+      "fighter_b": "Akbarjon Islomboev"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Dedrek Sanders",
+      "fighter_b": "Luis Gomez"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Ahejiang Ailinuer",
+      "fighter_b": "George Mangos"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Farida Abdueva",
+      "fighter_b": "Bo Hyun Park"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Machi Fukuda",
+      "fighter_b": "Bo Meng"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Chungreng Koren",
+      "fighter_b": "Ryo Tajima"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Young Jae Song",
+      "fighter_b": "Dagiisuren Chagnaadorj"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Takeru Uchida",
+      "fighter_b": "Jiniushiyue"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Joseph Larcinese",
+      "fighter_b": "Takaya Suzuki"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Rabindra Dhant",
+      "fighter_b": "Kasib Murdoch"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Peter Barrett",
+      "fighter_b": "Elijah Harris"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Alexander Schenk",
+      "fighter_b": "Francisco Hernandez"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Andrew Stewart",
+      "fighter_b": "Shane Sobnosky"
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Finn Martin",
+      "fighter_b": "Mataeo Garner"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Elvis Silva",
+      "fighter_b": "Akbarjon Islomboev"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Dedrek Sanders",
+      "fighter_b": "Luis Gomez"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Alexander Schenk",
+      "fighter_b": "Francisco Hernandez"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Andrew Stewart",
+      "fighter_b": "Shane Sobnosky"
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Finn Martin",
+      "fighter_b": "Mataeo Garner"
     }
   ]
 }
