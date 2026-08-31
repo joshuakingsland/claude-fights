@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-08-30T18:02:19Z",
+  "checked_at": "2026-08-31T19:57:19Z",
   "results_through": "2026-08-29",
-  "days_since_latest_result": 1,
+  "days_since_latest_result": 2,
   "grace_days": 7,
   "status": "pending",
   "message": "2 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,13 +11,13 @@
       "date": "2026-08-28",
       "fighter_a": "Yilizhati Maimaitijiang",
       "fighter_b": "Tre'ston Vines",
-      "days_waiting": 2
+      "days_waiting": 3
     },
     {
       "date": "2026-08-29",
       "fighter_a": "Mike Perry",
       "fighter_b": "Brandon Jenkins",
-      "days_waiting": 0
+      "days_waiting": 1
     }
   ],
   "known_cancelled": [
