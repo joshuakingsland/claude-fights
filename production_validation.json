@@ -2,40 +2,40 @@
   "model": "production-v3",
   "start": "2019-01-01",
   "end": "2100-01-01",
-  "events": 303,
-  "fights": 3227,
-  "bets": 349,
-  "staked": 349.0,
-  "pnl": 29.444485161494054,
-  "roi": 0.08436815232519786,
+  "events": 308,
+  "fights": 3269,
+  "bets": 351,
+  "staked": 351.0,
+  "pnl": 23.67197449945661,
+  "roi": 0.06744152279047468,
   "roi_ci90_event_clustered": [
-    -0.0046240622540323455,
-    0.17420549961231346
+    -0.02328581858129018,
+    0.15862091486642863
   ],
-  "log_loss_model": 0.6016598226837321,
-  "log_loss_line": 0.6030989044037476,
-  "accuracy_model": 0.6814378679888441,
-  "accuracy_line": 0.6755500464828014,
+  "log_loss_model": 0.601757393228902,
+  "log_loss_line": 0.6032307566751943,
+  "accuracy_model": 0.6815539920464974,
+  "accuracy_line": 0.6760477210156011,
   "edge_rule": 0.04,
-  "staking_policy": "paper-flat-1u-day-cap2-v1",
+  "staking_policy": "paper-flat-1u-first-touch-cap2-v2",
   "max_stake": 1,
   "event_day_stake_cap": 2,
   "bootstrap_models_per_event": 30,
   "min_train": 2000,
   "odds_sources": {
     "odds_log": {
-      "fights": 9,
-      "bets": 1,
-      "staked": 1.0,
-      "pnl": 0.5405405405405406,
-      "roi": 0.5405405405405406
+      "fights": 51,
+      "bets": 5,
+      "staked": 5.0,
+      "pnl": 1.8433171700017505,
+      "roi": 0.3686634340003501
     },
     "ufc-master": {
       "fights": 3218,
-      "bets": 348,
-      "staked": 348.0,
-      "pnl": 28.903944620953514,
-      "roi": 0.08305731212917676
+      "bets": 346,
+      "staked": 346.0,
+      "pnl": 21.828657329454856,
+      "roi": 0.06308860499842443
     }
   },
   "live_gate": {

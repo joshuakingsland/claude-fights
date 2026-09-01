@@ -1,53 +1,53 @@
 {
   "model": "rounds-hazard-v1",
   "cutoff": "2024-01-01",
-  "test_fights": 1343,
+  "test_fights": 1381,
   "distance": {
-    "actual_rate": 0.5086,
+    "actual_rate": 0.5018,
     "mean_prediction": 0.5026,
-    "log_loss_model": 0.67532,
-    "log_loss_division_table": 0.68357,
-    "log_loss_global_rate": 0.69554,
-    "improvement_over_division_table": 0.0121
+    "log_loss_model": 0.67607,
+    "log_loss_division_table": 0.68446,
+    "log_loss_global_rate": 0.69481,
+    "improvement_over_division_table": 0.0122
   },
   "totals": {
     "over_0.5": {
-      "fights": 1343,
-      "actual_over_rate": 0.895,
+      "fights": 1381,
+      "actual_over_rate": 0.8943,
       "mean_prediction": 0.8636,
-      "log_loss_model": 0.32923,
-      "log_loss_test_base_rate": 0.33591
+      "log_loss_model": 0.33087,
+      "log_loss_test_base_rate": 0.33747
     },
     "over_1.5": {
-      "fights": 1343,
-      "actual_over_rate": 0.6843,
-      "mean_prediction": 0.6756,
-      "log_loss_model": 0.60744,
-      "log_loss_test_base_rate": 0.62359
+      "fights": 1381,
+      "actual_over_rate": 0.6785,
+      "mean_prediction": 0.6755,
+      "log_loss_model": 0.61182,
+      "log_loss_test_base_rate": 0.628
     },
     "over_2.5": {
-      "fights": 1343,
-      "actual_over_rate": 0.5555,
+      "fights": 1381,
+      "actual_over_rate": 0.5489,
       "mean_prediction": 0.5567,
-      "log_loss_model": 0.66876,
-      "log_loss_test_base_rate": 0.68698
+      "log_loss_model": 0.67021,
+      "log_loss_test_base_rate": 0.68836
     },
     "over_3.5": {
-      "fights": 134,
-      "actual_over_rate": 0.5299,
-      "mean_prediction": 0.5059,
-      "log_loss_model": 0.64898,
-      "log_loss_test_base_rate": 0.69136
+      "fights": 138,
+      "actual_over_rate": 0.5362,
+      "mean_prediction": 0.5076,
+      "log_loss_model": 0.6478,
+      "log_loss_test_base_rate": 0.69052
     },
     "over_4.5": {
-      "fights": 134,
-      "actual_over_rate": 0.4701,
-      "mean_prediction": 0.4525,
-      "log_loss_model": 0.629,
-      "log_loss_test_base_rate": 0.69136
+      "fights": 138,
+      "actual_over_rate": 0.4783,
+      "mean_prediction": 0.4543,
+      "log_loss_model": 0.62968,
+      "log_loss_test_base_rate": 0.6922
     }
   },
   "status": "probability_only",
   "prop_edge_validated": false,
-  "note": "No historical prices exist for these markets. A 2026-08-09 sweep found totals quoted by a single book in eu/uk/au and no method or distance market in any region, so these are fair prices to shop by hand, not a tradable signal."
+  "note": "Probability quality only. Historical totals prices have since been archived and tested (H8 in PREREGISTRATION.md); that test was parked because the book chooses which total to hang, so the O/U 2.5 subset is selected rather than mispriced. No method or distance market was quoted in any region. These remain fair prices to shop by hand, not a tradable signal."
 }
