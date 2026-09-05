@@ -52,3 +52,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-09-05T16:17:53Z,7b49976b5438d6a95ac9bced980f553a,2026-09-05T17:00:00Z,42.11,Klaudia Syguła,Nora Cornolle,-125.0,105.0,0.53246753,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-09-05T18:35:58Z,ae159a0bfa4bdc221c81d9a30c3af3af,2026-09-05T19:00:00Z,24.03,Felipe Lima,Morgan Charriere,-210.0,176.0,0.64988499,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-09-05T18:35:58Z,5eb22c517ccfa8964161ed8627da8762,2026-09-05T19:15:00Z,39.03,Muhammadjon Naimov,Losene Keita,310.0,-390.0,0.23456199,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-09-05T20:44:45Z,5aaad9d4200b594e27f53aaf9092bf96,2026-09-05T21:00:00Z,15.24,Nursultan Ruziboev,Michael Page,165.0,-195.0,0.36473138,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-09-05T20:44:45Z,c514cbb30fc0bdd53539319c2329c239,2026-09-05T21:30:00Z,45.24,Axel Sola,Fares Ziam,130.0,-154.0,0.41762578,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
