@@ -1,10 +1,10 @@
 {
-  "downloaded_at": "2026-09-06T16:51:48Z",
+  "downloaded_at": "2026-09-07T18:42:01Z",
   "source": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/",
-  "rows": 8770,
+  "rows": 8784,
   "result_date_min": "1994-03-11",
-  "result_date_max": "2026-08-29",
-  "fights_sha256": "f66984d1fd9279abe1fbb686b9567935d70351719c77c7e1d1cef9f9d1c1eada",
+  "result_date_max": "2026-09-05",
+  "fights_sha256": "444f4a7785cd59966599b64f75761df23f0da1d69662c4412f23883e6e282d55",
   "recovered_event_dates": [
     {
       "event": "UFC - Road to UFC 4.6",
@@ -24,37 +24,37 @@
     "ufc_event_details.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_event_details.csv",
       "last_modified": null,
-      "etag": "\"6660ecd42232c356d4523746e9c24202f482d55db72f1423f1952589d76c565e\"",
-      "sha256": "a4868035737ac681c68707abe28462a49ebf1ce99be4691d7de151d1d63ce78d",
-      "bytes": 101847
+      "etag": "\"8994e768f2681873de6c326cfecaf1cbbe6a5366d9a1ae44f20b36c3783abe1b\"",
+      "sha256": "1920491da47a20a7186e1ac91fea1a1fcd3281c0627b560fa70aac5e58b685dc",
+      "bytes": 101987
     },
     "ufc_fight_results.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fight_results.csv",
       "last_modified": null,
-      "etag": "\"5bb8394152a3dc6d5e9807961809916a1ff0edf444af29c7414da5364c2dac13\"",
-      "sha256": "54fef9899f43890d5a8560da06e1b38030d3dc502a4d7730eba12acf9e988cbe",
-      "bytes": 2086960
+      "etag": "\"e33b3bc5e07762b238190a7f914294d48a3bd317673f3aa01a842176f580ab58\"",
+      "sha256": "ecce6eba834181101a565205221647ab2ac19c71f4290cc0962cf444ed19c983",
+      "bytes": 2090284
     },
     "ufc_fight_stats.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fight_stats.csv",
       "last_modified": null,
-      "etag": "\"73fe12284a3530d85280965538c4560b9dbdcad4897b0f2d30a485dc1d7a1641\"",
-      "sha256": "7a5bad480d551efe1dcab19cda29a8f93de2c52e1a11b777c924d45908130ad8",
-      "bytes": 7600977
+      "etag": "\"3e7d5adb584a6466bb88e9aebcd713db6dd652bbfba1d041cd02e23c21c591c8\"",
+      "sha256": "55f41a41020bdccaa1c29850c17697fc9bb976f59b65450d90dfed1c61db5723",
+      "bytes": 7612532
     },
     "ufc_fighter_tott.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fighter_tott.csv",
       "last_modified": null,
-      "etag": "\"a2b5285b13bf9efab7d85245b906048de281a5ec7b2de5785c10b53ec48990e5\"",
-      "sha256": "690f410077318919abd725c648c3581cc8a33f74a2fe743da73b33a19db53b8d",
-      "bytes": 507101
+      "etag": "\"807e627a25052b97f0dece71ce09f3cdbe6a63540e24b6e0c394d5a3f605e94e\"",
+      "sha256": "c91d81acc1f8defb72c8de62ff4bee6447f7641afb1f6cc6b9f7a4a38c1dd145",
+      "bytes": 507200
     },
     "ufc_fighter_details.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fighter_details.csv",
       "last_modified": null,
-      "etag": "\"b35b0d6391304552c7712d26917e2e6162161ad4f6cd3193af921c180b92fee7\"",
-      "sha256": "d2312da04779af8a9b6f7c2a601bd8a6541e9413927444411a875c8847371ff8",
-      "bytes": 339421
+      "etag": "\"ba27ac73fa3d0cddc2650a37c3bb323d5a86b91a2152c00327123d05b6aca12e\"",
+      "sha256": "e83455f87ff8bbee24aae033c66e2daaa8aef1bcb91e5b777d6f1ab3882a8830",
+      "bytes": 339479
     }
   }
 }
