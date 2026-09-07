@@ -1,6 +1,14 @@
-name: Autofix Failed Workflow
+name: Propose a fix when a workflow fails
 
 # Diagnoses a failed scheduled run and opens a pull request with a fix.
+#
+# The name matters more than it looks. This was called "Autofix Failed
+# Workflow", which parses two ways - "autofix [the] failed workflow", which was
+# meant, and "autofix failed: workflow", which reads as a failure report. It
+# fires on every completed run of the four workflows below and then skips, so
+# the Actions tab fills with entries under that name, each with the grey icon
+# GitHub uses for a skipped run. Seventy-one of those look exactly like a
+# standing error, and did. The name now states a purpose rather than a status.
 #
 # Deliberately opens a PR rather than pushing to main. These workflows write to
 # the official ledger and the published card, and an unreviewed automated commit
