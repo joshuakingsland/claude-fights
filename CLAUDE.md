@@ -60,8 +60,17 @@ locally until you refresh results the way CI does.
 ## Testing
 
 ```bash
-python -m unittest discover -s tests    # what CI runs
+python3.12 -m venv .venv                 # 3.12 specifically - see below
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m unittest discover -s tests    # what CI runs
 ```
+
+**The venv must be Python 3.12.** `requirements.txt` pins `scipy==1.18.0`,
+which requires >=3.12, and CI pins 3.12.13. On a container whose default
+`python3` is 3.11 the install fails with "Could not find a version that
+satisfies the requirement scipy==1.18.0" and a long list of versions that
+looks like a dependency problem. It is an interpreter problem. Do not relax
+the pin to match a local interpreter.
 
 Tests are the specification here, and several have caught real bugs in fixes
 that looked right. When a test fails after a change, work out which of the two
