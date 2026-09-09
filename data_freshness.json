@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-09-07T18:43:01Z",
+  "checked_at": "2026-09-09T17:46:22Z",
   "results_through": "2026-09-05",
-  "days_since_latest_result": 2,
+  "days_since_latest_result": 4,
   "grace_days": 7,
   "status": "pending",
   "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,7 +11,7 @@
       "date": "2026-09-05",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Tyron Woodley",
-      "days_waiting": 2
+      "days_waiting": 4
     }
   ],
   "known_cancelled": [
@@ -760,6 +760,41 @@
       "date": "2026-09-01",
       "fighter_a": "Charlie Cleveland",
       "fighter_b": "Gabriel Lourenco"
+    },
+    {
+      "date": "2026-09-08",
+      "fighter_a": "Won Il Kwon",
+      "fighter_b": "Apollo Gomes"
+    },
+    {
+      "date": "2026-09-08",
+      "fighter_a": "Quentin Pasley",
+      "fighter_b": "Arlind Berisha"
+    },
+    {
+      "date": "2026-09-08",
+      "fighter_a": "Colton Loud",
+      "fighter_b": "Christian Natividad"
+    },
+    {
+      "date": "2026-09-08",
+      "fighter_a": "Isaac Moreno",
+      "fighter_b": "Reginaldo Junior"
+    },
+    {
+      "date": "2026-09-09",
+      "fighter_a": "Christian Echols",
+      "fighter_b": "Martin Koz\u00e1k"
+    },
+    {
+      "date": "2026-09-09",
+      "fighter_a": "Reginaldo Junior",
+      "fighter_b": "Isaac Moreno"
+    },
+    {
+      "date": "2026-09-09",
+      "fighter_a": "Arlind Berisha",
+      "fighter_b": "Quentin Pasley"
     }
   ]
 }
