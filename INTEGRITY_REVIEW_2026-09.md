@@ -65,9 +65,13 @@ python validate_paper.py
 python validate_staking.py
 python validate_method.py
 python validate_rounds.py
+python research_entry_models.py
+python audit_model_improvements.py
 python predict_card.py --preview
 ```
 
 The regression suite covers invalid median prices and payouts, rescheduling,
 corner swaps, genuine rematches, card caps, explicit corrections without file
 rewrites, CLV coverage, placeholder outcomes and query-batch invariance.
+The improvement audit now reads partitioned quote archives as well as legacy
+CSV files. All 400 tests pass.
