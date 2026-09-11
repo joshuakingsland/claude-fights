@@ -120,6 +120,53 @@ def _fight_key(item):
     return hashlib.sha256(raw.encode()).hexdigest()[:20]
 
 
+def _same_booking(left, right):
+    """Recognize reschedules without merging a subsequently booked rematch.
+
+    Both locks must predate both scheduled starts. A rematch locked after the
+    first bout therefore remains a separate wager, even within sixty days.
+    The existing date-based keys remain unchanged as immutable provenance.
+    """
+    pair = lambda row: tuple(sorted((norm_name(row.get('pick', '')),
+                                     norm_name(row.get('opp', '')))))
+    if pair(left) != pair(right) or not all(pair(left)):
+        return False
+    try:
+        start_l, _ = scheduled_start(left)
+        start_r, _ = scheduled_start(right)
+        lock_l = _utc(left['locked_at'])
+        lock_r = _utc(right['locked_at'])
+        return bool(abs(start_l - start_r) <= pd.Timedelta(days=60)
+                    and max(lock_l, lock_r) < min(start_l, start_r))
+    except (KeyError, TypeError, ValueError):
+        return False
+
+
+def effective_trades(trades):
+    """Return first locks and explicit duplicate corrections, without edits.
+
+    Selection uses only booking identity and lock time, never outcomes, prices,
+    or P&L. Raw trades and settlements remain available for the audit trail.
+    """
+    if not len(trades) or 'locked_at' not in trades:
+        return trades.copy(), []
+    ordered = trades.assign(_lock_order=pd.to_datetime(
+        trades['locked_at'], utc=True, errors='coerce')).sort_values(
+            '_lock_order', kind='stable').drop(columns='_lock_order')
+    kept, corrections = [], []
+    for row in ordered.to_dict('records'):
+        original = next((prior for prior in kept if _same_booking(prior, row)), None)
+        if original is None:
+            kept.append(row)
+        else:
+            corrections.append({
+                'trade_id': str(row['trade_id']),
+                'retained_trade_id': str(original['trade_id']),
+                'reason': 'duplicate lock of the same rescheduled bout',
+            })
+    return pd.DataFrame(kept, columns=trades.columns), corrections
+
+
 def _blank_if_none(value):
     """Keep an absent research value empty rather than writing "None"."""
     return "" if value is None else value
@@ -246,8 +293,7 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
     ``allocate_stakes`` caps event-day exposure within a single card scoring,
     which is not enough once locking is spread across runs: trades already on
     the ledger for that event day have to count too.  Candidates are considered
-    strongest-first so an earlier marginal signal cannot crowd out a stronger
-    one that appears later on the same day.
+    strongest-first within each run. Existing first-touch locks keep priority.
     """
     qualifying = [p for p in predictions
                   if bool(p.get("bet", False)) and int(p.get("stake", 0)) > 0]
@@ -258,10 +304,17 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
     prov = _provenance(provenance)
     snapshots = _read(snapshots_path, SNAPSHOT_FIELDS)
     trades = _read(trades_path, TRADE_FIELDS)
+    trades, _ = effective_trades(trades)
+    bookings = trades.to_dict('records')
     locked_fights = set(trades.get("fight_key", pd.Series(dtype=str)).astype(str))
     day_exposure = {}
-    for date, stake in zip(trades.get("date", pd.Series(dtype=str)).astype(str),
-                           trades.get("stake", pd.Series(dtype=float))):
+    for prior in bookings:
+        # Charge the original wager to the card's current date when its own
+        # matchup is present in this run under a revised schedule.
+        current = next((p for p in predictions if _same_booking(
+            prior, dict(p, locked_at=stamp))), None)
+        date = str((current or prior).get('date', ''))
+        stake = prior.get('stake', 0)
         try:
             day_exposure[date] = day_exposure.get(date, 0) + int(float(stake))
         except (TypeError, ValueError):
@@ -273,7 +326,8 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
     for item in qualifying:
         snap = _snapshot_row(item, stamp, prov)
         fight_key = snap["fight_key"]
-        if fight_key in locked_fights:
+        if fight_key in locked_fights or any(_same_booking(
+                prior, dict(item, locked_at=stamp)) for prior in bookings):
             continue
         stake = int(snap["stake"])
         if day_exposure.get(snap["date"], 0) + stake > EVENT_DAY_STAKE_CAP:
@@ -323,6 +377,7 @@ def lock_paper_trades(predictions, snapshots_path="prediction_snapshots.csv",
             "leader_gap": snap["leader_gap"],
         })
         locked_fights.add(fight_key)
+        bookings.append(rows[-1])
         day_exposure[snap["date"]] = day_exposure.get(snap["date"], 0) + stake
     return _append_rows(trades_path, TRADE_FIELDS, rows)
 
@@ -398,6 +453,8 @@ def settle_completed(trades_path="paper_trades.csv",
                      closing_path="raw/ufc-master.csv",
                      captured_closing_path="close_snapshots.csv"):
     """Append settlements for valid, pre-event official paper trades."""
+    # Settle each raw record for auditability. The official summary excludes
+    # duplicate bookings explicitly; settlement itself never erases a ticket.
     trades = _read(trades_path, TRADE_FIELDS)
     if not len(trades):
         return 0
@@ -446,7 +503,7 @@ def settle_completed(trades_path="paper_trades.csv",
             # float("nan") does not raise - so catching ValueError alone let a
             # NaN price through and produced a NaN P&L. Check the value, not
             # just the conversion.
-            if not math.isfinite(price):
+            if not math.isfinite(price) or abs(price) < 100:
                 # A price we cannot parse is a bookkeeping failure, not a
                 # losing bet. Recording it as a 0.00 LOSS quietly added a loss
                 # to the win rate while contributing nothing to P&L, so the two
@@ -511,18 +568,23 @@ def _ledger_metrics(trades, settled):
         "pnl": round(pnl, 4),
         "roi": round(pnl / staked, 6) if staked else None,
         "mean_clv_prob_points": round(float(clv.mean()), 4) if clv.notna().any() else None,
-        "positive_clv_rate": round(float((clv > 0).mean()), 4) if clv.notna().any() else None,
+        "clv_covered_settlements": int(clv.notna().sum()),
+        "positive_clv_rate": round(float((clv.dropna() > 0).mean()), 4) if clv.notna().any() else None,
     }
 
 
 def summary(trades_path="paper_trades.csv", settlements_path="paper_settlements.csv"):
     trades = _read(trades_path, TRADE_FIELDS)
     settlements = _read(settlements_path, SETTLEMENT_FIELDS)
+    raw_trades, raw_settlements = len(trades), len(settlements)
+    trades, corrections = effective_trades(trades)
     settled = (settlements.merge(trades[["trade_id", "stake", "staking_policy"]],
-                                 on="trade_id", how="left")
+                                 on="trade_id", how="inner", validate='one_to_one')
                if len(settlements) and len(trades) else pd.DataFrame())
     report = _ledger_metrics(trades, settled)
-    report["settled"] = int(len(settlements))
+    report['raw_official_trades'] = raw_trades
+    report['raw_settlements'] = raw_settlements
+    report['excluded_duplicate_trades'] = corrections
     # A cadence or sizing change gets a staking-policy version.  Report the
     # tracks separately as well as pooled, so wagers locked under different
     # rules are never read as one homogeneous forward test.

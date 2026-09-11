@@ -21,6 +21,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from identity import fighter_keys
+from feature_history import observed_bouts, prior_stat
 
 FEATS = ["w_ko_rate", "w_sub_rate", "w_dec_rate", "w_n", "l_ko_l",
          "l_sub_l", "l_age", "w_age", "heavy", "women", "five_rd"]
@@ -44,18 +45,20 @@ def career_method_rates(fights):
         frames.append(pd.DataFrame({
             "idx": fights.index, "date": fights["date"],
             "f": fighter_keys(fights, s),
+            "observed": observed_bouts(fights),
             "ko_w": ((fights["winner"] == s.upper()) & (mcls == "KO")).astype(float),
             "sub_w": ((fights["winner"] == s.upper()) & (mcls == "SUB")).astype(float),
             "dec_w": ((fights["winner"] == s.upper()) & (mcls == "DEC")).astype(float),
             "ko_l": ((fights["winner"] == o.upper()) & (mcls == "KO")).astype(float),
             "sub_l": ((fights["winner"] == o.upper()) & (mcls == "SUB")).astype(float),
         }))
-    L = pd.concat(frames).sort_values(["f", "date"])
+    L = pd.concat(frames, ignore_index=True).sort_values(["f", "date"], kind='stable')
     g = L.groupby("f", sort=False)
     for c in ["ko_w", "sub_w", "dec_w", "ko_l", "sub_l"]:
         L[f"r_{c}"] = g[c].transform(
-            lambda s: s.shift(1).expanding().mean()).fillna(0)
-    L["n_pre"] = g.cumcount()
+            lambda s: prior_stat(s, L['observed'], 'mean')).fillna(0)
+    L["n_pre"] = g['observed'].transform(
+        lambda s: s.astype(int).cumsum().shift(1, fill_value=0))
     return L
 
 

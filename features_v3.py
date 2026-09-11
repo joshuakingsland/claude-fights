@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 
 from features_v2 import build_features_v2
+from feature_history import observed_bouts
 
 BOUT_COLS = ["heavy_bout", "five_rd_bout"]
 
@@ -27,15 +28,16 @@ def build_features_v3(fights):
 
     raw = fights.sort_values("date", kind="stable").reset_index(drop=True)
     raw["fight_id"] = np.arange(len(raw))
-    aux = raw[["fight_id", "weightclass", "time_format",
+    raw['_observed'] = observed_bouts(raw)
+    aux = raw[["fight_id", "weightclass", "time_format", '_observed',
                "reach_a", "reach_b"]].copy()
     feats = feats.merge(aux, on="fight_id", how="left")
 
     # ---- weight-class-normalized reach ---------------------------------
     wc = feats["weightclass"].astype(str)
     reach_long = pd.concat([
-        pd.DataFrame({"wc": wc, "reach": feats["reach_a"]}),
-        pd.DataFrame({"wc": wc, "reach": feats["reach_b"]}),
+        pd.DataFrame({"wc": wc, "reach": feats["reach_a"]})[feats['_observed']],
+        pd.DataFrame({"wc": wc, "reach": feats["reach_b"]})[feats['_observed']],
     ])
     stats = reach_long.groupby("wc")["reach"].agg(["mean", "std"])
     mu = wc.map(stats["mean"])
@@ -59,4 +61,4 @@ def build_features_v3(fights):
     new = ["reach_z_diff", "age_x_off", "ko_recent"] + BOUT_COLS
     feats[new] = feats[new].fillna(0)
     return feats.drop(columns=["weightclass", "time_format",
-                               "reach_a", "reach_b"]), fcols + new
+                               "reach_a", "reach_b", '_observed']), fcols + new

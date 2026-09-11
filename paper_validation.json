@@ -1,11 +1,21 @@
 {
-  "official_trades": 10,
-  "settled": 9,
-  "staked": 9.0,
-  "pnl": 3.0707,
-  "roi": 0.341191,
-  "mean_clv_prob_points": -0.0353,
-  "positive_clv_rate": 0.2222,
+  "official_trades": 9,
+  "settled": 8,
+  "staked": 8.0,
+  "pnl": 2.5152,
+  "roi": 0.314396,
+  "mean_clv_prob_points": 0.0775,
+  "clv_covered_settlements": 4,
+  "positive_clv_rate": 0.5,
+  "raw_official_trades": 10,
+  "raw_settlements": 9,
+  "excluded_duplicate_trades": [
+    {
+      "trade_id": "b8cfb4555007268dad95",
+      "retained_trade_id": "6ddbf2c301d5ba1cc5d4",
+      "reason": "duplicate lock of the same rescheduled bout"
+    }
+  ],
   "by_staking_policy": {
     "paper-flat-1u-day-cap2-v1": {
       "official_trades": 2,
@@ -14,16 +24,18 @@
       "pnl": -0.4898,
       "roi": -0.244898,
       "mean_clv_prob_points": 2.0588,
-      "positive_clv_rate": 0.5
+      "clv_covered_settlements": 1,
+      "positive_clv_rate": 1.0
     },
     "paper-flat-1u-first-touch-cap2-v2": {
-      "official_trades": 8,
-      "settled": 7,
-      "staked": 7.0,
-      "pnl": 3.5605,
-      "roi": 0.508645,
-      "mean_clv_prob_points": -0.5588,
-      "positive_clv_rate": 0.1429
+      "official_trades": 7,
+      "settled": 6,
+      "staked": 6.0,
+      "pnl": 3.005,
+      "roi": 0.500827,
+      "mean_clv_prob_points": -0.5829,
+      "clv_covered_settlements": 3,
+      "positive_clv_rate": 0.3333
     }
   },
   "status": "paper_only",

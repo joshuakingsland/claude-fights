@@ -21,6 +21,7 @@ from sklearn.preprocessing import StandardScaler
 from backtest import american_to_prob
 from config import EDGE_RULE
 from identity import norm_name
+from historical_odds import load_quotes
 from production import allocate_stakes, event_pnl
 from validate_entry_history import clustered_ci, clustered_mean_ci
 
@@ -532,7 +533,9 @@ def dispersion_audit(entry, quotes_path, bootstrap):
     path = Path(quotes_path)
     if not path.exists():
         return {"verdict": "defer", "reason": "individual-book quote file is absent"}
-    quotes = pd.read_csv(path)
+    quotes = load_quotes(path) if path.is_dir() else pd.read_csv(path)
+    if quotes.empty:
+        return {"verdict": "defer", "reason": "individual-book quote archive is empty"}
     quotes = quotes[quotes["snapshot_kind"].eq("entry")].copy()
     quotes["odds_a"] = pd.to_numeric(quotes["odds_a"], errors="coerce")
     quotes["odds_b"] = pd.to_numeric(quotes["odds_b"], errors="coerce")

@@ -1,5 +1,5 @@
 {
-  "quotes_sha256": "586986eb0ec73a8dd470b44c97443f78587d5f454d78b4b998f8eebcda70a76f",
+  "quotes_sha256": "4d2c3395e11dff71734911fa8adb39f15ced7eab6e18b630e35aba08a8bf5673",
   "quote_rows": 51888,
   "consensus_snapshot_fights": 4780,
   "entry_close_fights": 2297,
@@ -10,8 +10,9 @@
   "median_entry_lead_hours": 26.833333333333332,
   "median_close_lead_minutes": 200.0,
   "probability_consensus": "median of per-book de-vigged probabilities",
+  "price_consensus": "observed upper median American price; never interpolated",
   "close_definition": "latest API snapshot at or before the requested pre-card close time",
-  "output": "data/odds_history/odds_history_api_entry_close.csv",
+  "output": "data\\odds_history\\odds_history_api_entry_close.csv",
   "combined_output": "data/odds_history/odds_history_entry_with_api_close.csv",
   "combined_rows": 1779,
   "combined_close_proxy_fights": 1745

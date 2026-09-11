@@ -29,6 +29,11 @@ jobs:
       - run: python -m unittest discover -s tests
       - name: Run exact production audit
         run: python validate_production.py --start 2019-01-01
+      - name: Rebuild archived entry prices and audit the fixed research window
+        run: |
+          python prepare_api_odds_history.py
+          python validate_entry_history.py --start 2020-06-01 --end 2025-09-01
+          python validate_staking.py
       # The method and rounds models are what price the prop and totals
       # columns on the card. Both had a validator and neither ran anywhere, so
       # a regression in either would have shipped silently to the site.
@@ -36,12 +41,19 @@ jobs:
         run: python validate_method.py
       - name: Validate totals and distance probabilities
         run: python validate_rounds.py
+      - name: Record completed audit provenance
+        run: python model_manifest.py
       - name: Commit validation artifacts
         run: |
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
           git add production_validation.csv production_validation.json model_manifest.json
           git add method_validation.json rounds_validation.json
+          git add data/odds_history/odds_history_api_entry_close.csv \
+            data/odds_history/odds_history_entry_with_api_close.csv \
+            data/odds_history/odds_history_api_entry_close_audit.json \
+            historical_entry_validation.csv historical_entry_validation.json \
+            staking_validation.json
           git diff --cached --quiet || git commit -m "validation refresh $(date -u +%F)"
           git pull --rebase --autostash origin main
           git push

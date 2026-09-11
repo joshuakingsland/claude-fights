@@ -1119,3 +1119,22 @@ fights and is not there.
 
 Line shopping remains real, mechanical, and the only thing in twenty-four
 hypotheses that survived contact with the data.
+
+
+---
+
+# Addendum 14, 2026-09-11: integrity corrections
+
+A code review found an invalid American-price median in the historical entry
+audit, a duplicate forward wager caused by a rescheduled UTC date, and
+unfought matchups updating other upcoming matchups’ career features.
+
+These are implementation corrections, not new hypotheses. The original
+entries above remain unchanged. See `INTEGRITY_REVIEW_2026-09.md` for the
+reproduction, affected record IDs and corrected audit. Generated reports
+were rebuilt; original prediction, trade and settlement records are preserved.
+The entry audit retains its original 2020-06-01 to 2025-09-01 exclusive window.
+Its corrected ROI is -0.2624%, replacing +73.5007%; no production gate passes.
+
+The holdout remains spent. Regenerated results are retrospective integrity
+checks and must not be presented as new out-of-sample confirmation.

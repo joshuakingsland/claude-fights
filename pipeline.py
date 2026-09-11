@@ -99,7 +99,7 @@ def _cache_path(builder, tag, bout_cols):
     for path in (
         "fights_v2.csv", "raw/ufc-master.csv", "odds_log.csv", __file__,
         "features.py", "features_v2.py", "features_v3.py", "elo.py",
-        "identity.py", "data_quality.py",
+        "identity.py", "data_quality.py", "feature_history.py",
     ):
         _file_digest(path, h)
     try:

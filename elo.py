@@ -50,6 +50,11 @@ def compute_elo(
         elo_a_pre.append(ra)
         elo_b_pre.append(rb)
 
+        # A query records current ratings but contributes no outcome, including
+        # when an older caller supplies a placeholder winner.
+        if getattr(row, 'event', '') == 'UPCOMING':
+            continue
+
         # Expected score for A
         ea = 1.0 / (1.0 + 10 ** ((rb - ra) / 400.0))
 

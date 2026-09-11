@@ -10,8 +10,9 @@ the outputs.
 
 Twenty-four pre-registered hypotheses were tested and are recorded in
 `PREREGISTRATION.md` with their results. The model's own edge rule failed its
-primary test (H1) and its forward ledger is negative on both money and
-closing-line value. The one effect that survived is **line shopping** - taking
+primary test (H1). Its forward ledger is small and has not established an
+edge; use the current corrected `paper_validation.json` rather than a stale
+profitability claim. The one effect that survived is **line shopping** - taking
 the best of ~16 book prices instead of one, worth about 3 points - and that is
 mechanical rather than predictive.
 

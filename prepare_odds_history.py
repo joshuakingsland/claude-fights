@@ -17,7 +17,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from backtest import american_to_prob
+from backtest import american_to_prob, validate_american_prices
 from identity import norm_name
 
 
@@ -73,7 +73,7 @@ def run(args):
     source["n_books"] = pd.to_numeric(source["n_books"], errors="coerce")
     source = source.dropna(subset=["snapshot_ts", "commence_time", "fighter_a",
                                   "fighter_b", "odds_a", "odds_b", "n_books"])
-    source = source[(source["odds_a"] != 0) & (source["odds_b"] != 0)].copy()
+    validate_american_prices(source[['odds_a', 'odds_b']])
     source["pair"] = [_pair(a, b) for a, b in zip(source["fighter_a"], source["fighter_b"])]
     source["source_row"] = range(len(source))
 

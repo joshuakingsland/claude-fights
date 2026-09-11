@@ -37,8 +37,28 @@ def american_to_prob(odds):
                         100.0 / (odds + 100.0))
 
 
+def validate_american_prices(odds, allow_missing=False):
+    """Reject malformed prices before they can become stakes or payouts."""
+    values = np.asarray(odds, dtype=float)
+    valid = np.isfinite(values) & (np.abs(values) >= 100)
+    if allow_missing:
+        valid |= np.isnan(values)
+    if not np.all(valid):
+        raise ValueError('Invalid American odds: prices must be finite and have absolute value >= 100')
+
+
+def upper_median_american(odds):
+    """Select an observed price; never average across -100/+100."""
+    validate_american_prices(odds)
+    values = np.sort(np.asarray(odds, dtype=float))
+    if not len(values):
+        raise ValueError('American odds median needs at least one price')
+    return float(values[len(values) // 2])
+
+
 def american_payout(odds):
     """Profit on a 1-unit winning stake."""
+    validate_american_prices(odds)
     odds = np.asarray(odds, dtype=float)
     return np.where(odds < 0, 100.0 / -odds, odds / 100.0)
 

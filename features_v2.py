@@ -24,6 +24,7 @@ import numpy as np
 import pandas as pd
 
 from identity import fighter_keys
+from feature_history import observed_bouts, prior_stat
 
 
 # ---------------------------------------------------------------- helpers
@@ -48,14 +49,8 @@ def _ctrl_sec(series):
 
 
 def _shifted(grp, col, how):
-    if how == "sum":
-        return grp[col].transform(lambda s: s.shift(1).expanding().sum())
-    if how == "mean":
-        return grp[col].transform(lambda s: s.shift(1).expanding().mean())
-    if how == "last3":
-        return grp[col].transform(
-            lambda s: s.shift(1).rolling(3, min_periods=1).mean())
-    raise ValueError(how)
+    return grp[col].transform(
+        lambda s: prior_stat(s, grp.obj['observed'], how))
 
 
 # ------------------------------------------------------- round-level stats
@@ -117,6 +112,7 @@ def build_features_v2(fights, raw_dir="raw"):
             "won": (df["winner"] == side.upper()).astype(float),
             "t_min": df["fight_time_min"],
             "is_5rd": df["is_5rd"],
+            "observed": observed_bouts(df),
         })
         m = df["method"].astype(str).str.upper()
         d["ko_win"] = ((df["winner"] == side.upper()) & m.str.contains("KO")).astype(float)
@@ -163,19 +159,20 @@ def build_features_v2(fights, raw_dir="raw"):
     for col in ["won", "lpm", "kdd_pm"]:
         C[f"r3_{col}"] = _shifted(grp, col, "last3")     # recent-3 form
 
-    C["c_fights"] = grp.cumcount().astype(float)
+    C["c_fights"] = grp['observed'].transform(
+        lambda s: s.astype(int).cumsum().shift(1, fill_value=0)).astype(float)
     C["c_minutes"] = _shifted(grp, "t_min", "sum")
-    C["days_off"] = grp["date"].transform(lambda s: (s - s.shift(1)).dt.days)
-    C["off_ko"] = grp["ko_loss"].transform(lambda s: s.shift(1))  # last fight KO loss?
+    C["days_off"] = (long['date'] - _shifted(grp, 'date', 'last')).dt.days
+    C["off_ko"] = _shifted(grp, 'ko_loss', 'last')
 
     def _days_since_ko(g):
         last, out = None, []
-        for d, kol in zip(g["date"], g["ko_loss"]):
+        for d, kol, observed in zip(g["date"], g["ko_loss"], g['observed']):
             out.append((d - last).days if last is not None else np.nan)
-            if kol == 1.0:
+            if observed and kol == 1.0:
                 last = d
         return pd.Series(out, index=g.index)
-    C["days_since_ko"] = grp[["date", "ko_loss"]].apply(_days_since_ko) \
+    C["days_since_ko"] = grp[["date", "ko_loss", "observed"]].apply(_days_since_ko) \
         .reset_index(level=0, drop=True)
 
     for k, v in C.items():
@@ -246,8 +243,8 @@ def build_features_v2(fights, raw_dir="raw"):
     if "stance_edge" in df.columns:
         feature_cols.append("stance_edge")
 
-    df = df[df["winner"].isin(["A", "B"])].copy()
-    df["target"] = (df["winner"] == "A").astype(int)
+    df = df[df["winner"].isin(["A", "B"]) | ~observed_bouts(df)].copy()
+    df["target"] = (df["winner"] == "A").astype(float).where(observed_bouts(df))
     identity_columns = [
         column for column in (
             "fighter_a_id", "fighter_b_id", "fighter_a_url", "fighter_b_url"
