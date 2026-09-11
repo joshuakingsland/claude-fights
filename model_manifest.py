@@ -40,7 +40,7 @@ def write_manifest(path="model_manifest.json"):
     files = [
         "fights_v2.csv", "raw/ufc-master.csv", "odds_upcoming.csv",
         "odds_log.csv", "method_model.pkl", "config.py", "production.py",
-        "features.py", "features_v2.py", "features_v3.py", "elo.py",
+        "features.py", "features_v2.py", "features_v3.py", "feature_history.py", "elo.py",
         "adapter.py", "pipeline.py", "predict_card.py",
         "paper_ledger.py", "fetch_odds.py", "site_template.html",
         "requirements.txt",

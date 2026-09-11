@@ -34,7 +34,7 @@ MARKET_DISAGREEMENT_WARNING = 0.05
 # so the signal is rejected instead of being priced off that book.
 MAX_EXECUTION_DEVIATION = 0.08
 
-MODEL_VERSION = "production-v3"
+MODEL_VERSION = "production-v3.1"
 BOOTSTRAP_MODELS = 30
 ODDS_CONSENSUS_VERSION = "paired-book-devig-v1"
 

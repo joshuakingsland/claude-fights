@@ -14,7 +14,7 @@ from pathlib import Path
 import pandas as pd
 
 import historical_odds
-from backtest import american_to_prob
+from backtest import american_to_prob, upper_median_american
 from identity import norm_name
 
 
@@ -93,8 +93,8 @@ def _consensus(quotes, min_books):
         commence_time=("commence_time", "min"),
         quote_fighter_a=("fighter_a", "first"),
         quote_fighter_b=("fighter_b", "first"),
-        odds_a=("odds_a", "median"),
-        odds_b=("odds_b", "median"),
+        odds_a=("odds_a", upper_median_american),
+        odds_b=("odds_b", upper_median_american),
         consensus_prob_a=("book_prob_a", "median"),
         n_books=("book_key", "nunique"),
     ).reset_index()
@@ -293,6 +293,7 @@ def run(args):
         "median_entry_lead_hours": float(dataset["entry_lead_hours"].median()) if len(dataset) else None,
         "median_close_lead_minutes": float(dataset["close_lead_hours"].median() * 60.0) if len(dataset) else None,
         "probability_consensus": "median of per-book de-vigged probabilities",
+        "price_consensus": "observed upper median American price; never interpolated",
         "close_definition": "latest API snapshot at or before the requested pre-card close time",
         "output": str(output),
         "combined_output": str(args.combined_output) if args.base_history else None,

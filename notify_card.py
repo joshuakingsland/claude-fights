@@ -116,6 +116,8 @@ def run(trades_path="paper_trades.csv", notified_path=NOTIFIED_LOG,
         print("no paper trades file; nothing to notify")
         return 0
     trades = pd.read_csv(path)
+    from paper_ledger import effective_trades
+    trades, _ = effective_trades(trades)
     if not len(trades):
         print("no paper trades; nothing to notify")
         return 0

@@ -361,7 +361,7 @@ def predict_upcoming(up):
                      "fighter_b_id": r["fighter_b_id"],
                      "fighter_a_url": r["fighter_a_url"],
                      "fighter_b_url": r["fighter_b_url"],
-                     "winner": "A", "method": "", "fight_time_min": np.nan})
+                     "winner": "", "method": "", "fight_time_min": np.nan})
     hyp = pd.DataFrame(rows)
 
     registry["height_in"] = registry["HEIGHT"].map(parse_height)
@@ -389,7 +389,8 @@ def predict_upcoming(up):
     out = []
     for _, r in up.iterrows():
         row = new[(new["fighter_a_id"] == r["fighter_a_id"])
-                  & (new["fighter_b_id"] == r["fighter_b_id"])]
+                  & (new["fighter_b_id"] == r["fighter_b_id"])
+                  & (new['date'] == pd.Timestamp(r['date']))]
         oa = float(str(r["odds_a"]).replace("+", ""))
         ob = float(str(r["odds_b"]).replace("+", ""))
         p_line, pa, pb = market_probability(

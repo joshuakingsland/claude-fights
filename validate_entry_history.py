@@ -13,7 +13,7 @@ import pandas as pd
 from scipy.special import logit
 from sklearn.metrics import accuracy_score, brier_score_loss, log_loss
 
-from backtest import american_to_prob
+from backtest import american_to_prob, validate_american_prices
 from config import (BOOTSTRAP_MODELS, EDGE_RULE, EVENT_DAY_STAKE_CAP,
                     MODEL_VERSION, PRODUCTION_MAX_STAKE,
                     STAKING_POLICY_VERSION)
@@ -115,6 +115,7 @@ def load_entry_matched(fights_path, history_path, min_entry_hours=24.0,
             history[column] = pd.to_numeric(history[column], errors="coerce")
     if history[list(required - {"fighter_a", "fighter_b"})].isna().any().any():
         raise ValueError("history contains an incomplete entry snapshot")
+    validate_american_prices(history[['entry_odds_a', 'entry_odds_b']])
     if not (history["entry_snapshot_ts"] < history["commence_time"]).all():
         raise ValueError("history contains a non-pre-event entry snapshot")
     if (history["entry_lead_hours"] < min_entry_hours).any():
@@ -132,6 +133,7 @@ def load_entry_matched(fights_path, history_path, min_entry_hours=24.0,
         if (close_any & ~close_complete).any():
             raise ValueError("history contains a partial close proxy")
         with_close = close_complete
+        validate_american_prices(history.loc[with_close, ['close_odds_a', 'close_odds_b']])
         valid_order = (
             (history.loc[with_close, "entry_snapshot_ts"]
              < history.loc[with_close, "close_snapshot_ts"])
