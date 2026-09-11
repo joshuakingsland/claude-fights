@@ -17,15 +17,15 @@ a 2024 validation period, and a final 2025+ holdout.
 
 | Dataset | Scale | Validation log-loss delta | Holdout log-loss delta | Holdout policy ROI: raw / calibrated |
 | --- | ---: | ---: | ---: | ---: |
-| Production | 1.0086 | 0.000006 | -0.000063 | +0.4% / -1.2% |
-| Entry | 1.0471 | 0.000586 | 0.001327 | +11.8% / +10.3% |
+| Production | 1.0085 | 0.000001 | -0.000050 | +5.0% / +4.6% |
+| Entry | 1.0495 | 0.000776 | 0.002833 | +12.8% / +11.1% |
 
 ## Selection tests
 
 - Production uncertainty: development selected `0.0x`; verdict `reject_for_now`.
 - Entry uncertainty: development selected `2.0x`; verdict `reject_for_now`.
 - Minimum books: development selected `3`; verdict `reject_for_now`.
-- Timing: 168 holdout fights, direction accuracy +54.8%, verdict `defer`.
+- Timing: 200 holdout fights, direction accuracy +49.5%, verdict `defer`.
 
 ## Guardrails
 

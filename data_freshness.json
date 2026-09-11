@@ -1,17 +1,35 @@
 {
-  "checked_at": "2026-09-09T17:46:22Z",
+  "checked_at": "2026-09-11T15:41:55Z",
   "results_through": "2026-09-05",
-  "days_since_latest_result": 4,
+  "days_since_latest_result": 6,
   "grace_days": 7,
   "status": "pending",
-  "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
+  "message": "4 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
+    {
+      "date": "2026-09-10",
+      "fighter_a": "Alexandre Pantoja",
+      "fighter_b": "Joshua Van",
+      "days_waiting": 1
+    },
+    {
+      "date": "2026-09-10",
+      "fighter_a": "Mauricio Ruffy",
+      "fighter_b": "Arman Tsarukyan",
+      "days_waiting": 1
+    },
+    {
+      "date": "2026-09-10",
+      "fighter_a": "Robelis Despaigne",
+      "fighter_b": "Tai Tuivasa",
+      "days_waiting": 1
+    },
     {
       "date": "2026-09-05",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Tyron Woodley",
-      "days_waiting": 4
+      "days_waiting": 6
     }
   ],
   "known_cancelled": [

@@ -690,7 +690,7 @@ def build_site(upcoming, recent, summary, freshness=None, card_context=None):
                     .replace("__STAMP__", stamp))
     import os
     os.makedirs("docs", exist_ok=True)
-    with open("docs/index.html", "w") as f:
+    with open("docs/index.html", "w", encoding="utf-8") as f:
         f.write(page_html)
     print(f"docs/index.html written "
           f"({len(upcoming)} upcoming, {len(recent)} recent)")
@@ -698,8 +698,11 @@ def build_site(upcoming, recent, summary, freshness=None, card_context=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--lock-paper-trades", action="store_true",
-                    help="lock one official qualifying paper wager per fight")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--lock-paper-trades", action="store_true",
+                      help="lock one official qualifying paper wager per fight")
+    mode.add_argument("--preview", action="store_true",
+                      help="rebuild the page and manifest without recording snapshots or trades")
     ap.add_argument(
         "--promotion", choices=PROMOTION_CHOICES, default="ufc",
         help="score ufc, dwcs, or all tagged rows from odds_upcoming.csv",
@@ -757,6 +760,9 @@ def main():
 
     from model_manifest import sha256, write_manifest
     write_manifest()
+    if args.preview:
+        print('preview only: snapshots and paper trades preserved')
+        return
     provenance = {"model_version": MODEL_VERSION,
                   "manifest_hash": sha256("model_manifest.json")}
     added = record_prediction_snapshots(upcoming, provenance=provenance)

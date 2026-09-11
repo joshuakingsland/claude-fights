@@ -18,6 +18,19 @@ import rounds_model
 
 
 class HistoricalPriceTests(unittest.TestCase):
+    def test_dispersion_audit_reads_partitioned_archive(self):
+        from audit_model_improvements import dispersion_audit
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'quotes').mkdir()
+            pd.DataFrame([dict(snapshot_kind='entry', odds_a=-110, odds_b=100,
+                fighter_a='A', fighter_b='B', event_date='2025-01-01', book_key='book')]).to_csv(
+                root / 'quotes' / 'quotes_2025.csv.gz', index=False)
+            entry = pd.DataFrame([dict(date='2025-02-01', pair='other')])
+            result = dispersion_audit(entry, root, 10)
+            self.assertEqual(result['verdict'], 'defer')
+            self.assertIn('did not match', result['reason'])
+
     def test_even_book_consensus_never_averages_across_even_money(self):
         rows = []
         for i, price in enumerate([-102, 100]):
@@ -68,6 +81,16 @@ class RescheduledLedgerTests(unittest.TestCase):
         self.assertEqual(self.lock(self.item('2026-08-23'), '2026-08-12'), 1)
         self.assertEqual(self.lock(self.item('2026-09-13'), '2026-09-01'), 1)
 
+    def test_rescheduled_lock_still_consumes_the_current_card_cap(self):
+        self.lock(self.item('2026-08-23'), '2026-08-12')
+        original = dict(self.item('2026-08-22'), bet=False, stake=0)
+        other = self.item('2026-08-22', 'A', 'B')
+        third = self.item('2026-08-22', 'C', 'D')
+        count = lock_paper_trades([original, other, third], self.snapshots,
+                                 self.trades, locked_at='2026-08-14')
+        self.assertEqual(count, 1)
+        self.assertEqual(len(pd.read_csv(self.trades)), 2)
+
     def test_existing_duplicate_is_explicitly_excluded_without_rewriting(self):
         rows = []
         for i, date in enumerate(['2026-08-23', '2026-08-22']):
@@ -85,6 +108,14 @@ class RescheduledLedgerTests(unittest.TestCase):
         self.assertEqual(report['excluded_duplicate_trades'][0]['trade_id'], 't1')
         self.assertEqual(report['excluded_duplicate_trades'][0]['retained_trade_id'], 't0')
         self.assertEqual(before, (self.trades.read_bytes(), self.settlements.read_bytes()))
+
+    def test_missing_close_is_not_counted_as_negative_clv(self):
+        from paper_ledger import _ledger_metrics
+        settled = pd.DataFrame(dict(stake=[1, 1, 1], pnl=[1, -1, 1],
+                                    clv_prob=[2, -1, np.nan]))
+        report = _ledger_metrics(settled, settled)
+        self.assertEqual(report['clv_covered_settlements'], 2)
+        self.assertEqual(report['positive_clv_rate'], .5)
 
 
 class UnfoughtFeatureTests(unittest.TestCase):
@@ -132,6 +163,15 @@ class UnfoughtFeatureTests(unittest.TestCase):
             flipped, _ = build_features_v3(changed)
         np.testing.assert_allclose(original.iloc[-1][cols].to_numpy(float),
                                    flipped.iloc[-1][cols].to_numpy(float), atol=1e-12)
+
+    def test_queries_with_no_winner_are_retained_with_no_training_target(self):
+        fights, stats = self.data()
+        fights.loc[fights.event == 'UPCOMING', 'winner'] = ''
+        with patch('features_v2.load_round_stats', return_value=stats):
+            result, _ = build_features_v3(fights)
+        self.assertEqual(len(result), len(fights))
+        self.assertTrue(result.tail(2).target.isna().all())
+        self.assertTrue(result.head(4).target.notna().all())
 
     def test_unfought_rows_do_not_change_method_or_rounds_features(self):
         fights, _ = self.data()

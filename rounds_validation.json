@@ -1,50 +1,50 @@
 {
   "model": "rounds-hazard-v1",
   "cutoff": "2024-01-01",
-  "test_fights": 1381,
+  "test_fights": 1395,
   "distance": {
-    "actual_rate": 0.5018,
-    "mean_prediction": 0.5026,
-    "log_loss_model": 0.67607,
-    "log_loss_division_table": 0.68446,
-    "log_loss_global_rate": 0.69481,
-    "improvement_over_division_table": 0.0122
+    "actual_rate": 0.5011,
+    "mean_prediction": 0.5024,
+    "log_loss_model": 0.67566,
+    "log_loss_division_table": 0.68412,
+    "log_loss_global_rate": 0.69473,
+    "improvement_over_division_table": 0.0124
   },
   "totals": {
     "over_0.5": {
-      "fights": 1381,
-      "actual_over_rate": 0.8943,
-      "mean_prediction": 0.8636,
-      "log_loss_model": 0.33087,
-      "log_loss_test_base_rate": 0.33747
+      "fights": 1395,
+      "actual_over_rate": 0.8946,
+      "mean_prediction": 0.8635,
+      "log_loss_model": 0.33044,
+      "log_loss_test_base_rate": 0.33674
     },
     "over_1.5": {
-      "fights": 1381,
-      "actual_over_rate": 0.6785,
-      "mean_prediction": 0.6755,
-      "log_loss_model": 0.61182,
-      "log_loss_test_base_rate": 0.628
+      "fights": 1395,
+      "actual_over_rate": 0.6781,
+      "mean_prediction": 0.6754,
+      "log_loss_model": 0.61192,
+      "log_loss_test_base_rate": 0.62827
     },
     "over_2.5": {
-      "fights": 1381,
-      "actual_over_rate": 0.5489,
-      "mean_prediction": 0.5567,
-      "log_loss_model": 0.67021,
-      "log_loss_test_base_rate": 0.68836
+      "fights": 1395,
+      "actual_over_rate": 0.5484,
+      "mean_prediction": 0.5565,
+      "log_loss_model": 0.67032,
+      "log_loss_test_base_rate": 0.68846
     },
     "over_3.5": {
-      "fights": 138,
-      "actual_over_rate": 0.5362,
-      "mean_prediction": 0.5076,
-      "log_loss_model": 0.6478,
-      "log_loss_test_base_rate": 0.69052
+      "fights": 139,
+      "actual_over_rate": 0.5324,
+      "mean_prediction": 0.5073,
+      "log_loss_model": 0.64774,
+      "log_loss_test_base_rate": 0.69105
     },
     "over_4.5": {
-      "fights": 138,
-      "actual_over_rate": 0.4783,
-      "mean_prediction": 0.4543,
-      "log_loss_model": 0.62968,
-      "log_loss_test_base_rate": 0.6922
+      "fights": 139,
+      "actual_over_rate": 0.4748,
+      "mean_prediction": 0.454,
+      "log_loss_model": 0.62902,
+      "log_loss_test_base_rate": 0.69188
     }
   },
   "status": "probability_only",

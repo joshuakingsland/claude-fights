@@ -2,7 +2,7 @@
 
 This repository generates a static UFC moneyline model dashboard. The
 production entry point is `predict_card.py`; it uses point-in-time features,
-historical closing odds from `raw/ufc-master.csv`, and stable `production-v3`
+historical closing odds from `raw/ufc-master.csv`, and stable `production-v3.1`
 configuration from `config.py`.
 
 ## Included, runnable workflow
@@ -20,6 +20,9 @@ python monitor_drift.py
 python freshness.py --require-current
 python validate_method.py
 ```
+
+For a page rebuild that preserves the prediction and wager ledgers, use
+`python predict_card.py --preview`. Preview and locking cannot be combined.
 
 The short validator command is a smoke test. The canonical audit is:
 
@@ -259,9 +262,9 @@ market snapshots, and exempts only source-backed entries in
 The files now have distinct purposes:
 
 - `prediction_snapshots.csv` — every verified pre-event model/price snapshot.
-- `paper_trades.csv` — one official qualifying locked wager per fight.
+- `paper_trades.csv` — original locked wager records, preserved unchanged.
 - `paper_settlements.csv` — append-only outcomes and available closing-line value.
-- `paper_validation.json` — forward-test summary.
+- `paper_validation.json` — forward-test summary and explicit duplicate corrections.
 
 Each new snapshot and trade stores the model version, model-manifest hash,
 consensus prices, executable price and book, book count, market spread, odds
@@ -273,8 +276,8 @@ see, so a signal is captured the first run it clears the edge rule rather than
 only if it still clears it on one fixed weekday. Locking stays idempotent by
 fight, and `lock_paper_trades` counts trades already on the ledger for that
 event day so the 2-unit cap holds across runs, not just within one card
-scoring. Candidates are considered strongest-first, so an early marginal signal
-cannot take a slot from a stronger one that appears later the same day.
+scoring. Candidates are considered strongest-first within each run. Earlier
+locked wagers keep priority over signals that appear later.
 
 This replaced a Wednesday-only lock. Over 2026-07-20 to 2026-08-05 that cadence
 recorded two of five eligible fights; both misses qualified for days and read
