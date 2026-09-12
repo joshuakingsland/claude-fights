@@ -56,3 +56,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-09-05T20:44:45Z,c514cbb30fc0bdd53539319c2329c239,2026-09-05T21:30:00Z,45.24,Axel Sola,Fares Ziam,130.0,-154.0,0.41762578,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-09-12T18:49:04Z,fc0f5ecf0f53e7bb434ee19e0dc77226,2026-09-12T19:00:00Z,10.92,Rafa Garcia,Zhu Rong,132.0,-155.0,0.41565024,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-09-12T18:49:04Z,369a6cc5d46b96d484aef96b10975f61,2026-09-12T19:25:00Z,35.92,Thomas Gantt,Drakkar Klose,-370.0,295.0,0.7566658,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-09-12T21:28:58Z,b34ea4f97b4f5e0269662aac3000de4a,2026-09-12T21:45:00Z,16.03,Waldo Cortes-Acosta,Curtis Blaydes,-190.0,158.0,0.62693266,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-09-12T21:28:58Z,1c075185d91e84c1317a9f6bdad39e6b,2026-09-12T22:15:00Z,46.03,Manon Fiorot,Alexa Grasso,-285.0,234.0,0.71030465,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
