@@ -6,18 +6,18 @@ Positive slippage means a worse price. Missing observations are not failed fills
 
 | Metric | Last seven days (lock date) | Cumulative |
 |---|---:|---:|
-| locks | 0 | 0 |
-| observed | 0 | 0 |
-| same_or_better_rate | None | None |
-| mean_slippage_probability_points | None | None |
-| settled_observed | 0 | 0 |
-| delayed_price_pnl | 0 | 0 |
-| delayed_price_roi | None | None |
-| original_price_pnl_same_subset | 0.0 | 0.0 |
-| entry_market_clv_covered | 0 | 0 |
-| entry_market_clv_mean_points | None | None |
-| delayed_price_close_covered | 0 | 0 |
-| delayed_price_close_advantage_points | None | None |
+| Locks | 0 | 0 |
+| Observed | 0 | 0 |
+| Same or better rate | — | — |
+| Mean slippage probability points | — | — |
+| Settled observed | 0 | 0 |
+| Delayed price pnl | 0 | 0 |
+| Delayed price roi | — | — |
+| Original price pnl same subset | 0.0000 | 0.0000 |
+| Entry market clv covered | 0 | 0 |
+| Entry market clv mean points | — | — |
+| Delayed price close covered | 0 | 0 |
+| Delayed price close advantage points | — | — |
 
 Observation status counts:
 
