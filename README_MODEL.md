@@ -344,3 +344,10 @@ unresolved external name receives neutral history and a visible warning.
 `research.py` and `research3.py` are archived research harnesses, not production
 entry points. `research3.py` still requires the unshipped `research2.py` and is
 therefore intentionally not presented as runnable.
+# Execution observations
+
+The five-minute paper execution check and weekly report are documented in
+[EXECUTION_POLICY.md](EXECUTION_POLICY.md). The latest results are in
+[EXECUTION_REPORT.md](EXECUTION_REPORT.md); dated weekly copies are stored under
+`reports/execution/`. Forward observation starts 2026-09-14 UTC. Quote visibility
+is measured separately from actual bet acceptance; production remains paper-only.

@@ -14,7 +14,7 @@ concurrency:
 jobs:
   snapshot:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v5
         with:
@@ -38,6 +38,13 @@ jobs:
         run: python fetch_odds.py --require-key
       - name: Refresh card and lock any qualifying trades
         run: python predict_card.py --lock-paper-trades
+      - name: Observe execution prices five minutes after new locks
+        continue-on-error: true  # preserve official locks if research capture fails
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python execution_observations.py --capture
+      - name: Refresh execution coverage report
+        run: python execution_observations.py
       - name: Validate forward paper ledger
         run: python validate_paper.py
       # H22 replicated out of sample at the same size and failed only on
@@ -65,6 +72,7 @@ jobs:
         run: |
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
+          git add execution_checks.csv execution_report.json EXECUTION_REPORT.md
           git add docs/ odds_upcoming.csv odds_log.csv prediction_snapshots.csv \
             paper_trades.csv paper_validation.json h22_forward_log.csv \
             notified_trades.csv \

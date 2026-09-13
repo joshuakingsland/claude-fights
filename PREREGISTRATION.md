@@ -1138,3 +1138,24 @@ Its corrected ROI is -0.2624%, replacing +73.5007%; no production gate passes.
 
 The holdout remains spent. Regenerated results are retrospective integrity
 checks and must not be presented as new out-of-sample confirmation.
+
+---
+
+# Addendum 15, 2026-09-13: forward execution observations
+
+Policy quote-persistence-5m-v1 begins with paper locks on or after
+2026-09-14 00:00 UTC. It observes the existing first-touch strategy without
+changing its model, entry rule, or stakes. The source price must be verified
+against its archived capture within fifteen minutes before the lock. The
+first same-event snapshot five to seven minutes after the lock is used,
+with the original bookmaker, pre-event timestamps, valid American prices,
+and a bookmaker update at most fifteen minutes old. Missing or stale
+observations remain explicit; later favorable quotes cannot replace them.
+
+Coverage and price persistence are primary descriptive outcomes. Delayed-price
+P&L is shown on exactly the observed settled subset alongside its original
+P&L. Closing-market movement and delayed-price closing advantage are reported
+with their coverage. Missing observations cannot be counted as rejected fills,
+and displayed quotes cannot be claimed as accepted tickets. No promotion or
+staking decision follows automatically. Earlier locks are historical diagnostics.
+See EXECUTION_POLICY.md for the fixed definitions and reporting cadence.
