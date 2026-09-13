@@ -348,6 +348,7 @@ def _write_snapshot_manifest(path, stamp, rows, quote_rows, quote_path,
 
 
 def main(argv=None):
+    # Observation captures must not overwrite the priced card's input files.
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--require-key", action="store_true",
@@ -359,6 +360,8 @@ def main(argv=None):
               "MMA rows for production compatibility; dwcs requires a DWCS "
               "label from the provider; all writes every upcoming MMA row"),
     )
+    parser.add_argument('--quotes-only', action='store_true',
+                        help='append book observations without changing card inputs')
     args = parser.parse_args(argv)
 
     key = os.environ.get("ODDS_API_KEY")
@@ -437,6 +440,12 @@ def main(argv=None):
     for row, five in zip(rows, infer_five_rounds([r["commence_time"] for r in rows])):
         row["five_rounds"] = str(five)
 
+    if args.quotes_only:
+        quote_path = Path("data/market_quotes") / f"quotes_{stamp[:7]}.csv"
+        quote_path.parent.mkdir(parents=True, exist_ok=True)
+        append_quote_log(quote_path, all_quotes)
+        print(f"appended {len(all_quotes)} observation quotes at {stamp}")
+        return
     _write_atomic("odds_upcoming.csv", UPCOMING_FIELDS, rows)
     log_rows = [{field: row.get(field, "") for field in LOG_FIELDS} for row in rows]
     append_log("odds_log.csv", log_rows)

@@ -1,0 +1,10 @@
+trade_id,policy,checked_at,status,event_id,book_key,source_fetched_at,observed_at,book_updated_at,delay_seconds,requested_price,observed_price,same_or_better,slippage_prob_points
+8a2b94943b105e3f024f,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,source_unverified,,,,,,,-196,,,
+274a675dd68df56262fb,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,source_unverified,,,,,,,145,,,
+28cc78f42e8f0cd44592,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,unobserved,abaf00200471a2bdfc0aecc648f3d9eb,fanduel,2026-08-08T07:14:19Z,,,,275,,,
+4433e0cb0d4d1e05c7f8,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,unobserved,ad126b3ecf486d325bb850307bffe242,betonlineag,2026-08-08T18:57:42Z,,,,-151,,,
+6ddbf2c301d5ba1cc5d4,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,unobserved,038228122fc63c55832841739444063f,draftkings,2026-08-12T18:15:33Z,,,,-166,,,
+a08eaa5037c022238ab7,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,unobserved,48a306bf72bb5aa469f973e8b0a0ab01,williamhill_us,2026-08-15T06:57:27Z,,,,118,,,
+bfe4a0ddb392bb48a746,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,unobserved,ed0aac84833d231a21c19eb73f0ff9fb,betonlineag,2026-08-21T18:56:00Z,,,,126,,,
+3f0aedf6ed0371332769,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,unobserved,434aefea124f696fec6cba7d9ec6f582,betonlineag,2026-08-24T13:12:44Z,,,,177,,,
+cc470491cbdb1c789c61,quote-persistence-5m-v1,2026-09-13T19:53:55.524124+00:00,unobserved,a86614c0bbce5f30221abc558f15f2a5,betonlineag,2026-08-25T13:11:12Z,,,,-333,,,

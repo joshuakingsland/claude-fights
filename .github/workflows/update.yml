@@ -14,7 +14,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v5
         with:
@@ -47,6 +47,13 @@ jobs:
         run: python fetch_odds.py --require-key
       - name: Snapshot card and lock any qualifying trades
         run: python predict_card.py --lock-paper-trades
+      - name: Observe execution prices five minutes after new locks
+        continue-on-error: true  # preserve official locks if research capture fails
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python execution_observations.py --capture
+      - name: Refresh execution coverage report
+        run: python execution_observations.py
       - name: Validate forward paper ledger
         run: python validate_paper.py
       - name: Monitor drift when validation data is present
@@ -73,6 +80,7 @@ jobs:
         run: |
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
+          git add execution_checks.csv execution_report.json EXECUTION_REPORT.md
           git add docs/ fights_v2.csv odds_upcoming.csv prediction_snapshots.csv \
             paper_trades.csv paper_settlements.csv paper_validation.json \
             model_manifest.json data_source_manifest.json data_freshness.json
