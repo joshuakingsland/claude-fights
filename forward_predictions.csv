@@ -1,0 +1,1 @@
+score_id,policy,locked_at,scheduled_start,event_id,fighter_a,fighter_b,fighter_a_id,fighter_b_id,source_fetched_at,model_version,manifest_hash,p_market,p_model,p_blend,price_a,price_b,book_a,book_b,execution_status,market_side,market_stake,model_side,model_stake,blend_side,blend_stake

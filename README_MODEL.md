@@ -352,3 +352,11 @@ The five-minute paper execution check and weekly report are documented in
 [EXECUTION_REPORT.md](EXECUTION_REPORT.md); dated weekly copies are stored under
 `reports/execution/`. Forward observation starts 2026-09-14 UTC. Quote visibility
 is measured separately from actual bet acceptance; production remains paper-only.
+
+## Forward model comparison
+
+[FORWARD_SCORECARD.md](FORWARD_SCORECARD.md) compares market consensus, the current
+model, and their fixed 50/50 blend on first-observation forward predictions.
+[FORWARD_SCORECARD_POLICY.md](FORWARD_SCORECARD_POLICY.md) freezes the scope,
+common price rule, settlement rules, and uncertainty calculations. Recording
+begins 2026-09-14 at 06:00 UTC; no historical predictions are backfilled.

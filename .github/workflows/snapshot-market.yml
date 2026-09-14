@@ -45,6 +45,8 @@ jobs:
         run: python execution_observations.py --capture
       - name: Refresh execution coverage report
         run: python execution_observations.py
+      - name: Settle and report the forward model comparison
+        run: python forward_scorecard.py
       - name: Validate forward paper ledger
         run: python validate_paper.py
       # H22 replicated out of sample at the same size and failed only on
@@ -73,6 +75,7 @@ jobs:
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
           git add execution_checks.csv execution_report.json EXECUTION_REPORT.md
+          git add forward_predictions.csv forward_results.csv forward_scorecard.json FORWARD_SCORECARD.md
           git add docs/ odds_upcoming.csv odds_log.csv prediction_snapshots.csv \
             paper_trades.csv paper_validation.json h22_forward_log.csv \
             notified_trades.csv \

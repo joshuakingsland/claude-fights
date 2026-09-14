@@ -453,6 +453,20 @@ def predict_upcoming(up):
             books=books,
         )
         out.append({
+            "_scorecard": {
+                "fighter_a": r["display_a"], "fighter_b": r["display_b"],
+                "fighter_a_id": r["fighter_a_id"], "fighter_b_id": r["fighter_b_id"],
+                "source_a": r["display_a"], "source_b": r["display_b"],
+                "event_id": r.get("event_id", ""),
+                "scheduled_start": r.get("commence_time", ""),
+                "source_fetched_at": r.get("fetched_at", ""),
+                "p_market": p_line, "p_model": p,
+                "price_a": execution_a, "price_b": execution_b,
+                "book_a": _clean_meta(r.get("best_book_a", ""), ""),
+                "book_b": _clean_meta(r.get("best_book_b", ""), ""),
+                "identity_resolved": resolved_a and resolved_b,
+                "market_books": books,
+            },
             "shop": shop,
             "_p_a": p, "_row_idx": int(row.index[0]), "_pick_a": bool(pick_a),
             "_net_raw": net, "_quality_ok": quality_ok,
@@ -723,6 +737,7 @@ def main():
     else:
         print("odds_upcoming.csv contains no fights; building an empty card")
         upcoming = []
+    scorecard_rows = [item.pop('_scorecard') for item in upcoming if '_scorecard' in item]
     recent, summary = recent_results()
     from freshness import assess_freshness
     freshness = assess_freshness(pd.read_csv("fights_v2.csv"))
@@ -767,6 +782,10 @@ def main():
                   "manifest_hash": sha256("model_manifest.json")}
     added = record_prediction_snapshots(upcoming, provenance=provenance)
     print(f"prediction snapshots: appended {added}")
+    if args.promotion == 'ufc':
+        from forward_scorecard import record_predictions
+        recorded = record_predictions(scorecard_rows, provenance=provenance)
+        print(f"forward comparison: recorded {recorded}")
     if args.lock_paper_trades:
         locked = lock_paper_trades(upcoming, provenance=provenance)
         print(f"official paper trades: locked {locked}")
