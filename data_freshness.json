@@ -1,173 +1,41 @@
 {
-  "checked_at": "2026-09-13T17:26:09Z",
-  "results_through": "2026-09-05",
-  "days_since_latest_result": 8,
+  "checked_at": "2026-09-14T19:16:32Z",
+  "results_through": "2026-09-12",
+  "days_since_latest_result": 2,
   "grace_days": 7,
   "status": "pending",
-  "message": "27 recent fight(s) await results, within the 7-day upstream publishing window",
+  "message": "5 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Jean Silva",
-      "fighter_b": "Yair Rodriguez",
-      "days_waiting": 0
-    },
     {
       "date": "2026-09-10",
       "fighter_a": "Alexandre Pantoja",
       "fighter_b": "Joshua Van",
-      "days_waiting": 3
+      "days_waiting": 4
     },
     {
       "date": "2026-09-10",
       "fighter_a": "Mauricio Ruffy",
       "fighter_b": "Arman Tsarukyan",
-      "days_waiting": 3
+      "days_waiting": 4
     },
     {
       "date": "2026-09-10",
       "fighter_a": "Robelis Despaigne",
       "fighter_b": "Tai Tuivasa",
-      "days_waiting": 3
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Yair Rodriguez",
-      "fighter_b": "Jean Silva",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Jean Silva",
-      "fighter_b": "Jose Delgado",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Jean Silva",
-      "fighter_b": "Jose Delgado",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Manon Fiorot",
-      "fighter_b": "Alexa Grasso",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Brandon Moreno",
-      "fighter_b": "Joseph Morales",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Waldo Cortes-Acosta",
-      "fighter_b": "Curtis Blaydes",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "David Martinez",
-      "fighter_b": "Dan Ige",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Yousri Belgaroui",
-      "fighter_b": "Djorden Santos",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Tim Elliott",
-      "fighter_b": "Edgar Chairez",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Tommy McMillen",
-      "fighter_b": "Marwan Rahiki",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Ignacio Bahamondes",
-      "fighter_b": "Muslim Salikhov",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "J.J. Aldrich",
-      "fighter_b": "Regina Tarin",
-      "days_waiting": 0
+      "days_waiting": 4
     },
     {
       "date": "2026-09-13",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera",
-      "days_waiting": 0
+      "days_waiting": 1
     },
     {
       "date": "2026-09-12",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Yousri Belgaroui",
-      "fighter_b": "Djorden Santos",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Ignacio Bahamondes",
-      "fighter_b": "Muslim Salikhov",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Tim Elliott",
-      "fighter_b": "Edgar Chairez",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "David Martinez",
-      "fighter_b": "Dan Ige",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Waldo Cortes-Acosta",
-      "fighter_b": "Curtis Blaydes",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Manon Fiorot",
-      "fighter_b": "Alexa Grasso",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Tommy McMillen",
-      "fighter_b": "Marwan Rahiki",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Brandon Moreno",
-      "fighter_b": "Joseph Morales",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Regina Tarin",
-      "fighter_b": "J.J. Aldrich",
-      "days_waiting": 0
+      "days_waiting": 2
     }
   ],
   "known_cancelled": [
@@ -204,6 +72,11 @@
       "fighter_b": "Jose Ochoa"
     },
     {
+      "date": "2026-09-13",
+      "fighter_a": "Jean Silva",
+      "fighter_b": "Yair Rodriguez"
+    },
+    {
       "date": "2026-08-08",
       "fighter_a": "Giovanna Canuto",
       "fighter_b": "Carol Foro"
@@ -217,6 +90,11 @@
       "date": "2026-08-16",
       "fighter_a": "Charles Johnson",
       "fighter_b": "Eduardo Henrique"
+    },
+    {
+      "date": "2026-09-12",
+      "fighter_a": "Yair Rodriguez",
+      "fighter_b": "Jean Silva"
     },
     {
       "date": "2026-08-29",
@@ -272,6 +150,31 @@
       "date": "2026-09-05",
       "fighter_a": "Matthieu Letho",
       "fighter_b": "Luis Felipe Dias"
+    },
+    {
+      "date": "2026-09-13",
+      "fighter_a": "Drakkar Klose",
+      "fighter_b": "Thomas Gantt"
+    },
+    {
+      "date": "2026-09-13",
+      "fighter_a": "Rafa Garcia",
+      "fighter_b": "Zhu Rong"
+    },
+    {
+      "date": "2026-09-12",
+      "fighter_a": "Rafa Garcia",
+      "fighter_b": "Zhu Rong"
+    },
+    {
+      "date": "2026-09-12",
+      "fighter_a": "Sean King",
+      "fighter_b": "Jessie Rosas"
+    },
+    {
+      "date": "2026-09-12",
+      "fighter_a": "Thomas Gantt",
+      "fighter_b": "Drakkar Klose"
     }
   ],
   "known_quarantined": [
@@ -913,11 +816,6 @@
       "fighter_b": "Liam Mccracken"
     },
     {
-      "date": "2026-09-13",
-      "fighter_a": "Drakkar Klose",
-      "fighter_b": "Thomas Gantt"
-    },
-    {
       "date": "2026-09-01",
       "fighter_a": "Adam Livingston",
       "fighter_b": "Hunter Smith"
@@ -926,16 +824,6 @@
       "date": "2026-09-01",
       "fighter_a": "Charlie Cleveland",
       "fighter_b": "Gabriel Lourenco"
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Rafa Garcia",
-      "fighter_b": "Zhu Rong"
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Rafa Garcia",
-      "fighter_b": "Zhu Rong"
     },
     {
       "date": "2026-09-08",
@@ -958,11 +846,6 @@
       "fighter_b": "Reginaldo Junior"
     },
     {
-      "date": "2026-09-12",
-      "fighter_a": "Sean King",
-      "fighter_b": "Jessie Rosas"
-    },
-    {
       "date": "2026-09-09",
       "fighter_a": "Christian Echols",
       "fighter_b": "Martin Koz\u00e1k"
@@ -976,11 +859,6 @@
       "date": "2026-09-09",
       "fighter_a": "Arlind Berisha",
       "fighter_b": "Quentin Pasley"
-    },
-    {
-      "date": "2026-09-12",
-      "fighter_a": "Thomas Gantt",
-      "fighter_b": "Drakkar Klose"
     },
     {
       "date": "2026-09-11",
