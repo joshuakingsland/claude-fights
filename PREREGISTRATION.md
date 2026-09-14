@@ -1159,3 +1159,24 @@ with their coverage. Missing observations cannot be counted as rejected fills,
 and displayed quotes cannot be claimed as accepted tickets. No promotion or
 staking decision follows automatically. Earlier locks are historical diagnostics.
 See EXECUTION_POLICY.md for the fixed definitions and reporting cadence.
+
+---
+
+# Addendum 16, 2026-09-13: three-way forward scorecard
+
+The three-way-first-observation-v1 cohort begins 2026-09-14 at 06:00 UTC.
+Record the first scored pre-fight probability for every booking in the production
+UFC-filtered feed, including abstentions: market consensus, the production model,
+and their fixed arithmetic 50/50 blend. Preserve full precision, model version,
+manifest hash, source prices, and candidate decisions. Do not backfill historical
+predictions or replace a first observation when a later signal looks better.
+
+Compare probability accuracy on the same decisively settled fights. For a
+separate paper-return comparison, use the same verified displayed price menu for
+all candidates, a four-point gross-edge threshold, and one unit per selected
+fight with no uncertainty deduction or event cap. Quote eligibility, unresolved
+coverage, booking de-duplication, draw treatment, settlement matching, and fixed
+5,000-resample card-date bootstrap intervals are specified in
+FORWARD_SCORECARD_POLICY.md. Original production stakes and predictions remain
+unchanged. These descriptive repeated reports do not authorize model promotion,
+retuning, optional stopping, or claims of accepted bet execution.

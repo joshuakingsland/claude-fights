@@ -54,6 +54,8 @@ jobs:
         run: python execution_observations.py --capture
       - name: Refresh execution coverage report
         run: python execution_observations.py
+      - name: Settle and report the forward model comparison
+        run: python forward_scorecard.py
       - name: Validate forward paper ledger
         run: python validate_paper.py
       - name: Monitor drift when validation data is present
@@ -81,6 +83,7 @@ jobs:
           git config user.name "fight-ledger-bot"
           git config user.email "actions@github.com"
           git add execution_checks.csv execution_report.json EXECUTION_REPORT.md
+          git add forward_predictions.csv forward_results.csv forward_scorecard.json FORWARD_SCORECARD.md
           git add docs/ fights_v2.csv odds_upcoming.csv prediction_snapshots.csv \
             paper_trades.csv paper_settlements.csv paper_validation.json \
             model_manifest.json data_source_manifest.json data_freshness.json

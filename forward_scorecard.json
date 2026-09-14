@@ -1,0 +1,74 @@
+{
+  "policy": "three-way-first-observation-v1",
+  "forward_start": "2026-09-14T06:00:00Z",
+  "generated_at": "2026-09-14T01:42:00.129034+00:00",
+  "status": "paper_only",
+  "recorded_fights": 0,
+  "settled_fights": 0,
+  "pending_fights": 0,
+  "model_versions": {},
+  "execution_coverage": {},
+  "candidates": {
+    "market": {
+      "decisive_fights": 0,
+      "card_dates": 0,
+      "log_loss": null,
+      "brier": null,
+      "accuracy": null,
+      "log_loss_minus_market": null,
+      "paired_log_loss_delta_ci90": [
+        null,
+        null
+      ],
+      "settled_bets": 0,
+      "staked": 0,
+      "pnl": 0.0,
+      "roi": null,
+      "roi_ci90": [
+        null,
+        null
+      ]
+    },
+    "model": {
+      "decisive_fights": 0,
+      "card_dates": 0,
+      "log_loss": null,
+      "brier": null,
+      "accuracy": null,
+      "log_loss_minus_market": null,
+      "paired_log_loss_delta_ci90": [
+        null,
+        null
+      ],
+      "settled_bets": 0,
+      "staked": 0,
+      "pnl": 0.0,
+      "roi": null,
+      "roi_ci90": [
+        null,
+        null
+      ]
+    },
+    "blend": {
+      "decisive_fights": 0,
+      "card_dates": 0,
+      "log_loss": null,
+      "brier": null,
+      "accuracy": null,
+      "log_loss_minus_market": null,
+      "paired_log_loss_delta_ci90": [
+        null,
+        null
+      ],
+      "settled_bets": 0,
+      "staked": 0,
+      "pnl": 0.0,
+      "roi": null,
+      "roi_ci90": [
+        null,
+        null
+      ]
+    }
+  },
+  "interpretation": "First-observation predictions on the production UFC-filtered feed; unresolved identities remain in prediction coverage. Paper quote-price returns use a separate uniform 4-point gross-edge, 1-unit-per-fight rule without card caps or uncertainty deductions. They are not production returns or accepted fills. Intervals require at least two card dates; no result promotes a model automatically."
+}
