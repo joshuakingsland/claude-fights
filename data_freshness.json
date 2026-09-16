@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-09-14T19:16:32Z",
+  "checked_at": "2026-09-16T18:09:24Z",
   "results_through": "2026-09-12",
-  "days_since_latest_result": 2,
+  "days_since_latest_result": 4,
   "grace_days": 7,
   "status": "pending",
   "message": "5 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,31 +11,31 @@
       "date": "2026-09-10",
       "fighter_a": "Alexandre Pantoja",
       "fighter_b": "Joshua Van",
-      "days_waiting": 4
+      "days_waiting": 6
     },
     {
       "date": "2026-09-10",
       "fighter_a": "Mauricio Ruffy",
       "fighter_b": "Arman Tsarukyan",
-      "days_waiting": 4
+      "days_waiting": 6
     },
     {
       "date": "2026-09-10",
       "fighter_a": "Robelis Despaigne",
       "fighter_b": "Tai Tuivasa",
-      "days_waiting": 4
+      "days_waiting": 6
     },
     {
       "date": "2026-09-13",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera",
-      "days_waiting": 1
+      "days_waiting": 3
     },
     {
       "date": "2026-09-12",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera",
-      "days_waiting": 2
+      "days_waiting": 3
     }
   ],
   "known_cancelled": [
@@ -889,6 +889,46 @@
       "date": "2026-09-12",
       "fighter_a": "Vincius Pires",
       "fighter_b": "Rafael Pereira"
+    },
+    {
+      "date": "2026-09-15",
+      "fighter_a": "Ednilson Santos",
+      "fighter_b": "Akbar Abdullaev"
+    },
+    {
+      "date": "2026-09-15",
+      "fighter_a": "Antonio Monteiro",
+      "fighter_b": "Tyshawn Williams"
+    },
+    {
+      "date": "2026-09-15",
+      "fighter_a": "Hugo Guillon",
+      "fighter_b": "Luis Hernandez"
+    },
+    {
+      "date": "2026-09-15",
+      "fighter_a": "Igor Cavalcanti",
+      "fighter_b": "Oscar Ravello"
+    },
+    {
+      "date": "2026-09-15",
+      "fighter_a": "Mayton Perea",
+      "fighter_b": "Zevan Hunt"
+    },
+    {
+      "date": "2026-09-16",
+      "fighter_a": "Akbar Abdullaev",
+      "fighter_b": "Ednilson Santos"
+    },
+    {
+      "date": "2026-09-16",
+      "fighter_a": "Igor Cavalcanti",
+      "fighter_b": "Oscar Ravello"
+    },
+    {
+      "date": "2026-09-16",
+      "fighter_a": "Mayton Perea",
+      "fighter_b": "Zevan Hunt"
     }
   ]
 }
