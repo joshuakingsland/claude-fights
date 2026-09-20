@@ -2,7 +2,7 @@
 
 First-observation predictions on the production UFC-filtered feed; unresolved identities remain in prediction coverage. Paper quote-price returns use a separate uniform 4-point gross-edge, 1-unit-per-fight rule without card caps or uncertainty deductions. They are not production returns or accepted fills. Intervals require at least two card dates; no result promotes a model automatically.
 
-Recorded: 65; settled: 0; pending: 65.
+Recorded: 67; settled: 0; pending: 67.
 
 | Metric | Market | Current model | 50/50 blend |
 |---|---:|---:|---:|

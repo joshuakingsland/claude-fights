@@ -1,8 +1,8 @@
 {
-  "fetched_at": "2026-09-20T11:22:06Z",
+  "fetched_at": "2026-09-20T16:05:17Z",
   "events": 33,
-  "paired_book_quotes": 188,
-  "priced_book_quotes": 111,
+  "paired_book_quotes": 220,
+  "priced_book_quotes": 114,
   "regions_requested": [
     "us",
     "eu"
@@ -13,5 +13,5 @@
   "promotion": "ufc",
   "quote_file": "data/market_quotes/quotes_2026-09.csv",
   "first_event_date": "2026-09-26",
-  "last_event_date": "2027-08-01"
+  "last_event_date": "2028-07-30"
 }
