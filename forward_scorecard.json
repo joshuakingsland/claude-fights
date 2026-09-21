@@ -1,11 +1,11 @@
 {
   "policy": "three-way-first-observation-v1",
   "forward_start": "2026-09-14T06:00:00Z",
-  "generated_at": "2026-09-21T12:48:51.635190+00:00",
+  "generated_at": "2026-09-21T19:19:07.558678+00:00",
   "status": "paper_only",
   "recorded_fights": 69,
-  "settled_fights": 0,
-  "pending_fights": 69,
+  "settled_fights": 11,
+  "pending_fights": 58,
   "model_versions": {
     "production-v3.1": 69
   },
@@ -16,12 +16,12 @@
   },
   "candidates": {
     "market": {
-      "decisive_fights": 0,
-      "card_dates": 0,
-      "log_loss": null,
-      "brier": null,
-      "accuracy": null,
-      "log_loss_minus_market": null,
+      "decisive_fights": 11,
+      "card_dates": 1,
+      "log_loss": 0.7642880747274222,
+      "brier": 0.26569153064883133,
+      "accuracy": 0.6363636363636364,
+      "log_loss_minus_market": 0.0,
       "paired_log_loss_delta_ci90": [
         null,
         null
@@ -36,32 +36,32 @@
       ]
     },
     "model": {
-      "decisive_fights": 0,
-      "card_dates": 0,
-      "log_loss": null,
-      "brier": null,
-      "accuracy": null,
-      "log_loss_minus_market": null,
+      "decisive_fights": 11,
+      "card_dates": 1,
+      "log_loss": 0.8050806589821633,
+      "brier": 0.2736160826242731,
+      "accuracy": 0.6363636363636364,
+      "log_loss_minus_market": 0.040792584254741054,
       "paired_log_loss_delta_ci90": [
         null,
         null
       ],
-      "settled_bets": 0,
-      "staked": 0,
-      "pnl": 0.0,
-      "roi": null,
+      "settled_bets": 1,
+      "staked": 1,
+      "pnl": 2.2,
+      "roi": 2.2,
       "roi_ci90": [
         null,
         null
       ]
     },
     "blend": {
-      "decisive_fights": 0,
-      "card_dates": 0,
-      "log_loss": null,
-      "brier": null,
-      "accuracy": null,
-      "log_loss_minus_market": null,
+      "decisive_fights": 11,
+      "card_dates": 1,
+      "log_loss": 0.7826360886350713,
+      "brier": 0.2694439308954885,
+      "accuracy": 0.6363636363636364,
+      "log_loss_minus_market": 0.018348013907649206,
       "paired_log_loss_delta_ci90": [
         null,
         null

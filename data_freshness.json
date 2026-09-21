@@ -1,131 +1,35 @@
 {
-  "checked_at": "2026-09-20T17:26:52Z",
-  "results_through": "2026-09-12",
-  "days_since_latest_result": 8,
+  "checked_at": "2026-09-21T19:18:55Z",
+  "results_through": "2026-09-19",
+  "days_since_latest_result": 2,
   "grace_days": 7,
   "status": "pending",
-  "message": "20 recent fight(s) await results, within the 7-day upstream publishing window",
+  "message": "4 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
     {
       "date": "2026-09-20",
-      "fighter_a": "Tai Tuivasa",
-      "fighter_b": "Robelis Despaigne",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Joshua Van",
-      "fighter_b": "Alexandre Pantoja",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Gable Steveson",
-      "fighter_b": "Sean Sharaf",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Arman Tsarukyan",
-      "fighter_b": "Mauricio Ruffy",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Alonzo Menifield",
-      "fighter_b": "Iwo Baraniewski",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
       "fighter_a": "Renato Moicano",
       "fighter_b": "Brian Ortega",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Edmen Shahbazyan",
-      "fighter_b": "Brunno Ferreira",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Casey O'Neill",
-      "fighter_b": "Eduarda Moura",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Marlon Vera",
-      "fighter_b": "Charles Jourdain",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Patricio Pitbull",
-      "fighter_b": "Dooho Choi",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Giga Chikadze",
-      "fighter_b": "Joanderson Brito",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-19",
-      "fighter_a": "Tai Tuivasa",
-      "fighter_b": "Robelis Despaigne",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-19",
-      "fighter_a": "Casey O'Neill",
-      "fighter_b": "Eduarda Moura",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-19",
-      "fighter_a": "Giga Chikadze",
-      "fighter_b": "Joanderson Brito",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-19",
-      "fighter_a": "Edmen Shahbazyan",
-      "fighter_b": "Brunno Ferreira",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Ryan Gandra",
-      "fighter_b": "Ozzy Diaz",
-      "days_waiting": 0
+      "days_waiting": 1
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Brian Ortega",
       "fighter_b": "Renato Moicano",
-      "days_waiting": 0
-    },
-    {
-      "date": "2026-09-19",
-      "fighter_a": "Ozzy Diaz",
-      "fighter_b": "Ryan Gandra",
-      "days_waiting": 0
+      "days_waiting": 1
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Colby Covington",
       "fighter_b": "Belal Muhammad",
-      "days_waiting": 1
+      "days_waiting": 2
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Gilbert Burns",
-      "days_waiting": 1
+      "days_waiting": 2
     }
   ],
   "known_cancelled": [
