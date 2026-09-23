@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-09-21T19:18:55Z",
+  "checked_at": "2026-09-23T18:25:04Z",
   "results_through": "2026-09-19",
-  "days_since_latest_result": 2,
+  "days_since_latest_result": 4,
   "grace_days": 7,
   "status": "pending",
   "message": "4 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,25 +11,25 @@
       "date": "2026-09-20",
       "fighter_a": "Renato Moicano",
       "fighter_b": "Brian Ortega",
-      "days_waiting": 1
+      "days_waiting": 3
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Brian Ortega",
       "fighter_b": "Renato Moicano",
-      "days_waiting": 1
+      "days_waiting": 3
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Colby Covington",
       "fighter_b": "Belal Muhammad",
-      "days_waiting": 2
+      "days_waiting": 4
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Gilbert Burns",
-      "days_waiting": 2
+      "days_waiting": 4
     }
   ],
   "known_cancelled": [
@@ -1018,6 +1018,36 @@
       "date": "2026-09-18",
       "fighter_a": "Shuya Kamikubo",
       "fighter_b": "Marcos Breno"
+    },
+    {
+      "date": "2026-09-22",
+      "fighter_a": "Emilio Quissua",
+      "fighter_b": "Damian Piwowarczyk"
+    },
+    {
+      "date": "2026-09-22",
+      "fighter_a": "Norbert Novenyi Jr.",
+      "fighter_b": "Theo Haig"
+    },
+    {
+      "date": "2026-09-22",
+      "fighter_a": "Piero Guaylupo",
+      "fighter_b": "Callum Connor"
+    },
+    {
+      "date": "2026-09-23",
+      "fighter_a": "Paris Moran",
+      "fighter_b": "Marcos Degli"
+    },
+    {
+      "date": "2026-09-23",
+      "fighter_a": "Alvi Dasuyev",
+      "fighter_b": "Jaden Ortega"
+    },
+    {
+      "date": "2026-09-23",
+      "fighter_a": "Norbert Novenyi Jr.",
+      "fighter_b": "Theo Haig"
     }
   ]
 }
