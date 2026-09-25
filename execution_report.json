@@ -1,6 +1,6 @@
 {
   "policy": "quote-persistence-5m-v1",
-  "generated_at": "2026-09-25T11:52:39.067212+00:00",
+  "generated_at": "2026-09-25T17:13:12.324540+00:00",
   "status": "paper_only",
   "forward_start": "2026-09-14T00:00:00Z",
   "interpretation": "Displayed quotes only; no accepted tickets, limits, or account eligibility verified. Observed-subset ROI is not a portfolio return or proof of edge.",
@@ -47,10 +47,10 @@
     "delayed_price_close_advantage_points": null
   },
   "last_seven_days": {
-    "locks": 2,
-    "observed": 2,
+    "locks": 1,
+    "observed": 1,
     "statuses": {
-      "observed": 2
+      "observed": 1
     },
     "same_or_better_rate": 1.0,
     "mean_slippage_probability_points": 0.0,
