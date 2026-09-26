@@ -6,10 +6,10 @@ Positive slippage means a worse price. Missing observations are not failed fills
 
 | Metric | Last seven days (lock date) | Cumulative |
 |---|---:|---:|
-| Locks | 1 | 2 |
-| Observed | 1 | 2 |
-| Same or better rate | 100.00% | 100.00% |
-| Mean slippage probability points | 0.0000 | 0.0000 |
+| Locks | 0 | 2 |
+| Observed | 0 | 2 |
+| Same or better rate | — | 100.00% |
+| Mean slippage probability points | — | 0.0000 |
 | Settled observed | 0 | 0 |
 | Delayed price pnl | 0 | 0 |
 | Delayed price roi | — | — |
