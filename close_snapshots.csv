@@ -62,3 +62,6 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-09-19T21:48:00Z,bc257ce1122b16fe0efc528b5f527954,2026-09-19T22:15:00Z,26.99,Casey O'Neill,Eduarda Moura,-230.0,190.0,0.66900702,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-09-20T00:10:34Z,aa7a874d175da620f7fa265b29b064c3,2026-09-20T00:45:00Z,34.42,Marlon Vera,Charles Jourdain,164.0,-198.0,0.36309582,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-09-26T18:04:29Z,0359efd9c532f9d9c76a934dcface1e7,2026-09-26T18:45:00Z,40.51,Lewis Byrne,Oliver Tero,145.0,-165.0,0.39596563,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-09-26T21:16:13Z,6f0a7aa6f088decf678edccd5db84fc5,2026-09-26T21:40:00Z,23.78,Darren Till,Yoel Romero,-242.0,201.0,0.68049924,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-09-26T21:16:13Z,1b7e33cc503c137ed5ca5b3f8a59886d,2026-09-26T21:45:00Z,28.78,John Castaneda,Heili Alateng,-340.0,270.0,0.74208759,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-09-26T21:16:13Z,6f3c1a639a936970430aea6d73e5a623,2026-09-26T22:00:00Z,43.78,Ricky Simon,Montel Jackson,189.0,-230.0,0.33324789,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
