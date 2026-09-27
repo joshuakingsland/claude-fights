@@ -1,35 +1,17 @@
 {
-  "checked_at": "2026-09-23T18:25:04Z",
-  "results_through": "2026-09-19",
-  "days_since_latest_result": 4,
+  "checked_at": "2026-09-27T18:18:39Z",
+  "results_through": "2026-09-26",
+  "days_since_latest_result": 1,
   "grace_days": 7,
   "status": "pending",
-  "message": "4 recent fight(s) await results, within the 7-day upstream publishing window",
+  "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
     {
-      "date": "2026-09-20",
-      "fighter_a": "Renato Moicano",
-      "fighter_b": "Brian Ortega",
-      "days_waiting": 3
-    },
-    {
-      "date": "2026-09-19",
-      "fighter_a": "Brian Ortega",
-      "fighter_b": "Renato Moicano",
-      "days_waiting": 3
-    },
-    {
-      "date": "2026-09-19",
-      "fighter_a": "Colby Covington",
-      "fighter_b": "Belal Muhammad",
-      "days_waiting": 4
-    },
-    {
-      "date": "2026-09-19",
-      "fighter_a": "Khamzat Chimaev",
-      "fighter_b": "Gilbert Burns",
-      "days_waiting": 4
+      "date": "2026-09-26",
+      "fighter_a": "Darren Till",
+      "fighter_b": "Yoel Romero",
+      "days_waiting": 1
     }
   ],
   "known_cancelled": [
@@ -169,6 +151,41 @@
       "date": "2026-09-12",
       "fighter_a": "Thomas Gantt",
       "fighter_b": "Drakkar Klose"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Josiah Harrell",
+      "fighter_b": "Elves Brenner"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "John Castaneda",
+      "fighter_b": "Heili Alateng"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Mickey Gall",
+      "fighter_b": "Sedriques Dumas"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Mehemmedeli Osmanli",
+      "fighter_b": "Ilimbek Akylbek"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Melissa Amaya",
+      "fighter_b": "Valesca Machado"
+    },
+    {
+      "date": "2026-09-27",
+      "fighter_a": "Melissa Amaya",
+      "fighter_b": "Valesca Machado"
+    },
+    {
+      "date": "2026-09-27",
+      "fighter_a": "Mehemmedeli Osmanli",
+      "fighter_b": "Ilimbek Akylbek"
     }
   ],
   "known_quarantined": [
@@ -213,6 +230,11 @@
       "fighter_b": "Rodrigo Vera"
     },
     {
+      "date": "2026-09-20",
+      "fighter_a": "Renato Moicano",
+      "fighter_b": "Brian Ortega"
+    },
+    {
       "date": "2026-09-05",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Tyron Woodley"
@@ -221,6 +243,21 @@
       "date": "2026-09-12",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera"
+    },
+    {
+      "date": "2026-09-19",
+      "fighter_a": "Brian Ortega",
+      "fighter_b": "Renato Moicano"
+    },
+    {
+      "date": "2026-09-19",
+      "fighter_a": "Colby Covington",
+      "fighter_b": "Belal Muhammad"
+    },
+    {
+      "date": "2026-09-19",
+      "fighter_a": "Khamzat Chimaev",
+      "fighter_b": "Gilbert Burns"
     }
   ],
   "known_out_of_scope": [
@@ -1030,6 +1067,26 @@
       "fighter_b": "Theo Haig"
     },
     {
+      "date": "2026-09-25",
+      "fighter_a": "David Kozma",
+      "fighter_b": "Christian Eckerlin"
+    },
+    {
+      "date": "2026-09-25",
+      "fighter_a": "Christian Jungwirth",
+      "fighter_b": "Max Holloway"
+    },
+    {
+      "date": "2026-09-25",
+      "fighter_a": "Marc Diakiese",
+      "fighter_b": "Fedor Duric"
+    },
+    {
+      "date": "2026-09-25",
+      "fighter_a": "Roman Paulus",
+      "fighter_b": "Raul Lemberanskij"
+    },
+    {
       "date": "2026-09-22",
       "fighter_a": "Piero Guaylupo",
       "fighter_b": "Callum Connor"
@@ -1048,6 +1105,111 @@
       "date": "2026-09-23",
       "fighter_a": "Norbert Novenyi Jr.",
       "fighter_b": "Theo Haig"
+    },
+    {
+      "date": "2026-09-25",
+      "fighter_a": "Deniz Ilbay",
+      "fighter_b": "Hugo Vach"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Alex Keogh",
+      "fighter_b": "Cristiano Oliveira"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Damien McKenna",
+      "fighter_b": "Miguel Haro"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Lewis Byrne",
+      "fighter_b": "Oliver Tero"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Senan Coakley",
+      "fighter_b": "Louis Bricusse"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Conor McCarthy",
+      "fighter_b": "Dumitru Girlean"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Gary Rooney",
+      "fighter_b": "Tom Creasey"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Paddy Mccorry",
+      "fighter_b": "Gustavo Sousa"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Solomon Simon",
+      "fighter_b": "Kenny Mokhonoana"
+    },
+    {
+      "date": "2026-09-25",
+      "fighter_a": "Oskar Staszczak",
+      "fighter_b": "Michael Obodozie"
+    },
+    {
+      "date": "2026-09-25",
+      "fighter_a": "Nikola Jankovic",
+      "fighter_b": "Tamerlan Dulatov"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Corey McLaughlin",
+      "fighter_b": "Jordan Walters"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Keith Keogh",
+      "fighter_b": "Jhonatan Cordeiro"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Ger Harris",
+      "fighter_b": "Anderson Soares"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "David Kozma",
+      "fighter_b": "Christian Eckerlin"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Christian Jungwirth",
+      "fighter_b": "Max Holloway"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Deniz Ilbay",
+      "fighter_b": "Hugo Vach"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Marc Diakiese",
+      "fighter_b": "Fedor Duric"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Oskar Staszczak",
+      "fighter_b": "Michael Obodozie"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Nikola Jankovic",
+      "fighter_b": "Tamerlan Dulatov"
+    },
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Roman Paulus",
+      "fighter_b": "Raul Lemberanskij"
     }
   ]
 }
