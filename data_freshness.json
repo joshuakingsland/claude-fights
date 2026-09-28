@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-09-27T18:18:39Z",
+  "checked_at": "2026-09-28T20:32:22Z",
   "results_through": "2026-09-26",
-  "days_since_latest_result": 1,
+  "days_since_latest_result": 2,
   "grace_days": 7,
   "status": "pending",
   "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,7 +11,7 @@
       "date": "2026-09-26",
       "fighter_a": "Darren Till",
       "fighter_b": "Yoel Romero",
-      "days_waiting": 1
+      "days_waiting": 2
     }
   ],
   "known_cancelled": [

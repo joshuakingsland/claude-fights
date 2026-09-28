@@ -1,18 +1,18 @@
 {
   "policy": "three-way-first-observation-v1",
   "forward_start": "2026-09-14T06:00:00Z",
-  "generated_at": "2026-09-28T13:55:55.459559+00:00",
+  "generated_at": "2026-09-28T20:32:36.042963+00:00",
   "status": "paper_only",
-  "recorded_fights": 101,
+  "recorded_fights": 107,
   "settled_fights": 19,
-  "pending_fights": 82,
+  "pending_fights": 88,
   "model_versions": {
-    "production-v3.1": 101
+    "production-v3.1": 107
   },
   "execution_coverage": {
-    "insufficient_books": 43,
+    "insufficient_books": 48,
     "unresolved_identity": 39,
-    "verified_displayed_quotes": 19
+    "verified_displayed_quotes": 20
   },
   "candidates": {
     "market": {
