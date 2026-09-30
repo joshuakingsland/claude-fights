@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-09-28T20:32:22Z",
+  "checked_at": "2026-09-30T19:07:26Z",
   "results_through": "2026-09-26",
-  "days_since_latest_result": 2,
+  "days_since_latest_result": 4,
   "grace_days": 7,
   "status": "pending",
   "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
@@ -11,7 +11,7 @@
       "date": "2026-09-26",
       "fighter_a": "Darren Till",
       "fighter_b": "Yoel Romero",
-      "days_waiting": 2
+      "days_waiting": 4
     }
   ],
   "known_cancelled": [
@@ -1210,6 +1210,31 @@
       "date": "2026-09-26",
       "fighter_a": "Roman Paulus",
       "fighter_b": "Raul Lemberanskij"
+    },
+    {
+      "date": "2026-09-30",
+      "fighter_a": "Loai Abushaar",
+      "fighter_b": "George Staines"
+    },
+    {
+      "date": "2026-09-29",
+      "fighter_a": "Ilias Bulaid",
+      "fighter_b": "Erick Visconde"
+    },
+    {
+      "date": "2026-09-29",
+      "fighter_a": "Aieza Bertolso",
+      "fighter_b": "Camila Reynoso"
+    },
+    {
+      "date": "2026-09-30",
+      "fighter_a": "Ian Escuza",
+      "fighter_b": "Luca Borando"
+    },
+    {
+      "date": "2026-09-30",
+      "fighter_a": "Adama Diop",
+      "fighter_b": "Zaurbek Sabanov"
     }
   ]
 }
