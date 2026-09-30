@@ -1,16 +1,16 @@
 {
   "policy": "three-way-first-observation-v1",
   "forward_start": "2026-09-14T06:00:00Z",
-  "generated_at": "2026-09-30T19:07:41.603840+00:00",
+  "generated_at": "2026-09-30T22:18:15.403010+00:00",
   "status": "paper_only",
-  "recorded_fights": 109,
+  "recorded_fights": 110,
   "settled_fights": 19,
-  "pending_fights": 90,
+  "pending_fights": 91,
   "model_versions": {
-    "production-v3.1": 109
+    "production-v3.1": 110
   },
   "execution_coverage": {
-    "insufficient_books": 48,
+    "insufficient_books": 49,
     "unresolved_identity": 41,
     "verified_displayed_quotes": 20
   },
