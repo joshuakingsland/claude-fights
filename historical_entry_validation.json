@@ -62,7 +62,7 @@
       "market_weight": 0.75,
       "model_weight": 0.25,
       "log_loss": 0.588101948877003,
-      "brier": 0.2016713116797694,
+      "brier": 0.20167131167976937,
       "accuracy": 0.6838383838383838,
       "bets": 0,
       "staked": 0.0,
@@ -138,9 +138,9 @@
     {
       "year": 2022,
       "fights": 202,
-      "model_log_loss": 0.6071909576590613,
+      "model_log_loss": 0.6071909576590614,
       "entry_market_log_loss": 0.603042765371664,
-      "model_minus_market_log_loss": 0.004148192287397268,
+      "model_minus_market_log_loss": 0.004148192287397379,
       "close_proxy_fights": 194
     },
     {

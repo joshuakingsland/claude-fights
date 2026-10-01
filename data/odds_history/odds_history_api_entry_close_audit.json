@@ -12,7 +12,7 @@
   "probability_consensus": "median of per-book de-vigged probabilities",
   "price_consensus": "observed upper median American price; never interpolated",
   "close_definition": "latest API snapshot at or before the requested pre-card close time",
-  "output": "data\\odds_history\\odds_history_api_entry_close.csv",
+  "output": "data/odds_history/odds_history_api_entry_close.csv",
   "combined_output": "data/odds_history/odds_history_entry_with_api_close.csv",
   "combined_rows": 1779,
   "combined_close_proxy_fights": 1745
