@@ -1,17 +1,125 @@
 {
-  "checked_at": "2026-09-30T19:07:26Z",
+  "checked_at": "2026-10-04T18:08:23Z",
   "results_through": "2026-09-26",
-  "days_since_latest_result": 4,
+  "days_since_latest_result": 8,
   "grace_days": 7,
   "status": "pending",
-  "message": "1 recent fight(s) await results, within the 7-day upstream publishing window",
+  "message": "19 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
   "known_awaiting_upstream": [
     {
-      "date": "2026-09-26",
-      "fighter_a": "Darren Till",
-      "fighter_b": "Yoel Romero",
-      "days_waiting": 4
+      "date": "2026-10-04",
+      "fighter_a": "Valentina Shevchenko",
+      "fighter_b": "Natalia Silva",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Deiveson Figueiredo",
+      "fighter_b": "Payton Talbott",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Natalia Silva",
+      "fighter_b": "Wang Cong",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Imanol Rodriguez",
+      "fighter_b": "Alden Coria",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Damian Pinas",
+      "fighter_b": "Andrey Pulyaev",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Ateba Gautier",
+      "fighter_b": "Roman Kopylov",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Marcus McGhee",
+      "fighter_b": "Benardo Sopaj",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Court McGee",
+      "fighter_b": "Eric Nolan",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "King Green",
+      "fighter_b": "Esteban Ribovics",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Marvin Vettori",
+      "fighter_b": "Ismail Naurdiev",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Jacobe Smith",
+      "fighter_b": "Bruce Whitehead",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Khaos Williams",
+      "fighter_b": "Roberto Soldic",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Lucas Armand",
+      "fighter_b": "Anthony Wint",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Marcus McGhee",
+      "fighter_b": "Anthony Romero",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Jacobe Smith",
+      "fighter_b": "Bruce Whitehead",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Court McGee",
+      "fighter_b": "Eric Nolan",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Marvin Vettori",
+      "fighter_b": "Ismail Naurdiev",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Damian Pinas",
+      "fighter_b": "Andrey Pulyaev",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Imanol Rodriguez",
+      "fighter_b": "Alden Coria",
+      "days_waiting": 0
     }
   ],
   "known_cancelled": [
@@ -189,6 +297,11 @@
     }
   ],
   "known_quarantined": [
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Darren Till",
+      "fighter_b": "Yoel Romero"
+    },
     {
       "date": "2026-09-10",
       "fighter_a": "Alexandre Pantoja",
@@ -1152,6 +1265,16 @@
       "fighter_b": "Kenny Mokhonoana"
     },
     {
+      "date": "2026-10-04",
+      "fighter_a": "Rafael dos Anjos",
+      "fighter_b": "Alex Hernandez"
+    },
+    {
+      "date": "2026-10-04",
+      "fighter_a": "Johnny Walker",
+      "fighter_b": "Michael Parkin"
+    },
+    {
       "date": "2026-09-25",
       "fighter_a": "Oskar Staszczak",
       "fighter_b": "Michael Obodozie"
@@ -1235,6 +1358,21 @@
       "date": "2026-09-30",
       "fighter_a": "Adama Diop",
       "fighter_b": "Zaurbek Sabanov"
+    },
+    {
+      "date": "2026-10-02",
+      "fighter_a": "Mohammad Fahmi",
+      "fighter_b": "Ahmed El Sisy"
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Rafael dos Anjos",
+      "fighter_b": "Alex Hernandez"
+    },
+    {
+      "date": "2026-10-03",
+      "fighter_a": "Johnny Walker",
+      "fighter_b": "Michael Parkin"
     }
   ]
 }
