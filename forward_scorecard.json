@@ -1,11 +1,11 @@
 {
   "policy": "three-way-first-observation-v1",
   "forward_start": "2026-09-14T06:00:00Z",
-  "generated_at": "2026-10-05T14:37:25.044821+00:00",
+  "generated_at": "2026-10-05T21:30:54.422233+00:00",
   "status": "paper_only",
   "recorded_fights": 126,
-  "settled_fights": 19,
-  "pending_fights": 107,
+  "settled_fights": 24,
+  "pending_fights": 102,
   "model_versions": {
     "production-v3.1": 126
   },
@@ -16,11 +16,11 @@
   },
   "candidates": {
     "market": {
-      "decisive_fights": 19,
-      "card_dates": 2,
-      "log_loss": 0.7112500772243738,
-      "brier": 0.24807946330433275,
-      "accuracy": 0.6842105263157895,
+      "decisive_fights": 24,
+      "card_dates": 3,
+      "log_loss": 0.6177029107084162,
+      "brier": 0.20832313677044134,
+      "accuracy": 0.75,
       "log_loss_minus_market": 0.0,
       "paired_log_loss_delta_ci90": [
         0.0,
@@ -36,15 +36,15 @@
       ]
     },
     "model": {
-      "decisive_fights": 19,
-      "card_dates": 2,
-      "log_loss": 0.7010305144,
-      "brier": 0.2365434084329563,
-      "accuracy": 0.7368421052631579,
-      "log_loss_minus_market": -0.01021956282437387,
+      "decisive_fights": 24,
+      "card_dates": 3,
+      "log_loss": 0.6046493475160654,
+      "brier": 0.19753607022853406,
+      "accuracy": 0.7916666666666666,
+      "log_loss_minus_market": -0.013053563192350745,
       "paired_log_loss_delta_ci90": [
-        -0.08036126505815688,
-        0.040792584254741054
+        -0.06689971732780117,
+        0.028826778912999583
       ],
       "settled_bets": 1,
       "staked": 1,
@@ -56,15 +56,15 @@
       ]
     },
     "blend": {
-      "decisive_fights": 19,
-      "card_dates": 2,
-      "log_loss": 0.7040553957449479,
-      "brier": 0.2416652758854588,
-      "accuracy": 0.6842105263157895,
-      "log_loss_minus_market": -0.0071946814794257895,
+      "decisive_fights": 24,
+      "card_dates": 3,
+      "log_loss": 0.6095101832759767,
+      "brier": 0.2023992689043815,
+      "accuracy": 0.75,
+      "log_loss_minus_market": -0.008192727432439378,
       "paired_log_loss_delta_ci90": [
-        -0.04231588763665391,
-        0.018348013907649206
+        -0.03509431964075798,
+        0.012730733174030647
       ],
       "settled_bets": 0,
       "staked": 0,
