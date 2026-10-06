@@ -37,8 +37,12 @@ jobs:
       # result freshness at all. Settlement settles whatever it can match, so
       # a lagging feed means fewer settlements rather than wrong ones. The
       # alarm now fires at the end, after the work is published.
+      # `--prune-quarantine` runs in the same pass so a write-off the evidence
+      # can now account for is released rather than left blinding the guard to
+      # that booking forever. Three real UFC bouts sat written off on a stale
+      # date the odds feed had abandoned, with their results on record.
       - name: Assess result freshness, writing off unmatchable bookings
-        run: python freshness.py --quarantine
+        run: python freshness.py --quarantine --prune-quarantine
       - name: Settle prior official paper trades
         run: python paper_ledger.py settle
       - name: Fetch upcoming odds

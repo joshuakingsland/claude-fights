@@ -48,11 +48,30 @@ coming"**, and only the first is fixed by waiting. Variants seen so far:
 | whole card missing | third-party results scrape publishes days late | grace window |
 | one fighter, several opponents | booking replaced, or the same man spelled two ways | `known_superseded` |
 | an old Contender Series bout appears | a fighter's later UFC debut made it retroactively "trackable" | scope judged as of the fight date |
+| a real fight is "unmatchable" with its result on record | the odds feed revised `commence_time`, so the stale date is a phantom | `known_rescheduled` |
+| a bout no card ever held sits waiting | it was quoted but never happened | `known_absent_from_card` |
 
-If a fourth variant appears, the fix is usually a new classification in
-`assess_freshness`, not a longer grace window. Isolated stragglers past the
-window are written off automatically into `unmatchable_bookings.csv`; more than
-five at once is refused, because that means something systemic broke.
+The fix is a new classification in `assess_freshness`, not a longer grace
+window. Isolated stragglers past the window are written off automatically into
+`unmatchable_bookings.csv`; more than five at once is refused, because that
+means something systemic broke.
+
+**A write-off is the fallback, not the answer.** The quarantine log reached
+fifteen entries, of which fourteen were explainable and three were real UFC
+bouts - Pantoja vs Van among them - written off on a date the feed had
+abandoned while their results sat in `fights_v2.csv`. The lid never tripped
+because they arrived three to five at a time, so the pipeline read `current`
+while discarding genuine fights. `--prune-quarantine` now releases rows the
+classifications can account for, and `known_quarantine_resolved` reports a
+write-off whose result later turned up. Prefer explaining a booking to
+excusing it.
+
+`known_absent_from_card` has its own lid (`MAX_ABSENT_PER_CARD`) and requires
+that bookings for that night actually matched results, not merely that results
+exist. Both conditions are there for one reason: if `canonical_name` ever stops
+matching, the results are still present and nothing matches them, and without
+those guards every bout would be excused as "not on the card" - the guard would
+go green on the worst failure it can have. Do not relax either.
 
 **Reproducing a freshness failure needs `python update_data.py` first.** The
 committed `fights_v2.csv` often predates the problem, so the check passes

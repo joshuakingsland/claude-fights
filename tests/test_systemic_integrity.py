@@ -777,3 +777,265 @@ class QuarantineTests(unittest.TestCase):
                                  fighter_roster=roster, grace_days=7,
                                  quarantine_log=self.quarantine)
         self.assertEqual(later["known_completed_missing"], [])
+
+
+class RescheduledBookingTests(unittest.TestCase):
+    """A date the feed abandoned is a phantom fight, not a missing result.
+
+    `commence_time` is revised in place as a card firms up, so one booking is
+    quoted under several dates over its life. Alexandre Pantoja vs Joshua Van
+    was published for 2026-09-10 and fought on the 19th; the stale date could
+    never match a result, waited out the grace window, and was written off as
+    unmatchable while its result sat in `fights_v2.csv`. Tsarukyan vs Ruffy and
+    Tuivasa vs Despaigne went the same way on the same night.
+    """
+
+    def _report(self, bookings, results=(("2026-09-19", "Vet One", "Vet Two"),),
+                now="2026-10-01T20:00:00Z", grace_days=7):
+        fights = pd.DataFrame([
+            {"date": date, "fighter_a": a, "fighter_b": b, "winner": "A"}
+            for date, a, b in (("2026-07-04", "Vet One", "Old Foe"),
+                               ("2026-07-04", "Vet Two", "Old Foe")) + tuple(results)
+        ])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds, roster = root / "odds.csv", root / "roster.csv"
+            pd.DataFrame([
+                {"fetched_at": fetched, "commence_time": start,
+                 "fighter_a": "Vet One", "fighter_b": "Vet Two"}
+                for fetched, start in bookings
+            ]).to_csv(odds, index=False)
+            pd.DataFrame([{"FIRST": "Vet", "LAST": "One"},
+                          {"FIRST": "Vet", "LAST": "Two"},
+                          {"FIRST": "Old", "LAST": "Foe"}]).to_csv(roster, index=False)
+            return assess_freshness(fights, odds, now=now,
+                                    fighter_roster=roster, grace_days=grace_days)
+
+    def test_a_date_the_feed_moved_off_is_not_awaited(self):
+        report = self._report([
+            ("2026-08-06T03:00:00Z", "2026-09-10T00:00:00Z"),
+            ("2026-09-03T11:00:00Z", "2026-09-20T03:15:00Z"),
+        ])
+        self.assertEqual(report["known_completed_missing"], [])
+        self.assertEqual([item["date"] for item in report["known_rescheduled"]],
+                         ["2026-09-10"])
+
+    def test_the_date_it_moved_to_still_matches_its_result(self):
+        # The point of the fix: the real bout resolves, only the phantom is
+        # excused. A 2026-09-20 booking matches a 2026-09-19 result.
+        report = self._report([
+            ("2026-08-06T03:00:00Z", "2026-09-10T00:00:00Z"),
+            ("2026-09-03T11:00:00Z", "2026-09-20T03:15:00Z"),
+        ])
+        self.assertEqual(len(report["known_rescheduled"]), 1)
+        self.assertEqual(report["status"], "current")
+
+    def test_a_rematch_cannot_reach_back_and_excuse_the_first_bout(self):
+        """The guard must not excuse everything it cannot match.
+
+        These two fought on 2026-09-19 with no result on record, then were
+        rebooked for December. A booking announced after a bout says nothing
+        about whether that bout happened, so the gap has to survive.
+        """
+        report = self._report(
+            [("2026-09-15T11:00:00Z", "2026-09-19T23:00:00Z"),
+             ("2026-09-25T11:00:00Z", "2026-12-06T23:00:00Z")],
+            results=(),
+        )
+        self.assertEqual(report["known_rescheduled"], [])
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+        self.assertEqual(report["status"], "lagging")
+
+    def test_a_market_closing_at_the_bell_is_not_a_reschedule(self):
+        """Betting closes hours out; a reschedule is published days out.
+
+        Here the feed's last quote for the real date is five hours before the
+        bell and a placeholder for another date is quoted an hour later. That
+        is the board closing, not the bout moving, so the fight stays awaited.
+        """
+        report = self._report(
+            [("2026-09-19T18:00:00Z", "2026-09-19T23:00:00Z"),
+             ("2026-09-19T19:00:00Z", "2027-01-01T03:00:00Z")],
+            results=(),
+        )
+        self.assertEqual(report["known_rescheduled"], [])
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+
+    def test_without_snapshot_times_nothing_is_excused(self):
+        # An odds log with no `fetched_at` cannot show anything was superseded,
+        # so the check fails closed rather than guessing.
+        fights = pd.DataFrame([
+            {"date": "2026-07-04", "fighter_a": "Vet One",
+             "fighter_b": "Old Foe", "winner": "A"},
+        ])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds, roster = root / "odds.csv", root / "roster.csv"
+            pd.DataFrame([
+                {"commence_time": "2026-09-10T00:00:00Z",
+                 "fighter_a": "Vet One", "fighter_b": "Vet Two"},
+                {"commence_time": "2026-09-20T03:15:00Z",
+                 "fighter_a": "Vet One", "fighter_b": "Vet Two"},
+            ]).to_csv(odds, index=False)
+            pd.DataFrame([{"FIRST": "Vet", "LAST": "One"},
+                          {"FIRST": "Vet", "LAST": "Two"},
+                          {"FIRST": "Old", "LAST": "Foe"}]).to_csv(roster, index=False)
+            report = assess_freshness(fights, odds, now="2026-10-01T20:00:00Z",
+                                      fighter_roster=roster, grace_days=7)
+        self.assertEqual(report["known_rescheduled"], [])
+        self.assertEqual(len(report["known_completed_missing"]), 2)
+
+
+class AbsentFromCardTests(unittest.TestCase):
+    """Once a card has ingested, a bout still unmatched was not on it.
+
+    UFCStats publishes an event as a unit. Colby Covington vs Belal Muhammad
+    was quoted for 2026-09-19 and is not among the twelve fights that ran that
+    night, so no result is coming - it is not a late result. Saying so from the
+    evidence beats waiting out the window and then writing the booking off on
+    nothing but elapsed time.
+    """
+
+    def _report(self, ghosts=1, matched=4, now="2026-10-01T20:00:00Z"):
+        card = [{"date": "2026-09-19", "fighter_a": f"Real {i}",
+                 "fighter_b": f"Foe {i}", "winner": "A"}
+                for i in range(matched)]
+        # Prior bouts make everybody a UFC veteran, so every booking is in
+        # scope and nothing is excused for the wrong reason.
+        history = [{"date": "2026-07-04", "fighter_a": f"Ghost {i}",
+                    "fighter_b": "Old Foe", "winner": "A"}
+                   for i in range(ghosts + 1)]
+        fights = pd.DataFrame(card + history)
+        names = [{"FIRST": "Old", "LAST": "Foe"}]
+        names += [{"FIRST": "Ghost", "LAST": str(i)} for i in range(ghosts + 1)]
+        names += [{"FIRST": "Real", "LAST": str(i)} for i in range(matched)]
+        names += [{"FIRST": "Foe", "LAST": str(i)} for i in range(matched)]
+        rows = [{"commence_time": "2026-09-19T23:00:00Z",
+                 "fighter_a": f"Real {i}", "fighter_b": f"Foe {i}"}
+                for i in range(matched)]
+        rows += [{"commence_time": "2026-09-19T23:00:00Z",
+                  "fighter_a": f"Ghost {i}", "fighter_b": f"Ghost {i + 1}"}
+                 for i in range(ghosts)]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            odds, roster = root / "odds.csv", root / "roster.csv"
+            pd.DataFrame(rows).to_csv(odds, index=False)
+            pd.DataFrame(names).to_csv(roster, index=False)
+            return assess_freshness(fights, odds, now=now,
+                                    fighter_roster=roster, grace_days=7)
+
+    def test_a_bout_missing_from_an_ingested_card_is_not_a_fault(self):
+        report = self._report(ghosts=1, matched=4)
+        self.assertEqual(report["known_completed_missing"], [])
+        self.assertEqual(len(report["known_absent_from_card"]), 1)
+        self.assertNotEqual(report["status"], "lagging")
+
+    def test_how_long_it_waited_is_still_reported(self):
+        report = self._report(ghosts=1, matched=4)
+        self.assertGreater(report["known_absent_from_card"][0]["days_waiting"], 7)
+
+    def test_a_card_that_never_ingested_is_still_a_fault(self):
+        # Nothing on the night matched, so the results are simply not in yet
+        # and the bout has to stay awaited.
+        report = self._report(ghosts=1, matched=0)
+        self.assertEqual(report["known_absent_from_card"], [])
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+        self.assertEqual(report["status"], "lagging")
+
+    def test_too_few_matches_to_call_the_card_ingested(self):
+        # Two matched bouts is not a published card; it is a trickle, and a
+        # trickle must not license writing off the rest.
+        report = self._report(ghosts=1, matched=2)
+        self.assertEqual(report["known_absent_from_card"], [])
+        self.assertEqual(len(report["known_completed_missing"]), 1)
+
+    def test_a_pile_of_absentees_is_broken_matching_not_phantom_bookings(self):
+        """The lid, and the reason this classification is safe to have.
+
+        If `canonical_name` ever stops matching, the results are still there
+        and nothing matches them. Without a lid every bout on the card would
+        be excused as "not on it" and the guard would go green on the worst
+        failure it can have.
+        """
+        report = self._report(ghosts=freshness.MAX_ABSENT_PER_CARD + 1, matched=4)
+        self.assertEqual(report["known_absent_from_card"], [])
+        self.assertEqual(len(report["known_completed_missing"]),
+                         freshness.MAX_ABSENT_PER_CARD + 1)
+        self.assertEqual(report["status"], "lagging")
+
+    def test_a_bout_inside_the_grace_window_still_just_waits(self):
+        # Absence is only conclusive once the window has passed; before that a
+        # partially published card is the likelier explanation.
+        report = self._report(ghosts=1, matched=4, now="2026-09-22T20:00:00Z")
+        self.assertEqual(report["known_absent_from_card"], [])
+        self.assertEqual(len(report["known_awaiting_upstream"]), 1)
+
+
+class QuarantinePruneTests(unittest.TestCase):
+    """A write-off the evidence can now explain should be released.
+
+    Five quarantine rows were wrong - three real UFC bouts written off on a
+    stale date the feed had already abandoned, results on record. Leaving them
+    would leave the guard permanently blind to that (date, pair).
+    """
+
+    def setUp(self):
+        self.dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.dir.cleanup)
+        self.log = Path(self.dir.name) / "quarantine.csv"
+
+    def _write(self, *bookings):
+        pd.DataFrame([
+            {"date": date, "fighter_a": a, "fighter_b": b,
+             "quarantined_at": "2026-09-20T00:00:00Z", "days_waited": 10,
+             "reason": "unmatchable past grace"}
+            for date, a, b in bookings
+        ]).to_csv(self.log, index=False)
+
+    def test_a_rescheduled_booking_is_released(self):
+        self._write(("2026-09-10", "Vet One", "Vet Two"))
+        report = {"known_rescheduled": [
+            {"date": "2026-09-10", "fighter_a": "Vet One",
+             "fighter_b": "Vet Two"}]}
+        released = freshness.prune_quarantine(report, self.log)
+        self.assertEqual(len(released), 1)
+        self.assertEqual(len(pd.read_csv(self.log)), 0)
+
+    def test_a_booking_whose_result_turned_up_is_released(self):
+        self._write(("2026-09-10", "Vet One", "Vet Two"))
+        report = {"known_quarantine_resolved": [
+            {"date": "2026-09-10", "fighter_a": "Vet One",
+             "fighter_b": "Vet Two"}]}
+        self.assertEqual(len(freshness.prune_quarantine(report, self.log)), 1)
+
+    def test_a_write_off_resting_on_elapsed_time_alone_stays(self):
+        # The log exists for bookings nothing can explain. Those are not
+        # swept up by a prune.
+        self._write(("2026-09-10", "Vet One", "Vet Two"))
+        report = {"known_quarantined": [
+            {"date": "2026-09-10", "fighter_a": "Vet One",
+             "fighter_b": "Vet Two"}]}
+        self.assertEqual(freshness.prune_quarantine(report, self.log), [])
+        self.assertEqual(len(pd.read_csv(self.log)), 1)
+
+    def test_unrelated_rows_are_left_alone(self):
+        self._write(("2026-09-10", "Vet One", "Vet Two"),
+                    ("2026-08-28", "Ghost One", "Ghost Two"))
+        report = {"known_rescheduled": [
+            {"date": "2026-09-10", "fighter_a": "Vet One",
+             "fighter_b": "Vet Two"}]}
+        freshness.prune_quarantine(report, self.log)
+        rows = pd.read_csv(self.log)
+        self.assertEqual(list(rows["fighter_a"]), ["Ghost One"])
+
+    def test_a_name_spelled_differently_is_still_the_same_booking(self):
+        self._write(("2026-09-10", "vet one", "VET TWO"))
+        report = {"known_rescheduled": [
+            {"date": "2026-09-10", "fighter_a": "Vet One",
+             "fighter_b": "Vet Two"}]}
+        self.assertEqual(len(freshness.prune_quarantine(report, self.log)), 1)
+
+    def test_a_missing_log_is_not_an_error(self):
+        self.assertEqual(freshness.prune_quarantine({"known_rescheduled": [
+            {"date": "2026-09-10", "fighter_a": "A B", "fighter_b": "C D"}]},
+            self.log), [])
