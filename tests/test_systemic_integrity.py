@@ -511,7 +511,7 @@ class NotifyEmailTests(unittest.TestCase):
                "BET_EMAIL_TO": "to@example.com"}
         with mock.patch.dict(os.environ, env, clear=False):
             with mock.patch("smtplib.SMTP", side_effect=side_effect):
-                return notify_email.main()
+                return notify_email.main(["test subject", "test body"])
 
     def test_a_rejected_login_does_not_mask_the_real_failure(self):
         import smtplib
@@ -525,7 +525,7 @@ class NotifyEmailTests(unittest.TestCase):
         import notify_email
         with mock.patch.dict(os.environ, {"SMTP_USER": "", "SMTP_PASSWORD": "",
                                           "BET_EMAIL_TO": ""}, clear=False):
-            self.assertEqual(notify_email.main(), 0)
+            self.assertEqual(notify_email.main(["test subject", "test body"]), 0)
 
 
 class SupersededBookingTests(unittest.TestCase):

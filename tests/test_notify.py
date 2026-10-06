@@ -107,7 +107,7 @@ class FailureTests(unittest.TestCase):
     def _run_with(self, side_effect):
         with _env(RESEND_API_KEY="re_123", BET_EMAIL_TO="me@example.com"):
             with mock.patch.object(notify_email, "_post", side_effect=side_effect):
-                return notify_email.main()
+                return notify_email.main(["test subject", "test body"])
 
     def test_an_http_error_does_not_mask_the_real_failure(self):
         self.assertEqual(
@@ -124,16 +124,16 @@ class FailureTests(unittest.TestCase):
                     notify_email, "send_smtp",
                     side_effect=smtplib.SMTPAuthenticationError(
                         535, b"BadCredentials")):
-                self.assertEqual(notify_email.main(), 0)
+                self.assertEqual(notify_email.main(["test subject", "test body"]), 0)
 
     def test_no_channel_configured_exits_clean(self):
         with _env():
-            self.assertEqual(notify_email.main(), 0)
+            self.assertEqual(notify_email.main(["test subject", "test body"]), 0)
 
     def test_a_bad_smtp_port_does_not_raise(self):
         with _env(SMTP_USER="u", SMTP_PASSWORD="p",
                   BET_EMAIL_TO="me@example.com", SMTP_PORT="not-a-port"):
-            self.assertEqual(notify_email.main(), 0)
+            self.assertEqual(notify_email.main(["test subject", "test body"]), 0)
 
 
 
@@ -172,7 +172,7 @@ class ErrorDetailTests(unittest.TestCase):
         with _env(RESEND_API_KEY="re_1", BET_EMAIL_TO="me@example.com"):
             with mock.patch("urllib.request.urlopen",
                             side_effect=self._raise_http(403, "nope")):
-                self.assertEqual(notify_email.main(), 0)
+                self.assertEqual(notify_email.main(["test subject", "test body"]), 0)
 
 
 

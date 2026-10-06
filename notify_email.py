@@ -140,9 +140,14 @@ def deliver(subject, body):
     return None
 
 
-def main():
-    subject = sys.argv[1] if len(sys.argv) > 1 else "claude-fights workflow notice"
-    body = sys.argv[2] if len(sys.argv) > 2 else "A claude-fights workflow needs attention."
+def main(argv=None):
+    # Taking argv as a parameter rather than reading sys.argv directly keeps a
+    # caller's own arguments out of the notice. Under `unittest discover -s
+    # tests` this reported "undelivered subject: discover", which is the sort
+    # of noise that hides a real message in a failed run's log.
+    argv = sys.argv[1:] if argv is None else list(argv)
+    subject = argv[0] if argv else "claude-fights workflow notice"
+    body = argv[1] if len(argv) > 1 else "A claude-fights workflow needs attention."
 
     try:
         channel = deliver(subject, body)
