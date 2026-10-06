@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-05T21:30:38Z",
+  "checked_at": "2026-10-06T20:54:42Z",
   "results_through": "2026-10-03",
-  "days_since_latest_result": 2,
+  "days_since_latest_result": 3,
   "grace_days": 7,
   "status": "current",
   "message": "no completed tracked fights are missing",
@@ -39,11 +39,6 @@
       "date": "2026-08-16",
       "fighter_a": "Charles Johnson",
       "fighter_b": "Jose Ochoa"
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Jean Silva",
-      "fighter_b": "Yair Rodriguez"
     },
     {
       "date": "2026-08-08",
@@ -126,16 +121,6 @@
       "fighter_b": "Luis Felipe Dias"
     },
     {
-      "date": "2026-09-13",
-      "fighter_a": "Drakkar Klose",
-      "fighter_b": "Thomas Gantt"
-    },
-    {
-      "date": "2026-09-13",
-      "fighter_a": "Rafa Garcia",
-      "fighter_b": "Zhu Rong"
-    },
-    {
       "date": "2026-09-12",
       "fighter_a": "Rafa Garcia",
       "fighter_b": "Zhu Rong"
@@ -211,11 +196,31 @@
       "fighter_b": "Michael Parkin"
     }
   ],
-  "known_quarantined": [
+  "known_rescheduled": [
     {
-      "date": "2026-09-26",
-      "fighter_a": "Darren Till",
-      "fighter_b": "Yoel Romero"
+      "date": "2026-08-08",
+      "fighter_a": "Valentin Moldavsky",
+      "fighter_b": "Bruno Cappelozza"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Eduardo Neves",
+      "fighter_b": "Maxwell Djantou Nana"
+    },
+    {
+      "date": "2026-09-13",
+      "fighter_a": "Jean Silva",
+      "fighter_b": "Yair Rodriguez"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Jonathan Martin",
+      "fighter_b": "Wilson Lopshire"
+    },
+    {
+      "date": "2026-08-08",
+      "fighter_a": "Trukon Carson",
+      "fighter_b": "Trey Waters"
     },
     {
       "date": "2026-09-10",
@@ -233,24 +238,29 @@
       "fighter_b": "Tai Tuivasa"
     },
     {
-      "date": "2026-08-23",
-      "fighter_a": "Merab Dvalishvili",
-      "fighter_b": "Henry Cejudo"
+      "date": "2026-08-19",
+      "fighter_a": "Alik Lorenz",
+      "fighter_b": "Mahamed Aly"
     },
     {
-      "date": "2026-08-23",
-      "fighter_a": "Tyron Woodley",
-      "fighter_b": "Joaquin Buckley"
+      "date": "2026-08-19",
+      "fighter_a": "Roman Puga",
+      "fighter_b": "Taner Trembley"
     },
     {
-      "date": "2026-08-28",
-      "fighter_a": "Yilizhati Maimaitijiang",
-      "fighter_b": "Tre'ston Vines"
+      "date": "2026-09-01",
+      "fighter_a": "Liam Mccracken",
+      "fighter_b": "Silvestre Sanchez"
     },
     {
-      "date": "2026-08-29",
-      "fighter_a": "Mike Perry",
-      "fighter_b": "Brandon Jenkins"
+      "date": "2026-09-13",
+      "fighter_a": "Drakkar Klose",
+      "fighter_b": "Thomas Gantt"
+    },
+    {
+      "date": "2026-09-13",
+      "fighter_a": "Rafa Garcia",
+      "fighter_b": "Zhu Rong"
     },
     {
       "date": "2026-09-13",
@@ -263,31 +273,85 @@
       "fighter_b": "Brian Ortega"
     },
     {
+      "date": "2026-09-11",
+      "fighter_a": "Neemias Santana",
+      "fighter_b": "Shawn Marcos Da Silva"
+    },
+    {
+      "date": "2026-09-11",
+      "fighter_a": "Vincius Pires",
+      "fighter_b": "Rafael Pereira"
+    },
+    {
+      "date": "2026-09-20",
+      "fighter_a": "Michael Aswell",
+      "fighter_b": "Joo Sang Yoo"
+    }
+  ],
+  "known_absent_from_card": [
+    {
+      "date": "2026-09-26",
+      "fighter_a": "Darren Till",
+      "fighter_b": "Yoel Romero",
+      "days_waiting": 10
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Merab Dvalishvili",
+      "fighter_b": "Henry Cejudo",
+      "days_waiting": 44
+    },
+    {
+      "date": "2026-08-23",
+      "fighter_a": "Tyron Woodley",
+      "fighter_b": "Joaquin Buckley",
+      "days_waiting": 44
+    },
+    {
+      "date": "2026-08-28",
+      "fighter_a": "Yilizhati Maimaitijiang",
+      "fighter_b": "Tre'ston Vines",
+      "days_waiting": 39
+    },
+    {
+      "date": "2026-08-29",
+      "fighter_a": "Mike Perry",
+      "fighter_b": "Brandon Jenkins",
+      "days_waiting": 37
+    },
+    {
       "date": "2026-09-05",
       "fighter_a": "Khamzat Chimaev",
-      "fighter_b": "Tyron Woodley"
+      "fighter_b": "Tyron Woodley",
+      "days_waiting": 31
     },
     {
       "date": "2026-09-12",
       "fighter_a": "Ramiro Jimenez",
-      "fighter_b": "Rodrigo Vera"
+      "fighter_b": "Rodrigo Vera",
+      "days_waiting": 24
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Brian Ortega",
-      "fighter_b": "Renato Moicano"
+      "fighter_b": "Renato Moicano",
+      "days_waiting": 16
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Colby Covington",
-      "fighter_b": "Belal Muhammad"
+      "fighter_b": "Belal Muhammad",
+      "days_waiting": 17
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Khamzat Chimaev",
-      "fighter_b": "Gilbert Burns"
+      "fighter_b": "Gilbert Burns",
+      "days_waiting": 17
     }
   ],
+  "known_quarantined": [],
+  "known_quarantine_resolved": [],
   "known_out_of_scope": [
     {
       "date": "2026-07-31",
@@ -436,11 +500,6 @@
     },
     {
       "date": "2026-08-08",
-      "fighter_a": "Valentin Moldavsky",
-      "fighter_b": "Bruno Cappelozza"
-    },
-    {
-      "date": "2026-08-08",
       "fighter_a": "Bryan Battle",
       "fighter_b": "Dalton Rosta"
     },
@@ -461,11 +520,6 @@
     },
     {
       "date": "2026-08-08",
-      "fighter_a": "Eduardo Neves",
-      "fighter_b": "Maxwell Djantou Nana"
-    },
-    {
-      "date": "2026-08-08",
       "fighter_a": "Josh Fremd",
       "fighter_b": "Jhony Gregory"
     },
@@ -476,18 +530,8 @@
     },
     {
       "date": "2026-08-08",
-      "fighter_a": "Jonathan Martin",
-      "fighter_b": "Wilson Lopshire"
-    },
-    {
-      "date": "2026-08-08",
       "fighter_a": "Michael Boylan",
       "fighter_b": "Landry Ward"
-    },
-    {
-      "date": "2026-08-08",
-      "fighter_a": "Trukon Carson",
-      "fighter_b": "Trey Waters"
     },
     {
       "date": "2026-08-07",
@@ -553,16 +597,6 @@
       "date": "2026-08-15",
       "fighter_a": "Sidney Outlaw",
       "fighter_b": "Rasul Magomedov"
-    },
-    {
-      "date": "2026-08-19",
-      "fighter_a": "Alik Lorenz",
-      "fighter_b": "Mahamed Aly"
-    },
-    {
-      "date": "2026-08-19",
-      "fighter_a": "Roman Puga",
-      "fighter_b": "Taner Trembley"
     },
     {
       "date": "2026-08-19",
@@ -870,11 +904,6 @@
       "fighter_b": "Mataeo Garner"
     },
     {
-      "date": "2026-09-01",
-      "fighter_a": "Liam Mccracken",
-      "fighter_b": "Silvestre Sanchez"
-    },
-    {
       "date": "2026-09-02",
       "fighter_a": "Adam Livingston",
       "fighter_b": "Hunter Smith"
@@ -945,16 +974,6 @@
       "fighter_b": "Quentin Pasley"
     },
     {
-      "date": "2026-09-11",
-      "fighter_a": "Neemias Santana",
-      "fighter_b": "Shawn Marcos Da Silva"
-    },
-    {
-      "date": "2026-09-11",
-      "fighter_a": "Vincius Pires",
-      "fighter_b": "Rafael Pereira"
-    },
-    {
       "date": "2026-09-12",
       "fighter_a": "Kennedy Rayomba",
       "fighter_b": "Andrej Kalasnik"
@@ -998,11 +1017,6 @@
       "date": "2026-09-15",
       "fighter_a": "Mayton Perea",
       "fighter_b": "Zevan Hunt"
-    },
-    {
-      "date": "2026-09-20",
-      "fighter_a": "Michael Aswell",
-      "fighter_b": "Joo Sang Yoo"
     },
     {
       "date": "2026-09-19",
