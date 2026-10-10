@@ -69,3 +69,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-09-27T01:52:47Z,d19d04e430828af0d2ffcbe6965388a2,2026-09-27T02:15:00Z,22.2,Raoni Barcelos,Raul Rosas Jr,122.0,-145.0,0.43217499,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-03T21:49:23Z,76a1ed2645781ce922f06024d5849aed,2026-10-03T22:15:00Z,25.61,Lucas Armand,Anthony Wint,425.0,-590.0,0.18417754,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-04T00:43:34Z,7a8092331d35b9457d042b5f59db3df0,2026-10-04T01:20:00Z,36.43,King Green,Esteban Ribovics,164.0,-198.0,0.36309582,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-10T23:37:56Z,8151e63de9e4479d89a08298717b84e4,2026-10-11T00:15:00Z,37.06,Malcolm Wellmaker,Otari Tanzilovi,-198.0,165.0,0.6394644,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
