@@ -1,14 +1,14 @@
 {
   "official_trades": 17,
-  "settled": 12,
-  "staked": 12.0,
-  "pnl": 3.8324,
-  "roi": 0.319364,
+  "settled": 14,
+  "staked": 14.0,
+  "pnl": 4.6924,
+  "roi": 0.33517,
   "mean_clv_prob_points": -1.1415,
   "clv_covered_settlements": 5,
   "positive_clv_rate": 0.4,
   "raw_official_trades": 18,
-  "raw_settlements": 13,
+  "raw_settlements": 15,
   "excluded_duplicate_trades": [
     {
       "trade_id": "b8cfb4555007268dad95",
@@ -29,10 +29,10 @@
     },
     "paper-flat-1u-first-touch-cap2-v2": {
       "official_trades": 15,
-      "settled": 10,
-      "staked": 10.0,
-      "pnl": 4.3222,
-      "roi": 0.432217,
+      "settled": 12,
+      "staked": 12.0,
+      "pnl": 5.1822,
+      "roi": 0.431848,
       "mean_clv_prob_points": -1.9415,
       "clv_covered_settlements": 4,
       "positive_clv_rate": 0.25

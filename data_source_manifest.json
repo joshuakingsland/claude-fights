@@ -1,10 +1,10 @@
 {
-  "downloaded_at": "2026-10-07T19:52:16Z",
+  "downloaded_at": "2026-10-11T18:45:57Z",
   "source": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/",
-  "rows": 8835,
+  "rows": 8847,
   "result_date_min": "1994-03-11",
-  "result_date_max": "2026-10-03",
-  "fights_sha256": "1b8b8940474213ae5b36afbdd9346640efdfa6786fd2a4e922119eeabd70e098",
+  "result_date_max": "2026-10-10",
+  "fights_sha256": "b07bb7f13031d40644b90303a885fe766266cd86b9c177d556e969fcd9318be0",
   "recovered_event_dates": [
     {
       "event": "UFC - Road to UFC 4.6",
@@ -24,23 +24,23 @@
     "ufc_event_details.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_event_details.csv",
       "last_modified": null,
-      "etag": "\"d1adec789afd7eaac15f8fe75e48ef9adda7b0b2a2737773bbdc8c68fc3a4459\"",
-      "sha256": "7ff5ff0155d6a1dc55a39b4ec61ef569c6ce0f43b1f22edd730744759e7ee66a",
-      "bytes": 102502
+      "etag": "\"076a27e0669065897982143221941c5b96d1bd90cd71fb40ba1ab41526c5b54e\"",
+      "sha256": "f8dc81682ed176b1a6bb32dfee19cdbe41eca704db57566d60f74ae43052cc40",
+      "bytes": 102631
     },
     "ufc_fight_results.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fight_results.csv",
       "last_modified": null,
-      "etag": "\"ce41ad978086a019e87859fcfda73ada56e5750d686bf2ecaf2f5ab6167f5ab9\"",
-      "sha256": "e7253107447bf2eaab780776401b2543ac5283d0272771b67fde3d1983be139b",
-      "bytes": 2101833
+      "etag": "\"b7c20ead860f52f00d793de5dedaf4730755eaa757a367d217375530e0e6c346\"",
+      "sha256": "e1616c4378d78771d4e308df67a9f1dcc41fa951a21783d1864eef2e94156974",
+      "bytes": 2104550
     },
     "ufc_fight_stats.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fight_stats.csv",
       "last_modified": null,
-      "etag": "\"e80ff3e3b0db4c5e16119219f449fe1404da69e18f303759c6d09597d2cf5716\"",
-      "sha256": "58f6f0d7ac45f299c877e16135458c33cc3c50454c948abdeec5dc8ea54d2c09",
-      "bytes": 7653241
+      "etag": "\"62c8b0b997eec45cced7ac34613bc9f03b4dd11d6f91db99a18717c693fb20df\"",
+      "sha256": "758ca57cb4c11b9cfdd33c649c8938ddff920495339e5070014590eb17865c2f",
+      "bytes": 7662598
     },
     "ufc_fighter_tott.csv": {
       "url": "https://raw.githubusercontent.com/Greco1899/scrape_ufc_stats/main/ufc_fighter_tott.csv",

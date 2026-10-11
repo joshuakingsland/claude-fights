@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-07T19:55:15Z",
-  "results_through": "2026-10-03",
-  "days_since_latest_result": 4,
+  "checked_at": "2026-10-11T18:49:02Z",
+  "results_through": "2026-10-10",
+  "days_since_latest_result": 1,
   "grace_days": 7,
   "status": "current",
   "message": "no completed tracked fights are missing",
@@ -186,6 +186,16 @@
       "fighter_b": "Ilimbek Akylbek"
     },
     {
+      "date": "2026-10-11",
+      "fighter_a": "Andre Fili",
+      "fighter_b": "Kai Kamaka"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Lupita Godinez",
+      "fighter_b": "Ketlen Souza"
+    },
+    {
       "date": "2026-10-03",
       "fighter_a": "Rafael dos Anjos",
       "fighter_b": "Alex Hernandez"
@@ -194,6 +204,11 @@
       "date": "2026-10-03",
       "fighter_a": "Johnny Walker",
       "fighter_b": "Michael Parkin"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Darya Zheleznyakova",
+      "fighter_b": "Alice Pereira"
     }
   ],
   "known_rescheduled": [
@@ -286,6 +301,56 @@
       "date": "2026-09-20",
       "fighter_a": "Michael Aswell",
       "fighter_b": "Joo Sang Yoo"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Ateba Gautier",
+      "fighter_b": "Roman Kopylov"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Marcus McGhee",
+      "fighter_b": "Benardo Sopaj"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "King Green",
+      "fighter_b": "Esteban Ribovics"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Imanol Rodriguez",
+      "fighter_b": "Alden Coria"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Rafael dos Anjos",
+      "fighter_b": "Alex Hernandez"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Damian Pinas",
+      "fighter_b": "Andrey Pulyaev"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Court McGee",
+      "fighter_b": "Eric Nolan"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Marvin Vettori",
+      "fighter_b": "Ismail Naurdiev"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Johnny Walker",
+      "fighter_b": "Michael Parkin"
+    },
+    {
+      "date": "2026-10-11",
+      "fighter_a": "Alice Pereira",
+      "fighter_b": "Darya Zheleznyakova"
     }
   ],
   "known_absent_from_card": [
@@ -293,61 +358,61 @@
       "date": "2026-09-26",
       "fighter_a": "Darren Till",
       "fighter_b": "Yoel Romero",
-      "days_waiting": 11
+      "days_waiting": 15
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Merab Dvalishvili",
       "fighter_b": "Henry Cejudo",
-      "days_waiting": 45
+      "days_waiting": 49
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Tyron Woodley",
       "fighter_b": "Joaquin Buckley",
-      "days_waiting": 45
+      "days_waiting": 49
     },
     {
       "date": "2026-08-28",
       "fighter_a": "Yilizhati Maimaitijiang",
       "fighter_b": "Tre'ston Vines",
-      "days_waiting": 40
+      "days_waiting": 44
     },
     {
       "date": "2026-08-29",
       "fighter_a": "Mike Perry",
       "fighter_b": "Brandon Jenkins",
-      "days_waiting": 38
+      "days_waiting": 42
     },
     {
       "date": "2026-09-05",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Tyron Woodley",
-      "days_waiting": 32
+      "days_waiting": 36
     },
     {
       "date": "2026-09-12",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera",
-      "days_waiting": 25
+      "days_waiting": 28
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Brian Ortega",
       "fighter_b": "Renato Moicano",
-      "days_waiting": 17
+      "days_waiting": 21
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Colby Covington",
       "fighter_b": "Belal Muhammad",
-      "days_waiting": 18
+      "days_waiting": 22
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Gilbert Burns",
-      "days_waiting": 18
+      "days_waiting": 22
     }
   ],
   "known_quarantined": [],
@@ -1307,6 +1372,111 @@
       "date": "2026-10-07",
       "fighter_a": "Alivia Bierley",
       "fighter_b": "Summer Onley"
+    },
+    {
+      "date": "2026-10-09",
+      "fighter_a": "Kevin Fernandez",
+      "fighter_b": "Enrique Pacheco Parra"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Alain Majorique",
+      "fighter_b": "Raphael Uchegbu"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Dwight Joseph",
+      "fighter_b": "Boule Godogo"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Patrick Ocheme",
+      "fighter_b": "Cornel Thompson"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Taha Bendaoud",
+      "fighter_b": "Yanis Ghemmouri"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Adam Soldaev",
+      "fighter_b": "Mateusz Makarowski"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Andrzej Grzebyk",
+      "fighter_b": "Laid Zerhouni"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Wilson Varela",
+      "fighter_b": "Marian Ziolkowski"
+    },
+    {
+      "date": "2026-10-09",
+      "fighter_a": "Kyle Clark",
+      "fighter_b": "Ali Gazamatov"
+    },
+    {
+      "date": "2026-10-09",
+      "fighter_a": "Aysia Cortez",
+      "fighter_b": "Sophie Lang"
+    },
+    {
+      "date": "2026-10-09",
+      "fighter_a": "Joe Thurrott",
+      "fighter_b": "Ricky Miller"
+    },
+    {
+      "date": "2026-10-09",
+      "fighter_a": "Mason Carzino-Hartshorn",
+      "fighter_b": "Kelvin Martinez"
+    },
+    {
+      "date": "2026-10-09",
+      "fighter_a": "Nick Maximov",
+      "fighter_b": "Wildemar Santos"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Andrzej Karkula",
+      "fighter_b": "Kamil Korzeniowski"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Kristians Boguzs",
+      "fighter_b": "Kacper Cholewa"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Kyle Clark",
+      "fighter_b": "Ali Gazamatov"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Aysia Cortez",
+      "fighter_b": "Sophie Lang"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Joe Thurrott",
+      "fighter_b": "Ricky Miller"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Mason Carzino-Hartshorn",
+      "fighter_b": "Kelvin Martinez"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Kevin Fernandez",
+      "fighter_b": "Enrique Pacheco Parra"
+    },
+    {
+      "date": "2026-10-10",
+      "fighter_a": "Nick Maximov",
+      "fighter_b": "Wildemar Santos"
     }
   ]
 }
