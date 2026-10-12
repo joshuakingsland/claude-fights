@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-11T18:49:02Z",
+  "checked_at": "2026-10-12T22:05:31Z",
   "results_through": "2026-10-10",
-  "days_since_latest_result": 1,
+  "days_since_latest_result": 2,
   "grace_days": 7,
   "status": "current",
   "message": "no completed tracked fights are missing",
@@ -358,61 +358,61 @@
       "date": "2026-09-26",
       "fighter_a": "Darren Till",
       "fighter_b": "Yoel Romero",
-      "days_waiting": 15
+      "days_waiting": 16
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Merab Dvalishvili",
       "fighter_b": "Henry Cejudo",
-      "days_waiting": 49
+      "days_waiting": 50
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Tyron Woodley",
       "fighter_b": "Joaquin Buckley",
-      "days_waiting": 49
+      "days_waiting": 50
     },
     {
       "date": "2026-08-28",
       "fighter_a": "Yilizhati Maimaitijiang",
       "fighter_b": "Tre'ston Vines",
-      "days_waiting": 44
+      "days_waiting": 45
     },
     {
       "date": "2026-08-29",
       "fighter_a": "Mike Perry",
       "fighter_b": "Brandon Jenkins",
-      "days_waiting": 42
+      "days_waiting": 43
     },
     {
       "date": "2026-09-05",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Tyron Woodley",
-      "days_waiting": 36
+      "days_waiting": 37
     },
     {
       "date": "2026-09-12",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera",
-      "days_waiting": 28
+      "days_waiting": 30
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Brian Ortega",
       "fighter_b": "Renato Moicano",
-      "days_waiting": 21
+      "days_waiting": 23
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Colby Covington",
       "fighter_b": "Belal Muhammad",
-      "days_waiting": 22
+      "days_waiting": 23
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Gilbert Burns",
-      "days_waiting": 22
+      "days_waiting": 23
     }
   ],
   "known_quarantined": [],
