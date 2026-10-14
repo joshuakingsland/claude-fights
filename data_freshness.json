@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-12T22:05:31Z",
+  "checked_at": "2026-10-14T18:32:43Z",
   "results_through": "2026-10-10",
-  "days_since_latest_result": 2,
+  "days_since_latest_result": 4,
   "grace_days": 7,
   "status": "current",
   "message": "no completed tracked fights are missing",
@@ -351,6 +351,21 @@
       "date": "2026-10-11",
       "fighter_a": "Alice Pereira",
       "fighter_b": "Darya Zheleznyakova"
+    },
+    {
+      "date": "2026-10-13",
+      "fighter_a": "Ilias Bulaid",
+      "fighter_b": "Erick Visconde"
+    },
+    {
+      "date": "2026-10-13",
+      "fighter_a": "Will Rentz",
+      "fighter_b": "Luis Francischinelli"
+    },
+    {
+      "date": "2026-10-13",
+      "fighter_a": "Aline Pereira",
+      "fighter_b": "Smilla Sundell"
     }
   ],
   "known_absent_from_card": [
@@ -358,61 +373,61 @@
       "date": "2026-09-26",
       "fighter_a": "Darren Till",
       "fighter_b": "Yoel Romero",
-      "days_waiting": 16
+      "days_waiting": 18
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Merab Dvalishvili",
       "fighter_b": "Henry Cejudo",
-      "days_waiting": 50
+      "days_waiting": 52
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Tyron Woodley",
       "fighter_b": "Joaquin Buckley",
-      "days_waiting": 50
+      "days_waiting": 52
     },
     {
       "date": "2026-08-28",
       "fighter_a": "Yilizhati Maimaitijiang",
       "fighter_b": "Tre'ston Vines",
-      "days_waiting": 45
+      "days_waiting": 47
     },
     {
       "date": "2026-08-29",
       "fighter_a": "Mike Perry",
       "fighter_b": "Brandon Jenkins",
-      "days_waiting": 43
+      "days_waiting": 45
     },
     {
       "date": "2026-09-05",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Tyron Woodley",
-      "days_waiting": 37
+      "days_waiting": 39
     },
     {
       "date": "2026-09-12",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera",
-      "days_waiting": 30
+      "days_waiting": 31
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Brian Ortega",
       "fighter_b": "Renato Moicano",
-      "days_waiting": 23
+      "days_waiting": 24
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Colby Covington",
       "fighter_b": "Belal Muhammad",
-      "days_waiting": 23
+      "days_waiting": 25
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Gilbert Burns",
-      "days_waiting": 23
+      "days_waiting": 25
     }
   ],
   "known_quarantined": [],
@@ -1477,6 +1492,31 @@
       "date": "2026-10-10",
       "fighter_a": "Nick Maximov",
       "fighter_b": "Wildemar Santos"
+    },
+    {
+      "date": "2026-10-14",
+      "fighter_a": "Will Rentz",
+      "fighter_b": "Luis Francischinelli"
+    },
+    {
+      "date": "2026-10-14",
+      "fighter_a": "Ilias Bulaid",
+      "fighter_b": "Erick Visconde"
+    },
+    {
+      "date": "2026-10-13",
+      "fighter_a": "Davi Cabral",
+      "fighter_b": "Douglas da Lapa"
+    },
+    {
+      "date": "2026-10-13",
+      "fighter_a": "Greg Foster",
+      "fighter_b": "Jason Asher"
+    },
+    {
+      "date": "2026-10-14",
+      "fighter_a": "Aline Pereira",
+      "fighter_b": "Smilla Sundell"
     }
   ]
 }
