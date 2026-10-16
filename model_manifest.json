@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-10-15T21:23:55Z",
+  "created_at": "2026-10-16T04:33:58Z",
   "model_version": "production-v3.1",
   "odds_consensus_version": "paired-book-devig-v1",
   "focus": [
@@ -21,7 +21,7 @@
   "bootstrap_models": 30,
   "python": "3.12.13 (main, Jun 16 2026, 22:05:08) [GCC 13.3.0]",
   "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
-  "git_commit": "169c7bd5081359c30d86958111e1ebf459f0de50",
+  "git_commit": "f15170c3636ffa30c2c2c99b416fe55516bbd8ce",
   "scikit_learn": "1.8.0",
   "dependencies": {
     "numpy": "2.3.5",
@@ -32,8 +32,8 @@
   "inputs": {
     "fights_v2.csv": "b07bb7f13031d40644b90303a885fe766266cd86b9c177d556e969fcd9318be0",
     "raw/ufc-master.csv": "b8aa6604539d5981bba561cb65da26133567732145ca48efbec2d9423b081937",
-    "odds_upcoming.csv": "1fef766d1df60edd3250b0696ed11e20e366848ec4e9e9c42696c00acea51d37",
-    "odds_log.csv": "d3df2c29626dbd00d223759b116cedf44466f9629ac43fb0714769c049bb14b9",
+    "odds_upcoming.csv": "5343290d825df78f90893bf36a7bade36ab4886b529444f78d47ac341ea35ca5",
+    "odds_log.csv": "9b779e48bb34966f54d294c267363f9566b269839c43c3a91db1ef025ffda7a2",
     "method_model.pkl": "a1f0f6c06b49c6855bfe24bdc3a3f92eb0dd75650b0a7a1151d7e067a592d957",
     "config.py": "2de78aad4d96c762568372ec617757530e21c5c494a3f7e31e008f941cf772fb",
     "production.py": "69574c24b293d94113e82fd9fb1b1b7cd3b55383d61fcd75bdcc2c98904b8ea8",
@@ -61,7 +61,7 @@
     "close_snapshots.csv": "d21032d47b5552f8d54a1048dce7e5728422e9e5d6ea17b5026a0cd2ae758db2",
     "data_source_manifest.json": "c0d0d22b35e9670e3083997b3e6d17c581fc4638ee44563b67efd531655b3c26",
     "raw/ufc_fighter_details.csv": "d0b6ad28591dff90e42ceb482e252ac517b20a4c9f4f05999800fe42934c9c29",
-    "market_snapshot_manifest.json": "888139e159a59f9d37a13163398bb859fde492416ea6d110537d5cbdb553b539",
+    "market_snapshot_manifest.json": "dae35c68f1b8b3f5d34aa928f634d6a6d8e0d849f248f6080d78a34eaf889533",
     "staking_validation.json": "d8244639f8efdd1d8011352c4c649ee216660400e9bb133c55e71c8d1fbd58d7",
     "validate_staking.py": "00a38c45f20c58433ff03248071b1ccfd471c1297e2b75d2cfb563748b69f15b"
   },
