@@ -79,3 +79,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-10-17T13:47:17Z,2e718deeed1aebeb2f966299e69f227c,2026-10-17T14:00:00Z,12.7,Timo Feucht,Zdenek Polivka,-200.0,150.0,0.625,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-17T16:40:50Z,2a4daf086c88e19405f3c2f3fcc0b28e,2026-10-17T16:55:00Z,14.16,Niko Ceraglia,Valentino Greco,-1200.0,754.0,0.88742639,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-17T16:40:50Z,4322eac336c18b373f2daa03e1ae8fec,2026-10-17T17:20:00Z,39.16,Alessandro Ortolani,Simone Ali,-102.0,-118.0,0.48263587,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T18:52:42Z,1e4b96f894e716aca44dacd1ad4259da,2026-10-17T19:05:00Z,12.29,Enrico Di Gangi,Tommy Brunning,-215.0,183.0,0.65888787,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T18:52:42Z,a43a58613b2f6a98028e427120533a14,2026-10-17T19:30:00Z,37.29,Simone Patrizi,Dylan Logan,-185.0,161.0,0.62883376,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
