@@ -70,3 +70,10 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-10-03T21:49:23Z,76a1ed2645781ce922f06024d5849aed,2026-10-03T22:15:00Z,25.61,Lucas Armand,Anthony Wint,425.0,-590.0,0.18417754,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-04T00:43:34Z,7a8092331d35b9457d042b5f59db3df0,2026-10-04T01:20:00Z,36.43,King Green,Esteban Ribovics,164.0,-198.0,0.36309582,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-10T23:37:56Z,8151e63de9e4479d89a08298717b84e4,2026-10-11T00:15:00Z,37.06,Malcolm Wellmaker,Otari Tanzilovi,-198.0,165.0,0.6394644,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T13:47:17Z,55e97d401d039c70cd29af40be8f5eb4,2026-10-17T14:00:00Z,12.7,Aaron Aby,David Dvorak,400.0,-700.0,0.18604651,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T13:47:17Z,96976459b1c388814b2e7c5a01a60662,2026-10-17T14:00:00Z,12.7,Daniel Hooker,Viktor Cervinsky,215.0,-325.0,0.29335634,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T13:47:17Z,4e789a24a65b862a3800982af3ecfb9b,2026-10-17T14:00:00Z,12.7,Tomasz Narkun,Daniel Skvor,170.0,-250.0,0.34146341,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T13:47:17Z,2235318bc250c53d2c45d1a2eeff26b5,2026-10-17T14:00:00Z,12.7,Dominik Humburger,Patrik Kincl,165.0,-190.0,0.36546944,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T13:47:17Z,2cfb73a64d295f9ee4818228521c3043,2026-10-17T14:00:00Z,12.7,Marco Elpidio,Husein Kadimagomaev,415.0,-550.0,0.18664752,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T13:47:17Z,9805a640360a43d0479f61e5ed2a2e66,2026-10-17T14:00:00Z,12.7,Jozef Wittner,Matus Juracek,170.0,-195.0,0.35909921,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T13:47:17Z,2e718deeed1aebeb2f966299e69f227c,2026-10-17T14:00:00Z,12.7,Timo Feucht,Zdenek Polivka,-200.0,150.0,0.625,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
