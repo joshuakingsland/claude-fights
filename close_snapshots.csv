@@ -83,3 +83,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-10-17T18:52:42Z,a43a58613b2f6a98028e427120533a14,2026-10-17T19:30:00Z,37.29,Simone Patrizi,Dylan Logan,-185.0,161.0,0.62883376,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-17T21:30:47Z,2feb821ccf32b225382f2f9797a77803,2026-10-17T21:45:00Z,14.21,Melissa Croden,Chelsea Chandler,-375.0,295.0,0.75672215,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-17T21:30:47Z,c87f6252be1d1714de23acac836b1359,2026-10-17T22:00:00Z,29.21,Chad Anheliger,Steven Koslow,150.0,-178.0,0.38450899,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-17T23:30:04Z,c66fefb93f75b08643187c5f0538c8df,2026-10-18T00:15:00Z,44.93,Mandel Nallo,Nate Landwehr,-285.0,230.0,0.70954357,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
