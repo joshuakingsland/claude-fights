@@ -1,12 +1,67 @@
 {
-  "checked_at": "2026-10-14T18:32:43Z",
+  "checked_at": "2026-10-18T17:17:18Z",
   "results_through": "2026-10-10",
-  "days_since_latest_result": 4,
+  "days_since_latest_result": 8,
   "grace_days": 7,
-  "status": "current",
-  "message": "no completed tracked fights are missing",
+  "status": "pending",
+  "message": "9 recent fight(s) await results, within the 7-day upstream publishing window",
   "known_completed_missing": [],
-  "known_awaiting_upstream": [],
+  "known_awaiting_upstream": [
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Kyle Nelson",
+      "fighter_b": "Cristian P\u00e9rez",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Melissa Croden",
+      "fighter_b": "Chelsea Chandler",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Eliezer Kubanza",
+      "fighter_b": "Trey Waters",
+      "days_waiting": 1
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Chad Anheliger",
+      "fighter_b": "Steven Koslow",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Tanner Boser",
+      "fighter_b": "Jhonata Diniz",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Mandel Nallo",
+      "fighter_b": "Nate Landwehr",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Marc-Andre Barriault",
+      "fighter_b": "Kyle Daukaus",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Erin Blanchfield",
+      "fighter_b": "Jasmine Jasudavicius",
+      "days_waiting": 0
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Joaquin Buckley",
+      "fighter_b": "Mike Malott",
+      "days_waiting": 0
+    }
+  ],
   "known_cancelled": [
     {
       "date": "2026-07-25",
@@ -353,6 +408,56 @@
       "fighter_b": "Darya Zheleznyakova"
     },
     {
+      "date": "2026-10-17",
+      "fighter_a": "Erin Blanchfield",
+      "fighter_b": "Jasmine Jasudavicius"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Joaquin Buckley",
+      "fighter_b": "Mike Malott"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Marc-Andre Barriault",
+      "fighter_b": "Kyle Daukaus"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Louis Jourdain",
+      "fighter_b": "Timothy Cuamba"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Mandel Nallo",
+      "fighter_b": "Nate Landwehr"
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Chad Anheliger",
+      "fighter_b": "Steven Koslow"
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Melissa Croden",
+      "fighter_b": "Chelsea Chandler"
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Cody Chovancek",
+      "fighter_b": "Su Young You"
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Tanner Boser",
+      "fighter_b": "Jhonata Diniz"
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Julien Leblanc",
+      "fighter_b": "Nick Galanti"
+    },
+    {
       "date": "2026-10-13",
       "fighter_a": "Ilias Bulaid",
       "fighter_b": "Erick Visconde"
@@ -366,6 +471,31 @@
       "date": "2026-10-13",
       "fighter_a": "Aline Pereira",
       "fighter_b": "Smilla Sundell"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Emiliano Sordi",
+      "fighter_b": "Abraham Bably"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Eliezer Kubanza",
+      "fighter_b": "Trey Waters"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Timur Khizriev",
+      "fighter_b": "Gabriel Alves Braga"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Gamid Khizriev",
+      "fighter_b": "Michael Boylan"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Liz Carmouche",
+      "fighter_b": "Jena Bishop"
     }
   ],
   "known_absent_from_card": [
@@ -373,61 +503,61 @@
       "date": "2026-09-26",
       "fighter_a": "Darren Till",
       "fighter_b": "Yoel Romero",
-      "days_waiting": 18
+      "days_waiting": 21
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Merab Dvalishvili",
       "fighter_b": "Henry Cejudo",
-      "days_waiting": 52
+      "days_waiting": 56
     },
     {
       "date": "2026-08-23",
       "fighter_a": "Tyron Woodley",
       "fighter_b": "Joaquin Buckley",
-      "days_waiting": 52
+      "days_waiting": 56
     },
     {
       "date": "2026-08-28",
       "fighter_a": "Yilizhati Maimaitijiang",
       "fighter_b": "Tre'ston Vines",
-      "days_waiting": 47
+      "days_waiting": 51
     },
     {
       "date": "2026-08-29",
       "fighter_a": "Mike Perry",
       "fighter_b": "Brandon Jenkins",
-      "days_waiting": 45
+      "days_waiting": 49
     },
     {
       "date": "2026-09-05",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Tyron Woodley",
-      "days_waiting": 39
+      "days_waiting": 43
     },
     {
       "date": "2026-09-12",
       "fighter_a": "Ramiro Jimenez",
       "fighter_b": "Rodrigo Vera",
-      "days_waiting": 31
+      "days_waiting": 35
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Brian Ortega",
       "fighter_b": "Renato Moicano",
-      "days_waiting": 24
+      "days_waiting": 28
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Colby Covington",
       "fighter_b": "Belal Muhammad",
-      "days_waiting": 25
+      "days_waiting": 29
     },
     {
       "date": "2026-09-19",
       "fighter_a": "Khamzat Chimaev",
       "fighter_b": "Gilbert Burns",
-      "days_waiting": 25
+      "days_waiting": 29
     }
   ],
   "known_quarantined": [],
@@ -1514,9 +1644,194 @@
       "fighter_b": "Jason Asher"
     },
     {
+      "date": "2026-10-17",
+      "fighter_a": "Joel Faglier",
+      "fighter_b": "Javad Mahjoub"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Mackenzie Stiller",
+      "fighter_b": "Katlyn Chookagian"
+    },
+    {
       "date": "2026-10-14",
       "fighter_a": "Aline Pereira",
       "fighter_b": "Smilla Sundell"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Dario Bellandi",
+      "fighter_b": "Aldo Pereira"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Giuseppe Mastrogiacomo",
+      "fighter_b": "Alexis Tsarmantidis"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Salvatore Bellotta",
+      "fighter_b": "Christian Tosco"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Simone Patrizi",
+      "fighter_b": "Dylan Logan"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Enrico Di Gangi",
+      "fighter_b": "Tommy Brunning"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Sarvarjon Hamidov",
+      "fighter_b": "Rafael do Nascimento"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Gamid Khizriev",
+      "fighter_b": "Michael Boylan"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Emiliano Sordi",
+      "fighter_b": "Abraham Bably"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Timur Khizriev",
+      "fighter_b": "Gabriel Alves Braga"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Liz Carmouche",
+      "fighter_b": "Jena Bishop"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Cody Chovancek",
+      "fighter_b": "Su Young You"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Julien Leblanc",
+      "fighter_b": "Nick Galanti"
+    },
+    {
+      "date": "2026-10-18",
+      "fighter_a": "Louis Jourdain",
+      "fighter_b": "Timothy Cuamba"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Benita van Rooij",
+      "fighter_b": "Giulliany Perea"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Noah Hermosillo",
+      "fighter_b": "Caden Cox"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Levan Khabalaev",
+      "fighter_b": "Brock Hamer"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Cobey Fehr",
+      "fighter_b": "Rosario Romero"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Shannon Clark",
+      "fighter_b": "Lucero Acosta"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Oualy Tandia",
+      "fighter_b": "J.P. Saint Louis"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Aaron Aby",
+      "fighter_b": "David Dvorak"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Daniel Hooker",
+      "fighter_b": "Viktor Cervinsky"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Tomasz Narkun",
+      "fighter_b": "Daniel Skvor"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Dominik Humburger",
+      "fighter_b": "Patrik Kincl"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Marco Elpidio",
+      "fighter_b": "Husein Kadimagomaev"
+    },
+    {
+      "date": "2026-10-16",
+      "fighter_a": "Mirali Huseynov",
+      "fighter_b": "Viacheslav Borshchev"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Jozef Wittner",
+      "fighter_b": "Matus Juracek"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Timo Feucht",
+      "fighter_b": "Zdenek Polivka"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Ruben Vinci",
+      "fighter_b": "Jurgen Koci"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Gabriele Lionetti",
+      "fighter_b": "Elez Guri"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Niko Ceraglia",
+      "fighter_b": "Valentino Greco"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Alessandro Ortolani",
+      "fighter_b": "Simone Ali"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Jonathan Rivera",
+      "fighter_b": "Angelo Coppola"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Kevin Caperna",
+      "fighter_b": "Diego Giangirolami"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Federico Rotoni",
+      "fighter_b": "Andrei Gabura"
+    },
+    {
+      "date": "2026-10-17",
+      "fighter_a": "Andrea Kabali",
+      "fighter_b": "Danilo Belluardo"
     }
   ]
 }
