@@ -86,3 +86,5 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-10-17T23:30:04Z,c66fefb93f75b08643187c5f0538c8df,2026-10-18T00:15:00Z,44.93,Mandel Nallo,Nate Landwehr,-285.0,230.0,0.70954357,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-18T01:34:31Z,951f0ebd6cee76cc1d518ca620ae085e,2026-10-18T01:45:00Z,10.47,Kyle Nelson,Cristian Pérez,275.0,-360.0,0.25,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-18T01:34:31Z,1ff30ee6b39aa283bf9a92b86d0a0b05,2026-10-18T02:15:00Z,40.47,Erin Blanchfield,Jasmine Jasudavicius,-335.0,270.0,0.74054629,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-24T14:02:31Z,81c8300f2d7c8a9c4192c6f72e1cf87a,2026-10-24T14:15:00Z,12.48,Iasmin Lucindo,Nicolle Caliari,-425.0,330.0,0.77438474,6,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-24T14:02:31Z,785ce96326232237f62c6503d73e1b32,2026-10-24T14:30:00Z,27.48,Kody Steele,Noah Gugnon,-156.0,130.0,0.58570689,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
