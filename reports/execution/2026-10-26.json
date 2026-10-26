@@ -1,0 +1,66 @@
+{
+  "policy": "quote-persistence-5m-v1",
+  "generated_at": "2026-10-26T22:50:56.142851+00:00",
+  "status": "paper_only",
+  "forward_start": "2026-09-14T00:00:00Z",
+  "interpretation": "Displayed quotes only; no accepted tickets, limits, or account eligibility verified. Observed-subset ROI is not a portfolio return or proof of edge.",
+  "excluded_duplicates": [
+    {
+      "trade_id": "b8cfb4555007268dad95",
+      "retained_trade_id": "6ddbf2c301d5ba1cc5d4",
+      "reason": "duplicate lock of the same rescheduled bout"
+    }
+  ],
+  "historical_diagnostic": {
+    "locks": 9,
+    "observed": 0,
+    "statuses": {
+      "unobserved": 7,
+      "source_unverified": 2
+    },
+    "same_or_better_rate": null,
+    "mean_slippage_probability_points": null,
+    "settled_observed": 0,
+    "delayed_price_pnl": 0,
+    "delayed_price_roi": null,
+    "original_price_pnl_same_subset": 0.0,
+    "entry_market_clv_covered": 0,
+    "entry_market_clv_mean_points": null,
+    "delayed_price_close_covered": 0,
+    "delayed_price_close_advantage_points": null
+  },
+  "cumulative": {
+    "locks": 12,
+    "observed": 12,
+    "statuses": {
+      "observed": 12
+    },
+    "same_or_better_rate": 1.0,
+    "mean_slippage_probability_points": 0.0,
+    "settled_observed": 6,
+    "delayed_price_pnl": 2.1772072072072075,
+    "delayed_price_roi": 0.3628678678678679,
+    "original_price_pnl_same_subset": 2.1772080000000003,
+    "entry_market_clv_covered": 1,
+    "entry_market_clv_mean_points": -6.017499,
+    "delayed_price_close_covered": 1,
+    "delayed_price_close_advantage_points": -8.12977970175438
+  },
+  "last_seven_days": {
+    "locks": 2,
+    "observed": 2,
+    "statuses": {
+      "observed": 2
+    },
+    "same_or_better_rate": 1.0,
+    "mean_slippage_probability_points": 0.0,
+    "settled_observed": 0,
+    "delayed_price_pnl": 0,
+    "delayed_price_roi": null,
+    "original_price_pnl_same_subset": 0.0,
+    "entry_market_clv_covered": 0,
+    "entry_market_clv_mean_points": null,
+    "delayed_price_close_covered": 0,
+    "delayed_price_close_advantage_points": null
+  }
+}
