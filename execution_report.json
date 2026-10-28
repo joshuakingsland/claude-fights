@@ -1,6 +1,6 @@
 {
   "policy": "quote-persistence-5m-v1",
-  "generated_at": "2026-10-28T12:53:26.735978+00:00",
+  "generated_at": "2026-10-28T22:35:05.102353+00:00",
   "status": "paper_only",
   "forward_start": "2026-09-14T00:00:00Z",
   "interpretation": "Displayed quotes only; no accepted tickets, limits, or account eligibility verified. Observed-subset ROI is not a portfolio return or proof of edge.",
