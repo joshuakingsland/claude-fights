@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-29T02:32:23Z",
+  "checked_at": "2026-10-29T02:48:58Z",
   "results_through": "2026-10-24",
   "days_since_latest_result": 5,
   "grace_days": 7,
@@ -537,7 +537,7 @@
       "date": "2026-10-17",
       "fighter_a": "Eliezer Kubanza",
       "fighter_b": "Trey Waters",
-      "days_waiting": 11
+      "days_waiting": 12
     }
   ],
   "known_quarantined": [],

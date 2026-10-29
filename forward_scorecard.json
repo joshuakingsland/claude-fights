@@ -1,26 +1,26 @@
 {
   "policy": "three-way-first-observation-v1",
   "forward_start": "2026-09-14T06:00:00Z",
-  "generated_at": "2026-10-28T22:35:16.522321+00:00",
+  "generated_at": "2026-10-29T02:56:27.166033+00:00",
   "status": "paper_only",
-  "recorded_fights": 261,
-  "settled_fights": 34,
-  "pending_fights": 227,
+  "recorded_fights": 273,
+  "settled_fights": 55,
+  "pending_fights": 218,
   "model_versions": {
-    "production-v3.1": 261
+    "production-v3.1": 273
   },
   "execution_coverage": {
-    "unresolved_identity": 141,
-    "insufficient_books": 98,
+    "unresolved_identity": 144,
+    "insufficient_books": 107,
     "verified_displayed_quotes": 22
   },
   "candidates": {
     "market": {
-      "decisive_fights": 33,
-      "card_dates": 4,
-      "log_loss": 0.6782471119136422,
-      "brier": 0.23847883891199373,
-      "accuracy": 0.6363636363636364,
+      "decisive_fights": 54,
+      "card_dates": 6,
+      "log_loss": 0.696600925321882,
+      "brier": 0.24835947216029045,
+      "accuracy": 0.5925925925925926,
       "log_loss_minus_market": 0.0,
       "paired_log_loss_delta_ci90": [
         0.0,
@@ -36,15 +36,15 @@
       ]
     },
     "model": {
-      "decisive_fights": 33,
-      "card_dates": 4,
-      "log_loss": 0.6562448581087565,
-      "brier": 0.22399417800053456,
-      "accuracy": 0.696969696969697,
-      "log_loss_minus_market": -0.022002253804885515,
+      "decisive_fights": 54,
+      "card_dates": 6,
+      "log_loss": 0.6922946973013849,
+      "brier": 0.24326316943509319,
+      "accuracy": 0.6481481481481481,
+      "log_loss_minus_market": -0.004306228020497016,
       "paired_log_loss_delta_ci90": [
-        -0.062098763494709365,
-        0.020600287740552323
+        -0.0391790751303736,
+        0.027202865913350215
       ],
       "settled_bets": 1,
       "staked": 1,
@@ -56,15 +56,15 @@
       ]
     },
     "blend": {
-      "decisive_fights": 33,
-      "card_dates": 4,
-      "log_loss": 0.6647300377525592,
-      "brier": 0.23022536366659746,
-      "accuracy": 0.6666666666666666,
-      "log_loss_minus_market": -0.013517074161082953,
+      "decisive_fights": 54,
+      "card_dates": 6,
+      "log_loss": 0.6919440080162214,
+      "brier": 0.2448061632586278,
+      "accuracy": 0.6111111111111112,
+      "log_loss_minus_market": -0.004656917305660508,
       "paired_log_loss_delta_ci90": [
-        -0.034586181766495507,
-        0.008477296905124559
+        -0.022043686048906178,
+        0.011183725148851645
       ],
       "settled_bets": 0,
       "staked": 0,
