@@ -1,7 +1,7 @@
 {
   "policy": "three-way-first-observation-v1",
   "forward_start": "2026-09-14T06:00:00Z",
-  "generated_at": "2026-10-29T05:48:15.303945+00:00",
+  "generated_at": "2026-10-29T13:01:47.497119+00:00",
   "status": "paper_only",
   "recorded_fights": 273,
   "settled_fights": 55,
