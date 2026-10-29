@@ -14,7 +14,8 @@ from discover_prop_markets import market_book_counts, prop_keys
 from features import build_features
 import freshness
 from freshness import assess_freshness
-from identity import canonical_name, fighter_registry, resolve_fighter
+from identity import (alias_candidates, assign_fighter_identities, canonical_name,
+                      fighter_registry, resolve_fighter)
 from update_data import _event_date_recovery, _regression_errors
 
 
@@ -1039,3 +1040,110 @@ class QuarantinePruneTests(unittest.TestCase):
         self.assertEqual(freshness.prune_quarantine({"known_rescheduled": [
             {"date": "2026-09-10", "fighter_a": "A B", "fighter_b": "C D"}]},
             self.log), [])
+
+
+class UnresolvedFighterIdentityTests(unittest.TestCase):
+    """One unspellable name must not cost a day per name.
+
+    UFCStats spells the same man two ways across its own tables: the fighter
+    list has "Nicholas Galanti", the results table has "Nick Galanti", both
+    pointing at one fighter URL. Shortened first names do not normalise, so
+    `resolve_fighter` found nothing and `update_data.py` aborted - every
+    scheduled run from 2026-10-19 to the 29th, which left five paper trades
+    unsettled because only that workflow settles.
+
+    The guard itself is right to refuse: `audit_fights` rejects a bout whose
+    fighter URL is blank, so a bout with an unidentified fighter must never
+    reach `fights_v2.csv`. What was wrong was reporting one name at a time.
+    """
+
+    def _registry(self):
+        return fighter_registry(pd.DataFrame([
+            {"FIGHTER": "Nicholas Galanti", "WEIGHT": "185 lbs.",
+             "URL": "http://ufcstats.com/fighter-details/8988705468d04ef7"},
+            {"FIGHTER": "Julien Leblanc", "WEIGHT": "185 lbs.",
+             "URL": "http://ufcstats.com/fighter-details/1111111111111111"},
+            {"FIGHTER": "Michael Chandler", "WEIGHT": "155 lbs.",
+             "URL": "http://ufcstats.com/fighter-details/2222222222222222"},
+        ]))
+
+    def _bouts(self, *pairs):
+        return pd.DataFrame([
+            {"fighter_a": a, "fighter_b": b, "weightclass": "Middleweight Bout"}
+            for a, b in pairs
+        ])
+
+    def test_the_alias_resolves_the_name_that_stalled_the_refresh(self):
+        frame = assign_fighter_identities(
+            self._bouts(("Julien Leblanc", "Nick Galanti")), self._registry())
+        self.assertEqual(frame.iloc[0]["fighter_b_id"], "8988705468d04ef7")
+
+    def test_an_unknown_name_still_refuses_to_build(self):
+        # The guard must keep biting. A bout with an unidentified fighter
+        # would fail audit_fights anyway; failing here says why.
+        with self.assertRaises(ValueError):
+            assign_fighter_identities(
+                self._bouts(("Julien Leblanc", "Nobody Here")), self._registry())
+
+    def test_every_unresolved_name_is_reported_at_once(self):
+        """The actual fix. Reporting one name per run costs a run per name."""
+        with self.assertRaises(ValueError) as caught:
+            assign_fighter_identities(
+                self._bouts(("Julien Leblanc", "Nobody Here"),
+                            ("Ghost One", "Ghost Two")), self._registry())
+        message = str(caught.exception)
+        for name in ("Nobody Here", "Ghost One", "Ghost Two"):
+            self.assertIn(name, message)
+        self.assertIn("3 fighter identities", message)
+
+    def test_the_error_names_the_remedy(self):
+        with self.assertRaises(ValueError) as caught:
+            assign_fighter_identities(
+                self._bouts(("Julien Leblanc", "Nobody Here")), self._registry())
+        self.assertIn("NAME_ALIASES", str(caught.exception))
+
+    def test_a_shared_surname_is_offered_as_the_alias_target(self):
+        # What makes the message actionable: the counterpart almost always
+        # shares the surname, as Nick/Nicholas Galanti did.
+        with self.assertRaises(ValueError) as caught:
+            assign_fighter_identities(
+                self._bouts(("Julien Leblanc", "Nicky Galanti")), self._registry())
+        self.assertIn('"nicky galanti": "nicholas galanti"', str(caught.exception))
+
+    def test_a_candidate_is_suggested_never_applied(self):
+        """Suggesting is not joining.
+
+        `NAME_ALIASES` is explicit precisely so name matching never becomes a
+        fuzzy join that could merge two fighters. A surname match is a hint
+        for a human, not a resolution.
+        """
+        self.assertEqual(
+            alias_candidates("Nicky Galanti", self._registry()),
+            ["nicholas galanti"])
+        with self.assertRaises(ValueError):
+            assign_fighter_identities(
+                self._bouts(("Julien Leblanc", "Nicky Galanti")), self._registry())
+
+    def test_non_strict_resolution_still_marks_the_row_unresolved(self):
+        # The pricing path depends on this marker to refuse to quote a fighter
+        # it cannot identify, so it must survive.
+        frame = assign_fighter_identities(
+            self._bouts(("Julien Leblanc", "Nobody Here")), self._registry(),
+            strict=False)
+        self.assertEqual(frame.iloc[0]["fighter_b_id"], "unresolved:nobody here")
+        self.assertEqual(frame.iloc[0]["fighter_b_url"], "")
+
+    def test_an_unresolved_row_is_rejected_by_the_fight_audit(self):
+        """Why the build must not simply carry on non-strictly.
+
+        A blank fighter URL is an audit error, so writing the bout in with a
+        marker instead of an identity would be caught one step later - and if
+        it were not, the ledger would carry a fight nothing can join to.
+        """
+        frame = assign_fighter_identities(
+            self._bouts(("Julien Leblanc", "Nobody Here")), self._registry(),
+            strict=False)
+        frame["date"] = "2026-10-24"
+        frame["winner"] = "A"
+        errors = audit_fights(frame)
+        self.assertTrue(any("fighter_b_url" in error for error in errors), errors)

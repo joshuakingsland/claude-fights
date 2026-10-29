@@ -39,9 +39,9 @@ record in every notice for exactly this reason. Do not remove that.
 
 ## Where failures come from
 
-Almost every scheduled failure has been `freshness.py`, and all from one root
-cause: **the guard cannot tell "the result is late" from "no result is ever
-coming"**, and only the first is fixed by waiting. Variants seen so far:
+Most scheduled failures have been `freshness.py`, and all of those from one
+root cause: **the guard cannot tell "the result is late" from "no result is
+ever coming"**, and only the first is fixed by waiting. Variants seen so far:
 
 | symptom | cause | fix |
 |---|---|---|
@@ -65,6 +65,39 @@ while discarding genuine fights. `--prune-quarantine` now releases rows the
 classifications can account for, and `known_quarantine_resolved` reports a
 write-off whose result later turned up. Prefer explaining a booking to
 excusing it.
+
+### The other source: one source, two spellings
+
+UFCStats spells the same fighter differently across its own tables. The
+fighter list had "Nicholas Galanti"; the results table wrote the bout as
+"Nick Galanti". Shortened first names do not normalise, so `resolve_fighter`
+found nothing and `update_data.py` aborted on every scheduled run from
+2026-10-19 to the 29th.
+
+The guard is right to refuse - `audit_fights` rejects a bout with a blank
+fighter URL, so a bout with an unidentified fighter must never reach
+`fights_v2.csv`, and `strict=False` is not a way out of this. **The remedy is
+always a `NAME_ALIASES` entry in `identity.py`**, verified against the fighter
+URL before adding it: two spellings of one man share a URL, two men do not.
+`alias_candidates` suggests same-surname targets and never applies one,
+because that would be the fuzzy cross-fighter join the explicit table exists
+to avoid.
+
+What made this expensive was not the name:
+
+- **It aborted step one of fourteen.** Odds capture, the card refresh and
+  settlement all got skipped, and only `update.yml` settles, so five paper
+  trades sat unsettled for eighteen days. The step is now
+  `continue-on-error` with the alarm at the end, exactly as the freshness
+  step already was - safe because `update_data.py` stages its download and
+  promotes it only after the audit passes, so a failure leaves the previous
+  results intact and settlement matches fewer results rather than wrong ones.
+- **It reported one name at a time.** Each run is a day apart, so a second
+  unresolved name behind the first would have cost another ten days.
+  `assign_fighter_identities` now collects every one before raising.
+- **Nothing told anyone.** `CLAUDE_CODE_OAUTH_TOKEN` was empty, so the
+  autofix workflow died inside the action on every attempt. It now checks
+  that secret first and says so.
 
 `known_absent_from_card` has its own lid (`MAX_ABSENT_PER_CARD`) and requires
 that bookings for that night actually matched results, not merely that results

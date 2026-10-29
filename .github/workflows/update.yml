@@ -30,7 +30,21 @@ jobs:
         run: |
           python -m py_compile *.py
           python -m unittest discover -s tests
+      # Assess-and-continue, for the same reason as the freshness step below.
+      # A failure here used to abort the job at step one, skipping settlement,
+      # odds capture and the card refresh - none of which need a *successful*
+      # refresh, only the last known-good `fights_v2.csv`. One unresolvable
+      # fighter name on one undercard bout therefore left five paper trades
+      # unsettled for eighteen days, from 2026-10-19 to the 29th.
+      #
+      # This is safe because `update_data.py` downloads into a staging
+      # directory and promotes it only after the audit passes, so a failure
+      # leaves the previous results untouched rather than half-written.
+      # Settlement then matches fewer results, never wrong ones. The alarm
+      # fires at the end, after the work is published.
       - name: Refresh fight results
+        id: refresh
+        continue-on-error: true
         run: python update_data.py
       # Assess only. This used to fail the job outright, which also blocked
       # odds capture and the card refresh below - neither of which depends on
@@ -102,8 +116,17 @@ jobs:
           git diff --cached --quiet || git commit -m "auto-update $(date -u +%F)"
           git pull --rebase --autostash origin main
           git push
-      # Fires after everything is committed, so a genuine result-feed stall
-      # still raises an alert without costing a card refresh.
+      # Both alarms fire after everything is committed, so a genuine stall
+      # still goes red without costing a card refresh or a settlement. The
+      # refresh alarm comes first: when the scrape itself failed, that is the
+      # root cause and a stale-results complaint below is only its symptom.
+      - name: Alert if the result refresh failed
+        if: steps.refresh.outcome == 'failure'
+        run: |
+          echo "update_data.py failed, so fights_v2.csv still holds the"
+          echo "previous results. Everything downstream ran against those."
+          echo "The cause is in the 'Refresh fight results' step above."
+          exit 1
       - name: Alert if results are genuinely stalled
         run: python freshness.py --require-current
       - name: Email failure notification

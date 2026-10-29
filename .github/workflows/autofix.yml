@@ -43,6 +43,26 @@ jobs:
       actions: read
       id-token: write
     steps:
+      # Fails in two seconds instead of two minutes, and says what is wrong.
+      # On 2026-10-19 this secret went empty, and every run since died inside
+      # the action with "Either ANTHROPIC_API_KEY, CLAUDE_CODE_OAUTH_TOKEN ...
+      # is required" on log line 650, after a full dependency and Claude Code
+      # install. So the safety net was down for ten days while the ledger sat
+      # unsettled, and the only sign was a second red run next to the first.
+      #
+      # It still fails rather than skipping: an autofix that cannot run is a
+      # broken safety net, and that is worth being told about.
+      - name: Check the agent credential is present
+        env:
+          TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::CLAUDE_CODE_OAUTH_TOKEN is empty or unset, so no fix"
+            echo "::error::can be proposed. Set it under Settings > Secrets and"
+            echo "::error::variables > Actions. Generate one with: claude setup-token"
+            exit 1
+          fi
+          echo "agent credential present"
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0

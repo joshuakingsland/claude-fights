@@ -32,6 +32,11 @@ DIVISION_LIMITS = (
 # expands into a fuzzy, potentially cross-fighter join.
 NAME_ALIASES = {
     "ian garry": "ian machado garry",
+    # UFCStats lists him as "Nicholas Galanti" in the fighter tables and
+    # spells the bout "Nick Galanti" in the results table - one source, one
+    # fighter URL (8988705468d04ef7), two spellings. Shortened first names do
+    # not normalise, so this halted every result refresh from 2026-10-19.
+    "nick galanti": "nicholas galanti",
     "paulo henrique costa": "paulo costa",
     "rafael cerquiera": "rafael cerqueira",
     "ramazonbek temirov": "ramazan temirov",
@@ -128,13 +133,49 @@ def resolve_fighter(name, weightclass, registry, strict=True):
     return None
 
 
+def alias_candidates(name, registry, limit=3):
+    """Registry names sharing this one's surname, as alias targets.
+
+    The remedy for an unresolved fighter is always a `NAME_ALIASES` entry, and
+    the work is in knowing what to map it to. UFCStats spells the same man two
+    ways across its own tables - "Nick Galanti" in the results, "Nicholas
+    Galanti" in the fighter list - so the counterpart almost always shares the
+    surname. Offered as candidates, never applied: picking one automatically
+    would be the fuzzy cross-fighter join `NAME_ALIASES` exists to avoid.
+    """
+    parts = norm_name(name).split()
+    if not parts or "name_key" not in registry:
+        return []
+    surname = parts[-1]
+    keys = registry["name_key"].astype(str)
+    hits = keys[keys.str.split().str[-1].eq(surname) & keys.ne(canonical_name(name))]
+    return sorted(set(hits))[:limit]
+
+
 def assign_fighter_identities(frame, registry, strict=True):
-    """Attach fighter IDs and URLs to both sides of a bout table."""
+    """Attach fighter IDs and URLs to both sides of a bout table.
+
+    Every unresolvable name in the table is collected before raising. Failing
+    on the first one meant fixing a single alias per run, and each run is a
+    day apart: one name ('Nick Galanti') stalled the result refresh from
+    2026-10-19 to the 29th, and finding a second behind it would have cost the
+    same again. The error also names the remedy, because it is always the same
+    remedy.
+    """
     out = frame.copy()
+    unresolved = {}
     for side in ("a", "b"):
         ids, urls = [], []
         for name, weightclass in zip(out[f"fighter_{side}"], out["weightclass"]):
-            fighter = resolve_fighter(name, weightclass, registry, strict=strict)
+            try:
+                fighter = resolve_fighter(name, weightclass, registry, strict=strict)
+            except ValueError as failure:
+                unresolved.setdefault(
+                    (str(name), str(weightclass)),
+                    ("ambiguous" if "ambiguous" in str(failure) else "not found",
+                     alias_candidates(name, registry)),
+                )
+                fighter = None
             if fighter is None:
                 ids.append(f"unresolved:{norm_name(name)}")
                 urls.append("")
@@ -143,6 +184,22 @@ def assign_fighter_identities(frame, registry, strict=True):
                 urls.append(fighter["URL"])
         out[f"fighter_{side}_id"] = ids
         out[f"fighter_{side}_url"] = urls
+    if unresolved and strict:
+        lines = []
+        for (name, weightclass), (detail, candidates) in sorted(unresolved.items()):
+            line = f"  {name!r} in {weightclass!r} ({detail})"
+            if candidates:
+                suggestion = ", ".join(
+                    f'"{canonical_name(name)}": "{candidate}"'
+                    for candidate in candidates
+                )
+                line += f" - same surname in the registry: {suggestion}"
+            lines.append(line)
+        noun = "identity" if len(unresolved) == 1 else "identities"
+        raise ValueError(
+            f"{len(unresolved)} fighter {noun} could not be resolved; add a "
+            f"NAME_ALIASES entry in identity.py for each:\n" + "\n".join(lines)
+        )
     return out
 
 
