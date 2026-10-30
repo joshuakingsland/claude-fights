@@ -6,8 +6,8 @@ Positive slippage means a worse price. Missing observations are not failed fills
 
 | Metric | Last seven days (lock date) | Cumulative |
 |---|---:|---:|
-| Locks | 3 | 13 |
-| Observed | 3 | 13 |
+| Locks | 4 | 14 |
+| Observed | 4 | 14 |
 | Same or better rate | 100.00% | 100.00% |
 | Mean slippage probability points | 0.0000 | 0.0000 |
 | Settled observed | 0 | 10 |
@@ -23,7 +23,7 @@ Observation status counts:
 
 ```json
 {
-  "observed": 13
+  "observed": 14
 }
 ```
 
