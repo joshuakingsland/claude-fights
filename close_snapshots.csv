@@ -92,3 +92,4 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-10-24T19:51:03Z,73e2bada18e572af297a62064bd02d95,2026-10-24T20:30:00Z,38.95,Alex Volkanovski,Movsar Evloev,-110.0,-110.0,0.5,7,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-24T22:33:13Z,718e2d28fd31efaa286d549784bcbf37,2026-10-24T23:00:00Z,26.78,Daniel Da Silva,Vince Morales,245.0,-300.0,0.27874564,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-24T22:33:13Z,ba25c07f6a328b094b24ba51c1bc4720,2026-10-24T23:00:00Z,26.78,Joshua Weems,Khaseyn Shaykhaev,661.0,-1000.0,0.12629162,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-10-31T15:45:46Z,c17e963f4bb6619f65d773e888cdda92,2026-10-31T16:00:00Z,14.22,Brian Manning,Marek Bartl,-240.0,200.0,0.67924528,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
