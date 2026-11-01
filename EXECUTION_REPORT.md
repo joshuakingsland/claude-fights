@@ -10,14 +10,14 @@ Positive slippage means a worse price. Missing observations are not failed fills
 | Observed | 5 | 16 |
 | Same or better rate | 100.00% | 100.00% |
 | Mean slippage probability points | 0.0000 | 0.0000 |
-| Settled observed | 0 | 10 |
-| Delayed price pnl | 0 | 3.2872 |
-| Delayed price roi | — | 32.87% |
-| Original price pnl same subset | 0.0000 | 3.2872 |
-| Entry market clv covered | 0 | 4 |
-| Entry market clv mean points | — | 3.0563 |
-| Delayed price close covered | 0 | 4 |
-| Delayed price close advantage points | — | 1.5741 |
+| Settled observed | 1 | 12 |
+| Delayed price pnl | 0.5882 | 4.4018 |
+| Delayed price roi | 58.82% | 36.68% |
+| Original price pnl same subset | 0.5882 | 4.4018 |
+| Entry market clv covered | 1 | 5 |
+| Entry market clv mean points | 0.0848 | 2.4620 |
+| Delayed price close covered | 1 | 5 |
+| Delayed price close advantage points | -1.6781 | 0.9236 |
 
 Observation status counts:
 
