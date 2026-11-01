@@ -7,17 +7,17 @@
   "end": "2025-09-01",
   "events": 137,
   "fights": 990,
-  "bets": 135,
-  "staked": 135.0,
-  "pnl": -0.3542854026028981,
-  "roi": -0.002624336315577023,
+  "bets": 134,
+  "staked": 134.0,
+  "pnl": -0.589579520249957,
+  "roi": -0.004399847166044455,
   "roi_ci90_event_clustered": [
-    -0.11456226966551461,
-    0.1070455279515014
+    -0.11738548154139741,
+    0.10626822780952246
   ],
-  "log_loss_model": 0.5921549541048553,
+  "log_loss_model": 0.5922310789085764,
   "log_loss_entry_market": 0.589497713826443,
-  "brier_model": 0.20397483561260707,
+  "brier_model": 0.20400628203142843,
   "brier_entry_market": 0.20209173259819954,
   "accuracy_model": 0.6787878787878788,
   "accuracy_entry_market": 0.6828282828282828,
@@ -36,8 +36,8 @@
       "name": "market_50_model_50",
       "market_weight": 0.5,
       "model_weight": 0.5,
-      "log_loss": 0.587988606775611,
-      "brier": 0.20184502187602726,
+      "log_loss": 0.5880335366757635,
+      "brier": 0.20186249878694298,
       "accuracy": 0.6858585858585858,
       "bets": 21,
       "staked": 21.0,
@@ -61,8 +61,8 @@
       "name": "market_75_model_25",
       "market_weight": 0.75,
       "model_weight": 0.25,
-      "log_loss": 0.588101948877003,
-      "brier": 0.20167131167976937,
+      "log_loss": 0.5881255868965966,
+      "brier": 0.2016804885606035,
       "accuracy": 0.6838383838383838,
       "bets": 0,
       "staked": 0.0,
@@ -86,8 +86,8 @@
       "name": "market_90_model_10",
       "market_weight": 0.9,
       "model_weight": 0.1,
-      "log_loss": 0.5887905416534929,
-      "brier": 0.2018522684970649,
+      "log_loss": 0.5888002424841737,
+      "brier": 0.20185604447148883,
       "accuracy": 0.6808080808080809,
       "bets": 0,
       "staked": 0.0,
@@ -112,8 +112,8 @@
     "name": "market_50_model_50",
     "market_weight": 0.5,
     "model_weight": 0.5,
-    "log_loss": 0.587988606775611,
-    "brier": 0.20184502187602726,
+    "log_loss": 0.5880335366757635,
+    "brier": 0.20186249878694298,
     "accuracy": 0.6858585858585858,
     "bets": 21,
     "staked": 21.0,
@@ -138,9 +138,9 @@
     {
       "year": 2022,
       "fights": 202,
-      "model_log_loss": 0.6071909576590614,
+      "model_log_loss": 0.6071909576590613,
       "entry_market_log_loss": 0.603042765371664,
-      "model_minus_market_log_loss": 0.004148192287397379,
+      "model_minus_market_log_loss": 0.004148192287397268,
       "close_proxy_fights": 194
     },
     {
@@ -154,17 +154,17 @@
     {
       "year": 2024,
       "fights": 312,
-      "model_log_loss": 0.5900831228696445,
+      "model_log_loss": 0.5903531702721535,
       "entry_market_log_loss": 0.585656040603458,
-      "model_minus_market_log_loss": 0.004427082266186488,
+      "model_minus_market_log_loss": 0.00469712966869551,
       "close_proxy_fights": 306
     },
     {
       "year": 2025,
       "fights": 202,
-      "model_log_loss": 0.6051195251608359,
+      "model_log_loss": 0.6050755091514354,
       "entry_market_log_loss": 0.5953737085614151,
-      "model_minus_market_log_loss": 0.009745816599420754,
+      "model_minus_market_log_loss": 0.009701800590020238,
       "close_proxy_fights": 200
     }
   ],
@@ -180,13 +180,13 @@
     "archive_consensus": 171
   },
   "closing_line_value": {
-    "mean_clv_prob_points_active_bets": 0.11319697948277102,
+    "mean_clv_prob_points_active_bets": 0.1455634403264093,
     "mean_clv_prob_points_ci90_event_clustered": [
-      -0.11528758064016138,
-      0.3362772183311439
+      -0.07294187079886161,
+      0.3607074256386253
     ],
-    "positive_clv_rate_active_bets": 0.4925373134328358,
-    "active_bets_with_close": 134
+    "positive_clv_rate_active_bets": 0.49624060150375937,
+    "active_bets_with_close": 133
   },
   "promotion_gate": {
     "status": "paper_only",
@@ -198,38 +198,38 @@
       },
       "minimum_bets": {
         "passed": false,
-        "observed": 135,
+        "observed": 134,
         "required": ">= 200"
       },
       "positive_roi_interval": {
         "passed": false,
         "observed": [
-          -0.11456226966551461,
-          0.1070455279515014
+          -0.11738548154139741,
+          0.10626822780952246
         ],
         "required": "90% event-clustered ROI lower bound > 0"
       },
       "model_beats_entry_market": {
         "passed": false,
-        "observed": 0.0026572402784122984,
+        "observed": 0.002733365082133399,
         "required": "model-minus-market log loss < 0"
       },
       "minimum_active_clv_bets": {
         "passed": false,
-        "observed": 134,
+        "observed": 133,
         "required": ">= 200"
       },
       "positive_clv_interval": {
         "passed": false,
         "observed": [
-          -0.11528758064016138,
-          0.3362772183311439
+          -0.07294187079886161,
+          0.3607074256386253
         ],
         "required": "90% event-clustered mean CLV lower bound > 0"
       },
       "positive_clv_rate": {
         "passed": false,
-        "observed": 0.4925373134328358,
+        "observed": 0.49624060150375937,
         "required": "> 0.55"
       }
     },
