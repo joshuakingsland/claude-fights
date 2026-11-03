@@ -1,5 +1,5 @@
 {
-  "official_trades": 25,
+  "official_trades": 26,
   "settled": 21,
   "staked": 21.0,
   "pnl": 5.9169,
@@ -7,7 +7,7 @@
   "mean_clv_prob_points": 1.4022,
   "clv_covered_settlements": 9,
   "positive_clv_rate": 0.5556,
-  "raw_official_trades": 26,
+  "raw_official_trades": 27,
   "raw_settlements": 22,
   "excluded_duplicate_trades": [
     {
@@ -28,7 +28,7 @@
       "positive_clv_rate": 1.0
     },
     "paper-flat-1u-first-touch-cap2-v2": {
-      "official_trades": 23,
+      "official_trades": 24,
       "settled": 19,
       "staked": 19.0,
       "pnl": 6.4067,
