@@ -95,3 +95,9 @@ captured_at,event_id,commence_time,lead_minutes,fighter_a,fighter_b,odds_a,odds_
 2026-10-31T15:45:46Z,c17e963f4bb6619f65d773e888cdda92,2026-10-31T16:00:00Z,14.22,Brian Manning,Marek Bartl,-240.0,200.0,0.67924528,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-31T22:51:44Z,f479a7e8b8fdd2e2ba2cfb9022f6aea2,2026-10-31T23:15:00Z,23.26,Theodor Berggren,Rodrigo Sezinando,150.0,-178.0,0.38715173,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
 2026-10-31T22:51:44Z,cb8bbfa745f8248ce8453d9f561e86d7,2026-10-31T23:40:00Z,48.26,Dakota Hope,Francis Marshall,170.0,-205.0,0.35744812,8,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-11-07T16:30:26Z,99d4863149dcbb37a6d9b3bdbe4e3d15,2026-11-07T17:00:00Z,29.56,Angel Bellucci,Tommy Brunning,-135.0,115.0,0.552594,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-11-07T16:30:26Z,26d8c37822ee4879fe5b760773019bf1,2026-11-07T17:00:00Z,29.56,Simone Patrizi,Armands Gruznovs,-155.0,135.0,0.58821155,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-11-07T16:30:26Z,e4e4f27d5a9ed4ba2ae19427da9b19ac,2026-11-07T17:00:00Z,29.56,Arturo Izquierdo,Hany Musleh,-135.0,115.0,0.552594,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-11-07T16:30:26Z,d63d281835205adf204115ea7c4141d4,2026-11-07T17:00:00Z,29.56,Connor Patterson,Efstathios Piperigos,-1000.0,661.0,0.87370838,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-11-07T16:30:26Z,4bd736b0a5fa11825a3d794900178c45,2026-11-07T17:00:00Z,29.56,Taylor Rose,Milton Afonso Cabral,-1000.0,661.0,0.87370838,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
+2026-11-07T16:30:26Z,cdb7cb92aeec926037459f9bff34f3b6,2026-11-07T17:00:00Z,29.56,Paddy Rutledge,Omar Sargent,-300.0,245.0,0.72125436,1,standardized_t30_window,the-odds-api-paired-book-devig-v1
