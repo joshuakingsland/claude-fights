@@ -1,11 +1,11 @@
 {
   "policy": "three-way-first-observation-v1",
   "forward_start": "2026-09-14T06:00:00Z",
-  "generated_at": "2026-11-08T13:26:09.624508+00:00",
+  "generated_at": "2026-11-08T18:56:22.054677+00:00",
   "status": "paper_only",
   "recorded_fights": 308,
-  "settled_fights": 66,
-  "pending_fights": 242,
+  "settled_fights": 78,
+  "pending_fights": 230,
   "model_versions": {
     "production-v3.1": 308
   },
@@ -16,11 +16,11 @@
   },
   "candidates": {
     "market": {
-      "decisive_fights": 65,
-      "card_dates": 7,
-      "log_loss": 0.6635097264688826,
-      "brier": 0.23326844250095982,
-      "accuracy": 0.6307692307692307,
+      "decisive_fights": 77,
+      "card_dates": 8,
+      "log_loss": 0.6667728259923671,
+      "brier": 0.23511360179979138,
+      "accuracy": 0.6233766233766234,
       "log_loss_minus_market": 0.0,
       "paired_log_loss_delta_ci90": [
         0.0,
@@ -36,15 +36,15 @@
       ]
     },
     "model": {
-      "decisive_fights": 65,
-      "card_dates": 7,
-      "log_loss": 0.6588218892699584,
-      "brier": 0.22863292123754508,
-      "accuracy": 0.676923076923077,
-      "log_loss_minus_market": -0.004687837198924253,
+      "decisive_fights": 77,
+      "card_dates": 8,
+      "log_loss": 0.6490574933369437,
+      "brier": 0.22531335484021214,
+      "accuracy": 0.6753246753246753,
+      "log_loss_minus_market": -0.017715332655423473,
       "paired_log_loss_delta_ci90": [
-        -0.034271614944252196,
-        0.022659939851648957
+        -0.04780924477304506,
+        0.013223338314636178
       ],
       "settled_bets": 1,
       "staked": 1,
@@ -56,15 +56,15 @@
       ]
     },
     "blend": {
-      "decisive_fights": 65,
-      "card_dates": 7,
-      "log_loss": 0.6590108819299346,
-      "brier": 0.23006655799397943,
-      "accuracy": 0.6461538461538462,
-      "log_loss_minus_market": -0.004498844538947909,
+      "decisive_fights": 77,
+      "card_dates": 8,
+      "log_loss": 0.6558503578431784,
+      "brier": 0.22930073304452597,
+      "accuracy": 0.6493506493506493,
+      "log_loss_minus_market": -0.010922468149188855,
       "paired_log_loss_delta_ci90": [
-        -0.019328417663338527,
-        0.009319917491827633
+        -0.025893668881487055,
+        0.004627816639707274
       ],
       "settled_bets": 0,
       "staked": 0,

@@ -2,17 +2,17 @@
 
 First-observation predictions on the production UFC-filtered feed; unresolved identities remain in prediction coverage. Paper quote-price returns use a separate uniform 4-point gross-edge, 1-unit-per-fight rule without card caps or uncertainty deductions. They are not production returns or accepted fills. Intervals require at least two card dates; no result promotes a model automatically.
 
-Recorded: 308; settled: 66; pending: 242.
+Recorded: 308; settled: 78; pending: 230.
 
 | Metric | Market | Current model | 50/50 blend |
 |---|---:|---:|---:|
-| Decisive fights | 65 | 65 | 65 |
-| Card dates | 7 | 7 | 7 |
-| Log loss | 0.66351 | 0.65882 | 0.65901 |
-| Brier | 0.23327 | 0.22863 | 0.23007 |
-| Accuracy | 0.63077 | 0.67692 | 0.64615 |
-| Log loss minus market | 0.00000 | -0.00469 | -0.00450 |
-| Paired log loss delta ci90 | 0.00000 to 0.00000 | -0.03427 to 0.02266 | -0.01933 to 0.00932 |
+| Decisive fights | 77 | 77 | 77 |
+| Card dates | 8 | 8 | 8 |
+| Log loss | 0.66677 | 0.64906 | 0.65585 |
+| Brier | 0.23511 | 0.22531 | 0.22930 |
+| Accuracy | 0.62338 | 0.67532 | 0.64935 |
+| Log loss minus market | 0.00000 | -0.01772 | -0.01092 |
+| Paired log loss delta ci90 | 0.00000 to 0.00000 | -0.04781 to 0.01322 | -0.02589 to 0.00463 |
 | Settled bets | 0 | 1 | 0 |
 | Staked | 0 | 1 | 0 |
 | Pnl | 0.00000 | 2.20000 | 0.00000 |
