@@ -1,0 +1,80 @@
+{
+  "policy": "three-way-first-observation-v1",
+  "forward_start": "2026-09-14T06:00:00Z",
+  "generated_at": "2026-11-10T01:45:00.935443+00:00",
+  "status": "paper_only",
+  "recorded_fights": 309,
+  "settled_fights": 78,
+  "pending_fights": 231,
+  "model_versions": {
+    "production-v3.1": 309
+  },
+  "execution_coverage": {
+    "unresolved_identity": 164,
+    "insufficient_books": 122,
+    "verified_displayed_quotes": 23
+  },
+  "candidates": {
+    "market": {
+      "decisive_fights": 77,
+      "card_dates": 8,
+      "log_loss": 0.6667728259923671,
+      "brier": 0.23511360179979138,
+      "accuracy": 0.6233766233766234,
+      "log_loss_minus_market": 0.0,
+      "paired_log_loss_delta_ci90": [
+        0.0,
+        0.0
+      ],
+      "settled_bets": 0,
+      "staked": 0,
+      "pnl": 0.0,
+      "roi": null,
+      "roi_ci90": [
+        null,
+        null
+      ]
+    },
+    "model": {
+      "decisive_fights": 77,
+      "card_dates": 8,
+      "log_loss": 0.6490574933369437,
+      "brier": 0.22531335484021214,
+      "accuracy": 0.6753246753246753,
+      "log_loss_minus_market": -0.017715332655423473,
+      "paired_log_loss_delta_ci90": [
+        -0.04780924477304506,
+        0.013223338314636178
+      ],
+      "settled_bets": 1,
+      "staked": 1,
+      "pnl": 2.2,
+      "roi": 2.2,
+      "roi_ci90": [
+        null,
+        null
+      ]
+    },
+    "blend": {
+      "decisive_fights": 77,
+      "card_dates": 8,
+      "log_loss": 0.6558503578431784,
+      "brier": 0.22930073304452597,
+      "accuracy": 0.6493506493506493,
+      "log_loss_minus_market": -0.010922468149188855,
+      "paired_log_loss_delta_ci90": [
+        -0.025893668881487055,
+        0.004627816639707274
+      ],
+      "settled_bets": 0,
+      "staked": 0,
+      "pnl": 0.0,
+      "roi": null,
+      "roi_ci90": [
+        null,
+        null
+      ]
+    }
+  },
+  "interpretation": "First-observation predictions on the production UFC-filtered feed; unresolved identities remain in prediction coverage. Paper quote-price returns use a separate uniform 4-point gross-edge, 1-unit-per-fight rule without card caps or uncertainty deductions. They are not production returns or accepted fills. Intervals require at least two card dates; no result promotes a model automatically."
+}
